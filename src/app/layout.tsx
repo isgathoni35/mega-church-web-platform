@@ -18,6 +18,9 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://heavensgatesugutta.org"
+  ),
   title: "Heavens Gates Sugutta Fellowship Church International | Official Platform",
   description:
     "Official digital front door for Heavens Gates Sugutta Fellowship Church International. Experience divine deliverance, live worship, weekly service itinerary, and digital giving.",

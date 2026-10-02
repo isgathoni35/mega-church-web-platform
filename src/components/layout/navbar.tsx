@@ -13,6 +13,7 @@ interface NavItem {
 
 const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Sermons", href: "/sermons" },
   { label: "Campuses", href: "/branches" },
   { label: "Prayer Altar", href: "/prayer-request" },

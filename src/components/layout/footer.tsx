@@ -96,7 +96,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#founder"
+                  href="/about"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >
                   <span className="text-accent text-xs">›</span> Founder &
