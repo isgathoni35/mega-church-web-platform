@@ -35,7 +35,7 @@ export function SermonCard({ sermon, onPlay }: SermonCardProps) {
   return (
     <Card
       variant="lightAccent"
-      className="group flex flex-col h-full overflow-hidden hover:shadow-xl transition-all duration-300 border-t-2 border-t-accent/60 cursor-pointer"
+      className="group flex flex-col h-full overflow-hidden hover-warm-glow transition-all duration-300 cursor-pointer"
       onClick={() => onPlay(sermon)}
     >
       {/* Thumbnail Container with 16:9 Aspect Ratio */}
@@ -67,7 +67,7 @@ export function SermonCard({ sermon, onPlay }: SermonCardProps) {
 
         {/* Badges Top Bar */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-primary/90 text-white border border-white/20 backdrop-blur shadow-sm">
+          <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-primary/90 text-white shadow-sm">
             {sermon.category}
           </span>
 

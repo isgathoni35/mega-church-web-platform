@@ -149,7 +149,7 @@ export function Footer() {
               Service Times
             </h3>
             <div className="space-y-3">
-              <div className="p-3 rounded-md bg-white/5 border border-white/10 space-y-1">
+              <div className="p-3 rounded-md bg-white/5 border border-accent/15 space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold text-accent">
                   <span>Sunday Explosive Worship</span>
                   <span>10:00 AM</span>
@@ -159,7 +159,7 @@ export function Footer() {
                 </p>
               </div>
 
-              <div className="p-3 rounded-md bg-white/5 border border-white/10 space-y-1">
+              <div className="p-3 rounded-md bg-white/5 border border-accent/15 space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold text-accent">
                   <span>Monday Live Service</span>
                   <span>6:00 PM</span>
@@ -169,7 +169,7 @@ export function Footer() {
                 </p>
               </div>
 
-              <div className="p-3 rounded-md bg-white/5 border border-white/10 space-y-1">
+              <div className="p-3 rounded-md bg-white/5 border border-accent/15 space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold text-accent">
                   <span>Wednesday Bible Study</span>
                   <span>6:00 PM</span>
@@ -230,7 +230,7 @@ export function Footer() {
       </div>
 
       {/* Bottom Copyright Bar */}
-      <div className="border-t border-white/10 bg-black/30 py-4 px-4 sm:px-8 text-center text-xs text-white/60">
+      <div className="border-t border-white/10 bg-primary/95 py-4 px-4 sm:px-8 text-center text-xs text-white/60">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <span>&copy; 2026 Heavens Gates Sugutta Fellowship Church International. All Rights Reserved.</span>
           <div className="flex items-center gap-4 text-white/50 text-[11px]">

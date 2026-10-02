@@ -2,35 +2,43 @@
 @config "../../tailwind.config.ts";
 
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  /* Warm ivory instead of cold pure white */
+  --background: 40 33% 98%;
+  --foreground: 222.2 47% 11%;
 
-  --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card: 40 25% 99%;
+  --card-foreground: 222.2 47% 11%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
+  --popover: 40 25% 99%;
+  --popover-foreground: 222.2 47% 11%;
 
+  /* Deep Royal Purple — kept from original */
   --primary: 272 76% 17%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 272 30% 95%;
+  /* Warm cream tint for alternating sections */
+  --secondary: 38 35% 95%;
   --secondary-foreground: 272 76% 17%;
 
-  --muted: 272 30% 95%;
-  --muted-foreground: 272 20% 40%;
+  --muted: 38 25% 93%;
+  --muted-foreground: 272 15% 40%;
 
+  /* Metallic Gold — kept from original */
   --accent: 43 74% 49%;
   --accent-foreground: 272 76% 17%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 272 20% 90%;
-  --input: 272 20% 90%;
+  --border: 38 20% 88%;
+  --input: 38 20% 88%;
   --ring: 43 74% 49%;
 
   --radius: 0.5rem;
+
+  /* Sacred warmth tokens */
+  --cream: 38 40% 96%;
+  --warm-shadow: 0 0% 0% / 0.06;
 }
 
 .dark {
@@ -83,6 +91,7 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+  --color-cream: hsl(var(--cream));
 
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-script: var(--font-great-vibes), cursive;
@@ -101,4 +110,78 @@
     color: hsl(var(--foreground));
     font-family: var(--font-sans);
   }
+}
+
+/* ─── Sacred Design Utilities ─── */
+
+@layer utilities {
+  /* Warm gold gradient text */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, hsl(43 74% 55%), hsl(43 74% 42%), hsl(38 60% 50%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Subtle warm glow for card hover (replaces translate-y float) */
+  .hover-warm-glow {
+    transition: box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+  .hover-warm-glow:hover {
+    box-shadow: 0 8px 30px hsl(43 74% 49% / 0.12), 0 2px 8px hsl(0 0% 0% / 0.06);
+    border-color: hsl(43 74% 49% / 0.4);
+  }
+}
+
+/* ─── Ornamental Section Divider ─── */
+
+.divider-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+.divider-ornament::before,
+.divider-ornament::after {
+  content: "";
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(43 74% 49% / 0.4),
+    transparent
+  );
+}
+.divider-ornament .cross-icon {
+  color: hsl(43 74% 49% / 0.5);
+  font-size: 0.875rem;
+}
+
+/* ─── Scroll-down bounce animation ─── */
+
+@keyframes gentle-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.animate-gentle-bounce {
+  animation: gentle-bounce 2.5s ease-in-out infinite;
+}
+
+/* ─── Warm fade-in on scroll (optional enhancement) ─── */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
 }

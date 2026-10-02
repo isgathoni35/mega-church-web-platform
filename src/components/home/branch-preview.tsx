@@ -11,7 +11,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { MapPin, Phone, Clock, ArrowRight, Building2 } from "lucide-react";
+import { MapPin, Phone, Clock, ArrowRight } from "lucide-react";
 
 interface Campus {
   name: string;
@@ -68,11 +68,14 @@ const campuses: Campus[] = [
 ];
 
 export function BranchPreview() {
+  const hq = campuses.find((c) => c.isHq);
+  const branches = campuses.filter((c) => !c.isHq);
+
   return (
-    <section id="branches" className="py-20 sm:py-28 bg-secondary/20 text-foreground border-t border-border/50">
+    <section id="branches" className="py-20 sm:py-28 bg-cream text-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <span className="font-script text-accent text-3xl sm:text-4xl block font-normal">
             Global Fellowship Network
           </span>
@@ -85,42 +88,94 @@ export function BranchPreview() {
           </p>
         </div>
 
-        {/* Campuses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-12">
-          {campuses.map((campus) => (
+        {/* Ornamental divider */}
+        <div className="divider-ornament mb-12">
+          <span className="cross-icon">✝</span>
+        </div>
+
+        {/* HQ Hero Card — distinct from the grid */}
+        {hq && (
+          <div className="mb-10 bg-primary rounded-xl p-6 sm:p-8 text-white shadow-lg border border-accent/30">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-accent">
+                  {hq.tag}
+                </span>
+                <h3 className="text-2xl font-extrabold text-white">
+                  {hq.name}
+                </h3>
+                <p className="text-sm text-white/70">
+                  Resident Pastor: {hq.pastor}
+                </p>
+                <div className="flex flex-wrap items-center gap-4 text-xs text-white/80 pt-1">
+                  <span className="flex items-center gap-1.5">
+                    <MapPin className="h-3.5 w-3.5 text-accent shrink-0" />
+                    {hq.address}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-3.5 w-3.5 text-accent shrink-0" />
+                    {hq.schedule}
+                  </span>
+                  <a
+                    href={`tel:${hq.phone.replace(/[^0-9+]/g, "")}`}
+                    className="flex items-center gap-1.5 hover:text-accent transition-colors"
+                  >
+                    <Phone className="h-3.5 w-3.5 text-accent shrink-0" />
+                    {hq.phone}
+                  </a>
+                </div>
+              </div>
+              <Button
+                variant="accent"
+                size="default"
+                className="font-bold shadow-md shrink-0"
+                asChild
+              >
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(
+                    `${hq.name} ${hq.address}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Get Directions
+                  <ArrowRight className="ml-1.5 h-4 w-4" />
+                </a>
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Branch Grid — smaller cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+          {branches.map((campus) => (
             <Card
               key={campus.name}
-              variant={campus.isHq ? "lightAccent" : "default"}
-              className={`flex flex-col justify-between transition-all duration-300 hover:shadow-xl bg-card ${
-                campus.isHq ? "ring-2 ring-accent/30" : ""
-              }`}
+              className="flex flex-col justify-between hover-warm-glow bg-card"
             >
-              <CardHeader className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-accent bg-accent/15 px-2.5 py-0.5 rounded-full">
-                    {campus.tag}
-                  </span>
-                  <Building2 className="h-4 w-4 text-primary/60" />
-                </div>
-                <CardTitle className="text-xl font-extrabold text-primary">
+              <CardHeader className="space-y-1.5 pb-3">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-accent">
+                  {campus.tag}
+                </span>
+                <CardTitle className="text-base font-extrabold text-primary leading-snug">
                   {campus.name}
                 </CardTitle>
-                <CardDescription className="text-xs font-semibold text-foreground/75">
-                  Resident Pastor: {campus.pastor}
+                <CardDescription className="text-xs text-foreground/65">
+                  {campus.pastor}
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="space-y-3 text-xs text-foreground/80">
-                <div className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+              <CardContent className="space-y-2 text-xs text-foreground/75 pb-3">
+                <div className="flex items-start gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 text-accent shrink-0 mt-0.5" />
                   <span>{campus.address}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Clock className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                <div className="flex items-start gap-1.5">
+                  <Clock className="h-3.5 w-3.5 text-accent shrink-0 mt-0.5" />
                   <span>{campus.schedule}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-3.5 w-3.5 text-accent shrink-0" />
+                <div className="flex items-center gap-1.5">
+                  <Phone className="h-3 w-3 text-accent shrink-0" />
                   <a
                     href={`tel:${campus.phone.replace(/[^0-9+]/g, "")}`}
                     className="hover:text-accent transition-colors font-medium"
@@ -130,30 +185,24 @@ export function BranchPreview() {
                 </div>
               </CardContent>
 
-              <CardFooter className="pt-3 border-t border-border/40">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="w-full text-xs font-semibold hover:bg-primary hover:text-white transition-colors"
-                  asChild
+              <CardFooter className="pt-2 border-t border-border/40">
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(
+                    `${campus.name} ${campus.address}`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold text-accent hover:text-primary transition-colors flex items-center gap-1"
                 >
-                  <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(
-                      `${campus.name} ${campus.address}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Get Directions
-                    <ArrowRight className="ml-1.5 h-3.5 w-3.5 text-accent" />
-                  </a>
-                </Button>
+                  Get Directions
+                  <ArrowRight className="h-3 w-3" />
+                </a>
               </CardFooter>
             </Card>
           ))}
         </div>
 
-        {/* Bottom CTA to View All Branches */}
+        {/* Bottom CTA */}
         <div className="flex justify-center">
           <Button
             variant="accent"

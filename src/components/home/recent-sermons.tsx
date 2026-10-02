@@ -19,7 +19,7 @@ export function RecentSermons({ sermons }: RecentSermonsProps) {
   const displayedSermons = sermons.slice(0, 3);
 
   return (
-    <section className="w-full py-20 px-4 sm:px-8 bg-secondary/50 border-t border-b border-border/60">
+    <section className="w-full py-20 px-4 sm:px-8 bg-background border-t border-border/30">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
