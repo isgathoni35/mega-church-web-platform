@@ -18,8 +18,9 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "Faith Cathedral Ministries | Digital Platform",
-  description: "Official digital front door, live worship, weekly itinerary, and digital giving.",
+  title: "Heavens Gates Sugutta Fellowship Church International | Official Platform",
+  description:
+    "Official digital front door for Heavens Gates Sugutta Fellowship Church International. Experience divine deliverance, live worship, weekly service itinerary, and digital giving.",
 };
 
 export default function RootLayout({

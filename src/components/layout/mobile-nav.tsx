@@ -72,11 +72,11 @@ export function MobileNav() {
         {/* Drawer Header */}
         <div className="flex items-center justify-between p-5 border-b border-white/10">
           <div className="flex flex-col">
-            <span className="font-extrabold text-lg tracking-tight text-white uppercase">
-              Faith Cathedral
+            <span className="font-extrabold text-base tracking-tight text-white uppercase">
+              Heavens Gates Sugutta
             </span>
-            <span className="font-script text-accent text-sm -mt-1">
-              Overflow & Restoration
+            <span className="font-sans text-[11px] font-semibold tracking-wider text-accent uppercase">
+              Fellowship Church International
             </span>
           </div>
           <button

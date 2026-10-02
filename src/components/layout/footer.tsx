@@ -52,13 +52,18 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: Ministry Mission & Founder */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-full bg-accent/20 border border-accent flex items-center justify-center text-accent font-bold text-base">
+            <div className="flex items-start gap-2.5">
+              <div className="h-9 w-9 rounded-full bg-accent/20 border border-accent flex items-center justify-center text-accent font-bold text-base shrink-0 mt-0.5">
                 ✝
               </div>
-              <span className="font-extrabold text-xl tracking-tight text-white uppercase">
-                Faith Cathedral
-              </span>
+              <div className="flex flex-col">
+                <span className="font-extrabold text-lg tracking-tight text-white uppercase leading-snug">
+                  Heavens Gates Sugutta
+                </span>
+                <span className="font-sans text-xs font-semibold tracking-wider text-accent uppercase">
+                  Fellowship Church International
+                </span>
+              </div>
             </div>
             <p className="text-sm text-white/75 leading-relaxed">
               A vibrant apostolic ministry committed to preaching the
@@ -227,7 +232,7 @@ export function Footer() {
       {/* Bottom Copyright Bar */}
       <div className="border-t border-white/10 bg-black/30 py-4 px-4 sm:px-8 text-center text-xs text-white/60">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>&copy; 2026 Faith Cathedral Ministries. All Rights Reserved.</span>
+          <span>&copy; 2026 Heavens Gates Sugutta Fellowship Church International. All Rights Reserved.</span>
           <div className="flex items-center gap-4 text-white/50 text-[11px]">
             <Link href="#privacy" className="hover:text-white transition-colors">
               Privacy Policy

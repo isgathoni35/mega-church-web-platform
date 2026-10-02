@@ -21,4 +21,24 @@ declare module "lucide-react" {
   export const ChevronRight: LucideIcon;
   export const Menu: LucideIcon;
   export const X: LucideIcon;
+  export const Clock: LucideIcon;
+  export const MapPin: LucideIcon;
+  export const Phone: LucideIcon;
+  export const Mail: LucideIcon;
+  export const Shield: LucideIcon;
+  export const Video: LucideIcon;
+  export const Radio: LucideIcon;
+  export const Share2: LucideIcon;
+  export const ExternalLink: LucideIcon;
+  export const Search: LucideIcon;
+  export const Users: LucideIcon;
+  export const Globe: LucideIcon;
+  export const Award: LucideIcon;
+  export const Sparkles: LucideIcon;
+  export const BookOpen: LucideIcon;
+  export const Flame: LucideIcon;
+  export const Building2: LucideIcon;
+  export const Bell: LucideIcon;
+  export const Quote: LucideIcon;
+  export const Zap: LucideIcon;
 }

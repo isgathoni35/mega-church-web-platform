@@ -1,8 +1,8 @@
-# 01. Project Overview: Megachurch Web Platform
+# 01. Project Overview: Heavens Gates Sugutta Fellowship Church International
 
 ## 1. Project Summary
 
-This project is a modern, high-performance web platform designed for a charismatic/megachurch ministry. The application serves as the digital front door for the church, built to broadcast live services, host on-demand sermons, communicate weekly schedules, and—critically—facilitate frictionless digital giving across multiple platforms.
+This project is a modern, high-performance web platform designed for Heavens Gates Sugutta Fellowship Church International. The application serves as the digital front door for the church, built to broadcast live services, host on-demand sermons, communicate weekly schedules, and—critically—facilitate frictionless digital giving across multiple platforms.
 
 ## 2. Visual & Thematic Identity (The "Vibe")
 

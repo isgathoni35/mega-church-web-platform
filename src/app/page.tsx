@@ -1,9 +1,17 @@
-import { DesignSystemShowcase } from "@/components/shared/DesignSystemShowcase";
+import { HeroSection } from "@/components/home/hero-section";
+import { FounderSpotlight } from "@/components/home/founder-spotlight";
+import { MinistryPillars } from "@/components/home/ministry-pillars";
+import { ServiceSchedule } from "@/components/home/service-schedule";
+import { BranchPreview } from "@/components/home/branch-preview";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground flex flex-col items-center py-16 px-4 sm:px-8">
-      <DesignSystemShowcase />
-    </main>
+    <div className="flex flex-col w-full">
+      <HeroSection />
+      <FounderSpotlight />
+      <MinistryPillars />
+      <ServiceSchedule />
+      <BranchPreview />
+    </div>
   );
 }

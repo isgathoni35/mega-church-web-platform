@@ -24,16 +24,20 @@ export function Navbar() {
     <nav className="w-full bg-primary text-primary-foreground border-b border-white/10 shadow-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-8">
         {/* Brand / Logo Placeholder */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="h-10 w-10 rounded-full bg-accent/20 border border-accent flex items-center justify-center text-accent font-bold text-lg shadow-inner group-hover:scale-105 transition-transform">
+        <Link
+          href="/"
+          className="flex items-center gap-3 group shrink-0"
+          aria-label="Heavens Gates Sugutta Fellowship Church International - Home"
+        >
+          <div className="h-10 w-10 rounded-full bg-accent/20 border border-accent flex items-center justify-center text-accent font-bold text-lg shadow-inner group-hover:scale-105 transition-transform shrink-0">
             ✝
           </div>
           <div className="flex flex-col">
-            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-tight uppercase">
-              Faith Cathedral
+            <span className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-white leading-tight uppercase">
+              Heavens Gates Sugutta
             </span>
-            <span className="font-script text-accent text-sm -mt-1 tracking-wide">
-              Ministries of Overflow
+            <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-wider text-accent uppercase">
+              Fellowship Church International
             </span>
           </div>
         </Link>
