@@ -3,6 +3,7 @@ import { FounderSpotlight } from "@/components/home/founder-spotlight";
 import { MinistryPillars } from "@/components/home/ministry-pillars";
 import { RecentSermons } from "@/components/home/recent-sermons";
 import { ServiceSchedule } from "@/components/home/service-schedule";
+import { OrphanageTeaser } from "@/components/home/orphanage-teaser";
 import { BranchPreview } from "@/components/home/branch-preview";
 import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
@@ -77,6 +78,7 @@ export default async function Home() {
       <MinistryPillars />
       <RecentSermons sermons={sermons} />
       <ServiceSchedule />
+      <OrphanageTeaser />
       <BranchPreview />
     </div>
   );

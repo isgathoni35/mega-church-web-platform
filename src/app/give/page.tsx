@@ -1,7 +1,8 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { MpesaGivingForm } from "@/components/giving/mpesa-form";
 import { InternationalGiving } from "@/components/giving/international-giving";
-import { ShieldCheck, Heart, Sparkles, BookOpen, Lock } from "lucide-react";
+import { ShieldCheck, Heart, Sparkles, BookOpen, Lock, Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Give Online | Heavens Gates Sugutta Fellowship Church International",
@@ -60,7 +61,16 @@ export default function GivePage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* Column 1: M-Pesa STK Push */}
           <div>
-            <MpesaGivingForm />
+            <Suspense
+              fallback={
+                <div className="p-12 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin text-accent" />
+                  Loading Giving Form...
+                </div>
+              }
+            >
+              <MpesaGivingForm />
+            </Suspense>
           </div>
 
           {/* Column 2: International Channels */}

@@ -45,6 +45,7 @@ export const INQUIRY_TYPES = [
   "Pastoral counsel",
   "Media & Broadcast",
   "General inquiry",
+  "Children's Home & Orphanage Visit",
 ] as const;
 
 export type InquiryType = (typeof INQUIRY_TYPES)[number];

@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 const AMOUNT_PRESETS = [500, 1000, 2500, 5000];
 
@@ -27,14 +28,23 @@ const GIVING_PURPOSES = [
   { id: "offering", label: "General Offering" },
   { id: "seed", label: "Kingdom Seed" },
   { id: "building", label: "Building Fund" },
+  { id: "orphanage", label: "Children's Home & Orphanage" },
 ];
 
 export function MpesaGivingForm() {
+  const searchParams = useSearchParams();
   const [selectedPreset, setSelectedPreset] = useState<number | null>(1000);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [donorName, setDonorName] = useState<string>("");
   const [purpose, setPurpose] = useState<string>("tithe");
+
+  useEffect(() => {
+    const fundParam = searchParams.get("fund");
+    if (fundParam === "orphanage") {
+      setPurpose("orphanage");
+    }
+  }, [searchParams]);
 
   const [formState, setFormState] = useState<
     "idle" | "submitting" | "awaiting_pin" | "success" | "failed"

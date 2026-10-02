@@ -105,6 +105,15 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/orphanage"
+                  className="hover:text-accent transition-colors flex items-center gap-1.5"
+                >
+                  <span className="text-accent text-xs">›</span> Children&apos;s
+                  Home &amp; Orphanage
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/sermons"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >

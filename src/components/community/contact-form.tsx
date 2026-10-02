@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Send,
   Loader2,
@@ -22,6 +23,7 @@ import {
 import { submitContactInquiry } from "@/actions/contact";
 
 export function ContactForm() {
+  const searchParams = useSearchParams();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -29,6 +31,13 @@ export function ContactForm() {
     INQUIRY_TYPES[0]
   );
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const subject = searchParams.get("subject");
+    if (subject === "orphanage_visit") {
+      setSelectedInquiryType("Children's Home & Orphanage Visit");
+    }
+  }, [searchParams]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

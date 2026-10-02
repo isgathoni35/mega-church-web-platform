@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ContactForm } from "@/components/community/contact-form";
 import {
   MapPin,
@@ -11,6 +12,7 @@ import {
   Sparkles,
   Navigation,
   ExternalLink,
+  Loader2,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -174,7 +176,16 @@ export default function ContactPage() {
 
           {/* Column 2: Inquiries Form (7 Columns) */}
           <div className="lg:col-span-7">
-            <ContactForm />
+            <Suspense
+              fallback={
+                <div className="p-12 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin text-accent" />
+                  Loading Inquiry Form...
+                </div>
+              }
+            >
+              <ContactForm />
+            </Suspense>
           </div>
         </div>
       </section>
