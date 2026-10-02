@@ -41,4 +41,6 @@ declare module "lucide-react" {
   export const Bell: LucideIcon;
   export const Quote: LucideIcon;
   export const Zap: LucideIcon;
+  export const User: LucideIcon;
+  export const Tag: LucideIcon;
 }

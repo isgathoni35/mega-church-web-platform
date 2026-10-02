@@ -11,6 +11,7 @@
 - [x] `feature-specs/02-layout-shell.md`: Persistent layout shell (Top Utility Bar, Sticky Navbar with mobile drawer, and 4-column Global Footer).
 - [x] `feature-specs/03-homepage-core.md`: Homepage Core Sections (Hero, Founder Spotlight, Ministry Pillars, Weekly Service Itinerary, Branch Directory Preview).
 - [x] `feature-specs/04-supabase-schema.md`: Supabase PostgreSQL schema with RLS (`sermons`, `branches`, `prayer_requests`, `donations`), seed data, TypeScript database interfaces, and browser/server/admin client utilities.
+- [x] `feature-specs/05-dynamic-media.md`: Dynamic Media & Sermons Hub: YouTube utilities, responsive 16:9 embedded VideoModal, live stream / featured hero player, category filter tabs, real-time search, dedicated `/sermons` page, and homepage recent sermons integration with Supabase data fetching.
 
 ## 🚧 In Progress
 
@@ -20,7 +21,6 @@ None.
 
 ### Phase 2: Media & Integrations
 
-- [ ] `feature-specs/05-dynamic-media.md`: Media & Sermons page (`/sermons`), video embeds, categorized archive grid, and live broadcast indicator.
 - [ ] `feature-specs/06-mpesa-integration.md`: Digital Giving portal (`/give`) with multi-channel payment options and Safaricom Daraja STK Push integration.
 - [ ] `feature-specs/07-visitor-forms.md`: Prayer Request and Contact forms wired to Supabase server actions with Zod schema validation.
 
@@ -35,3 +35,4 @@ None.
 - **[2026-10-02]:** Completed Feature 03 (Homepage Core Sections): consolidated homepage UI into `feature-specs/03-homepage-core.md`, implemented 5 modular sections (Hero with stats bar, Founder Spotlight with Great Vibes script accent, 4-card Ministry Pillars, Weekly Service Itinerary with reminder/stream actions, and 5-campus Branch Preview) in `src/components/home/`, and assembled them in `src/app/page.tsx`. Verified zero-error compilation with Turbopack build.
 - **[2026-10-02]:** Updated official church name across the platform to 'Heavens Gates Sugutta Fellowship Church International'. Harmonized responsive navigation header, mobile drawer, global footer brand & copyright, SEO metadata, hero badge, founder spotlight, and Sugutta Headquarters branch directory.
 - **[2026-10-02]:** Completed Feature 04 (Supabase Schema & Backend Foundation): installed `@supabase/supabase-js` and `@supabase/ssr`, created `supabase/schema.sql` (with RLS policies and indices) and `supabase/seed.sql` (realistic data for 4 sermons, 5 campuses, prayer request, and donation), generated TypeScript types in `src/types/database.types.ts`, and implemented client, server (supporting Next.js 16 async cookies), and admin clients in `src/lib/supabase/`. Created `.env.example` and configured development placeholders in `.env.local`. Verified zero-error compilation with Turbopack build.
+- **[2026-10-02]:** Completed Feature 05 (Dynamic Media & Sermons Hub): implemented YouTube URL/thumbnail parsing in `src/lib/utils/youtube.ts`, interactive `VideoModal` player, `SermonCard` with thumbnail fallback handling, `LiveHeroPlayer` with live broadcast badge, and `SermonArchive` with 5 category filters and instant title/speaker search in `src/components/sermons/`. Built dedicated `/sermons` page and integrated `RecentSermons` onto the homepage with live Supabase data fetching. Configured Unsplash & YouTube remotePatterns in `next.config.ts`. Verified zero-error compilation with Turbopack build.

@@ -1,11 +1,15 @@
-import { HeroSection } from "@/components/home/hero-section";
-import { FounderSpotlight } from "@/components/home/founder-spotlight";
-import { MinistryPillars } from "@/components/home/ministry-pillars";
-import { RecentSermons } from "@/components/home/recent-sermons";
-import { ServiceSchedule } from "@/components/home/service-schedule";
-import { BranchPreview } from "@/components/home/branch-preview";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+import { LiveHeroPlayer } from "@/components/sermons/live-hero-player";
+import { SermonArchive } from "@/components/sermons/sermon-archive";
 import { Sermon } from "@/types/database.types";
+
+export const metadata: Metadata = {
+  title:
+    "Sermons & Live Broadcasts | Heavens Gates Sugutta Fellowship Church International",
+  description:
+    "Watch live broadcasts, explore anointed sermon archives, and experience apostolic teachings and divine deliverance.",
+};
 
 const fallbackSermons: Sermon[] = [
   {
@@ -50,9 +54,23 @@ const fallbackSermons: Sermon[] = [
     date_preached: new Date().toISOString().split("T")[0],
     created_at: new Date().toISOString(),
   },
+  {
+    id: "4",
+    title: "Grand Miracle Crusade: Freedom from Generational Curses",
+    slug: "grand-miracle-crusade-freedom-from-generational-curses",
+    speaker: "Pastor Jeannette Taylor",
+    youtube_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    thumbnail_url:
+      "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=1200",
+    category: "Crusade & Deliverance",
+    is_featured: true,
+    is_live: false,
+    date_preached: new Date().toISOString().split("T")[0],
+    created_at: new Date().toISOString(),
+  },
 ];
 
-export default async function Home() {
+export default async function SermonsPage() {
   let sermons: Sermon[] = fallbackSermons;
 
   try {
@@ -60,25 +78,24 @@ export default async function Home() {
     const { data, error } = await supabase
       .from("sermons")
       .select("*")
-      .order("date_preached", { ascending: false })
-      .limit(3);
+      .order("date_preached", { ascending: false });
 
     if (!error && data && data.length > 0) {
       sermons = data as Sermon[];
     }
   } catch (err) {
-    console.error("Error fetching homepage sermons from Supabase:", err);
+    // Graceful fallback during build or network interruptions
+    console.error("Error retrieving sermons from Supabase:", err);
   }
 
+  const liveSermon = sermons.find((s) => s.is_live);
+  const featuredSermon =
+    liveSermon || sermons.find((s) => s.is_featured) || sermons[0] || null;
+
   return (
-    <div className="flex flex-col w-full">
-      <HeroSection />
-      <FounderSpotlight />
-      <MinistryPillars />
-      <RecentSermons sermons={sermons} />
-      <ServiceSchedule />
-      <BranchPreview />
+    <div className="flex flex-col w-full min-h-screen">
+      <LiveHeroPlayer featuredSermon={featuredSermon} />
+      <SermonArchive initialSermons={sermons} />
     </div>
   );
 }
-
