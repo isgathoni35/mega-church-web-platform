@@ -10,18 +10,13 @@
 - [x] `feature-specs/01-design-system.md`: Next.js setup, Tailwind config, CSS variables (Purple/Gold theme), Google Fonts (Montserrat & Great Vibes), and shadcn/ui primitives (`button`, `card`, `input`).
 - [x] `feature-specs/02-layout-shell.md`: Persistent layout shell (Top Utility Bar, Sticky Navbar with mobile drawer, and 4-column Global Footer).
 - [x] `feature-specs/03-homepage-core.md`: Homepage Core Sections (Hero, Founder Spotlight, Ministry Pillars, Weekly Service Itinerary, Branch Directory Preview).
+- [x] `feature-specs/04-supabase-schema.md`: Supabase PostgreSQL schema with RLS (`sermons`, `branches`, `prayer_requests`, `donations`), seed data, TypeScript database interfaces, and browser/server/admin client utilities.
 
 ## 🚧 In Progress
-
-*(The AI will list the currently active feature specification here.)*
 
 None.
 
 ## ⏳ Pending Features
-
-### Phase 1: Database & CMS Foundation
-
-- [ ] `feature-specs/04-supabase-schema.md`: Database schema for Sermons, Events, and Visitor Forms. RLS policies and TypeScript definitions generation.
 
 ### Phase 2: Media & Integrations
 
@@ -39,3 +34,4 @@ None.
 - **[2026-10-02]:** Completed Feature 02 (Layout Shell): built Top Utility Bar with pulse live badge, sticky Navbar with Gold 'Give Online' CTA, mobile responsive slide-over drawer, and 4-column Global Footer. Marked interactive layout components as client boundaries to support React 19 icon context.
 - **[2026-10-02]:** Completed Feature 03 (Homepage Core Sections): consolidated homepage UI into `feature-specs/03-homepage-core.md`, implemented 5 modular sections (Hero with stats bar, Founder Spotlight with Great Vibes script accent, 4-card Ministry Pillars, Weekly Service Itinerary with reminder/stream actions, and 5-campus Branch Preview) in `src/components/home/`, and assembled them in `src/app/page.tsx`. Verified zero-error compilation with Turbopack build.
 - **[2026-10-02]:** Updated official church name across the platform to 'Heavens Gates Sugutta Fellowship Church International'. Harmonized responsive navigation header, mobile drawer, global footer brand & copyright, SEO metadata, hero badge, founder spotlight, and Sugutta Headquarters branch directory.
+- **[2026-10-02]:** Completed Feature 04 (Supabase Schema & Backend Foundation): installed `@supabase/supabase-js` and `@supabase/ssr`, created `supabase/schema.sql` (with RLS policies and indices) and `supabase/seed.sql` (realistic data for 4 sermons, 5 campuses, prayer request, and donation), generated TypeScript types in `src/types/database.types.ts`, and implemented client, server (supporting Next.js 16 async cookies), and admin clients in `src/lib/supabase/`. Created `.env.example` and configured development placeholders in `.env.local`. Verified zero-error compilation with Turbopack build.
