@@ -12,10 +12,10 @@ interface NavItem {
 
 const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About & Founder", href: "#founder" },
-  { label: "Sermons & Media", href: "#media" },
-  { label: "Weekly Schedule", href: "#schedule" },
-  { label: "Plan a Visit", href: "#contact" },
+  { label: "Sermons & Media", href: "/sermons" },
+  { label: "Global Campuses", href: "/branches" },
+  { label: "Prayer Altar", href: "/prayer-request" },
+  { label: "Plan a Visit / Contact", href: "/contact" },
 ];
 
 export function MobileNav() {

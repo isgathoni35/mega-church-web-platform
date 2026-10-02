@@ -16,13 +16,11 @@
 
 ## 🚧 In Progress
 
-None.
+- [ ] `feature-specs/06-community-forms-and-branches.md`: Community Engagement Hub (Prayer Request Altar `/prayer-request`, Global Campus Directory `/branches`, and Plan Your Visit & Contact Hub `/contact`).
 
 ## ⏳ Pending Features
 
-### Phase 2: Media & Integrations
-
-- [ ] `feature-specs/07-visitor-forms.md`: Prayer Request and Contact forms wired to Supabase server actions with Zod schema validation.
+None.
 
 ## 🏗️ Architectural Decisions Log
 

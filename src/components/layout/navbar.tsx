@@ -13,10 +13,10 @@ interface NavItem {
 
 const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About & Founder", href: "#founder" },
-  { label: "Sermons & Media", href: "#media" },
-  { label: "Weekly Schedule", href: "#schedule" },
-  { label: "Plan a Visit", href: "#contact" },
+  { label: "Sermons", href: "/sermons" },
+  { label: "Campuses", href: "/branches" },
+  { label: "Prayer Altar", href: "/prayer-request" },
+  { label: "Plan a Visit", href: "/contact" },
 ];
 
 export function Navbar() {

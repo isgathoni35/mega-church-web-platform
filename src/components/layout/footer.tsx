@@ -105,7 +105,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#media"
+                  href="/sermons"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >
                   <span className="text-accent text-xs">›</span> Live Stream &
@@ -114,16 +114,16 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#schedule"
+                  href="/branches"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >
-                  <span className="text-accent text-xs">›</span> Weekly
-                  Itinerary
+                  <span className="text-accent text-xs">›</span> Global Campuses &
+                  Branches
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#prayer-request"
+                  href="/prayer-request"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >
                   <span className="text-accent text-xs">›</span> Submit Prayer
@@ -132,7 +132,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#contact"
+                  href="/contact"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >
                   <span className="text-accent text-xs">›</span> Plan a Visit &
