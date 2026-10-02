@@ -1,0 +1,74 @@
+"use client";
+
+import * as React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
+import { MobileNav } from "./mobile-nav";
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+const navLinks: NavItem[] = [
+  { label: "Home", href: "/" },
+  { label: "About & Founder", href: "#founder" },
+  { label: "Sermons & Media", href: "#media" },
+  { label: "Weekly Schedule", href: "#schedule" },
+  { label: "Plan a Visit", href: "#contact" },
+];
+
+export function Navbar() {
+  return (
+    <nav className="w-full bg-primary text-primary-foreground border-b border-white/10 shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-8">
+        {/* Brand / Logo Placeholder */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="h-10 w-10 rounded-full bg-accent/20 border border-accent flex items-center justify-center text-accent font-bold text-lg shadow-inner group-hover:scale-105 transition-transform">
+            ✝
+          </div>
+          <div className="flex flex-col">
+            <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-tight uppercase">
+              Faith Cathedral
+            </span>
+            <span className="font-script text-accent text-sm -mt-1 tracking-wide">
+              Ministries of Overflow
+            </span>
+          </div>
+        </Link>
+
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="text-sm font-semibold text-white/85 hover:text-accent transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-accent after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Desktop Actions & Mobile Trigger */}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="accent"
+            size="default"
+            className="hidden sm:inline-flex font-bold shadow-md hover:brightness-105"
+            asChild
+          >
+            <Link href="#give">
+              <Heart className="mr-1.5 h-4 w-4 fill-current" />
+              Give Online
+            </Link>
+          </Button>
+
+          {/* Mobile Navigation Drawer Trigger */}
+          <MobileNav />
+        </div>
+      </div>
+    </nav>
+  );
+}
