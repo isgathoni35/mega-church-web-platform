@@ -84,12 +84,11 @@ Build the complete Giving Portal at `/give`, featuring an interactive Safaricom 
 * Manual Paybill Fallback Box: Shows Business No., Account No., and step-by-step instructions.
 
 ### C. International & Multi-Platform Cards (`components/giving/international-giving.tsx`)
-Reflecting the visual elements from the ministry flyer[cite: 1]:
-* **Cash App:** `$JITAM09` with copy-to-clipboard button[cite: 1].
-* **PayPal:** `@jitam` with direct redirect link[cite: 1].
-* **Venmo:** `@jitam` badge[cite: 1].
-* **Givelify:** Search handle *"Jesus is the Answer Ministries"*[cite: 1].
-* Stylized cards using royal purple surfaces, crisp contrast, and subtle QR code preview containers[cite: 1].
+* **Cash App:** `$HGSugutta` with copy-to-clipboard button.
+* **PayPal:** `@hgsugutta` with direct redirect link (`paypal.me/hgsugutta`).
+* **Venmo:** `@hgsugutta` badge.
+* **Givelify:** Search handle *"Heavens Gates Sugutta Fellowship Church"*.
+* Stylized cards using royal purple surfaces, crisp contrast, and subtle QR code preview containers.
 
 ## 5. Verification Checklist
 - [ ] `npm run build` compiles with zero TypeScript or ESLint errors.

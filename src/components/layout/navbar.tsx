@@ -63,7 +63,7 @@ export function Navbar() {
             className="hidden sm:inline-flex font-bold shadow-md hover:brightness-105"
             asChild
           >
-            <Link href="#give">
+            <Link href="/give">
               <Heart className="mr-1.5 h-4 w-4 fill-current" />
               Give Online
             </Link>

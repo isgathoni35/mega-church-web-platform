@@ -37,7 +37,7 @@ export function Footer() {
               Watch Past Sermons
             </Link>
             <Link
-              href="#give"
+              href="/give"
               className="inline-flex items-center gap-2 bg-accent hover:brightness-105 text-accent-foreground text-xs font-bold py-2.5 px-4 rounded-md transition-all shadow-md"
             >
               <Heart className="h-4 w-4 fill-current" />
