@@ -164,7 +164,7 @@ export function MobileNav() {
                 >
                   <Link href="/give" onClick={() => setIsOpen(false)}>
                     <Heart className="mr-2 h-5 w-5 fill-current" />
-                    Give Online Now
+                    Donate
                   </Link>
                 </Button>
               </div>

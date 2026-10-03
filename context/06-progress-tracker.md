@@ -60,6 +60,16 @@
      - Prayer & Connect: `src/app/prayer-request/page.tsx`, `prayer-form.tsx`, `src/app/contact/page.tsx`, `tabbed-connect-hub.tsx`.
      - About: `about-hero.tsx`, `founder-story.tsx`, `statement-of-faith.tsx`, `leadership-team.tsx`, `prayer-mountain.tsx`.
   4. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses verified on port 3002 across all core routes (`/`, `/about`, `/give`, `/sermons`, `/orphanage`, `/prayer-request`, `/contact`). Preserved all features, styles, and desktop visuals intact.
+- [x] `feature-specs/17-sendwave-exclusive-and-donate-labels.md`: Streamlined International Giving exclusively to Sendwave and standardized all giving call-to-actions to "Donate".
+  1. International Giving: Pruned `REMITTANCE_APPS` to retain only Sendwave (`sendwave`). Removed all alternative remittance providers (Remitly, Lemfi, Taptap Send, WorldRemit) and deleted secondary gateways (PayPal & Cash App cards). Rebuilt Tab 2 in `DirectGivingPortal` with a featured Sendwave card linking directly to `https://www.sendwave.com`, zero-fee messaging, and clean 3-step walkthrough to transfer directly to Kenyan M-Pesa line `+254 700 000 001` (Pastor Jeannette Taylor).
+  2. Preserved Kenyan Giving: 100% untouched. Lipa na M-Pesa Send Money (`0700 000 001`), Paybill `174379` with 5 account codes (`OFFERING`, `TITHE`, `ORPHANAGE`, `SEED`, `BUILDING`), Co-op Bank direct wire, and pastoral receipt hotline preserved intact.
+  3. Standardized "Donate" CTAs: Replaced "Give Online" / "Give Online Now" / "Partner With Us" with "Donate" across desktop Navbar (`navbar.tsx`), mobile slide-over drawer (`mobile-nav.tsx`), footer ribbon (`footer.tsx`), and giving page hero & metadata (`app/give/page.tsx`). Updated footer digital giving tiles to explicitly highlight Sendwave for international and Paybill, Send Money, and Co-op Bank for Kenya.
+  4. Verification: 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
+- [x] `feature-specs/18-sticky-header-optimization.md`: Robust Sticky Header Optimization across Mobile and Desktop.
+  1. Resolved Root Cause of Sticky Failure: Replaced `overflow-x: hidden` with `overflow-x: clip` in `src/app/globals.css` and `src/app/layout.tsx` on `html` and `body`. In modern CSS standards, `overflow-x: hidden` on root ancestors establishes an isolated clipping container that silences `position: sticky; top: 0`, causing headers to un-stick on mobile touch scrolling.
+  2. Single Sticky Source of Truth: Elevated `<header>` in `src/components/layout/site-header.tsx` to `sticky top-0 z-50 w-full flex flex-col shadow-md shadow-slate-900/5 bg-white transition-shadow duration-300`, removing competing nested `sticky top-0 z-40` from `src/components/layout/navbar.tsx`.
+  3. Visual Polish: Added `bg-white/95 backdrop-blur-md` to `Navbar` for seamless frosted-glass separation over dark imagery and vibrant backgrounds as users scroll.
+  4. Verification: 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
 
 ## 🚧 In Progress
 
@@ -72,6 +82,18 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-03]:** Mobile & Desktop Sticky Header Robustness:
+  1. Replaced `overflow-x: hidden` with `overflow-x: clip` in `src/app/globals.css` and `src/app/layout.tsx` on `html` and `body` to eliminate the root ancestor scroll-port trap that disables `position: sticky`.
+  2. Elevated `<header>` in `src/components/layout/site-header.tsx` to `sticky top-0 z-50` with bottom elevation shadow (`shadow-md shadow-slate-900/5`), and removed nested competing `sticky` declarations in `src/components/layout/navbar.tsx`.
+  3. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 responses on port 3002 across all routes.
+
+- **[2026-10-03]:** Streamlined International Giving to Sendwave Exclusively & Standardized "Donate" CTAs:
+  1. Pruned international remittance options to Sendwave only (`https://www.sendwave.com`), removing Remitly, Lemfi, Taptap Send, and WorldRemit. Removed secondary foreign gateways (PayPal, Cash App).
+  2. Tab 2 in `DirectGivingPortal` now features a dedicated Sendwave partner card (0% fee, instant M-Pesa transfer, and direct launch link), with a 3-step guide for sending to Kenyan M-Pesa line `+254 700 000 001` (Pastor Jeannette Taylor) with 1-click copy buttons.
+  3. Kenyan giving remains 100% untouched: M-Pesa Send Money, Paybill 174379 with all fund codes (`OFFERING`, `TITHE`, `ORPHANAGE`, `SEED`, `BUILDING`), Co-op Bank direct wire, and pastoral receipt hotline.
+  4. Standardized all button labels and links from "Give Online", "Give Online Now", and "Partner With Us" to "Donate" across desktop Navbar, mobile drawer, footer, and `/give` hero. Updated footer Column 4 grid to showcase Sendwave alongside Kenyan Paybill, Send Money, and Co-op Bank.
+  5. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
 
 - **[2026-10-03]:** Mobile Compactness & Responsive Density Overhaul Across All Pages:
   1. Identified that mobile viewports (360px–430px) were overly spaced out due to global desktop utilities (`py-20`, `py-24`, `min-h-[85vh]`, `p-8`, `gap-8`) applied without mobile breakpoints.

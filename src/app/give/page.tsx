@@ -4,9 +4,9 @@ import { DirectGivingPortal } from "@/components/giving/direct-giving-portal";
 import { ShieldCheck, Heart, Sparkles, BookOpen, Lock, Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Give Online | Heavens Gates Sugutta Fellowship Church International",
+  title: "Donate | Heavens Gates Sugutta Fellowship Church International",
   description:
-    "Partner with Heavens Gates Sugutta Fellowship Church International. Give your tithes, offerings, and kingdom seeds securely via M-Pesa Send Money, Paybill 174379, international remittance apps (Sendwave, Remitly, Lemfi, Taptap Send), Cash App, or PayPal.",
+    "Partner with Heavens Gates Sugutta Fellowship Church International. Donate your tithes, offerings, and kingdom seeds securely via M-Pesa Send Money, Paybill 174379, Sendwave, or bank wire.",
 };
 
 export default function GivePage() {
@@ -27,7 +27,7 @@ export default function GivePage() {
           </div>
 
           <h1 className="font-extrabold text-2xl sm:text-4xl lg:text-5xl text-[#ff6b35] tracking-tight leading-tight max-w-3xl mx-auto">
-            Give &amp; Support the Ministry
+            Donate &amp; Support the Ministry
           </h1>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 

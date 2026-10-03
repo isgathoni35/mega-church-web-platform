@@ -34,9 +34,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${greatVibes.variable} h-full antialiased overflow-x-hidden`}
+      className={`${montserrat.variable} ${greatVibes.variable} h-full antialiased overflow-x-clip`}
     >
-      <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-accent selection:text-accent-foreground overflow-x-hidden w-full max-w-full">
+      <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-accent selection:text-accent-foreground overflow-x-clip w-full max-w-full">
         <SiteHeader />
         <main className="flex-1 flex flex-col w-full max-w-full overflow-x-clip">{children}</main>
         <Footer />

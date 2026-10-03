@@ -41,7 +41,7 @@ export function Footer() {
               className="inline-flex items-center justify-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs font-bold py-2 sm:py-2.5 px-3.5 sm:px-4 rounded-xl transition-all shadow-lg shadow-orange-500/20 w-full sm:w-auto"
             >
               <Heart className="h-4 w-4 fill-current" />
-              Partner With Us
+              Donate
             </Link>
           </div>
         </div>
@@ -185,11 +185,11 @@ export function Footer() {
           <div className="space-y-2.5 sm:space-y-4">
             <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#ff6b35] flex items-center gap-2">
               <Smartphone className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              Digital Giving
+              Donate / Giving
             </h3>
             <p className="text-xs text-slate-300 leading-relaxed">
               Frictionless digital channels to honor God with your tithes and
-              offerings from anywhere in the world.
+              offerings from Kenya and internationally.
             </p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
@@ -197,12 +197,12 @@ export function Footer() {
                 <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Paybill 174379</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
-                <span className="font-bold text-white block text-[11px] sm:text-xs">Remittance</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Sendwave & Remitly</span>
+                <span className="font-bold text-white block text-[11px] sm:text-xs">Send Money</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">0700 000 001</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
-                <span className="font-bold text-white block text-[11px] sm:text-xs">PayPal & Cards</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">@hgsugutta</span>
+                <span className="font-bold text-white block text-[11px] sm:text-xs">Sendwave App</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">International</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
                 <span className="font-bold text-white block text-[11px] sm:text-xs">Direct Wire</span>

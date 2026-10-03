@@ -22,64 +22,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-interface RemittanceApp {
-  id: string;
-  name: string;
-  tagline: string;
-  coverage: string;
-  badgeColor: string;
-  link: string;
-  initial: string;
-}
-
-const REMITTANCE_APPS: RemittanceApp[] = [
-  {
-    id: "sendwave",
-    name: "Sendwave",
-    tagline: "Zero fee transfer directly from your debit card to our M-Pesa line.",
-    coverage: "USA, UK, Canada, Europe",
-    badgeColor: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30",
-    link: "https://www.sendwave.com",
-    initial: "W",
-  },
-  {
-    id: "remitly",
-    name: "Remitly",
-    tagline: "Trusted worldwide remittance sent straight to Kenyan mobile money.",
-    coverage: "Global (170+ Countries)",
-    badgeColor: "bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30",
-    link: "https://www.remitly.com",
-    initial: "R",
-  },
-  {
-    id: "lemfi",
-    name: "Lemfi",
-    tagline: "Instant, fee-free diaspora transfer from bank/card to M-Pesa.",
-    coverage: "UK, USA, Europe, Canada",
-    badgeColor: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30",
-    link: "https://lemfi.com",
-    initial: "L",
-  },
-  {
-    id: "taptap",
-    name: "Taptap Send",
-    tagline: "Fast, honest mobile money transfer to Kenya with zero hidden fees.",
-    coverage: "UK, USA, Canada, Europe, UAE",
-    badgeColor: "bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/30",
-    link: "https://www.taptapsend.com",
-    initial: "T",
-  },
-  {
-    id: "worldremit",
-    name: "WorldRemit",
-    tagline: "Direct M-Pesa mobile wallet transfer accepted globally.",
-    coverage: "130+ Countries",
-    badgeColor: "bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30",
-    link: "https://www.worldremit.com",
-    initial: "W",
-  },
-];
-
 const GIVING_FUNDS = [
   { code: "OFFERING", name: "General Offering", desc: "Sunday worship and regular ministration" },
   { code: "TITHE", name: "Kingdom Tithe", desc: "10% covenant seed of obedience" },
@@ -428,7 +370,7 @@ export function DirectGivingPortal() {
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 2: FOR INTERNATIONAL PARTNERS (NENO REMITTANCE APPS MODEL)           */}
+      {/* TAB 2: FOR INTERNATIONAL PARTNERS (SENDWAVE DIRECT TO M-PESA)             */}
       {/* ========================================================================= */}
       {activeTab === "international" && (
         <div className="space-y-4 sm:space-y-8 animate-in fade-in duration-200">
@@ -438,53 +380,50 @@ export function DirectGivingPortal() {
               <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#ff6b35] mx-auto">
                 <Globe2 className="h-5 w-5 sm:h-7 sm:w-7" />
               </div>
-              <h3 className="font-extrabold text-xl sm:text-3xl text-white">Give from Anywhere in the World!</h3>
+              <h3 className="font-extrabold text-xl sm:text-3xl text-white">Donate from Anywhere via Sendwave</h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-                Use your favorite money transfer app to send funds directly to our Kenyan M-Pesa line. It arrives instantly with zero or low conversion fees.
+                Send your tithes, offerings, or kingdom seeds directly from your debit card in the USA, UK, Canada, and Europe straight to our Kenyan M-Pesa line with zero transfer fees.
               </p>
             </div>
 
             <div className="p-4 sm:p-8 space-y-4 sm:space-y-8">
-              {/* Step 1: Apps Grid */}
-              <div className="space-y-3 sm:space-y-4">
+              {/* Step 1: Featured Sendwave Platform Card */}
+              <div className="space-y-2.5 sm:space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center text-xs">
                     1
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Open Your Preferred Remittance App:
+                    Open Sendwave (App or Website):
                   </h4>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
-                  {REMITTANCE_APPS.map((app) => (
+                <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-white hover:border-[#ff6b35] hover:shadow-lg transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="space-y-1.5 max-w-xl">
+                    <div className="flex items-center gap-2.5">
+                      <span className="font-black text-lg sm:text-2xl text-slate-900 tracking-tight">
+                        Sendwave
+                      </span>
+                      <span className="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 border border-emerald-500/30">
+                        Zero Transfer Fee • USA, UK, Canada, Europe
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      Download the Sendwave app on iOS/Android or visit their website. It transfers money instantly from your foreign bank debit card directly into our ministry M-Pesa line with no conversion deductions.
+                    </p>
+                  </div>
+
+                  <div className="shrink-0">
                     <a
-                      key={app.id}
-                      href={app.link}
+                      href="https://www.sendwave.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200 bg-white hover:border-[#ff6b35] hover:shadow-lg transition-all group flex flex-col justify-between"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-orange-500/20"
                     >
-                      <div className="space-y-1.5 sm:space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="font-extrabold text-sm sm:text-base text-slate-900 group-hover:text-[#ff6b35] transition-colors">
-                            {app.name}
-                          </span>
-                          <span className={cn("text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full border", app.badgeColor)}>
-                            {app.coverage}
-                          </span>
-                        </div>
-                        <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                          {app.tagline}
-                        </p>
-                      </div>
-
-                      <div className="pt-2 sm:pt-3 mt-2 sm:mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#ff6b35]">
-                        <span>Open {app.name}</span>
-                        <ExternalLink className="h-3.5 w-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                      </div>
+                      <span>Open Sendwave</span>
+                      <ExternalLink className="h-4 w-4" />
                     </a>
-                  ))}
+                  </div>
                 </div>
               </div>
 
@@ -495,7 +434,7 @@ export function DirectGivingPortal() {
                     2
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Select Transfer Destination in Your App:
+                    Select Transfer Destination in Sendwave:
                   </h4>
                 </div>
                 <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-600 flex flex-wrap gap-3 sm:gap-4 items-center">
@@ -572,71 +511,6 @@ export function DirectGivingPortal() {
                     </button>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Secondary Gateways: PayPal, CashApp & Direct Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-6">
-            {/* PayPal */}
-            <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-md flex flex-col justify-between space-y-3 sm:space-y-4">
-              <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#ff6b35] uppercase tracking-wider">Online Cards &amp; Balance</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-600 border border-blue-500/20">Worldwide</span>
-                </div>
-                <h4 className="font-extrabold text-lg sm:text-xl text-slate-900">PayPal &amp; Debit/Credit Cards</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Give securely using your international Visa, MasterCard, American Express, or PayPal account balance.
-                </p>
-                <div className="font-mono text-xs font-bold text-[#ff6b35]">@hgsugutta</div>
-              </div>
-
-              <div>
-                <a
-                  href="https://paypal.me/hgsugutta"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 sm:py-3 px-4 sm:px-5 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold text-xs transition-all shadow-md shadow-orange-500/20"
-                >
-                  Give via PayPal / Cards
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              </div>
-            </div>
-
-            {/* Cash App */}
-            <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-slate-200 shadow-md flex flex-col justify-between space-y-3 sm:space-y-4">
-              <div className="space-y-1.5 sm:space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[#ff6b35] uppercase tracking-wider">USA &amp; UK Cashtag</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20">USA &amp; UK</span>
-                </div>
-                <h4 className="font-extrabold text-lg sm:text-xl text-slate-900">Cash App</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Send directly to our ministry Cashtag from your mobile device.
-                </p>
-                <div className="font-mono text-sm font-black text-slate-900">$HGSugutta</div>
-              </div>
-
-              <div>
-                <button
-                  type="button"
-                  onClick={() => handleCopy("cashtag", "$HGSugutta")}
-                  className="w-full inline-flex items-center justify-center gap-2 py-2.5 sm:py-3 px-4 sm:px-5 rounded-full bg-slate-100 text-slate-800 hover:bg-slate-200 font-bold text-xs border border-slate-200 transition-all"
-                >
-                  {copiedKey === "cashtag" ? (
-                    <>
-                      <Check className="h-3.5 w-3.5 text-[#ff6b35]" />
-                      Cashtag Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3.5 w-3.5" />
-                      Copy $HGSugutta
-                    </>
-                  )}
-                </button>
               </div>
             </div>
           </div>

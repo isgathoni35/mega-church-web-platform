@@ -22,7 +22,7 @@ const navLinks: NavItem[] = [
 
 export function Navbar() {
   return (
-    <nav className="w-full bg-white text-slate-900 border-b border-slate-200/80 shadow-sm sticky top-0 z-40">
+    <nav className="w-full bg-white/95 backdrop-blur-md text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8">
         {/* Brand / Logo (Matching Neno Screenshot 1) */}
         <Link
@@ -65,7 +65,7 @@ export function Navbar() {
           >
             <Link href="/give">
               <Heart className="mr-1.5 h-4 w-4 fill-current" />
-              Give Online
+              Donate
             </Link>
           </Button>
 
