@@ -105,6 +105,15 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/events"
+                  className="hover:text-[#ff6b35] transition-colors flex items-center gap-1.5"
+                >
+                  <span className="text-[#ff6b35] text-xs">›</span> Events &amp;
+                  Mission Calendar
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/orphanage"
                   className="hover:text-[#ff6b35] transition-colors flex items-center gap-1.5"
                 >

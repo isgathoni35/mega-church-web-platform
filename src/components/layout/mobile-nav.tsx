@@ -14,6 +14,7 @@ interface NavItem {
 const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About & Founder", href: "/about" },
+  { label: "Events & Crusades", href: "/events" },
   { label: "Children's Home", href: "/orphanage" },
   { label: "Sermons & Media", href: "/sermons" },
   { label: "Prayer Altar", href: "/prayer-request" },

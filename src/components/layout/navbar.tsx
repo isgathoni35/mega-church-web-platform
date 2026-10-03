@@ -14,6 +14,7 @@ interface NavItem {
 const navLinks: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Events", href: "/events" },
   { label: "Children's Home", href: "/orphanage" },
   { label: "Sermons", href: "/sermons" },
   { label: "Prayer Altar", href: "/prayer-request" },
@@ -44,7 +45,7 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links (Dark Slate with Orange hover/active) */}
-        <div className="hidden md:flex items-center gap-7 lg:gap-8">
+        <div className="hidden md:flex items-center gap-4 lg:gap-7">
           {navLinks.map((link) => (
             <Link
               key={link.label}

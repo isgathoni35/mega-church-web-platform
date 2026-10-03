@@ -76,6 +76,13 @@
   3. Integrated side-by-side into Step 1 of Tab 2 (For International) in `DirectGivingPortal` ([src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx)) for desktop and mobile devices.
   4. Verification: 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
 
+- [x] `feature-specs/20-neno-style-events-feature.md`: Neno Evangelism Centre Benchmark Events Feature (`/events`). Streamlined, non-overengineered implementation matching Neno's `/events` page:
+  1. Light warm cream hero with italicized eyebrow ("The 2026 Mission Tour"), bold serif headline ("Pastor Jeannette Taylor's Global Mission"), and centered quote card ("The sick will be healed. The oppressed will be set free.").
+  2. "The Mission Calendar" 2-column responsive grid with flyer image, category badge plate, venue pin, DATES & FORMAT metadata block, concise spiritual summary, and single full-width "Join WhatsApp Group →" button.
+  3. Dark midnight slate bottom CTA banner ("A Divine Appointment Awaits You") with fiery orange WhatsApp pill and Share Event button.
+  4. Global navigation integration across desktop Navbar, mobile slide-over drawer, and global footer quick links.
+  5. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002, and full visual verification on desktop and mobile viewports.
+
 ## 🚧 In Progress
 
 None.
@@ -87,6 +94,14 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-04]:** Neno Evangelism Centre Benchmark Events Feature (`/events`):
+  1. Implemented a streamlined, direct events hub matching Neno's exact architecture without extraneous complexity:
+     - Hero section with italicized serif eyebrow ("The 2026 Mission Tour"), bold title ("Pastor Jeannette Taylor's Global Mission") with warm orange italic accent, and centered quote box with sparkle icon ("The sick will be healed. The oppressed will be set free.").
+     - "The Mission Calendar" 2-column responsive grid with flyer images, category badge pills (`MISSION 2026`, `RETREAT 2026`, `MONTHLY KESHA`, `GLOBAL MISSION`), venue pins, DATES & FORMAT metadata blocks, concise spiritual expectation summaries, and full-width dark navy `Join WhatsApp Group →` buttons with pre-filled inquiry text.
+     - Bottom CTA container ("A Divine Appointment Awaits You") with fiery orange WhatsApp button and Share Event button.
+  2. Integrated `Events` globally into desktop Navbar, mobile navigation drawer, and footer quick links.
+  3. Verified 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002, and full visual verification on desktop and mobile viewports.
 
 - **[2026-10-03]:** Integrated Vector Sendwave QR Code for International Payments:
   1. Built dedicated, high-resolution vector SVG QR code component in `src/components/giving/sendwave-qr.tsx` encoding `https://www.sendwave.com`.
