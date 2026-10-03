@@ -87,7 +87,6 @@ CREATE INDEX IF NOT EXISTS idx_donations_checkout_req ON public.donations (check
 
 -- Enable RLS on all tables
 ALTER TABLE public.sermons ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.branches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.prayer_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.donations ENABLE ROW LEVEL SECURITY;
 
