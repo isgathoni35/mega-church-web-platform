@@ -70,6 +70,11 @@
   2. Single Sticky Source of Truth: Elevated `<header>` in `src/components/layout/site-header.tsx` to `sticky top-0 z-50 w-full flex flex-col shadow-md shadow-slate-900/5 bg-white transition-shadow duration-300`, removing competing nested `sticky top-0 z-40` from `src/components/layout/navbar.tsx`.
   3. Visual Polish: Added `bg-white/95 backdrop-blur-md` to `Navbar` for seamless frosted-glass separation over dark imagery and vibrant backgrounds as users scroll.
   4. Verification: 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
+- [x] `feature-specs/19-sendwave-qr-code-integration.md`: International Sendwave Payment QR Code Integration.
+  1. Built dedicated, high-resolution vector SVG QR code component in `src/components/giving/sendwave-qr.tsx` encoding `https://www.sendwave.com` for instant smartphone camera scanning.
+  2. Features branded Sendwave badge, zero-fee reassurance, recipient quick-copy strip (`+254 700 000 001` - Pastor Jeannette Taylor), and smartphone camera compatibility indicator.
+  3. Integrated side-by-side into Step 1 of Tab 2 (For International) in `DirectGivingPortal` ([src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx)) for desktop and mobile devices.
+  4. Verification: 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
 
 ## 🚧 In Progress
 
@@ -82,6 +87,12 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-03]:** Integrated Vector Sendwave QR Code for International Payments:
+  1. Built dedicated, high-resolution vector SVG QR code component in `src/components/giving/sendwave-qr.tsx` encoding `https://www.sendwave.com`.
+  2. Features Sendwave brand styling, zero-fee badge, recipient quick-copy strip (`+254 700 000 001` - Pastor Jeannette Taylor), and smartphone camera compatibility indicator.
+  3. Integrated side-by-side into Step 1 of Tab 2 (For International) in `DirectGivingPortal` ([src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx)) for desktop and mobile devices.
+  4. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 responses on port 3002 across all routes.
 
 - **[2026-10-03]:** Mobile & Desktop Sticky Header Robustness:
   1. Replaced `overflow-x: hidden` with `overflow-x: clip` in `src/app/globals.css` and `src/app/layout.tsx` on `html` and `body` to eliminate the root ancestor scroll-port trap that disables `position: sticky`.

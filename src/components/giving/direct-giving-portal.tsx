@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { SendwaveQR } from "./sendwave-qr";
 
 const GIVING_FUNDS = [
   { code: "OFFERING", name: "General Offering", desc: "Sunday worship and regular ministration" },
@@ -387,42 +388,66 @@ export function DirectGivingPortal() {
             </div>
 
             <div className="p-4 sm:p-8 space-y-4 sm:space-y-8">
-              {/* Step 1: Featured Sendwave Platform Card */}
+              {/* Step 1: Featured Sendwave Platform Card & QR Code */}
               <div className="space-y-2.5 sm:space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center text-xs">
                     1
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Open Sendwave (App or Website):
+                    Open Sendwave (App or Scan QR Code):
                   </h4>
                 </div>
 
-                <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-white hover:border-[#ff6b35] hover:shadow-lg transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="space-y-1.5 max-w-xl">
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-black text-lg sm:text-2xl text-slate-900 tracking-tight">
-                        Sendwave
-                      </span>
-                      <span className="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 border border-emerald-500/30">
-                        Zero Transfer Fee • USA, UK, Canada, Europe
-                      </span>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
+                  {/* Left Column: Sendwave Benefit Card & Launch Button */}
+                  <div className="lg:col-span-7 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-white hover:border-[#ff6b35] hover:shadow-lg transition-all flex flex-col justify-between space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-black text-xl sm:text-2xl text-slate-900 tracking-tight">
+                          Sendwave
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 border border-emerald-500/30">
+                          Zero Transfer Fee • USA, UK, Canada, Europe
+                        </span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        Download the Sendwave app on iOS/Android or visit their website. It transfers money instantly from your foreign bank debit card directly into our ministry M-Pesa line with no conversion deductions.
+                      </p>
+
+                      <div className="p-3 rounded-xl bg-white border border-slate-200/80 text-xs text-slate-700 space-y-1">
+                        <span className="font-bold text-[#ff6b35] block text-[11px] uppercase tracking-wider">
+                          Why Sendwave for Diaspora Giving?
+                        </span>
+                        <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                          • 0% fee on transfers to Kenya M-Pesa
+                          <br />
+                          • Delivered in under 30 seconds
+                          <br />
+                          • Fully licensed and secure in the USA, UK, Canada, and EU
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                      Download the Sendwave app on iOS/Android or visit their website. It transfers money instantly from your foreign bank debit card directly into our ministry M-Pesa line with no conversion deductions.
-                    </p>
+
+                    <div className="pt-2">
+                      <a
+                        href="https://www.sendwave.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-orange-500/20"
+                      >
+                        <span>Open Sendwave (sendwave.com)</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    </div>
                   </div>
 
-                  <div className="shrink-0">
-                    <a
-                      href="https://www.sendwave.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-orange-500/20"
-                    >
-                      <span>Open Sendwave</span>
-                      <ExternalLink className="h-4 w-4" />
-                    </a>
+                  {/* Right Column: Scan with Phone QR Code */}
+                  <div className="lg:col-span-5 flex flex-col">
+                    <SendwaveQR
+                      phone="+254 700 000 001"
+                      recipientName="Pastor Jeannette Taylor"
+                    />
                   </div>
                 </div>
               </div>
