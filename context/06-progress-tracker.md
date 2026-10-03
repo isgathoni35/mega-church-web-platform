@@ -17,6 +17,8 @@
 - [x] `feature-specs/09-orphanage-ministry.md`: Orphanage & Outreach Ministry (`/orphanage`) with Hero banner & impact stats, 4 pillars of care, tangible sponsorship tiers (`/give?fund=orphanage`), volunteer/visit CTA, and homepage teaser.
 - [x] `feature-specs/10-neno-style-giving-portal.md`: Transitioned Giving Portal (`/give`) to Pastor Ng'ang'a / Neno Evangelism Centre's direct model: removed automated STK push & polling delays in favor of universal 2-tab hub (Tab 1: 🇰🇪 Kenya M-Pesa Send Money `0700 000 001`, Paybill `174379` with 1-click copyable fund references `OFFERING`, `TITHE`, `ORPHANAGE`, `SEED`, `BUILDING`, and Co-op Bank Wire; Tab 2: 🌍 International Diaspora Remittance via Sendwave, Remitly, Lemfi, Taptap Send, WorldRemit + PayPal & Cash App), backed by pastoral receipt hotline.
 
+- [x] `feature-specs/11-mobile-nav-drawer-fix.md`: Resolved Mobile Navigation Drawer viewport clipping and transparency bleed-through. Portaled drawer and full-screen backdrop directly to `document.body` via `createPortal`, applied `h-[100dvh]` with `shrink-0` header/footer bands and scrollable link body, and removed `backdrop-blur` from `<header>` to eliminate CSS containing block trapping.
+
 ## 🚧 In Progress
 
 None.

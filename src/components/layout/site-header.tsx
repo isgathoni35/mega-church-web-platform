@@ -4,7 +4,7 @@ import { Navbar } from "./navbar";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full flex flex-col shadow-sm backdrop-blur">
+    <header className="sticky top-0 z-40 w-full flex flex-col shadow-sm">
       <TopBar />
       <Navbar />
     </header>
