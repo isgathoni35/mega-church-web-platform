@@ -45,51 +45,51 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
   };
 
   return (
-    <section className="relative w-full bg-primary text-white py-12 sm:py-16 px-4 sm:px-8 border-b border-white/10 overflow-hidden">
+    <section className="relative w-full bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] text-slate-900 py-12 sm:py-16 px-4 sm:px-8 border-b border-slate-200/80 overflow-hidden">
       {/* Ambient Radial Glow */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-accent/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
         {/* Left Column: Sermon Information */}
         <div className="flex-1 space-y-5 text-center lg:text-left">
           {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
             {featuredSermon.is_live ? (
-              <span className="flex items-center gap-2 bg-red-600/90 text-white px-3 py-1 rounded-full animate-pulse border border-red-400">
+              <span className="flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full animate-pulse shadow-sm">
                 <Radio className="h-3.5 w-3.5" />
                 Live Broadcast Now
               </span>
             ) : (
-              <span className="flex items-center gap-2 bg-accent/20 text-accent px-3 py-1 rounded-full border border-accent/40">
-                <Sparkles className="h-3.5 w-3.5" />
+              <span className="flex items-center gap-2 bg-orange-100 text-[#ff6b35] border border-orange-200 px-3 py-1 rounded-full">
+                <Sparkles className="h-3.5 w-3.5 text-[#ff6b35]" />
                 Featured Broadcast
               </span>
             )}
-            <span className="text-white/60 text-xs hidden sm:inline">
+            <span className="text-slate-500 text-xs hidden sm:inline">
               &bull; {featuredSermon.category}
             </span>
           </div>
 
           {/* Script Subtitle */}
-          <span className="font-script text-accent text-2xl sm:text-3xl block font-normal">
+          <span className="font-script text-[#ff6b35] text-2xl sm:text-3xl block font-normal">
             Experience the Miraculous Word
           </span>
 
           {/* Main Title */}
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
             {featuredSermon.title}
           </h1>
 
           {/* Metadata */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-white/80 font-medium">
-            <span className="flex items-center gap-1.5 text-accent font-semibold">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-slate-600 font-medium">
+            <span className="flex items-center gap-1.5 text-[#ff6b35] font-semibold">
               <User className="h-4 w-4" />
               {featuredSermon.speaker}
             </span>
-            <span className="text-white/30 hidden sm:inline">&bull;</span>
+            <span className="text-slate-300 hidden sm:inline">&bull;</span>
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-white/60" />
+              <Calendar className="h-4 w-4 text-slate-500" />
               {formatDate(featuredSermon.date_preached)}
             </span>
           </div>
@@ -99,7 +99,7 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
             <Button
               variant="default"
               size="lg"
-              className="bg-accent text-accent-foreground font-bold hover:bg-accent/90 shadow-lg"
+              className="bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/20 rounded-xl"
               asChild
             >
               <a
@@ -116,16 +116,16 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
               variant="outline"
               size="lg"
               onClick={handleShare}
-              className="border-white/30 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+              className="border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm rounded-xl"
             >
               {copied ? (
                 <>
-                  <Check className="h-4 w-4 text-green-400 mr-2" />
+                  <Check className="h-4 w-4 text-green-600 mr-2" />
                   Link Copied!
                 </>
               ) : (
                 <>
-                  <Share2 className="h-4 w-4 text-accent mr-2" />
+                  <Share2 className="h-4 w-4 text-[#ff6b35] mr-2" />
                   Share Broadcast
                 </>
               )}
@@ -135,7 +135,7 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
 
         {/* Right Column: 16:9 Video Player */}
         <div className="w-full lg:w-[580px] xl:w-[640px] shrink-0">
-          <div className="relative w-full pb-[56.25%] rounded-xl overflow-hidden shadow-2xl border border-accent/40 bg-black">
+          <div className="relative w-full pb-[56.25%] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black ring-1 ring-slate-200">
             {videoId ? (
               <iframe
                 src={embedUrl}

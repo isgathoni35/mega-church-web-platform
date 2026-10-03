@@ -27,25 +27,26 @@ export default function ContactPage() {
   )}`;
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-20">
+    <div className="min-h-screen bg-[#fbf8f3] text-slate-900 pb-20">
       {/* Hero Banner */}
-      <section className="relative bg-primary text-primary-foreground py-20 px-4 sm:px-8 overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/20 via-primary/50 to-primary pointer-events-none" />
-        <div className="relative max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent text-xs font-semibold uppercase tracking-widest shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 fill-current" />
+      <section className="relative bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden border-b border-slate-200/80">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none opacity-40 overflow-hidden">
+          <div className="absolute top-1/4 left-1/3 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-orange-500/10 blur-3xl" />
+          <div className="absolute top-1/3 right-1/4 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-amber-500/10 blur-3xl" />
+        </div>
+
+        <div className="relative max-w-4xl mx-auto text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-widest shadow-sm">
+            <Sparkles className="h-3.5 w-3.5" />
             <span>Connect &amp; Plan Your Visit</span>
           </div>
 
-          <p className="font-script text-3xl sm:text-4xl lg:text-5xl text-accent">
-            Connect With Us
-          </p>
-
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#ff6b35] leading-tight">
             We Can&apos;t Wait to Welcome You
           </h1>
+          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
-          <p className="text-base sm:text-lg text-white/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Whether you are visiting for the first time or looking for a home church to grow
             in spiritual authority, your seat is prepared in the presence of God.
           </p>
@@ -53,47 +54,47 @@ export default function ContactPage() {
       </section>
 
       {/* Main 2-Column Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-8 -mt-8 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Column 1: Logistics & First-Time Visitor Guide (5 Columns) */}
           <div className="lg:col-span-5 space-y-6">
             {/* What to Expect Card */}
-            <div className="p-6 rounded-2xl bg-card border border-border shadow-md space-y-4">
-              <h3 className="text-lg font-bold text-primary flex items-center gap-2">
-                <Heart className="h-5 w-5 text-accent fill-accent/20" />
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-md space-y-4">
+              <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2.5">
+                <Heart className="h-5 w-5 text-[#ff6b35] fill-current" />
                 What to Expect on Your First Visit
               </h3>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 From the moment you step through our sanctuary doors, our hospitality hosts
                 will greet you with genuine warmth and guide you to your seat.
               </p>
-              <ul className="space-y-3 text-xs sm:text-sm text-foreground">
-                <li className="flex items-start gap-2.5">
-                  <span className="h-5 w-5 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center shrink-0 text-xs">
+              <ul className="space-y-4 text-sm text-slate-700">
+                <li className="flex items-start gap-3">
+                  <span className="h-6 w-6 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center shrink-0 text-xs">
                     1
                   </span>
                   <div>
-                    <strong className="text-primary block">Explosive Spirit-Led Worship:</strong>
+                    <strong className="text-slate-900 block">Explosive Spirit-Led Worship:</strong>
                     Dynamic choir and instrumental praise that invites the manifested presence
                     of the Holy Ghost.
                   </div>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="h-5 w-5 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center shrink-0 text-xs">
+                <li className="flex items-start gap-3">
+                  <span className="h-6 w-6 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center shrink-0 text-xs">
                     2
                   </span>
                   <div>
-                    <strong className="text-primary block">Uncompromised Apostolic Preaching:</strong>
+                    <strong className="text-slate-900 block">Uncompromised Apostolic Preaching:</strong>
                     Practical, revelatory scripture breakdown with signs, wonders, and
                     deliverance ministration.
                   </div>
                 </li>
-                <li className="flex items-start gap-2.5">
-                  <span className="h-5 w-5 rounded-full bg-accent/20 text-accent font-bold flex items-center justify-center shrink-0 text-xs">
+                <li className="flex items-start gap-3">
+                  <span className="h-6 w-6 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center shrink-0 text-xs">
                     3
                   </span>
                   <div>
-                    <strong className="text-primary block">First-Time Guest Reception:</strong>
+                    <strong className="text-slate-900 block">First-Time Guest Reception:</strong>
                     Join us after the service for refreshments and personal fellowship with our
                     pastoral team.
                   </div>
@@ -102,57 +103,57 @@ export default function ContactPage() {
             </div>
 
             {/* Children's Church (Kings Kids) */}
-            <div className="p-6 rounded-2xl bg-secondary/70 border border-border shadow-sm space-y-3">
-              <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                <Baby className="h-5 w-5 text-accent" />
+            <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200/80 shadow-md space-y-3">
+              <div className="flex items-center gap-2 text-slate-900 font-extrabold text-base">
+                <Baby className="h-5 w-5 text-[#ff6b35]" />
                 <span>Kings Kids Children&apos;s Church</span>
               </div>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 We provide a safe, high-energy, Bible-centered learning environment for children
                 aged <strong>2 to 12 years</strong> during all Sunday services.
               </p>
-              <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
-                <div className="p-2.5 rounded-lg bg-background border border-border flex items-center gap-2">
-                  <ShieldCheck className="h-4 w-4 text-accent shrink-0" />
-                  <span className="font-semibold text-foreground">Secure Check-in</span>
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4 text-[#ff6b35] shrink-0" />
+                  <span className="font-bold text-slate-900">Secure Check-in</span>
                 </div>
-                <div className="p-2.5 rounded-lg bg-background border border-border flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-accent shrink-0" />
-                  <span className="font-semibold text-foreground">Opens 9:30 AM</span>
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-[#ff6b35] shrink-0" />
+                  <span className="font-bold text-slate-900">Opens 9:30 AM</span>
                 </div>
               </div>
             </div>
 
             {/* Sanctuary Location & Contact Details */}
-            <div className="p-6 rounded-2xl bg-primary text-primary-foreground border border-white/10 shadow-lg space-y-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-[#0f172a] text-white border border-slate-800 shadow-xl space-y-4">
               <div className="space-y-1">
-                <span className="text-xs font-bold uppercase tracking-widest text-accent block">
-                  Mother Church & Headquarters
+                <span className="text-xs font-bold uppercase tracking-widest text-[#ff6b35] block">
+                  Mother Church &amp; Headquarters
                 </span>
                 <h4 className="text-xl font-extrabold text-white">
                   Sugutta Main Sanctuary
                 </h4>
               </div>
 
-              <div className="space-y-3 text-xs sm:text-sm text-white/80">
+              <div className="space-y-3 text-sm text-slate-300">
                 <div className="flex items-start gap-2.5">
-                  <MapPin className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                  <MapPin className="h-4 w-4 text-[#ff6b35] shrink-0 mt-0.5" />
                   <span>Sugutta Main Altar Complex, Jogoo Road Corridor, Nairobi, Kenya</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <Phone className="h-4 w-4 text-accent shrink-0" />
+                  <Phone className="h-4 w-4 text-[#ff6b35] shrink-0" />
                   <a
                     href="tel:+254700000001"
-                    className="hover:text-accent font-semibold underline-offset-2 hover:underline"
+                    className="hover:text-[#ff6b35] font-semibold underline-offset-2 hover:underline"
                   >
                     +254 700 000 001
                   </a>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <Mail className="h-4 w-4 text-accent shrink-0" />
+                  <Mail className="h-4 w-4 text-[#ff6b35] shrink-0" />
                   <a
                     href="mailto:info@heavensgatesugutta.org"
-                    className="hover:text-accent underline-offset-2 hover:underline"
+                    className="hover:text-[#ff6b35] underline-offset-2 hover:underline"
                   >
                     info@heavensgatesugutta.org
                   </a>
@@ -164,7 +165,7 @@ export default function ContactPage() {
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-md bg-accent text-accent-foreground font-bold text-xs hover:brightness-105 transition-all shadow"
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold text-xs transition-all shadow-md shadow-orange-500/20"
                 >
                   <Navigation className="h-4 w-4" />
                   Open in Google Maps
@@ -178,8 +179,8 @@ export default function ContactPage() {
           <div className="lg:col-span-7">
             <Suspense
               fallback={
-                <div className="p-12 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin text-accent" />
+                <div className="p-12 text-center text-sm text-slate-500 flex items-center justify-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin text-[#ff6b35]" />
                   Loading Connect Hub...
                 </div>
               }

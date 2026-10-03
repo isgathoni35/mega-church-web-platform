@@ -189,14 +189,14 @@ export function MpesaGivingForm() {
   return (
     <Card className="border border-border/80 shadow-xl overflow-hidden bg-card/90 backdrop-blur-sm">
       {/* Header Accent Band */}
-      <div className="bg-primary border-b border-accent/30 p-4 sm:p-5 text-white">
+      <div className="bg-[#0f172a] border-b border-slate-800 p-4 sm:p-5 text-white">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/40 shrink-0">
-            <Smartphone className="w-5 h-5 text-accent" />
+          <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-400/30 shrink-0">
+            <Smartphone className="w-5 h-5 text-[#ff6b35]" />
           </div>
           <div>
             <h3 className="font-extrabold text-base sm:text-lg leading-tight text-white">Lipa na M-Pesa Online</h3>
-            <p className="text-xs text-white/80">Instant STK Push direct to your Safaricom line</p>
+            <p className="text-xs text-slate-300">Instant STK Push direct to your Safaricom line</p>
           </div>
         </div>
       </div>

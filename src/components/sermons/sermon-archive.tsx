@@ -42,19 +42,19 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
   }, [initialSermons, selectedCategory, searchQuery]);
 
   return (
-    <section className="w-full py-16 px-4 sm:px-8 bg-background">
+    <section className="w-full py-16 px-4 sm:px-8 bg-white">
       <div className="max-w-7xl mx-auto space-y-10">
         {/* Section Heading */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border pb-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-slate-200/80 pb-6">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#ff6b35]">
               <BookOpen className="h-4 w-4" />
               <span>Media Archive</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Sermons &amp; Prophetic Teachings
             </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl">
+            <p className="text-sm sm:text-base text-slate-600 max-w-xl">
               Immerse yourself in anointed teachings, past miracle services, and
               apostolic revelations to empower your faith and walk with God.
             </p>
@@ -62,13 +62,13 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
 
           {/* Search Bar */}
           <div className="relative w-full md:w-80 shrink-0">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
             <Input
               type="text"
               placeholder="Search by title or speaker..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-11 bg-card text-foreground border-border focus:ring-accent"
+              className="pl-10 h-11 bg-white text-slate-900 border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35] rounded-xl"
             />
           </div>
         </div>
@@ -82,10 +82,10 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`whitespace-nowrap px-4 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
+                className={`whitespace-nowrap px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 ${
                   isActive
-                    ? "bg-accent text-accent-foreground shadow-md scale-105"
-                    : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted border border-border"
+                    ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20 scale-105"
+                    : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border border-slate-200"
                 }`}
               >
                 {cat}
@@ -107,15 +107,15 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
           </div>
         ) : (
           /* Empty State */
-          <div className="py-20 text-center flex flex-col items-center justify-center space-y-4 rounded-xl border border-dashed border-border bg-card/50">
-            <div className="h-16 w-16 rounded-full bg-accent/20 text-accent flex items-center justify-center">
+          <div className="py-20 text-center flex flex-col items-center justify-center space-y-4 rounded-3xl border border-dashed border-slate-300 bg-slate-50/50">
+            <div className="h-16 w-16 rounded-full bg-orange-100 text-[#ff6b35] flex items-center justify-center">
               <Video className="h-8 w-8" />
             </div>
             <div className="space-y-1 max-w-md">
-              <h3 className="text-lg font-bold text-foreground">
+              <h3 className="text-lg font-bold text-slate-900">
                 No Sermons Found
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-slate-600">
                 No messages matched your search criteria for &ldquo;
                 {searchQuery || selectedCategory}&rdquo;. Try another keyword or reset the filter.
               </p>
@@ -127,7 +127,7 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
                 setSelectedCategory("All Sermons");
                 setSearchQuery("");
               }}
-              className="mt-2 text-accent border-accent/40 hover:bg-accent/10"
+              className="mt-2 text-[#ff6b35] border-orange-200 hover:bg-orange-50 hover:text-[#ff6b35] rounded-xl"
             >
               Reset Filters
             </Button>

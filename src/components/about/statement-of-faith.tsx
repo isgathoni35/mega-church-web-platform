@@ -71,19 +71,19 @@ const FAITH_PILLARS: FaithPillar[] = [
 
 export function StatementOfFaith() {
   return (
-    <section className="py-20 lg:py-28 bg-secondary/40 text-foreground border-y border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
-        {/* Section Header */}
+    <section className="py-20 lg:py-24 bg-[#fbf8f3] text-slate-900 border-t border-slate-200/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Centered Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="font-script text-accent text-3xl sm:text-4xl block">
+          <span className="inline-block text-xs sm:text-sm font-bold tracking-widest text-[#ff6b35] uppercase">
             Foundations of Truth
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight">
             Pillars of Our Faith
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-            Unshakable biblical truths anchoring our doctrine, spiritual practices, and
-            daily walk of kingdom obedience.
+          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Unshakable biblical truths anchoring our doctrine, spiritual practices, and daily walk of kingdom obedience.
           </p>
         </div>
 
@@ -92,38 +92,38 @@ export function StatementOfFaith() {
           {FAITH_PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
-              <Card
+              <div
                 key={pillar.number}
-                className="relative flex flex-col justify-between border-t-4 border-t-accent bg-card shadow-sm hover:shadow-xl transition-all duration-300 group overflow-hidden"
+                className="relative flex flex-col justify-between bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-300 group overflow-hidden"
               >
-                <div className="p-6 sm:p-7 space-y-4 flex-1">
+                <div className="p-6 sm:p-8 space-y-4 flex-1">
                   {/* Top Bar with Number & Icon */}
                   <div className="flex items-center justify-between">
-                    <div className="h-12 w-12 rounded-xl bg-primary/10 border border-accent/30 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-accent transition-colors shadow-inner">
-                      <Icon className="h-6 w-6 transition-transform group-hover:scale-110" />
+                    <div className="h-12 w-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff6b35] group-hover:scale-110 transition-transform">
+                      <Icon className="h-6 w-6" />
                     </div>
-                    <span className="text-2xl font-black text-accent/40 font-mono">
+                    <span className="text-2xl font-black text-orange-200 font-mono">
                       {pillar.number}
                     </span>
                   </div>
 
                   {/* Title & Description */}
                   <div className="space-y-2">
-                    <CardTitle className="text-xl font-bold text-primary group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#ff6b35] transition-colors">
                       {pillar.title}
-                    </CardTitle>
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    </h3>
+                    <p className="text-sm text-slate-600 leading-relaxed">
                       {pillar.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Card Footer: Scripture Reference */}
-                <div className="px-6 py-3.5 bg-muted/30 border-t border-border flex items-center gap-2 text-xs font-semibold text-accent">
-                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+                <div className="px-6 sm:px-8 py-4 bg-slate-50 border-t border-slate-100 flex items-center gap-2 text-xs font-bold text-[#ff6b35]">
+                  <CheckCircle2 className="h-4 w-4 shrink-0" />
                   <span>{pillar.scripture}</span>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </div>

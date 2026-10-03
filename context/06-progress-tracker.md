@@ -21,6 +21,27 @@
 - [x] `feature-specs/12-connect-label-harmonization.md`: Harmonized all touchpoints for "Plan a Visit / Contact" to "Connect" across desktop navbar, mobile drawer, global footer, homepage hero CTA, and connection hub page metadata/subtitles.
 - [x] `feature-specs/13-categorized-activities-and-connect-hub.md`: Benchmarked categorized activities from Neno Evangelism Centre and Glory Gate Church. Created `CategorizedActivities` on homepage with interactive filter pills (All, Weekly Worship, Fellowships, Crusades & Keshas, Prayer Mountain, Outreach), 11 rich activity cards with schedule/venue/demographic tags, and deep query linking. Implemented Glory Gate benchmarked 3-tab `TabbedConnectHub` on `/contact` with interactive tabs (Plan a Visit, Prayer Petition, Ministry Inquiry), validation via `visitPlanSchema`, `prayerRequestSchema`, `contactInquirySchema`, and Server Actions `submitVisitPlan`, `submitPrayerRequest`, `submitContactInquiry`.
 - [x] `feature-specs/14-branch-removal-single-sanctuary.md`: Completely removed all branch and multi-campus references across the entire platform. Heavens Gates Sugutta Fellowship Church International operates strictly as a single mother sanctuary altar in Nairobi (with Mai Mahiu Prayer Mountain and Children's Home). Removed `Campuses` from desktop navbar, mobile drawer, and footer. Removed `BranchPreview` from homepage. Deleted `branch-list.tsx`, `branch-preview.tsx`, and `branches.ts`. Replaced `/branches` with an instant Next.js permanent redirect to `/contact`. Purged `branches` table from `supabase/schema.sql`, sample branch records from `supabase/seed.sql`, and `Branch` types from `database.types.ts`. Harmonized all founder and leadership copy. Verified 0 TypeScript errors and HTTP 200 on port 3002.
+- [x] `feature-specs/15-neno-evangelism-palette-overhaul.md`: Comprehensive visual styling, color theme, and layout overhaul to match Neno Evangelism Centre (`https://www.nenoevangelismcentre.org/`).
+  1. Palette Architecture: Light, radiant layout alternating between Pure White (`#ffffff`) and Soft Warm Cream/Ivory (`#fbf8f3`), with high-contrast centered headings in vibrant orange (`#ff6b35`), subtle underline accents, crisp white cards with circular orange icon holders (`bg-orange-50 text-[#ff6b35]`), and dark midnight slate (`#0f172a`) reserved for TopBar, Global Footer, and selected high-contrast anchor cards.
+  2. Components & Pages Transformed:
+     - `src/components/layout/navbar.tsx` & `mobile-nav.tsx`: Crisp white background, dark slate links, high-contrast orange CTA button.
+     - `src/components/home/hero-section.tsx`: Converted to 2-column light ivory hero matching Neno Screenshot 2 (framed Apostle portrait with frosted nameplate badge, orange badge, curved underline headline, orange `Watch Live Service` button, white `Learn More` button, 3-stat counter strip).
+     - `src/components/home/founder-spotlight.tsx`: Centered orange heading, framed Apostle portrait with floating divine commission quote card, 4 pure white feature cards with circular orange icons, and twin Mission & Vision cards.
+     - `src/components/home/ministry-pillars.tsx`: Centered orange heading, 4 pure white cards with circular orange icon holders on warm ivory background (`#fbf8f3`).
+     - `src/components/home/recent-sermons.tsx`: Centered orange heading, pure white background, centered orange button.
+     - `src/components/home/service-schedule.tsx`: Warm ivory background, centered orange heading with underline bar, pure white schedule panel with circular orange icons and buttons.
+     - `src/components/sermons/sermon-card.tsx`: Pure white card, orange play button and category badges, dark text.
+     - `src/components/sermons/live-hero-player.tsx`: Warm ivory hero background, dark slate typography, orange badges, white video card with ring border, orange YouTube CTA.
+     - `src/components/sermons/sermon-archive.tsx`: Pure white background, orange category filter pills, orange media badge, dark slate headings.
+     - `src/components/home/orphanage-teaser.tsx`: Pure white container, orange badge, dark slate text, orange CTA button.
+     - `src/app/orphanage/page.tsx` & subcomponents: High-contrast midnight hero with authentic feeding photo and orange stats, soft cream `CarePillars` with white cards and circular orange icons, pure white `SupportNeeds` with orange pricing pills and buttons, and midnight `VolunteerCta` anchor card.
+     - `src/components/home/categorized-activities.tsx`: Centered orange heading, orange active category pill, pure white activity cards with orange time text and buttons.
+     - `src/app/give/page.tsx` & `DirectGivingPortal`: Tab switcher with rounded-full orange active pill, pure white cards for M-Pesa Send Money and Paybill, orange circular step numbers, and midnight pastoral assistance banner.
+     - `src/app/contact/page.tsx` & `TabbedConnectHub`: Pure white cards, orange active tabs, orange circular check/step badges, ivory success screens, and orange buttons.
+     - `src/app/prayer-request/page.tsx` & `PrayerForm`: Light ivory hero, centered orange heading, pure white form card with orange category chips and submit button, and midnight hotline card.
+     - `src/components/about/`: Light ivory hero, pure white founder story with circular orange icons, warm cream statement of faith with white pillar cards, pure white leadership team, and warm cream prayer mountain spotlight.
+     - `src/components/layout/top-bar.tsx` & `footer.tsx`: Midnight slate (`#0f172a`) framing with fiery orange accents (`#ff6b35`).
+  3. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all core routes on port 3002. Preserved 100% of all features, database schemas, and Server Actions without modification.
 
 ## 🚧 In Progress
 
@@ -33,6 +54,13 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-03]:** Comprehensive Visual Styling & Layout Transformation to Neno Evangelism Centre Identity:
+  1. Extracted exact live layout patterns and color tokens from user-supplied Neno Evangelism Centre screenshots: soft warm ivory canvas (`#fbf8f3`), pure white cards (`#ffffff`), centered bold headings in vibrant orange (`#ff6b35`) with underline bars, circular orange icon holders (`bg-orange-50 text-[#ff6b35]`), and dark midnight slate (`#0f172a`) framing for TopBar, Footer, and selected anchor cards.
+  2. Rebuilt homepage hero into a 2-column light ivory hero with framed Apostle portrait card and stat strip matching Neno Screenshot 2.
+  3. Harmonized all pages (`/`, `/about`, `/give`, `/sermons`, `/orphanage`, `/prayer-request`, `/contact`) and layout wrappers (`Navbar`, `MobileNav`, `TopBar`, `Footer`, `VideoModal`).
+  4. Preserved all features, database schemas, and Server Actions without change.
+  5. Verified 0 TypeScript compilation errors (`npx tsc --noEmit`) and HTTP 200 OK on all routes on port 3002.
 
 - **[2026-10-03]:** Complete Transition to Single Mother Sanctuary Architecture (Eliminated All Branch Concepts):
   1. Purged `branches` database table and RLS policies from `supabase/schema.sql`, removed all seed branch inserts from `supabase/seed.sql`, and cleaned up `database.types.ts`.

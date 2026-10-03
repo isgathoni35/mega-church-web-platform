@@ -70,17 +70,17 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
       aria-labelledby="video-modal-title"
     >
       <div
-        className="relative w-full max-w-4xl bg-primary border border-accent/30 rounded-xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
+        className="relative w-full max-w-4xl bg-[#0f172a] border border-slate-700 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header Bar */}
-        <div className="flex items-center justify-between px-5 py-3.5 bg-black/30 border-b border-white/10">
+        <div className="flex items-center justify-between px-5 py-3.5 bg-black/40 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-accent text-accent-foreground">
+            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#ff6b35] text-white shadow-sm">
               {sermon.category}
             </span>
             {sermon.is_live && (
-              <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-red-600 text-white animate-pulse">
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-600 text-white animate-pulse">
                 <span className="h-1.5 w-1.5 rounded-full bg-white"></span>
                 Live Broadcast
               </span>
@@ -90,7 +90,7 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-[#ff6b35]"
             aria-label="Close video player"
           >
             <X className="h-5 w-5" />
@@ -115,7 +115,7 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
         </div>
 
         {/* Modal Details & Actions Footer */}
-        <div className="p-5 sm:p-6 bg-primary text-white flex flex-col gap-4 overflow-y-auto">
+        <div className="p-5 sm:p-6 bg-[#0f172a] text-white flex flex-col gap-4 overflow-y-auto">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div className="space-y-2 max-w-2xl">
               <h2
@@ -124,13 +124,13 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
               >
                 {sermon.title}
               </h2>
-              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-white/75 font-medium">
-                <span className="flex items-center gap-1 text-accent">
+              <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-slate-300 font-medium">
+                <span className="flex items-center gap-1 text-[#ff6b35] font-semibold">
                   <User className="h-3.5 w-3.5" />
                   {sermon.speaker}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Calendar className="h-3.5 w-3.5 text-white/50" />
+                  <Calendar className="h-3.5 w-3.5 text-slate-400" />
                   {formatDate(sermon.date_preached)}
                 </span>
               </div>
@@ -142,7 +142,7 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
                 variant="outline"
                 size="sm"
                 onClick={handleShare}
-                className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+                className="border-slate-700 bg-white/5 text-slate-200 hover:bg-white/10 hover:text-white rounded-xl"
               >
                 {copied ? (
                   <>
@@ -151,7 +151,7 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
                   </>
                 ) : (
                   <>
-                    <Share2 className="h-3.5 w-3.5 text-accent mr-1.5" />
+                    <Share2 className="h-3.5 w-3.5 text-[#ff6b35] mr-1.5" />
                     Share
                   </>
                 )}
@@ -160,7 +160,7 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
               <Button
                 variant="default"
                 size="sm"
-                className="bg-accent text-accent-foreground font-bold hover:bg-accent/90"
+                className="bg-[#ff6b35] text-white font-bold hover:bg-[#e05626] rounded-xl shadow-lg shadow-orange-500/20"
                 asChild
               >
                 <a

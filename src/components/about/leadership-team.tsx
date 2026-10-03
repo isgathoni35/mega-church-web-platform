@@ -47,19 +47,19 @@ const LEADERSHIP_COUNCIL: LeaderRole[] = [
 
 export function LeadershipTeam() {
   return (
-    <section className="py-20 lg:py-28 bg-background text-foreground">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+    <section className="py-20 lg:py-24 bg-white text-slate-900 border-t border-slate-200/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="font-script text-accent text-3xl sm:text-4xl block">
+          <span className="inline-block text-xs sm:text-sm font-bold tracking-widest text-[#ff6b35] uppercase">
             Apostolic Governance
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight">
             Our Pastoral Leadership
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-            Ordained servant-leaders dedicated to prayer, pastoral care, and the equipping
-            of believers for kingdom impact.
+          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+            Ordained servant-leaders dedicated to prayer, pastoral care, and the equipping of believers for kingdom impact.
           </p>
         </div>
 
@@ -70,28 +70,22 @@ export function LeadershipTeam() {
             const isLead = idx === 0;
 
             return (
-              <Card
+              <div
                 key={leader.role}
-                className={`flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-xl ${
+                className={`flex flex-col justify-between rounded-3xl p-6 sm:p-7 transition-all duration-300 hover:shadow-xl ${
                   isLead
-                    ? "bg-primary text-primary-foreground border-2 border-accent shadow-lg"
-                    : "bg-card text-card-foreground border-t-4 border-t-accent shadow-sm"
+                    ? "bg-gradient-to-br from-[#fffaf5] to-white border-2 border-orange-200 shadow-md"
+                    : "bg-white border border-slate-200/80 shadow-sm"
                 }`}
               >
-                <div className="p-6 space-y-4 flex-1">
+                <div className="space-y-4 flex-1">
                   {/* Top Badge & Icon */}
                   <div className="flex items-center justify-between">
-                    <div
-                      className={`h-11 w-11 rounded-xl flex items-center justify-center shadow-inner ${
-                        isLead
-                          ? "bg-accent/20 border border-accent text-accent"
-                          : "bg-primary/10 border border-primary/20 text-primary"
-                      }`}
-                    >
-                      <Icon className="h-5 w-5" />
+                    <div className="h-12 w-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff6b35]">
+                      <Icon className="h-6 w-6" />
                     </div>
                     {isLead && (
-                      <span className="text-[11px] font-black uppercase tracking-wider text-accent bg-black/40 px-2 py-0.5 rounded border border-accent/30">
+                      <span className="text-[10px] font-black uppercase tracking-wider text-white bg-[#ff6b35] px-2.5 py-1 rounded-full shadow-sm">
                         Presiding
                       </span>
                     )}
@@ -99,44 +93,28 @@ export function LeadershipTeam() {
 
                   {/* Title & Subtitle */}
                   <div className="space-y-1">
-                    <h3
-                      className={`text-lg font-extrabold tracking-tight ${
-                        isLead ? "text-white" : "text-primary"
-                      }`}
-                    >
+                    <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
                       {leader.role}
                     </h3>
-                    <p
-                      className={`text-xs font-semibold ${
-                        isLead ? "text-accent" : "text-accent"
-                      }`}
-                    >
+                    <p className="text-xs font-bold text-[#ff6b35]">
                       {leader.subtitle}
                     </p>
                   </div>
 
                   {/* Focus */}
-                  <div
-                    className={`p-2.5 rounded-lg text-xs font-medium ${
-                      isLead ? "bg-white/10 text-white/90" : "bg-muted/50 text-foreground"
-                    }`}
-                  >
-                    <span className="font-bold block text-[10px] uppercase tracking-wider text-accent mb-0.5">
+                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-medium text-slate-700">
+                    <span className="font-bold block text-[10px] uppercase tracking-wider text-[#ff6b35] mb-0.5">
                       Ministry Mandate:
                     </span>
                     {leader.focus}
                   </div>
 
                   {/* Bio Description */}
-                  <p
-                    className={`text-xs leading-relaxed ${
-                      isLead ? "text-white/80" : "text-muted-foreground"
-                    }`}
-                  >
+                  <p className="text-xs text-slate-600 leading-relaxed">
                     {leader.description}
                   </p>
                 </div>
-              </Card>
+              </div>
             );
           })}
         </div>

@@ -97,21 +97,21 @@ export function ContactForm() {
 
   if (isSuccess) {
     return (
-      <Card className="border-accent/40 shadow-xl overflow-hidden bg-primary text-primary-foreground">
-        <div className="bg-gradient-to-r from-accent/20 via-accent/30 to-accent/10 p-1" />
+      <Card className="rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden bg-white text-slate-900">
+        <div className="bg-[#ff6b35] h-1.5 w-full" />
         <CardContent className="p-8 sm:p-12 text-center space-y-6">
-          <div className="h-16 w-16 mx-auto rounded-full bg-accent/20 border-2 border-accent flex items-center justify-center text-accent shadow-lg animate-bounce">
-            <CheckCircle2 className="h-8 w-8 text-accent" />
+          <div className="h-16 w-16 mx-auto rounded-full bg-orange-100 border-2 border-orange-300 flex items-center justify-center text-[#ff6b35] shadow-lg animate-bounce">
+            <CheckCircle2 className="h-8 w-8 text-[#ff6b35]" />
           </div>
 
           <div className="space-y-3">
-            <span className="font-script text-2xl sm:text-3xl text-accent block">
+            <span className="font-script text-2xl sm:text-3xl text-[#ff6b35] block font-normal">
               We Value You
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
               Message Received With Warmth
             </h3>
-            <p className="text-sm sm:text-base text-white/80 max-w-lg mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 max-w-lg mx-auto leading-relaxed">
               Thank you for reaching out to Heavens Gates Sugutta Fellowship Church. Our
               pastoral team or sanctuary administration will follow up with you promptly.
             </p>
@@ -120,7 +120,7 @@ export function ContactForm() {
           <div className="pt-2">
             <Button
               onClick={handleReset}
-              className="bg-accent hover:brightness-105 text-accent-foreground font-bold px-8 shadow-md"
+              className="bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold px-8 py-6 rounded-xl shadow-lg shadow-orange-500/20"
             >
               Send Another Inquiry
             </Button>
@@ -131,27 +131,28 @@ export function ContactForm() {
   }
 
   return (
-    <Card className="border-t-4 border-t-accent shadow-lg bg-card text-card-foreground">
-      <CardHeader className="pb-4">
+    <Card className="rounded-3xl border border-slate-200/80 shadow-md bg-white text-slate-900 overflow-hidden">
+      <div className="bg-[#ff6b35] h-1.5 w-full" />
+      <CardHeader className="p-6 sm:p-8 pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl sm:text-2xl font-bold text-primary flex items-center gap-2">
-            <MessageSquare className="h-6 w-6 text-accent fill-accent/20" />
+          <CardTitle className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <MessageSquare className="h-6 w-6 text-[#ff6b35] fill-orange-100" />
             Send Us a Message
           </CardTitle>
-          <span className="text-xs font-semibold text-accent bg-primary px-2.5 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-xs font-semibold text-[#ff6b35] bg-orange-100 px-3 py-1 rounded-full uppercase tracking-wider">
             Inquiry Desk
           </span>
         </div>
-        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1">
           Have a question about services, planning your first visit, or seeking pastoral
           counsel? Fill out the form below.
         </p>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="p-6 sm:p-8 pt-0">
         {errorMessage && (
-          <div className="mb-6 p-4 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-3">
+            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5 text-red-600" />
             <span>{errorMessage}</span>
           </div>
         )}
@@ -159,8 +160,8 @@ export function ContactForm() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Inquiry Type Chips */}
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-              1. What is the nature of your inquiry? <span className="text-destructive">*</span>
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+              1. What is the nature of your inquiry? <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {INQUIRY_TYPES.map((type) => {
@@ -171,15 +172,15 @@ export function ContactForm() {
                     type="button"
                     onClick={() => setSelectedInquiryType(type)}
                     className={cn(
-                      "text-left px-3.5 py-2.5 rounded-lg border text-xs sm:text-sm font-medium transition-all flex items-center justify-between",
+                      "text-left px-4 py-3 rounded-xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between",
                       isSelected
-                        ? "border-accent bg-accent/15 text-primary font-bold shadow-sm ring-1 ring-accent"
-                        : "border-border hover:border-accent/50 bg-background text-foreground hover:bg-muted/30"
+                        ? "border-[#ff6b35] bg-orange-50 text-[#ff6b35] font-bold shadow-sm ring-1 ring-[#ff6b35]"
+                        : "border-slate-200 hover:border-orange-300 bg-white text-slate-700 hover:bg-slate-50"
                     )}
                   >
                     <span>{type}</span>
                     {isSelected && (
-                      <span className="h-2 w-2 rounded-full bg-accent ml-2 shrink-0" />
+                      <span className="h-2 w-2 rounded-full bg-[#ff6b35] ml-2 shrink-0" />
                     )}
                   </button>
                 );
@@ -192,9 +193,9 @@ export function ContactForm() {
             <div className="space-y-1.5">
               <label
                 htmlFor="contact-fullname"
-                className="text-xs font-semibold text-foreground"
+                className="text-xs font-semibold text-slate-700"
               >
-                Full Name <span className="text-destructive">*</span>
+                Full Name <span className="text-red-500">*</span>
               </label>
               <Input
                 id="contact-fullname"
@@ -203,15 +204,16 @@ export function ContactForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 required
                 maxLength={100}
+                className="h-11 rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
               />
             </div>
 
             <div className="space-y-1.5">
               <label
                 htmlFor="contact-email"
-                className="text-xs font-semibold text-foreground"
+                className="text-xs font-semibold text-slate-700"
               >
-                Email Address <span className="text-destructive">*</span>
+                Email Address <span className="text-red-500">*</span>
               </label>
               <Input
                 id="contact-email"
@@ -220,6 +222,7 @@ export function ContactForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="h-11 rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
               />
             </div>
           </div>
@@ -228,9 +231,9 @@ export function ContactForm() {
           <div className="space-y-1.5">
             <label
               htmlFor="contact-phone"
-              className="text-xs font-semibold text-foreground"
+              className="text-xs font-semibold text-slate-700"
             >
-              Phone Number <span className="text-muted-foreground font-normal">(Optional)</span>
+              Phone Number <span className="text-slate-400 font-normal">(Optional)</span>
             </label>
             <Input
               id="contact-phone"
@@ -238,6 +241,7 @@ export function ContactForm() {
               placeholder="+254 700 000 000"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              className="h-11 rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
             />
           </div>
 
@@ -246,11 +250,11 @@ export function ContactForm() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="contact-message"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-xs font-bold uppercase tracking-wider text-slate-500"
               >
-                2. Your Message / Question <span className="text-destructive">*</span>
+                2. Your Message / Question <span className="text-red-500">*</span>
               </label>
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-[11px] text-slate-400">
                 {message.length} / 3000
               </span>
             </div>
@@ -262,6 +266,7 @@ export function ContactForm() {
               rows={4}
               required
               maxLength={3000}
+              className="rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
             />
           </div>
 
@@ -269,7 +274,7 @@ export function ContactForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-accent hover:brightness-105 text-accent-foreground font-bold py-6 text-base shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold py-6 text-base rounded-xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               <>

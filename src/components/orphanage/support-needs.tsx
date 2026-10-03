@@ -63,17 +63,18 @@ const SPONSORSHIP_TIERS: SponsorshipTier[] = [
 
 export function SupportNeeds() {
   return (
-    <section className="py-20 lg:py-28 bg-secondary/50 text-foreground border-y border-border">
+    <section className="py-20 lg:py-28 bg-white text-slate-900 border-y border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <span className="font-script text-accent text-3xl sm:text-4xl block">
+          <span className="font-script text-[#ff6b35] text-3xl sm:text-4xl block font-normal">
             Make an Eternal Difference
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
             Partner With Us: How You Can Help
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+          <div className="w-20 h-1 bg-[#ff6b35] mx-auto rounded-full mt-3" />
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed pt-2">
             Choose a sponsorship level that touches your heart. 100% of your contributions go
             directly to the care, feeding, and education of our children.
           </p>
@@ -87,15 +88,15 @@ export function SupportNeeds() {
             return (
               <Card
                 key={tier.id}
-                className={`relative flex flex-col justify-between overflow-hidden transition-all duration-300 hover:shadow-2xl ${
+                className={`relative flex flex-col justify-between overflow-hidden rounded-3xl transition-all duration-300 hover:shadow-2xl ${
                   isPopular
-                    ? "border-2 border-accent shadow-xl bg-card scale-100 lg:-translate-y-2"
-                    : "border border-border shadow-md bg-card"
+                    ? "border-2 border-[#ff6b35] shadow-xl bg-white scale-100 lg:-translate-y-2 ring-1 ring-[#ff6b35]/20"
+                    : "border border-slate-200/80 shadow-md bg-white"
                 }`}
               >
                 {/* Popular Pill */}
                 {isPopular && (
-                  <div className="bg-gradient-to-r from-accent via-accent/90 to-amber-500 text-accent-foreground text-xs font-black uppercase tracking-widest text-center py-1.5 px-4 shadow-sm">
+                  <div className="bg-[#ff6b35] text-white text-xs font-black uppercase tracking-widest text-center py-2 px-4 shadow-sm">
                     Most Popular Choice
                   </div>
                 )}
@@ -103,38 +104,38 @@ export function SupportNeeds() {
                 <div className="p-6 sm:p-8 space-y-6 flex-1">
                   {/* Title & Tagline */}
                   <div className="space-y-1">
-                    <CardTitle className="text-xl sm:text-2xl font-black text-primary">
+                    <CardTitle className="text-xl sm:text-2xl font-black text-slate-900">
                       {tier.title}
                     </CardTitle>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-slate-500">
                       {tier.tagline}
                     </p>
                   </div>
 
                   {/* Price */}
-                  <div className="space-y-1 pb-4 border-b border-border">
+                  <div className="space-y-1 pb-4 border-b border-slate-100">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl sm:text-4xl font-extrabold text-primary">
+                      <span className="text-3xl sm:text-4xl font-extrabold text-slate-900">
                         {tier.kesAmount}
                       </span>
-                      <span className="text-xs text-muted-foreground font-semibold">
+                      <span className="text-xs text-slate-500 font-semibold">
                         ({tier.usdAmount}) {tier.period}
                       </span>
                     </div>
-                    <span className="text-[11px] text-accent font-semibold block">
+                    <span className="text-[11px] text-[#ff6b35] font-semibold block">
                       One-time gifts of any amount are also warmly welcomed
                     </span>
                   </div>
 
                   {/* Features List */}
                   <div className="space-y-3">
-                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
                       What Your Gift Covers:
                     </span>
                     <ul className="space-y-2.5">
                       {tier.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2.5 text-xs text-foreground">
-                          <Check className="h-4 w-4 text-accent shrink-0 mt-0.5" />
+                        <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-700">
+                          <Check className="h-4 w-4 text-[#ff6b35] shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
                       ))}
@@ -145,10 +146,10 @@ export function SupportNeeds() {
                 {/* Footer Sponsor Button */}
                 <CardFooter className="p-6 sm:p-8 pt-0">
                   <Button
-                    className={`w-full font-bold py-6 text-sm sm:text-base shadow-md transition-all ${
+                    className={`w-full font-bold py-6 text-sm sm:text-base rounded-xl transition-all ${
                       isPopular
-                        ? "bg-accent hover:brightness-105 text-accent-foreground shadow-lg"
-                        : "bg-primary hover:bg-primary/90 text-primary-foreground"
+                        ? "bg-[#ff6b35] hover:bg-[#e05626] text-white shadow-lg shadow-orange-500/25"
+                        : "bg-slate-900 hover:bg-slate-800 text-white shadow-md"
                     }`}
                     asChild
                   >
@@ -165,12 +166,12 @@ export function SupportNeeds() {
         </div>
 
         {/* In-Kind Donations Note */}
-        <div className="p-6 rounded-2xl bg-card border border-border text-center max-w-2xl mx-auto space-y-2 shadow-sm">
-          <div className="inline-flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider">
-            <Gift className="h-4 w-4 text-accent" />
+        <div className="p-6 rounded-3xl bg-[#fbf8f3] border border-orange-200/60 text-center max-w-2xl mx-auto space-y-2 shadow-sm">
+          <div className="inline-flex items-center gap-2 text-slate-900 font-bold text-xs uppercase tracking-wider">
+            <Gift className="h-4 w-4 text-[#ff6b35]" />
             <span>In-Kind Material Donations</span>
           </div>
-          <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
             We also gratefully accept dry foods (rice, maize, beans), clothing, blankets,
             bedsheets, and learning stationery directly at our Sugutta Headquarters sanctuary office.
           </p>

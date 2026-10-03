@@ -19,41 +19,23 @@ export function RecentSermons({ sermons }: RecentSermonsProps) {
   const displayedSermons = sermons.slice(0, 3);
 
   return (
-    <section className="w-full py-20 px-4 sm:px-8 bg-background border-t border-border/30">
+    <section className="w-full py-20 sm:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200/70">
       <div className="max-w-7xl mx-auto space-y-12">
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest">
-              <Video className="h-3.5 w-3.5 text-accent" />
-              <span>Media &amp; Broadcasts</span>
-            </div>
-
-            <span className="font-script text-accent text-3xl sm:text-4xl block font-normal">
-              Tune into the Anointing
-            </span>
-
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight">
-              Latest Sermons &amp; Teachings
-            </h2>
-
-            <p className="text-base text-muted-foreground max-w-xl">
-              Watch recent Sunday celebrations, prophetic Monday inspiration, and
-              midweek Bible studies from any corner of the globe.
-            </p>
+        {/* Centered Section Header matching Neno */}
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-widest">
+            <Video className="h-3.5 w-3.5" />
+            <span>Media &amp; Broadcasts</span>
           </div>
 
-          <Button
-            variant="default"
-            size="lg"
-            className="w-full sm:w-auto font-bold shadow-md hover:bg-primary/90 shrink-0"
-            asChild
-          >
-            <Link href="/sermons">
-              View All Sermons
-              <ArrowRight className="ml-2 h-4 w-4 text-accent" />
-            </Link>
-          </Button>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight">
+            Latest Sermons &amp; Teachings
+          </h2>
+          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
+
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
+            Stream powerful life-changing messages, prophetic declarations, and miraculous deliverance services from anywhere in the world.
+          </p>
         </div>
 
         {/* 3-Card Grid */}
@@ -65,6 +47,20 @@ export function RecentSermons({ sermons }: RecentSermonsProps) {
               onPlay={(s) => setActiveSermon(s)}
             />
           ))}
+        </div>
+
+        {/* Centered All Sermons Button matching Neno */}
+        <div className="flex justify-center pt-4">
+          <Button
+            size="lg"
+            className="rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold shadow-md shadow-orange-500/20 px-8 py-6 text-base"
+            asChild
+          >
+            <Link href="/sermons">
+              View All Sermons &amp; Media
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </div>
 
         {/* Interactive Video Modal */}

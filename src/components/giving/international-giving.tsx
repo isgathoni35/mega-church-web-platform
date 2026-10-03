@@ -83,14 +83,14 @@ export function InternationalGiving() {
   return (
     <Card className="border border-border/80 shadow-xl overflow-hidden bg-card/90 backdrop-blur-sm flex flex-col h-full">
       {/* Header Accent Band */}
-      <div className="bg-primary border-b border-accent/30 p-4 sm:p-5 text-white">
+      <div className="bg-[#0f172a] border-b border-slate-800 p-4 sm:p-5 text-white">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/40 shrink-0">
-            <Globe2 className="w-5 h-5 text-accent" />
+          <div className="w-10 h-10 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-400/30 shrink-0">
+            <Globe2 className="w-5 h-5 text-[#ff6b35]" />
           </div>
           <div>
             <h3 className="font-extrabold text-base sm:text-lg leading-tight text-white">International &amp; Digital Giving</h3>
-            <p className="text-xs text-white/80">Support God&apos;s work globally from anywhere in the world</p>
+            <p className="text-xs text-slate-300">Support God&apos;s work globally from anywhere in the world</p>
           </div>
         </div>
       </div>

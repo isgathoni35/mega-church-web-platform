@@ -44,64 +44,60 @@ const services: ServiceItem[] = [
 
 export function ServiceSchedule() {
   return (
-    <section id="schedule" className="py-20 sm:py-28 bg-background text-foreground">
+    <section id="schedule" className="py-20 sm:py-28 bg-[#fbf8f3] text-slate-900">
       <div className="max-w-5xl mx-auto px-4 sm:px-8">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="font-script text-accent text-3xl sm:text-4xl block font-normal">
+          <span className="font-script text-[#ff6b35] text-3xl sm:text-4xl block font-normal">
             Join Us in Fellowship
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-primary tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
             Weekly Service Itinerary
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
+          <div className="w-20 h-1 bg-[#ff6b35] mx-auto rounded-full" />
+          <p className="text-slate-600 text-base sm:text-lg pt-2">
             Experience unceasing encounters with the presence of God throughout
             the week in-person and online.
           </p>
         </div>
 
-        {/* Ornamental divider */}
-        <div className="divider-ornament mb-12">
-          <span className="cross-icon">✝</span>
-        </div>
-
-        {/* Unified warm schedule panel — NOT pricing tiers */}
-        <div className="bg-card rounded-xl border border-border shadow-md overflow-hidden">
+        {/* Unified warm schedule panel */}
+        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md overflow-hidden">
           {services.map((item, index) => (
             <div
               key={item.day}
               className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 p-6 sm:p-8 ${
                 index !== services.length - 1
-                  ? "border-b border-border"
+                  ? "border-b border-slate-100"
                   : ""
-              } ${item.isPrimary ? "bg-primary/[0.03]" : ""}`}
+              } ${item.isPrimary ? "bg-orange-500/[0.03]" : ""}`}
             >
               {/* Day & Time Column */}
               <div className="shrink-0 sm:w-44">
                 <div className="flex items-center gap-2.5">
                   {item.isPrimary && (
-                    <span className="w-2 h-2 rounded-full bg-accent shrink-0" />
+                    <span className="w-2 h-2 rounded-full bg-[#ff6b35] shrink-0" />
                   )}
-                  <span className="font-extrabold text-lg text-primary uppercase tracking-wide">
+                  <span className="font-extrabold text-lg text-slate-900 uppercase tracking-wide">
                     {item.day}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5 mt-1 text-sm text-muted-foreground">
-                  <Clock className="h-3.5 w-3.5 text-accent shrink-0" />
+                <div className="flex items-center gap-1.5 mt-1 text-sm text-slate-500">
+                  <Clock className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
                   <span className="font-semibold">{item.time}</span>
                 </div>
               </div>
 
               {/* Service Details Column */}
               <div className="flex-1 space-y-1.5">
-                <h3 className="text-xl font-bold text-primary leading-snug">
+                <h3 className="text-xl font-bold text-slate-900 leading-snug">
                   {item.title}
                 </h3>
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <MapPin className="h-3 w-3 text-accent shrink-0" />
+                <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                  <MapPin className="h-3 w-3 text-[#ff6b35] shrink-0" />
                   <span>{item.location}</span>
                 </div>
-                <p className="text-sm text-foreground/75 leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   {item.details}
                 </p>
               </div>
@@ -109,9 +105,8 @@ export function ServiceSchedule() {
               {/* Action Column */}
               <div className="w-full sm:w-auto shrink-0 pt-2 sm:pt-0">
                 <Button
-                  variant="accent"
                   size="sm"
-                  className="w-full sm:w-auto font-bold shadow-sm"
+                  className="w-full sm:w-auto font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20"
                   asChild
                 >
                   <Link href="/sermons?live=true">

@@ -94,40 +94,40 @@ export function PrayerForm() {
 
   if (isSuccess) {
     return (
-      <Card className="border-accent/40 shadow-xl overflow-hidden bg-primary text-primary-foreground">
-        <div className="bg-gradient-to-r from-accent/20 via-accent/30 to-accent/10 p-1" />
+      <Card className="rounded-3xl border border-slate-200/80 shadow-xl overflow-hidden bg-white text-slate-900">
+        <div className="bg-[#ff6b35] h-1.5 w-full" />
         <CardContent className="p-8 sm:p-12 text-center space-y-6">
-          <div className="h-16 w-16 mx-auto rounded-full bg-accent/20 border-2 border-accent flex items-center justify-center text-accent shadow-lg animate-bounce">
-            <CheckCircle2 className="h-8 w-8 text-accent" />
+          <div className="h-16 w-16 mx-auto rounded-full bg-orange-100 border-2 border-orange-300 flex items-center justify-center text-[#ff6b35] shadow-lg animate-bounce">
+            <CheckCircle2 className="h-8 w-8 text-[#ff6b35]" />
           </div>
 
           <div className="space-y-3">
-            <span className="font-script text-2xl sm:text-3xl text-accent block">
+            <span className="font-script text-2xl sm:text-3xl text-[#ff6b35] block font-normal">
               The Prayer of Faith
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
               Your Petition Has Been Placed on the Altar
             </h3>
-            <p className="text-sm sm:text-base text-white/80 max-w-xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
               Our Senior Apostolic Team and dedicated intercessors will hold your request
               in prayer during our daily morning altar devotions.
             </p>
           </div>
 
-          <div className="bg-white/10 rounded-xl p-5 border border-white/10 max-w-lg mx-auto text-left space-y-2">
-            <p className="text-xs uppercase tracking-wider font-semibold text-accent flex items-center gap-1.5">
-              <Sparkles className="h-3.5 w-3.5 text-accent" />
+          <div className="bg-[#fbf8f3] rounded-2xl p-5 border border-orange-200/80 max-w-lg mx-auto text-left space-y-2">
+            <p className="text-xs uppercase tracking-wider font-semibold text-[#ff6b35] flex items-center gap-1.5">
+              <Sparkles className="h-3.5 w-3.5 text-[#ff6b35]" />
               Scripture Promise • James 5:16
             </p>
-            <p className="text-sm italic text-white/90 leading-relaxed font-serif">
+            <p className="text-sm italic text-slate-700 leading-relaxed font-serif">
               &ldquo;The prayer of a righteous person is powerful and effective. Confess
               your needs to God with thanksgiving, and His peace will guard your heart.&rdquo;
             </p>
           </div>
 
           {isConfidential && (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 border border-accent/30 text-xs text-accent">
-              <Lock className="h-3.5 w-3.5 text-accent" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 text-xs text-slate-700 font-medium">
+              <Lock className="h-3.5 w-3.5 text-[#ff6b35]" />
               <span>Marked for Pastoral Intercessory Team Eyes Only</span>
             </div>
           )}
@@ -135,7 +135,7 @@ export function PrayerForm() {
           <div className="pt-4">
             <Button
               onClick={handleReset}
-              className="bg-accent hover:brightness-105 text-accent-foreground font-bold px-8 shadow-md"
+              className="bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold px-8 py-6 rounded-xl shadow-lg shadow-orange-500/20"
             >
               Submit Another Petition
             </Button>
@@ -146,27 +146,28 @@ export function PrayerForm() {
   }
 
   return (
-    <Card className="border-t-4 border-t-accent shadow-lg bg-card text-card-foreground">
-      <CardHeader className="pb-4">
+    <Card className="rounded-3xl border border-slate-200/80 shadow-md bg-white text-slate-900 overflow-hidden">
+      <div className="bg-[#ff6b35] h-1.5 w-full" />
+      <CardHeader className="p-6 sm:p-8 pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-xl sm:text-2xl font-bold text-primary flex items-center gap-2">
-            <Heart className="h-6 w-6 text-accent fill-accent/20" />
+          <CardTitle className="text-xl sm:text-2xl font-bold text-slate-900 flex items-center gap-2">
+            <Heart className="h-6 w-6 text-[#ff6b35] fill-orange-100" />
             Bring Your Need to God
           </CardTitle>
-          <span className="text-xs font-semibold text-accent bg-primary px-2.5 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-xs font-semibold text-[#ff6b35] bg-orange-100 px-3 py-1 rounded-full uppercase tracking-wider">
             Altar of Prayer
           </span>
         </div>
-        <p className="text-xs sm:text-sm text-muted-foreground mt-1">
+        <p className="text-xs sm:text-sm text-slate-600 mt-1">
           No situation is beyond the restorative power of God. Share your burden with our
           prayer warriors.
         </p>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="p-6 sm:p-8 pt-0">
         {errorMessage && (
-          <div className="mb-6 p-4 rounded-md bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-start gap-3">
-            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-3">
+            <AlertCircle className="h-5 w-5 shrink-0 mt-0.5 text-red-600" />
             <span>{errorMessage}</span>
           </div>
         )}
@@ -174,8 +175,8 @@ export function PrayerForm() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Category Selector */}
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground block">
-              1. Select Prayer Focus / Category <span className="text-destructive">*</span>
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-500 block">
+              1. Select Prayer Focus / Category <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {PRAYER_CATEGORIES.map((cat) => {
@@ -186,15 +187,15 @@ export function PrayerForm() {
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
                     className={cn(
-                      "text-left px-3.5 py-2.5 rounded-lg border text-xs sm:text-sm font-medium transition-all flex items-center justify-between",
+                      "text-left px-4 py-3 rounded-xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between",
                       isSelected
-                        ? "border-accent bg-accent/15 text-primary font-bold shadow-sm ring-1 ring-accent"
-                        : "border-border hover:border-accent/50 bg-background text-foreground hover:bg-muted/30"
+                        ? "border-[#ff6b35] bg-orange-50 text-[#ff6b35] font-bold shadow-sm ring-1 ring-[#ff6b35]"
+                        : "border-slate-200 hover:border-orange-300 bg-white text-slate-700 hover:bg-slate-50"
                     )}
                   >
                     <span>{cat}</span>
                     {isSelected && (
-                      <span className="h-2 w-2 rounded-full bg-accent ml-2 shrink-0" />
+                      <span className="h-2 w-2 rounded-full bg-[#ff6b35] ml-2 shrink-0" />
                     )}
                   </button>
                 );
@@ -207,9 +208,9 @@ export function PrayerForm() {
             <div className="space-y-1.5">
               <label
                 htmlFor="prayer-fullname"
-                className="text-xs font-semibold text-foreground"
+                className="text-xs font-semibold text-slate-700"
               >
-                Full Name <span className="text-destructive">*</span>
+                Full Name <span className="text-red-500">*</span>
               </label>
               <Input
                 id="prayer-fullname"
@@ -218,15 +219,16 @@ export function PrayerForm() {
                 onChange={(e) => setFullName(e.target.value)}
                 required
                 maxLength={100}
+                className="h-11 rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
               />
             </div>
 
             <div className="space-y-1.5">
               <label
                 htmlFor="prayer-email"
-                className="text-xs font-semibold text-foreground"
+                className="text-xs font-semibold text-slate-700"
               >
-                Email Address <span className="text-destructive">*</span>
+                Email Address <span className="text-red-500">*</span>
               </label>
               <Input
                 id="prayer-email"
@@ -235,6 +237,7 @@ export function PrayerForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="h-11 rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
               />
             </div>
           </div>
@@ -244,11 +247,11 @@ export function PrayerForm() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="prayer-phone"
-                className="text-xs font-semibold text-foreground"
+                className="text-xs font-semibold text-slate-700"
               >
-                Phone Number <span className="text-muted-foreground font-normal">(Optional)</span>
+                Phone Number <span className="text-slate-400 font-normal">(Optional)</span>
               </label>
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-[11px] text-slate-400">
                 For pastoral call back if requested
               </span>
             </div>
@@ -258,6 +261,7 @@ export function PrayerForm() {
               placeholder="+254 700 000 000"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
+              className="h-11 rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
             />
           </div>
 
@@ -266,11 +270,11 @@ export function PrayerForm() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="prayer-text"
-                className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                className="text-xs font-bold uppercase tracking-wider text-slate-500"
               >
-                2. Your Prayer Petition <span className="text-destructive">*</span>
+                2. Your Prayer Petition <span className="text-red-500">*</span>
               </label>
-              <span className="text-[11px] text-muted-foreground">
+              <span className="text-[11px] text-slate-400">
                 {requestText.length} / 3000
               </span>
             </div>
@@ -282,24 +286,25 @@ export function PrayerForm() {
               rows={5}
               required
               maxLength={3000}
+              className="rounded-xl border-slate-200 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
             />
           </div>
 
           {/* Confidentiality Toggle */}
-          <div className="p-4 rounded-lg bg-secondary/50 border border-border flex items-start gap-3">
+          <div className="p-4 rounded-2xl bg-[#fbf8f3] border border-slate-200 flex items-start gap-3">
             <input
               id="confidentiality-toggle"
               type="checkbox"
               checked={isConfidential}
               onChange={(e) => setIsConfidential(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent cursor-pointer"
+              className="mt-1 h-4 w-4 rounded border-slate-300 text-[#ff6b35] focus:ring-[#ff6b35] accent-[#ff6b35] cursor-pointer"
             />
             <label
               htmlFor="confidentiality-toggle"
-              className="text-xs sm:text-sm text-foreground cursor-pointer select-none leading-relaxed"
+              className="text-xs sm:text-sm text-slate-700 cursor-pointer select-none leading-relaxed"
             >
-              <span className="font-bold flex items-center gap-1.5 text-primary">
-                <ShieldCheck className="h-4 w-4 text-accent" />
+              <span className="font-bold flex items-center gap-1.5 text-slate-900">
+                <ShieldCheck className="h-4 w-4 text-[#ff6b35]" />
                 Pastoral Confidentiality Guarantee
               </span>
               Keep this petition confidential strictly for the Intercessory Pastoral Team
@@ -311,7 +316,7 @@ export function PrayerForm() {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-accent hover:brightness-105 text-accent-foreground font-bold py-6 text-base shadow-md transition-all flex items-center justify-center gap-2"
+            className="w-full bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold py-6 text-base rounded-xl shadow-lg shadow-orange-500/20 transition-all flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               <>
@@ -326,7 +331,7 @@ export function PrayerForm() {
             )}
           </Button>
 
-          <p className="text-center text-[11px] text-muted-foreground">
+          <p className="text-center text-[11px] text-slate-500">
             &ldquo;Call unto me, and I will answer thee, and shew thee great and mighty things.&rdquo; — Jeremiah 33:3
           </p>
         </form>

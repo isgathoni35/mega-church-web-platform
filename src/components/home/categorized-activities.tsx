@@ -211,33 +211,30 @@ export function CategorizedActivities() {
       : ACTIVITIES.filter((a) => a.category === selectedCategory);
 
   return (
-    <section className="py-20 bg-secondary/40 border-y border-border/80 relative overflow-hidden" id="activities">
+    <section className="py-20 sm:py-24 bg-[#fbf8f3] border-t border-slate-200/70 relative overflow-hidden" id="activities">
       {/* Decorative ambient background accents */}
-      <div className="absolute top-1/2 left-0 w-72 h-72 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-72 h-72 rounded-full bg-orange-500/5 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-amber-500/5 blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10 space-y-12">
-        {/* Section Heading */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
+        {/* Centered Orange Section Heading matching Neno */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-accent/15 border border-accent/30 text-accent text-xs font-bold uppercase tracking-widest shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-widest shadow-sm">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Spiritual Rhythm &amp; Fellowship</span>
           </div>
 
-          <p className="font-script text-3xl sm:text-4xl text-accent">
-            Gather, Grow &amp; Walk in Overflow
-          </p>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#ff6b35]">
             Our Church Activities &amp; Ministries
           </h2>
+          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
             There is a place for you to belong, grow in apostolic authority, and make an impact. Explore our distinct categories of worship, fellowship, and revival gatherings below.
           </p>
         </div>
 
-        {/* Category Pill Switcher */}
+        {/* Category Pill Switcher matching Neno */}
         <div className="flex items-center justify-start sm:justify-center overflow-x-auto pb-2 scrollbar-none gap-2 px-2">
           {CATEGORIES.map((cat) => (
             <button
@@ -245,16 +242,16 @@ export function CategorizedActivities() {
               type="button"
               onClick={() => setSelectedCategory(cat.id)}
               className={cn(
-                "inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 border shadow-sm",
+                "inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap transition-all duration-200 border shadow-sm",
                 selectedCategory === cat.id
-                  ? "bg-primary text-white border-primary shadow-md scale-[1.02]"
-                  : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted/70 border-border"
+                  ? "bg-[#ff6b35] text-white border-[#ff6b35] shadow-md shadow-orange-500/20 scale-[1.02]"
+                  : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 border-slate-200/80"
               )}
             >
               <span>{cat.icon}</span>
               <span>{cat.label}</span>
               {selectedCategory === cat.id && (
-                <span className="w-1.5 h-1.5 rounded-full bg-accent ml-1" />
+                <span className="w-1.5 h-1.5 rounded-full bg-white ml-1" />
               )}
             </button>
           ))}
@@ -263,67 +260,64 @@ export function CategorizedActivities() {
         {/* Activities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredActivities.map((act) => (
-            <Card
+            <div
               key={act.id}
-              className="border border-border/80 bg-card hover:border-accent/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              className="border border-slate-200/80 bg-white rounded-2xl shadow-sm hover:shadow-xl hover:border-orange-200 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
             >
               {/* Card Top Strip */}
               <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between gap-2">
                     <span
-                      className={cn(
-                        "text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full border",
-                        act.badgeColor
-                      )}
+                      className="text-[10px] uppercase font-bold tracking-wider px-3 py-1 rounded-full bg-orange-500/10 text-[#ff6b35] border border-orange-500/20"
                     >
                       {act.categoryLabel}
                     </span>
 
                     {act.isLiveBroadcast && (
-                      <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-red-500 uppercase tracking-wider bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20">
+                      <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-red-600 uppercase tracking-wider bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20">
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                         </span>
-                        Live Broadcast
+                        Live
                       </span>
                     )}
                   </div>
 
-                  <h3 className="font-extrabold text-lg sm:text-xl text-foreground group-hover:text-primary transition-colors leading-snug">
+                  <h3 className="font-extrabold text-lg sm:text-xl text-slate-900 group-hover:text-[#ff6b35] transition-colors leading-snug">
                     {act.title}
                   </h3>
 
-                  <div className="space-y-1.5 text-xs text-muted-foreground pt-1">
-                    <div className="flex items-center gap-2 text-accent font-semibold">
+                  <div className="space-y-1.5 text-xs text-slate-600 pt-1">
+                    <div className="flex items-center gap-2 text-[#ff6b35] font-semibold">
                       <Clock className="h-3.5 w-3.5 shrink-0" />
                       <span>{act.timeSchedule}</span>
                     </div>
 
                     <div className="flex items-start gap-2">
-                      <MapPin className="h-3.5 w-3.5 shrink-0 text-muted-foreground mt-0.5" />
+                      <MapPin className="h-3.5 w-3.5 shrink-0 text-slate-400 mt-0.5" />
                       <span className="line-clamp-1">{act.venue}</span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-foreground/80">
-                      <Users className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                    <div className="flex items-center gap-2 text-slate-700">
+                      <Users className="h-3.5 w-3.5 shrink-0 text-slate-400" />
                       <span className="line-clamp-1">{act.targetGroup}</span>
                     </div>
                   </div>
 
-                  <p className="text-xs text-muted-foreground leading-relaxed pt-2 border-t border-border/60">
+                  <p className="text-xs text-slate-500 leading-relaxed pt-2 border-t border-slate-100">
                     {act.description}
                   </p>
                 </div>
               </div>
 
               {/* Card Action Footer */}
-              <div className="p-4 bg-muted/30 border-t border-border/80 flex items-center justify-between gap-2">
+              <div className="p-4 bg-slate-50/60 border-t border-slate-100 flex items-center justify-between gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  className="w-full text-xs font-bold border-accent/40 text-foreground hover:bg-accent hover:text-accent-foreground transition-all"
+                  className="w-full text-xs font-bold border-slate-200 text-slate-800 hover:bg-[#ff6b35] hover:text-white hover:border-[#ff6b35] transition-all rounded-full"
                   asChild
                 >
                   <Link href={act.connectHref}>
@@ -336,7 +330,7 @@ export function CategorizedActivities() {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="text-xs font-bold text-accent hover:bg-accent/10 px-2 shrink-0"
+                    className="text-xs font-bold text-[#ff6b35] hover:bg-orange-500/10 px-2.5 rounded-full shrink-0"
                     asChild
                   >
                     <Link href="/sermons" title="Watch Broadcast">
@@ -345,26 +339,25 @@ export function CategorizedActivities() {
                   </Button>
                 )}
               </div>
-            </Card>
+            </div>
           ))}
         </div>
 
-        {/* Global Invitation Ribbon */}
-        <div className="p-6 sm:p-8 rounded-2xl bg-primary text-primary-foreground border border-white/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="space-y-1.5 max-w-2xl">
-            <h4 className="font-extrabold text-xl sm:text-2xl text-white">
+        {/* Light Invitation Card matching Neno */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-white border border-orange-100 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="space-y-2 max-w-2xl">
+            <h4 className="font-extrabold text-xl sm:text-2xl text-slate-900">
               Visiting for the First Time or Looking to Join a Department?
             </h4>
-            <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
+            <p className="text-sm text-slate-600 leading-relaxed">
               Our pastoral welcome council will reserve a seat for you and connect you with the specific ministry leader of your choice.
             </p>
           </div>
 
           <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
             <Button
-              variant="accent"
               size="lg"
-              className="w-full sm:w-auto font-bold shadow-md hover:brightness-105"
+              className="w-full sm:w-auto font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full px-8 py-6 text-base"
               asChild
             >
               <Link href="/contact?tab=visit">

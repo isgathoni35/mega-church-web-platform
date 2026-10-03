@@ -51,11 +51,11 @@ export function MobileNav() {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="p-2 rounded-md text-primary-foreground hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+        className="p-2 rounded-md text-slate-800 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
         aria-label="Open Navigation Menu"
         aria-expanded={isOpen}
       >
-        <Menu className="h-6 w-6 text-accent" />
+        <Menu className="h-6 w-6 text-[#ff6b35]" />
       </button>
 
       {/* Render Backdrop & Drawer in Portal to escape header containing block */}
@@ -75,7 +75,7 @@ export function MobileNav() {
 
             {/* Slide-over Drawer Panel */}
             <div
-              className={`fixed inset-y-0 right-0 z-[1000] h-[100dvh] w-[85%] max-w-sm bg-primary text-primary-foreground shadow-2xl transition-all duration-300 ease-in-out flex flex-col ${
+              className={`fixed inset-y-0 right-0 z-[1000] h-[100dvh] w-[85%] max-w-sm bg-white text-slate-900 shadow-2xl transition-all duration-300 ease-in-out flex flex-col ${
                 isOpen
                   ? "translate-x-0 opacity-100 visible"
                   : "translate-x-full opacity-0 invisible pointer-events-none"
@@ -85,19 +85,19 @@ export function MobileNav() {
               aria-label="Mobile Navigation Menu"
             >
               {/* Drawer Header */}
-              <div className="flex items-center justify-between p-5 border-b border-white/10 shrink-0">
+              <div className="flex items-center justify-between p-5 border-b border-slate-200 shrink-0">
                 <div className="flex flex-col">
-                  <span className="font-extrabold text-base tracking-tight text-white uppercase">
+                  <span className="font-extrabold text-base tracking-tight text-[#0f172a] uppercase">
                     Heavens Gates Sugutta
                   </span>
-                  <span className="font-sans text-[11px] font-semibold tracking-wider text-accent uppercase">
+                  <span className="font-sans text-[11px] font-bold tracking-wider text-[#ff6b35] uppercase">
                     Fellowship Church International
                   </span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-md text-white/70 hover:text-white hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="p-2 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
                   aria-label="Close Navigation Menu"
                 >
                   <X className="h-5 w-5" />
@@ -105,16 +105,16 @@ export function MobileNav() {
               </div>
 
               {/* Live Stream Quick Banner inside Drawer */}
-              <div className="px-5 py-3 bg-black/25 border-b border-white/5 shrink-0">
+              <div className="px-5 py-3 bg-orange-50/80 border-b border-orange-100 shrink-0">
                 <Link
                   href="/sermons"
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center justify-between text-xs font-semibold text-accent hover:underline"
+                  className="flex items-center justify-between text-xs font-bold text-[#ff6b35] hover:underline"
                 >
                   <span className="flex items-center gap-2">
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6b35] opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff6b35]"></span>
                     </span>
                     <Radio className="h-4 w-4" />
                     Watch Live Stream
@@ -130,37 +130,36 @@ export function MobileNav() {
                     key={link.label}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="flex items-center justify-between py-3 px-3 rounded-md text-base font-medium text-white/90 hover:text-white hover:bg-white/10 transition-colors"
+                    className="flex items-center justify-between py-3 px-3 rounded-md text-base font-semibold text-slate-800 hover:text-[#ff6b35] hover:bg-orange-50/70 transition-colors"
                   >
                     <span>{link.label}</span>
-                    <ChevronRight className="h-4 w-4 text-accent/70" />
+                    <ChevronRight className="h-4 w-4 text-[#ff6b35]/70" />
                   </Link>
                 ))}
 
                 {/* Quick Schedule Preview */}
-                <div className="mt-6 pt-6 border-t border-white/10 space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-accent flex items-center gap-1.5">
+                <div className="mt-6 pt-6 border-t border-slate-200 space-y-2 text-slate-600">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] flex items-center gap-1.5">
                     <Calendar className="h-3.5 w-3.5" />
                     Service Times
                   </span>
-                  <p className="text-xs text-white/75">
+                  <p className="text-xs text-slate-700 font-medium">
                     Sundays: 10:00 AM (Main Worship)
                   </p>
-                  <p className="text-xs text-white/75">
+                  <p className="text-xs text-slate-700 font-medium">
                     Mondays: 6:00 PM (Live Service)
                   </p>
-                  <p className="text-xs text-white/75">
+                  <p className="text-xs text-slate-700 font-medium">
                     Wednesdays: 6:00 PM (Bible Study)
                   </p>
                 </div>
               </nav>
 
               {/* Bottom CTA Action Button */}
-              <div className="p-5 border-t border-white/10 bg-black/25 shrink-0">
+              <div className="p-5 border-t border-slate-200 bg-slate-50 shrink-0">
                 <Button
-                  variant="accent"
                   size="lg"
-                  className="w-full text-base font-bold shadow-lg"
+                  className="w-full text-base font-bold shadow-md bg-[#ff6b35] hover:bg-[#ea580c] text-white border-0 hover:brightness-110 transition-all rounded-md"
                   asChild
                 >
                   <Link href="/give" onClick={() => setIsOpen(false)}>

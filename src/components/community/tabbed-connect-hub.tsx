@@ -270,21 +270,21 @@ export function TabbedConnectHub() {
   };
 
   return (
-    <Card className="border-border shadow-2xl bg-card overflow-hidden transition-all duration-300">
-      {/* Tab Navigation Header (Benchmarked from Glory Gate #connect) */}
-      <div className="bg-muted/40 p-2 sm:p-3 border-b border-border">
-        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 bg-background/80 p-1.5 rounded-xl border border-border shadow-inner">
+    <div className="border border-slate-200/80 shadow-xl bg-white rounded-3xl overflow-hidden transition-all duration-300">
+      {/* Tab Navigation Header */}
+      <div className="bg-slate-50 p-2 sm:p-3 border-b border-slate-100">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 bg-slate-200/60 p-1.5 rounded-full border border-slate-300/60">
           <button
             type="button"
             onClick={() => setActiveTab("visit")}
             className={cn(
-              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-center",
+              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-full text-xs sm:text-sm font-bold transition-all text-center",
               activeTab === "visit"
-                ? "bg-primary text-white shadow-md border border-accent/40"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+                : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <Calendar className={cn("h-4 w-4 shrink-0", activeTab === "visit" ? "text-accent" : "")} />
+            <Calendar className="h-4 w-4 shrink-0" />
             <span className="truncate">Plan a Visit</span>
           </button>
 
@@ -292,13 +292,13 @@ export function TabbedConnectHub() {
             type="button"
             onClick={() => setActiveTab("prayer")}
             className={cn(
-              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-center",
+              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-full text-xs sm:text-sm font-bold transition-all text-center",
               activeTab === "prayer"
-                ? "bg-primary text-white shadow-md border border-accent/40"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+                : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <Heart className={cn("h-4 w-4 shrink-0", activeTab === "prayer" ? "text-accent fill-accent/20" : "")} />
+            <Heart className="h-4 w-4 shrink-0" />
             <span className="truncate">Prayer Petition</span>
           </button>
 
@@ -306,73 +306,73 @@ export function TabbedConnectHub() {
             type="button"
             onClick={() => setActiveTab("inquiry")}
             className={cn(
-              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-center",
+              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-full text-xs sm:text-sm font-bold transition-all text-center",
               activeTab === "inquiry"
-                ? "bg-primary text-white shadow-md border border-accent/40"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+                : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <MessageSquare className={cn("h-4 w-4 shrink-0", activeTab === "inquiry" ? "text-accent" : "")} />
+            <MessageSquare className="h-4 w-4 shrink-0" />
             <span className="truncate">Ministry Inquiry</span>
           </button>
         </div>
       </div>
 
-      <CardContent className="p-6 sm:p-8">
+      <div className="p-6 sm:p-8">
         {/* ========================================================= */}
         {/* TAB 1 CONTENT: PLAN A VISIT                               */}
         {/* ========================================================= */}
         {activeTab === "visit" && (
           <div className="space-y-6">
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/15 border border-accent/30 text-accent text-xs font-semibold">
-                <Sparkles className="h-3 w-3 fill-current" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-wider">
+                <Sparkles className="h-3 w-3" />
                 <span>First-Time Guest Concierge</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                 We Would Love to Host You
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Tell us when you are arriving. Our hospitality team will meet you at the door, escort you to reserved seating, and ensure your family feels at home.
               </p>
             </div>
 
             {visitSuccess ? (
-              <div className="p-6 sm:p-8 rounded-2xl bg-primary text-primary-foreground border border-accent/40 shadow-xl space-y-5 text-center">
-                <div className="h-16 w-16 rounded-full bg-accent/20 border-2 border-accent flex items-center justify-center mx-auto text-accent">
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#fffaf5] border border-orange-200 text-slate-900 shadow-xl space-y-5 text-center">
+                <div className="h-16 w-16 rounded-full bg-orange-500/10 border-2 border-[#ff6b35] flex items-center justify-center mx-auto text-[#ff6b35]">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                     Your Visit is Registered!
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/80 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-accent">{visitFullName}</strong>. We have alerted our guest ministers that you are joining us for{" "}
-                    <strong className="text-white">{visitService}</strong>.
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#ff6b35]">{visitFullName}</strong>. We have alerted our guest ministers that you are joining us for{" "}
+                    <strong className="text-slate-900">{visitService}</strong>.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-w-md mx-auto text-left text-xs space-y-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 max-w-md mx-auto text-left text-xs space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-white/60">Guests:</span>
-                    <span className="font-semibold text-white">{visitGuestsCount} person(s)</span>
+                    <span className="text-slate-500">Guests:</span>
+                    <span className="font-semibold text-slate-900">{visitGuestsCount} person(s)</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Kids Ministry:</span>
-                    <span className="font-semibold text-white">
+                    <span className="text-slate-500">Kids Ministry:</span>
+                    <span className="font-semibold text-slate-900">
                       {visitHasChildren ? "Yes (Kings Kids Check-in)" : "No children"}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Check-in:</span>
-                    <span className="font-semibold text-accent">Guest Reception Desk at Main Entrance</span>
+                    <span className="text-slate-500">Check-in:</span>
+                    <span className="font-bold text-[#ff6b35]">Guest Reception Desk at Main Entrance</span>
                   </div>
                 </div>
 
                 <Button
                   variant="outline"
                   onClick={handleResetVisit}
-                  className="border-accent text-accent hover:bg-accent hover:text-accent-foreground text-xs font-bold"
+                  className="rounded-full border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-white text-xs font-bold px-6 py-4"
                 >
                   Schedule Another Visit
                 </Button>
@@ -388,7 +388,7 @@ export function TabbedConnectHub() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Full Name <span className="text-destructive">*</span>
                     </label>
                     <Input
@@ -397,12 +397,12 @@ export function TabbedConnectHub() {
                       value={visitFullName}
                       onChange={(e) => setVisitFullName(e.target.value)}
                       required
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Phone Number <span className="text-destructive">*</span>
                     </label>
                     <Input
@@ -411,13 +411,13 @@ export function TabbedConnectHub() {
                       value={visitPhone}
                       onChange={(e) => setVisitPhone(e.target.value)}
                       required
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                     Email Address <span className="text-destructive">*</span>
                   </label>
                   <Input
@@ -426,22 +426,22 @@ export function TabbedConnectHub() {
                     value={visitEmail}
                     onChange={(e) => setVisitEmail(e.target.value)}
                     required
-                    className="bg-background"
+                    className="bg-white border-slate-200"
                   />
-                  <p className="text-[11px] text-muted-foreground">
+                  <p className="text-[11px] text-slate-500">
                     We&apos;ll send your directions and welcome pass here.
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                     Which Service Will You Attend? <span className="text-destructive">*</span>
                   </label>
                   <div className="relative">
                     <select
                       value={visitService}
                       onChange={(e) => setVisitService(e.target.value as VisitService)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent shadow-sm"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#ff6b35] shadow-sm"
                     >
                       {VISIT_SERVICES.map((srv) => (
                         <option key={srv} value={srv}>
@@ -454,18 +454,18 @@ export function TabbedConnectHub() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Number of Guests Attending
                     </label>
                     <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4 text-muted-foreground shrink-0" />
+                      <Users className="h-4 w-4 text-slate-400 shrink-0" />
                       <Input
                         type="number"
                         min={1}
                         max={20}
                         value={visitGuestsCount}
                         onChange={(e) => setVisitGuestsCount(Math.max(1, Number(e.target.value)))}
-                        className="bg-background"
+                        className="bg-white border-slate-200"
                       />
                     </div>
                   </div>
@@ -476,20 +476,20 @@ export function TabbedConnectHub() {
                       type="checkbox"
                       checked={visitHasChildren}
                       onChange={(e) => setVisitHasChildren(e.target.checked)}
-                      className="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent accent-accent"
+                      className="h-4 w-4 rounded border-gray-300 text-[#ff6b35] focus:ring-[#ff6b35] accent-[#ff6b35]"
                     />
                     <label
                       htmlFor="visitChildrenCheckbox"
-                      className="text-xs text-foreground cursor-pointer font-medium select-none flex items-center gap-1.5"
+                      className="text-xs text-slate-700 cursor-pointer font-medium select-none flex items-center gap-1.5"
                     >
-                      <Baby className="h-3.5 w-3.5 text-accent" />
+                      <Baby className="h-3.5 w-3.5 text-[#ff6b35]" />
                       <span>Bringing Children (Ages 2–12)</span>
                     </label>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                     Special Requests or Questions (Optional)
                   </label>
                   <Textarea
@@ -497,15 +497,14 @@ export function TabbedConnectHub() {
                     rows={3}
                     value={visitNotes}
                     onChange={(e) => setVisitNotes(e.target.value)}
-                    className="bg-background resize-none"
+                    className="bg-white border-slate-200 resize-none"
                   />
                 </div>
 
                 <Button
                   type="submit"
-                  variant="accent"
                   disabled={visitSubmitting}
-                  className="w-full py-6 text-sm font-bold shadow-md hover:brightness-105"
+                  className="w-full py-6 text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full"
                 >
                   {visitSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -530,40 +529,40 @@ export function TabbedConnectHub() {
         {activeTab === "prayer" && (
           <div className="space-y-6">
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/15 border border-accent/30 text-accent text-xs font-semibold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-wider">
                 <Heart className="h-3 w-3 fill-current" />
                 <span>Intercessory Altar</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                 Submit Your Prayer Petition
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Every request submitted here is printed and laid upon the sacred sanctuary altar. Apostle and our prayer warriors lift your petition continually.
               </p>
             </div>
 
             {prayerSuccess ? (
-              <div className="p-6 sm:p-8 rounded-2xl bg-primary text-primary-foreground border border-accent/40 shadow-xl space-y-5 text-center">
-                <div className="h-16 w-16 rounded-full bg-accent/20 border-2 border-accent flex items-center justify-center mx-auto text-accent">
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#fffaf5] border border-orange-200 text-slate-900 shadow-xl space-y-5 text-center">
+                <div className="h-16 w-16 rounded-full bg-orange-500/10 border-2 border-[#ff6b35] flex items-center justify-center mx-auto text-[#ff6b35]">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                     Petition Received at the Altar
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/80 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-accent">{prayerFullName}</strong>. The God who answers by fire has heard your cry. Stand firm in faith.
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#ff6b35]">{prayerFullName}</strong>. The God who answers by fire has heard your cry. Stand firm in faith.
                   </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-w-md mx-auto text-left text-xs space-y-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 max-w-md mx-auto text-left text-xs space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-white/60">Category:</span>
-                    <span className="font-semibold text-white">{prayerCategory}</span>
+                    <span className="text-slate-500">Category:</span>
+                    <span className="font-semibold text-slate-900">{prayerCategory}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-white/60">Confidentiality:</span>
-                    <span className="font-semibold text-accent">
+                    <span className="text-slate-500">Confidentiality:</span>
+                    <span className="font-bold text-[#ff6b35]">
                       {prayerIsConfidential ? "Confidential Altar Only" : "General Intercession"}
                     </span>
                   </div>
@@ -572,7 +571,7 @@ export function TabbedConnectHub() {
                 <Button
                   variant="outline"
                   onClick={handleResetPrayer}
-                  className="border-accent text-accent hover:bg-accent hover:text-accent-foreground text-xs font-bold"
+                  className="rounded-full border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-white text-xs font-bold px-6 py-4"
                 >
                   Submit Another Prayer Request
                 </Button>
@@ -588,7 +587,7 @@ export function TabbedConnectHub() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Your Name <span className="text-destructive">*</span>
                     </label>
                     <Input
@@ -597,12 +596,12 @@ export function TabbedConnectHub() {
                       value={prayerFullName}
                       onChange={(e) => setPrayerFullName(e.target.value)}
                       required
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Email Address <span className="text-destructive">*</span>
                     </label>
                     <Input
@@ -611,14 +610,14 @@ export function TabbedConnectHub() {
                       value={prayerEmail}
                       onChange={(e) => setPrayerEmail(e.target.value)}
                       required
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Phone Number (Optional)
                     </label>
                     <Input
@@ -626,18 +625,18 @@ export function TabbedConnectHub() {
                       placeholder="+254 700 000 000"
                       value={prayerPhone}
                       onChange={(e) => setPrayerPhone(e.target.value)}
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Petition Category <span className="text-destructive">*</span>
                     </label>
                     <select
                       value={prayerCategory}
                       onChange={(e) => setPrayerCategory(e.target.value as PrayerCategory)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent shadow-sm"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#ff6b35] shadow-sm"
                     >
                       {PRAYER_CATEGORIES.map((cat) => (
                         <option key={cat} value={cat}>
@@ -649,7 +648,7 @@ export function TabbedConnectHub() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                     Your Prayer Petition <span className="text-destructive">*</span>
                   </label>
                   <Textarea
@@ -658,32 +657,31 @@ export function TabbedConnectHub() {
                     value={prayerRequestText}
                     onChange={(e) => setPrayerRequestText(e.target.value)}
                     required
-                    className="bg-background resize-none"
+                    className="bg-white border-slate-200 resize-none"
                   />
                 </div>
 
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border">
+                <div className="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
                   <input
                     id="confidentialCheckbox"
                     type="checkbox"
                     checked={prayerIsConfidential}
                     onChange={(e) => setPrayerIsConfidential(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 text-accent focus:ring-accent accent-accent"
+                    className="h-4 w-4 rounded border-gray-300 text-[#ff6b35] focus:ring-[#ff6b35] accent-[#ff6b35]"
                   />
                   <label
                     htmlFor="confidentialCheckbox"
-                    className="text-xs text-foreground cursor-pointer font-medium select-none flex items-center gap-1.5"
+                    className="text-xs text-slate-700 cursor-pointer font-medium select-none flex items-center gap-1.5"
                   >
-                    <Lock className="h-3.5 w-3.5 text-accent" />
+                    <Lock className="h-3.5 w-3.5 text-[#ff6b35]" />
                     <span>Keep Strictly Confidential (Shared only with the Intercessory Altar)</span>
                   </label>
                 </div>
 
                 <Button
                   type="submit"
-                  variant="accent"
                   disabled={prayerSubmitting}
-                  className="w-full py-6 text-sm font-bold shadow-md hover:brightness-105"
+                  className="w-full py-6 text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full"
                 >
                   {prayerSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -708,37 +706,37 @@ export function TabbedConnectHub() {
         {activeTab === "inquiry" && (
           <div className="space-y-6">
             <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-accent/15 border border-accent/30 text-accent text-xs font-semibold">
-                <Building2 className="h-3 w-3 fill-current" />
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-wider">
+                <Building2 className="h-3 w-3" />
                 <span>Department Administration</span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-foreground">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                 Connect With a Ministry Leader
               </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 Looking to join a fellowship, book a retreat at Mai Mahiu Prayer Mountain, arrange an orphanage outreach, or seek pastoral counsel? Let us know below.
               </p>
             </div>
 
             {inquirySuccess ? (
-              <div className="p-6 sm:p-8 rounded-2xl bg-primary text-primary-foreground border border-accent/40 shadow-xl space-y-5 text-center">
-                <div className="h-16 w-16 rounded-full bg-accent/20 border-2 border-accent flex items-center justify-center mx-auto text-accent">
+              <div className="p-6 sm:p-8 rounded-3xl bg-[#fffaf5] border border-orange-200 text-slate-900 shadow-xl space-y-5 text-center">
+                <div className="h-16 w-16 rounded-full bg-orange-500/10 border-2 border-[#ff6b35] flex items-center justify-center mx-auto text-[#ff6b35]">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl sm:text-2xl font-extrabold text-white">
+                  <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
                     Inquiry Forwarded Successfully
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/80 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-accent">{inquiryFullName}</strong>. Your message has been routed directly to the{" "}
-                    <strong className="text-white">{inquiryType}</strong> pastoral coordinator.
+                  <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+                    Thank you, <strong className="text-[#ff6b35]">{inquiryFullName}</strong>. Your message has been routed directly to the{" "}
+                    <strong className="text-slate-900">{inquiryType}</strong> pastoral coordinator.
                   </p>
                 </div>
 
                 <Button
                   variant="outline"
                   onClick={handleResetInquiry}
-                  className="border-accent text-accent hover:bg-accent hover:text-accent-foreground text-xs font-bold"
+                  className="rounded-full border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-white text-xs font-bold px-6 py-4"
                 >
                   Send Another Inquiry
                 </Button>
@@ -754,7 +752,7 @@ export function TabbedConnectHub() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Full Name <span className="text-destructive">*</span>
                     </label>
                     <Input
@@ -763,12 +761,12 @@ export function TabbedConnectHub() {
                       value={inquiryFullName}
                       onChange={(e) => setInquiryFullName(e.target.value)}
                       required
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Email Address <span className="text-destructive">*</span>
                     </label>
                     <Input
@@ -777,14 +775,14 @@ export function TabbedConnectHub() {
                       value={inquiryEmail}
                       onChange={(e) => setInquiryEmail(e.target.value)}
                       required
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Phone Number (Optional)
                     </label>
                     <Input
@@ -792,18 +790,18 @@ export function TabbedConnectHub() {
                       placeholder="+254 700 000 000"
                       value={inquiryPhone}
                       onChange={(e) => setInquiryPhone(e.target.value)}
-                      className="bg-background"
+                      className="bg-white border-slate-200"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                       Ministry / Department <span className="text-destructive">*</span>
                     </label>
                     <select
                       value={inquiryType}
                       onChange={(e) => setInquiryType(e.target.value as InquiryType)}
-                      className="w-full rounded-md border border-input bg-background px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-accent shadow-sm"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#ff6b35] shadow-sm"
                     >
                       {INQUIRY_TYPES.map((type) => (
                         <option key={type} value={type}>
@@ -815,7 +813,7 @@ export function TabbedConnectHub() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
                     Your Message <span className="text-destructive">*</span>
                   </label>
                   <Textarea
@@ -824,15 +822,14 @@ export function TabbedConnectHub() {
                     value={inquiryMessage}
                     onChange={(e) => setInquiryMessage(e.target.value)}
                     required
-                    className="bg-background resize-none"
+                    className="bg-white border-slate-200 resize-none"
                   />
                 </div>
 
                 <Button
                   type="submit"
-                  variant="accent"
                   disabled={inquirySubmitting}
-                  className="w-full py-6 text-sm font-bold shadow-md hover:brightness-105"
+                  className="w-full py-6 text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full"
                 >
                   {inquirySubmitting ? (
                     <span className="flex items-center gap-2">
@@ -850,7 +847,7 @@ export function TabbedConnectHub() {
             )}
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

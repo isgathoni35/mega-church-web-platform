@@ -4,7 +4,7 @@ import { Heart, Sparkles, Home, Utensils, GraduationCap, ShieldCheck } from "luc
 
 export function OrphanageHero() {
   return (
-    <section className="relative min-h-[80vh] flex flex-col justify-center bg-primary text-primary-foreground py-20 lg:py-28 px-4 sm:px-8 overflow-hidden border-b border-white/10">
+    <section className="relative min-h-[80vh] flex flex-col justify-center bg-slate-950 text-white py-20 lg:py-28 px-4 sm:px-8 overflow-hidden border-b border-slate-800">
       {/* Full-bleed background children's home feeding photo */}
       <Image
         src="/images/orphanage-hero.png"
@@ -15,21 +15,21 @@ export function OrphanageHero() {
         quality={90}
       />
 
-      {/* Rich Royal Purple & Dark Gradient Overlay for optimal readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary/95" />
+      {/* High-contrast dark gradient overlay for optimal legibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-900/80 to-slate-950/90" />
 
-      {/* Golden spotlight radial glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-accent/20 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
+      {/* Orange spotlight radial glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-orange-500/20 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-4xl mx-auto text-center space-y-6">
         {/* Compassion Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/20 border border-accent/40 text-accent text-xs sm:text-sm font-semibold uppercase tracking-widest shadow-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/20 border border-orange-400/40 text-[#ff6b35] text-xs sm:text-sm font-semibold uppercase tracking-widest shadow-sm">
           <Heart className="h-4 w-4 fill-current" />
           <span>Compassion &amp; Mercy Outreach</span>
         </div>
 
         {/* Script Accent */}
-        <p className="font-script text-3xl sm:text-4xl lg:text-5xl text-accent">
+        <p className="font-script text-3xl sm:text-4xl lg:text-5xl text-[#ff6b35]">
           A Haven of Hope &amp; Restoration
         </p>
 
@@ -46,22 +46,22 @@ export function OrphanageHero() {
         </p>
 
         {/* Scripture Promise Plate */}
-        <div className="max-w-xl mx-auto p-4 rounded-xl bg-white/5 border border-accent/30 text-white/90 shadow-md">
+        <div className="max-w-xl mx-auto p-4 rounded-2xl bg-white/10 border border-orange-400/30 text-white/90 shadow-md">
           <p className="font-serif italic text-xs sm:text-sm text-white/90 leading-relaxed">
             &ldquo;Pure and undefiled religion before God and the Father is this: to visit the
             fatherless and widows in their affliction, and to keep oneself unspotted from the
             world.&rdquo;
           </p>
-          <span className="text-[11px] uppercase font-bold text-accent tracking-wider block mt-1.5">
+          <span className="text-[11px] uppercase font-bold text-[#ff6b35] tracking-wider block mt-1.5">
             — James 1:27 (KJV)
           </span>
         </div>
 
         {/* Impact Stats Bar */}
         <div className="pt-6 max-w-3xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 sm:p-6 rounded-2xl bg-black/30 border-2 border-accent/40 backdrop-blur-md shadow-2xl">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 sm:p-6 rounded-3xl bg-black/40 border-2 border-orange-500/30 backdrop-blur-md shadow-2xl">
             <div className="text-center space-y-1">
-              <span className="text-3xl sm:text-4xl font-black text-accent tracking-tight block">
+              <span className="text-3xl sm:text-4xl font-black text-[#ff6b35] tracking-tight block">
                 60+
               </span>
               <span className="text-xs uppercase tracking-wider font-semibold text-white/80">
@@ -70,7 +70,7 @@ export function OrphanageHero() {
             </div>
 
             <div className="text-center space-y-1 border-t sm:border-t-0 sm:border-x border-white/10 pt-3 sm:pt-0">
-              <span className="text-3xl sm:text-4xl font-black text-accent tracking-tight block">
+              <span className="text-3xl sm:text-4xl font-black text-[#ff6b35] tracking-tight block">
                 100%
               </span>
               <span className="text-xs uppercase tracking-wider font-semibold text-white/80">
@@ -79,7 +79,7 @@ export function OrphanageHero() {
             </div>
 
             <div className="text-center space-y-1 border-t sm:border-t-0 border-white/10 pt-3 sm:pt-0">
-              <span className="text-3xl sm:text-4xl font-black text-accent tracking-tight block">
+              <span className="text-3xl sm:text-4xl font-black text-[#ff6b35] tracking-tight block">
                 100%
               </span>
               <span className="text-xs uppercase tracking-wider font-semibold text-white/80">
