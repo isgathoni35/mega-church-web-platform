@@ -45,24 +45,24 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
   };
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] text-slate-900 py-12 sm:py-16 px-4 sm:px-8 border-b border-slate-200/80 overflow-hidden">
+    <section className="relative w-full bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] text-slate-900 py-6 sm:py-10 lg:py-16 px-4 sm:px-8 border-b border-slate-200/80 overflow-hidden">
       {/* Ambient Radial Glow */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+      <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-5 sm:gap-8 lg:gap-14">
         {/* Left Column: Sermon Information */}
-        <div className="flex-1 space-y-5 text-center lg:text-left">
+        <div className="flex-1 space-y-2.5 sm:space-y-5 text-center lg:text-left">
           {/* Status Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider">
             {featuredSermon.is_live ? (
-              <span className="flex items-center gap-2 bg-red-600 text-white px-3 py-1 rounded-full animate-pulse shadow-sm">
-                <Radio className="h-3.5 w-3.5" />
+              <span className="flex items-center gap-1.5 sm:gap-2 bg-red-600 text-white px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full animate-pulse shadow-sm">
+                <Radio className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                 Live Broadcast Now
               </span>
             ) : (
-              <span className="flex items-center gap-2 bg-orange-100 text-[#ff6b35] border border-orange-200 px-3 py-1 rounded-full">
-                <Sparkles className="h-3.5 w-3.5 text-[#ff6b35]" />
+              <span className="flex items-center gap-1.5 sm:gap-2 bg-orange-100 text-[#ff6b35] border border-orange-200 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full">
+                <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#ff6b35]" />
                 Featured Broadcast
               </span>
             )}
@@ -72,34 +72,34 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
           </div>
 
           {/* Script Subtitle */}
-          <span className="font-script text-[#ff6b35] text-2xl sm:text-3xl block font-normal">
+          <span className="font-script text-[#ff6b35] text-xl sm:text-3xl block font-normal">
             Experience the Miraculous Word
           </span>
 
           {/* Main Title */}
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          <h1 className="text-xl sm:text-3xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight">
             {featuredSermon.title}
           </h1>
 
           {/* Metadata */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 text-sm text-slate-600 font-medium">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-4 text-xs sm:text-sm text-slate-600 font-medium">
             <span className="flex items-center gap-1.5 text-[#ff6b35] font-semibold">
-              <User className="h-4 w-4" />
+              <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               {featuredSermon.speaker}
             </span>
             <span className="text-slate-300 hidden sm:inline">&bull;</span>
             <span className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4 text-slate-500" />
+              <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-500" />
               {formatDate(featuredSermon.date_preached)}
             </span>
           </div>
 
           {/* Action CTAs */}
-          <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+          <div className="pt-1 sm:pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-2 sm:gap-3 w-full sm:w-auto">
             <Button
               variant="default"
               size="lg"
-              className="bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/20 rounded-xl"
+              className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/20 rounded-xl text-xs sm:text-sm py-2.5 sm:py-3 h-auto"
               asChild
             >
               <a
@@ -116,7 +116,7 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
               variant="outline"
               size="lg"
               onClick={handleShare}
-              className="border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm rounded-xl"
+              className="w-full sm:w-auto border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm rounded-xl text-xs sm:text-sm py-2.5 sm:py-3 h-auto"
             >
               {copied ? (
                 <>
@@ -135,7 +135,7 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
 
         {/* Right Column: 16:9 Video Player */}
         <div className="w-full lg:w-[580px] xl:w-[640px] shrink-0">
-          <div className="relative w-full pb-[56.25%] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black ring-1 ring-slate-200">
+          <div className="relative w-full pb-[56.25%] rounded-xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 sm:border-4 border-white bg-black ring-1 ring-slate-200">
             {videoId ? (
               <iframe
                 src={embedUrl}

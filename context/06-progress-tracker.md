@@ -41,7 +41,25 @@
      - `src/app/prayer-request/page.tsx` & `PrayerForm`: Light ivory hero, centered orange heading, pure white form card with orange category chips and submit button, and midnight hotline card.
      - `src/components/about/`: Light ivory hero, pure white founder story with circular orange icons, warm cream statement of faith with white pillar cards, pure white leadership team, and warm cream prayer mountain spotlight.
      - `src/components/layout/top-bar.tsx` & `footer.tsx`: Midnight slate (`#0f172a`) framing with fiery orange accents (`#ff6b35`).
-  3. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all core routes on port 3002. Preserved 100% of all features, database schemas, and Server Actions without modification.
+- [x] `feature-specs/16-mobile-compactness-overhaul.md`: Comprehensive Mobile Compactness & Density Overhaul across all pages and components.
+  1. Identified and resolved root cause of "over-spaced" mobile layouts: desktop vertical spacing tokens (`py-20`, `py-24`, `py-28`, `min-h-[80vh]`, `p-8`, `gap-8`) applying to 360px–430px mobile viewports.
+  2. Applied systematic mobile density scaling:
+     - Section vertical padding scaled from `py-20`/`py-24` down to `py-10 sm:py-16 lg:py-24` (and `py-8 sm:py-14 lg:py-20` on heroes).
+     - Component header margins tightened from `space-y-12`/`mb-16` to `space-y-6 sm:space-y-8 lg:space-y-12` and `mb-6 sm:mb-10 lg:mb-16`.
+     - Headings dynamically scaled to `text-2xl sm:text-4xl lg:text-5xl` (hero titles to `text-3xl sm:text-5xl lg:text-6xl`).
+     - Card padding reduced from `p-6`/`p-8` to `p-4 sm:p-6 lg:p-8` (giving cards `p-4 sm:p-8`).
+     - Grid gaps reduced from `gap-8`/`gap-10` to `gap-3.5 sm:gap-6 lg:gap-8`.
+     - Action buttons styled with `py-2.5 sm:py-3 px-4 sm:px-6 text-xs sm:text-base h-auto` or `py-3 sm:py-6 h-auto` to eliminate button vertical stretching on mobile while retaining large touch targets on desktop.
+     - Removed artificial minimum viewport heights on mobile (`min-h-0 lg:min-h-[88vh]`, `min-h-0 lg:min-h-[80vh]`).
+  3. 27 files refactored and verified:
+     - Navbar & Footer: `src/components/layout/navbar.tsx` (`h-16 sm:h-20`), `src/components/layout/footer.tsx` (compact ribbon, `py-8 sm:py-12 lg:py-16` grid).
+     - Homepage: `hero-section.tsx`, `founder-spotlight.tsx`, `ministry-pillars.tsx`, `service-schedule.tsx`, `categorized-activities.tsx`, `recent-sermons.tsx`, `orphanage-teaser.tsx`.
+     - Giving: `src/app/give/page.tsx`, `src/components/giving/direct-giving-portal.tsx`.
+     - Sermons & Media: `live-hero-player.tsx`, `sermon-archive.tsx`, `sermon-card.tsx`.
+     - Orphanage: `orphanage-hero.tsx`, `care-pillars.tsx`, `support-needs.tsx`, `volunteer-cta.tsx`.
+     - Prayer & Connect: `src/app/prayer-request/page.tsx`, `prayer-form.tsx`, `src/app/contact/page.tsx`, `tabbed-connect-hub.tsx`.
+     - About: `about-hero.tsx`, `founder-story.tsx`, `statement-of-faith.tsx`, `leadership-team.tsx`, `prayer-mountain.tsx`.
+  4. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses verified on port 3002 across all core routes (`/`, `/about`, `/give`, `/sermons`, `/orphanage`, `/prayer-request`, `/contact`). Preserved all features, styles, and desktop visuals intact.
 
 ## 🚧 In Progress
 
@@ -54,6 +72,19 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-03]:** Mobile Compactness & Responsive Density Overhaul Across All Pages:
+  1. Identified that mobile viewports (360px–430px) were overly spaced out due to global desktop utilities (`py-20`, `py-24`, `min-h-[85vh]`, `p-8`, `gap-8`) applied without mobile breakpoints.
+  2. Applied systematic mobile density scaling across all 27 platform components:
+     - Section vertical padding: `py-10 sm:py-16 lg:py-24` (heroes: `py-8 sm:py-14 lg:py-20`).
+     - Header margins: `space-y-6 sm:space-y-8 lg:space-y-12` and `mb-6 sm:mb-10 lg:mb-16`.
+     - Heading fonts: `text-2xl sm:text-4xl lg:text-5xl`.
+     - Card interior padding: `p-4 sm:p-6 lg:p-8` (giving cards: `p-4 sm:p-8`).
+     - Grid gaps: `gap-3.5 sm:gap-6 lg:gap-8`.
+     - Touch buttons: explicit height bounds `py-2.5 sm:py-3 px-4 sm:px-6 text-xs sm:text-base h-auto` or `py-3 sm:py-6 h-auto`.
+     - Navbar height: `h-16 sm:h-20`.
+  3. Verified zero TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes (`/`, `/about`, `/give`, `/sermons`, `/orphanage`, `/prayer-request`, `/contact`) on port 3002.
+  4. Preserved 100% of all features, database schemas, and Neno warm ivory / vibrant orange aesthetics.
 
 - **[2026-10-03]:** Comprehensive Visual Styling & Layout Transformation to Neno Evangelism Centre Identity:
   1. Extracted exact live layout patterns and color tokens from user-supplied Neno Evangelism Centre screenshots: soft warm ivory canvas (`#fbf8f3`), pure white cards (`#ffffff`), centered bold headings in vibrant orange (`#ff6b35`) with underline bars, circular orange icon holders (`bg-orange-50 text-[#ff6b35]`), and dark midnight slate (`#0f172a`) framing for TopBar, Footer, and selected anchor cards.

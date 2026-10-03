@@ -270,55 +270,55 @@ export function TabbedConnectHub() {
   };
 
   return (
-    <div className="border border-slate-200/80 shadow-xl bg-white rounded-3xl overflow-hidden transition-all duration-300">
+    <div className="border border-slate-200/80 shadow-xl bg-white rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-300">
       {/* Tab Navigation Header */}
-      <div className="bg-slate-50 p-2 sm:p-3 border-b border-slate-100">
-        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 bg-slate-200/60 p-1.5 rounded-full border border-slate-300/60">
+      <div className="bg-slate-50 p-1.5 sm:p-3 border-b border-slate-100">
+        <div className="grid grid-cols-3 gap-1 sm:gap-2 bg-slate-200/60 p-1 sm:p-1.5 rounded-full border border-slate-300/60">
           <button
             type="button"
             onClick={() => setActiveTab("visit")}
             className={cn(
-              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-full text-xs sm:text-sm font-bold transition-all text-center",
+              "flex items-center justify-center gap-1 sm:gap-2 py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-full text-[11px] sm:text-sm font-bold transition-all text-center",
               activeTab === "visit"
                 ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
                 : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <Calendar className="h-4 w-4 shrink-0" />
-            <span className="truncate">Plan a Visit</span>
+            <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span className="truncate">Plan Visit</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("prayer")}
             className={cn(
-              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-full text-xs sm:text-sm font-bold transition-all text-center",
+              "flex items-center justify-center gap-1 sm:gap-2 py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-full text-[11px] sm:text-sm font-bold transition-all text-center",
               activeTab === "prayer"
                 ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
                 : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <Heart className="h-4 w-4 shrink-0" />
-            <span className="truncate">Prayer Petition</span>
+            <Heart className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span className="truncate">Prayer</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("inquiry")}
             className={cn(
-              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-full text-xs sm:text-sm font-bold transition-all text-center",
+              "flex items-center justify-center gap-1 sm:gap-2 py-1.5 sm:py-2.5 px-2 sm:px-3 rounded-full text-[11px] sm:text-sm font-bold transition-all text-center",
               activeTab === "inquiry"
                 ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
                 : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <MessageSquare className="h-4 w-4 shrink-0" />
-            <span className="truncate">Ministry Inquiry</span>
+            <MessageSquare className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span className="truncate">Inquiry</span>
           </button>
         </div>
       </div>
 
-      <div className="p-6 sm:p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         {/* ========================================================= */}
         {/* TAB 1 CONTENT: PLAN A VISIT                               */}
         {/* ========================================================= */}
@@ -504,7 +504,7 @@ export function TabbedConnectHub() {
                 <Button
                   type="submit"
                   disabled={visitSubmitting}
-                  className="w-full py-6 text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full"
+                  className="w-full py-3 sm:py-6 text-xs sm:text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full h-auto"
                 >
                   {visitSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -681,7 +681,7 @@ export function TabbedConnectHub() {
                 <Button
                   type="submit"
                   disabled={prayerSubmitting}
-                  className="w-full py-6 text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full"
+                  className="w-full py-3 sm:py-6 text-xs sm:text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full h-auto"
                 >
                   {prayerSubmitting ? (
                     <span className="flex items-center gap-2">
@@ -829,7 +829,7 @@ export function TabbedConnectHub() {
                 <Button
                   type="submit"
                   disabled={inquirySubmitting}
-                  className="w-full py-6 text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full"
+                  className="w-full py-3 sm:py-6 text-xs sm:text-sm font-bold shadow-lg shadow-orange-500/20 bg-[#ff6b35] hover:bg-[#f25c23] text-white rounded-full h-auto"
                 >
                   {inquirySubmitting ? (
                     <span className="flex items-center gap-2">

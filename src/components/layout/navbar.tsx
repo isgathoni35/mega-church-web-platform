@@ -23,7 +23,7 @@ const navLinks: NavItem[] = [
 export function Navbar() {
   return (
     <nav className="w-full bg-white text-slate-900 border-b border-slate-200/80 shadow-sm sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto flex items-center justify-between h-20 px-4 sm:px-8">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8">
         {/* Brand / Logo (Matching Neno Screenshot 1) */}
         <Link
           href="/"

@@ -65,13 +65,13 @@ export function SermonCard({ sermon, onPlay }: SermonCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
 
         {/* Badges Top Bar */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-          <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#ff6b35] text-white shadow-sm">
+        <div className="absolute top-2.5 left-2.5 right-2.5 sm:top-3 sm:left-3 sm:right-3 flex items-center justify-between pointer-events-none">
+          <span className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider bg-[#ff6b35] text-white shadow-sm">
             {sermon.category}
           </span>
 
           {sermon.is_live && (
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-red-600 text-white shadow-md animate-pulse">
+            <span className="flex items-center gap-1.5 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider bg-red-600 text-white shadow-md animate-pulse">
               <Radio className="h-3 w-3" />
               Live
             </span>
@@ -80,32 +80,32 @@ export function SermonCard({ sermon, onPlay }: SermonCardProps) {
 
         {/* Center Hover Play Button */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-[#ff6b35] text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-            <Play className="h-5 w-5 sm:h-6 sm:w-6 fill-current ml-0.5" />
+          <div className="h-10 w-10 sm:h-14 sm:w-14 rounded-full bg-[#ff6b35] text-white flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300">
+            <Play className="h-4 w-4 sm:h-6 sm:w-6 fill-current ml-0.5" />
           </div>
         </div>
       </div>
 
       {/* Card Metadata Content */}
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
-        <div className="space-y-2">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-2.5 sm:space-y-4">
+        <div className="space-y-1.5 sm:space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-500">
-            <span className="flex items-center gap-1.5 text-slate-700 font-semibold">
-              <User className="h-3.5 w-3.5 text-[#ff6b35]" />
+            <span className="flex items-center gap-1.5 text-slate-700 font-semibold text-[11px] sm:text-xs">
+              <User className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#ff6b35]" />
               {sermon.speaker}
             </span>
-            <span className="flex items-center gap-1 text-slate-400">
-              <Calendar className="h-3.5 w-3.5" />
+            <span className="flex items-center gap-1 text-slate-400 text-[10px] sm:text-xs">
+              <Calendar className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               {formatDate(sermon.date_preached)}
             </span>
           </div>
 
-          <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#ff6b35] transition-colors line-clamp-2 leading-snug">
+          <h3 className="text-sm sm:text-lg font-bold text-slate-900 group-hover:text-[#ff6b35] transition-colors line-clamp-2 leading-snug">
             {sermon.title}
           </h3>
         </div>
 
-        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-[#ff6b35] group-hover:translate-x-0.5 transition-transform">
+        <div className="pt-2 sm:pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] sm:text-xs font-bold text-[#ff6b35] group-hover:translate-x-0.5 transition-transform">
           <span>Watch Message</span>
           <span>&rarr;</span>
         </div>

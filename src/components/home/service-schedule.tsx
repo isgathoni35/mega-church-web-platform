@@ -44,69 +44,69 @@ const services: ServiceItem[] = [
 
 export function ServiceSchedule() {
   return (
-    <section id="schedule" className="py-20 sm:py-28 bg-[#fbf8f3] text-slate-900">
+    <section id="schedule" className="py-10 sm:py-16 lg:py-24 bg-[#fbf8f3] text-slate-900">
       <div className="max-w-5xl mx-auto px-4 sm:px-8">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
-          <span className="font-script text-[#ff6b35] text-3xl sm:text-4xl block font-normal">
+        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-10 lg:mb-12 space-y-1.5 sm:space-y-2">
+          <span className="font-script text-[#ff6b35] text-2xl sm:text-4xl block font-normal">
             Join Us in Fellowship
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
             Weekly Service Itinerary
           </h2>
-          <div className="w-20 h-1 bg-[#ff6b35] mx-auto rounded-full" />
-          <p className="text-slate-600 text-base sm:text-lg pt-2">
+          <div className="w-14 sm:w-20 h-1 bg-[#ff6b35] mx-auto rounded-full" />
+          <p className="text-slate-600 text-sm sm:text-lg pt-1">
             Experience unceasing encounters with the presence of God throughout
             the week in-person and online.
           </p>
         </div>
 
         {/* Unified warm schedule panel */}
-        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md overflow-hidden">
+        <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md overflow-hidden">
           {services.map((item, index) => (
             <div
               key={item.day}
-              className={`flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 p-6 sm:p-8 ${
+              className={`flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-8 p-4 sm:p-6 lg:p-8 ${
                 index !== services.length - 1
                   ? "border-b border-slate-100"
                   : ""
               } ${item.isPrimary ? "bg-orange-500/[0.03]" : ""}`}
             >
               {/* Day & Time Column */}
-              <div className="shrink-0 sm:w-44">
-                <div className="flex items-center gap-2.5">
+              <div className="shrink-0 flex items-center justify-between w-full sm:w-44 sm:block">
+                <div className="flex items-center gap-2">
                   {item.isPrimary && (
                     <span className="w-2 h-2 rounded-full bg-[#ff6b35] shrink-0" />
                   )}
-                  <span className="font-extrabold text-lg text-slate-900 uppercase tracking-wide">
+                  <span className="font-extrabold text-base sm:text-lg text-slate-900 uppercase tracking-wide">
                     {item.day}
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5 mt-1 text-sm text-slate-500">
+                <div className="flex items-center gap-1.5 sm:mt-1 text-xs sm:text-sm text-slate-500">
                   <Clock className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
                   <span className="font-semibold">{item.time}</span>
                 </div>
               </div>
 
               {/* Service Details Column */}
-              <div className="flex-1 space-y-1.5">
-                <h3 className="text-xl font-bold text-slate-900 leading-snug">
+              <div className="flex-1 space-y-1">
+                <h3 className="text-base sm:text-xl font-bold text-slate-900 leading-snug">
                   {item.title}
                 </h3>
                 <div className="flex items-center gap-1.5 text-xs text-slate-500">
                   <MapPin className="h-3 w-3 text-[#ff6b35] shrink-0" />
                   <span>{item.location}</span>
                 </div>
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   {item.details}
                 </p>
               </div>
 
               {/* Action Column */}
-              <div className="w-full sm:w-auto shrink-0 pt-2 sm:pt-0">
+              <div className="w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
                 <Button
                   size="sm"
-                  className="w-full sm:w-auto font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20"
+                  className="w-full sm:w-auto font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20 text-xs sm:text-sm py-2 sm:py-2.5"
                   asChild
                 >
                   <Link href="/sermons?live=true">
