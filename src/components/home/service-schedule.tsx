@@ -107,11 +107,11 @@ export function ServiceSchedule() {
               </div>
 
               {/* Action Column */}
-              <div className="shrink-0">
+              <div className="w-full sm:w-auto shrink-0 pt-2 sm:pt-0">
                 <Button
                   variant="accent"
                   size="sm"
-                  className="font-bold shadow-sm"
+                  className="w-full sm:w-auto font-bold shadow-sm"
                   asChild
                 >
                   <Link href="/sermons?live=true">

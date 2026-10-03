@@ -64,8 +64,10 @@ export function MobileNav() {
 
       {/* Slide-over Drawer Panel */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-[85%] max-w-sm bg-primary text-primary-foreground shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${
-          isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 z-50 h-full w-[85%] max-w-sm bg-primary text-primary-foreground shadow-2xl transition-all duration-300 ease-in-out flex flex-col ${
+          isOpen
+            ? "translate-x-0 opacity-100 visible"
+            : "translate-x-full opacity-0 invisible pointer-events-none"
         }`}
         role="dialog"
         aria-modal="true"

@@ -83,19 +83,19 @@ export function InternationalGiving() {
   return (
     <Card className="border border-border/80 shadow-xl overflow-hidden bg-card/90 backdrop-blur-sm flex flex-col h-full">
       {/* Header Accent Band */}
-      <div className="bg-gradient-to-r from-primary-dark via-primary to-primary-hover p-4 text-white border-b border-border/60">
+      <div className="bg-primary border-b border-accent/30 p-4 sm:p-5 text-white">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/40">
+          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/40 shrink-0">
             <Globe2 className="w-5 h-5 text-accent" />
           </div>
           <div>
-            <h3 className="font-heading font-bold text-lg leading-tight">International & Digital Giving</h3>
+            <h3 className="font-extrabold text-base sm:text-lg leading-tight text-white">International &amp; Digital Giving</h3>
             <p className="text-xs text-white/80">Support God&apos;s work globally from anywhere in the world</p>
           </div>
         </div>
       </div>
 
-      <CardContent className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+      <CardContent className="p-4 sm:p-6 space-y-4 flex-1 flex flex-col justify-between">
         <div className="space-y-3">
           {INTERNATIONAL_CHANNELS.map((channel) => (
             <div
@@ -109,7 +109,7 @@ export function InternationalGiving() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h4 className="font-heading font-bold text-sm text-foreground">
+                      <h4 className="font-bold text-sm text-foreground">
                         {channel.name}
                       </h4>
                       <span

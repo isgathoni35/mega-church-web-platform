@@ -189,19 +189,19 @@ export function MpesaGivingForm() {
   return (
     <Card className="border border-border/80 shadow-xl overflow-hidden bg-card/90 backdrop-blur-sm">
       {/* Header Accent Band */}
-      <div className="bg-gradient-to-r from-primary via-primary-hover to-accent p-4 text-white">
+      <div className="bg-primary border-b border-accent/30 p-4 sm:p-5 text-white">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+          <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center border border-accent/40 shrink-0">
             <Smartphone className="w-5 h-5 text-accent" />
           </div>
           <div>
-            <h3 className="font-heading font-bold text-lg leading-tight">Lipa na M-Pesa Online</h3>
+            <h3 className="font-extrabold text-base sm:text-lg leading-tight text-white">Lipa na M-Pesa Online</h3>
             <p className="text-xs text-white/80">Instant STK Push direct to your Safaricom line</p>
           </div>
         </div>
       </div>
 
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         {/* ================= STATE: SUCCESS ================= */}
         {formState === "success" && (
           <div className="text-center py-6 space-y-5 animate-in fade-in zoom-in-95 duration-300">
@@ -211,7 +211,7 @@ export function MpesaGivingForm() {
 
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-accent">Kingdom Offering Received</span>
-              <h4 className="font-heading font-bold text-2xl text-foreground mt-1">Thank You For Sowing!</h4>
+              <h4 className="font-extrabold text-xl sm:text-2xl text-foreground mt-1">Thank You For Sowing!</h4>
               <p className="text-sm text-muted-foreground mt-1">
                 Your seed of <strong className="text-foreground">KES {confirmedAmount.toLocaleString()}</strong> has been securely logged.
               </p>
@@ -256,7 +256,7 @@ export function MpesaGivingForm() {
             </div>
 
             <div>
-              <h4 className="font-heading font-bold text-xl text-foreground">Check Your Phone Screen</h4>
+              <h4 className="font-bold text-lg sm:text-xl text-foreground">Check Your Phone Screen</h4>
               <p className="text-sm text-muted-foreground mt-1 max-w-sm mx-auto">
                 A Safaricom prompt has been sent to <strong className="text-foreground">{phone}</strong>. Enter your M-Pesa PIN to authorize <strong className="text-foreground">KES {confirmedAmount.toLocaleString()}</strong>.
               </p>
@@ -298,14 +298,15 @@ export function MpesaGivingForm() {
               <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Giving Purpose
               </label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {GIVING_PURPOSES.map((p) => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+                {GIVING_PURPOSES.map((p, index) => (
                   <button
                     key={p.id}
                     type="button"
                     onClick={() => setPurpose(p.id)}
                     className={cn(
                       "px-2.5 py-2 text-xs font-medium rounded-md border text-center transition-all",
+                      index === 4 ? "col-span-2 sm:col-span-1" : "",
                       purpose === p.id
                         ? "bg-primary text-white border-primary shadow-sm ring-1 ring-primary/40"
                         : "bg-muted/40 hover:bg-muted text-foreground border-border"
@@ -327,20 +328,20 @@ export function MpesaGivingForm() {
               </label>
 
               {/* Preset Chips */}
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5">
                 {AMOUNT_PRESETS.map((preset) => (
                   <button
                     key={preset}
                     type="button"
                     onClick={() => handleSelectPreset(preset)}
                     className={cn(
-                      "py-2.5 px-2 rounded-md font-bold text-xs border text-center transition-all",
+                      "py-2.5 px-2 rounded-md font-bold text-xs sm:text-sm border text-center transition-all",
                       selectedPreset === preset
-                        ? "bg-accent text-primary-dark border-accent shadow-md scale-[1.02]"
+                        ? "bg-accent text-accent-foreground border-accent shadow-md scale-[1.02]"
                         : "bg-background hover:bg-muted text-foreground border-border"
                     )}
                   >
-                    {preset.toLocaleString()}
+                    KES {preset.toLocaleString()}
                   </button>
                 ))}
               </div>

@@ -27,26 +27,26 @@ export function TopBar() {
         </div>
 
         {/* Quick Links: Live Stream badge and Prayer Request */}
-        <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4 ml-auto">
+        <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-3 sm:gap-4 ml-auto text-[11px]">
           <Link
-            href="#live-stream"
-            className="flex items-center gap-2 font-medium hover:text-accent transition-colors"
+            href="/sermons?live=true"
+            className="flex items-center gap-1.5 sm:gap-2 font-medium hover:text-accent transition-colors truncate"
           >
-            <span className="relative flex h-2 w-2">
+            <span className="relative flex h-2 w-2 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-50" style={{ animationDuration: '2s' }}></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
             </span>
-            <Radio className="h-3.5 w-3.5 text-accent" />
-            <span className="uppercase tracking-wider font-semibold text-[11px]">
-              Live Stream Broadcast
+            <Radio className="h-3.5 w-3.5 text-accent shrink-0" />
+            <span className="uppercase tracking-wider font-semibold truncate">
+              Live Stream
             </span>
           </Link>
 
-          <span className="text-white/20">|</span>
+          <span className="text-white/20 shrink-0">|</span>
 
           <Link
-            href="#prayer-request"
-            className="flex items-center gap-1.5 hover:text-accent transition-colors text-[11px] font-medium"
+            href="/prayer-request"
+            className="flex items-center gap-1.5 hover:text-accent transition-colors font-medium shrink-0"
           >
             <Heart className="h-3 w-3 text-accent fill-accent/20" />
             <span>Prayer Request</span>

@@ -28,17 +28,17 @@ export function Footer() {
               restoration, and faith.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-3 w-full md:w-auto">
             <Link
-              href="#live-stream"
-              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2.5 px-4 rounded-md transition-colors"
+              href="/sermons"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white text-xs font-semibold py-2.5 px-4 rounded-md transition-colors w-full sm:w-auto"
             >
               <Video className="h-4 w-4 text-accent" />
               Watch Past Sermons
             </Link>
             <Link
               href="/give"
-              className="inline-flex items-center gap-2 bg-accent hover:brightness-105 text-accent-foreground text-xs font-bold py-2.5 px-4 rounded-md transition-all shadow-md"
+              className="inline-flex items-center justify-center gap-2 bg-accent hover:brightness-105 text-accent-foreground text-xs font-bold py-2.5 px-4 rounded-md transition-all shadow-md w-full sm:w-auto"
             >
               <Heart className="h-4 w-4 fill-current" />
               Partner With Us

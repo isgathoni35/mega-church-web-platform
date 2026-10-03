@@ -46,7 +46,7 @@ export function RecentSermons({ sermons }: RecentSermonsProps) {
           <Button
             variant="default"
             size="lg"
-            className="font-bold shadow-md hover:bg-primary/90 shrink-0"
+            className="w-full sm:w-auto font-bold shadow-md hover:bg-primary/90 shrink-0"
             asChild
           >
             <Link href="/sermons">

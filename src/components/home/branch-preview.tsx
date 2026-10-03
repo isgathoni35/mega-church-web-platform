@@ -128,7 +128,7 @@ export function BranchPreview() {
               <Button
                 variant="accent"
                 size="default"
-                className="font-bold shadow-md shrink-0"
+                className="w-full sm:w-auto font-bold shadow-md shrink-0"
                 asChild
               >
                 <a

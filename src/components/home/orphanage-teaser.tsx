@@ -7,7 +7,7 @@ export function OrphanageTeaser() {
   return (
     <section className="py-16 bg-secondary/60 text-foreground border-y border-border overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="relative rounded-3xl bg-primary text-primary-foreground p-8 sm:p-12 overflow-hidden shadow-2xl border-2 border-accent/40">
+        <div className="relative rounded-3xl bg-primary text-primary-foreground p-6 sm:p-12 overflow-hidden shadow-2xl border-2 border-accent/40">
           {/* Subtle background glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl pointer-events-none" />
 
@@ -46,10 +46,10 @@ export function OrphanageTeaser() {
             </div>
 
             {/* Right Action */}
-            <div className="shrink-0 flex flex-col sm:flex-row gap-3">
+            <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
               <Button
                 size="lg"
-                className="bg-accent hover:brightness-105 text-accent-foreground font-bold shadow-xl px-8 py-6 text-base"
+                className="w-full sm:w-auto bg-accent hover:brightness-105 text-accent-foreground font-bold shadow-xl px-8 py-6 text-base"
                 asChild
               >
                 <Link href="/orphanage">

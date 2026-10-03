@@ -39,7 +39,7 @@ export function FounderStory() {
               </div>
 
               {/* Floating Divine Mandate Quote Card */}
-              <div className="absolute -bottom-6 -right-2 sm:-right-6 bg-card text-card-foreground border-2 border-accent rounded-xl p-4 sm:p-5 shadow-2xl max-w-[280px] sm:max-w-xs space-y-2 backdrop-blur-md">
+              <div className="mt-4 sm:mt-0 sm:absolute sm:-bottom-6 sm:-right-6 bg-card text-card-foreground border-2 border-accent rounded-xl p-4 sm:p-5 shadow-2xl w-full sm:max-w-xs space-y-2 backdrop-blur-md">
                 <div className="flex items-center gap-2 text-accent">
                   <Quote className="h-5 w-5 fill-current" />
                   <span className="text-[11px] font-bold uppercase tracking-wider">
