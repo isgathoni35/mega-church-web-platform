@@ -100,7 +100,7 @@ export function SupportNeeds() {
             return (
               <div
                 key={area.id}
-                className="bg-[#fbf8f3] rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-orange-200/70 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+                className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border-t-4 border-t-[#ff6b35] border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   {/* Icon & Title */}

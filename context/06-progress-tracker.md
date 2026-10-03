@@ -90,6 +90,14 @@
   4. Built dedicated `/orphanage/donate` page with convincing impact breakdown, fund transparency, Kenyan M-Pesa (Paybill 174379 with pre-set Account `ORPHANAGE`, Send Money 0700 000 001), and International Sendwave (with embedded vector QR code).
   5. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002 across all routes, and end-to-end browser verification of donation navigation and copy interactions.
 
+- [x] `feature-specs/22-orphanage-page-design-harmony.md`: Children's Home Page Overhaul (`/orphanage`) for Aesthetic & Design Harmony.
+  1. Replaced gloomy dark hero overlay with radiant warm ivory/cream 2-column split hero (flowing script accent, James 1:27 scripture card, framed children portrait with floating badge, and dual CTAs: `Donate to Children's Home` and `Deliver Food & Supplies`).
+  2. Moved stat counters into an elevated horizontal 3-stat strip with pure white cards, circular orange icon holders, and bold numbers (60+ Sheltered Children, 100% In Formal School, 3 Meals Hot Nutrition Daily).
+  3. Elevated 4 Care Pillars with sitewide heading signature, top orange accent borders (`border-t-4 border-[#ff6b35]`), squircle icon holders, and hover lift effects.
+  4. Polished "Ways You Can Stand With Our Children" with pure white cards and warm donation card linking to `/orphanage/donate`.
+  5. Redesigned Volunteer CTA from a full-width dark collision into a framed, rounded-3xl feature card with margin spacing above the footer.
+  6. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002 across all routes, and end-to-end browser inspection across desktop (1440x900) and mobile (390x844).
+
 ## 🚧 In Progress
 
 None.
@@ -101,6 +109,13 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-04]:** Children's Home Page Overhaul (`/orphanage`) for Aesthetic & Design Harmony:
+  1. Unified the page aesthetic with the rest of the site: replaced the dark, gloomy overlay hero with a warm ivory/cream split 2-column layout (`#fffaf5` to `#fbf8f3`), James 1:27 scripture card, framed photography with ambient warm glow, and dual action CTAs.
+  2. Extracted the stat counters into an elevated 3-stat strip on pure white cards with circular orange icons.
+  3. Added top orange accent borders (`border-t-4 border-[#ff6b35]`) and squircle icon holders to all 4 Care Pillars and 3 Support Impact cards.
+  4. Restructured the bottom Volunteer section into a floating, framed rounded-3xl container card, completely eliminating the dark navy background collision with the footer.
+  5. Verified 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 on port 3002, and full interactive browser testing on desktop and mobile.
 
 - **[2026-10-04]:** Dedicated Orphanage Donation Portal & Worship Giving Separation:
   1. Restored church-wide standard giving label "Give" / "Give Online" across Navbar, Mobile Drawer, and Footer for worship giving (Tithes, Offerings, Seeds, Building) routing to `/give`.
