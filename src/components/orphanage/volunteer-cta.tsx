@@ -54,9 +54,9 @@ export function VolunteerCta() {
             className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-xl px-6 py-3 sm:px-8 sm:py-6 text-xs sm:text-base rounded-xl shadow-orange-500/20 h-auto"
             asChild
           >
-            <Link href="/give?fund=orphanage">
+            <Link href="/orphanage/donate">
               <Heart className="mr-2 h-4 w-4 fill-current" />
-              Sponsor From Afar
+              Donate to Children&apos;s Home
             </Link>
           </Button>
         </div>

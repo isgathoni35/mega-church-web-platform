@@ -66,7 +66,7 @@ export function Navbar() {
           >
             <Link href="/give">
               <Heart className="mr-1.5 h-4 w-4 fill-current" />
-              Donate
+              Give
             </Link>
           </Button>
 

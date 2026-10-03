@@ -115,7 +115,7 @@ export function DirectGivingPortal() {
                   <span className="text-[10px] font-bold uppercase tracking-widest text-[#ff6b35] block">
                     Direct Giving
                   </span>
-                  <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">Donate via M-Pesa</h3>
+                  <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">Give via M-Pesa</h3>
                 </div>
               </div>
 
@@ -381,7 +381,7 @@ export function DirectGivingPortal() {
               <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#ff6b35] mx-auto">
                 <Globe2 className="h-5 w-5 sm:h-7 sm:w-7" />
               </div>
-              <h3 className="font-extrabold text-xl sm:text-3xl text-white">Donate from Anywhere via Sendwave</h3>
+              <h3 className="font-extrabold text-xl sm:text-3xl text-white">Give from Anywhere via Sendwave</h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
                 Send your tithes, offerings, or kingdom seeds directly from your debit card in the USA, UK, Canada, and Europe straight to our Kenyan M-Pesa line with zero transfer fees.
               </p>

@@ -83,6 +83,13 @@
   4. Global navigation integration across desktop Navbar, mobile slide-over drawer, and global footer quick links.
   5. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002, and full visual verification on desktop and mobile viewports.
 
+- [x] `feature-specs/21-orphanage-donation-portal-and-give-separation.md`: Dedicated Orphanage Donation Portal & Worship Giving Separation.
+  1. Distinguish between spiritual worship giving ("Give" for Tithes, Offerings, Seeds, Building at `/give`) and charitable compassion ("Donate" for the Children's Home at `/orphanage/donate`).
+  2. Reverted desktop Navbar, mobile drawer, and footer callouts to "Give" / "Give Online".
+  3. Purged subscription pricing tables (`/ month`, "Most Popular Choice", `$25 / mo`) from `/orphanage` and replaced with 3 compassion impact areas.
+  4. Built dedicated `/orphanage/donate` page with convincing impact breakdown, fund transparency, Kenyan M-Pesa (Paybill 174379 with pre-set Account `ORPHANAGE`, Send Money 0700 000 001), and International Sendwave (with embedded vector QR code).
+  5. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002 across all routes, and end-to-end browser verification of donation navigation and copy interactions.
+
 ## 🚧 In Progress
 
 None.
@@ -94,6 +101,12 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-04]:** Dedicated Orphanage Donation Portal & Worship Giving Separation:
+  1. Restored church-wide standard giving label "Give" / "Give Online" across Navbar, Mobile Drawer, and Footer for worship giving (Tithes, Offerings, Seeds, Building) routing to `/give`.
+  2. Purged all subscription-style pricing tables (`/ month`, "Most Popular Choice", `$25 / mo`) from `/orphanage` and replaced with warm, ministry-focused compassion impact cards.
+  3. Built dedicated `/orphanage/donate` page containing compelling justification of need, biblical mandate (James 1:27), designated Kenyan M-Pesa channels (Paybill 174379 with pre-set account `ORPHANAGE`, Send Money 0700 000 001), and International Sendwave remittance with QR code.
+  4. Verified 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 on port 3002, and full interactive browser testing.
 
 - **[2026-10-04]:** Neno Evangelism Centre Benchmark Events Feature (`/events`):
   1. Implemented a streamlined, direct events hub matching Neno's exact architecture without extraneous complexity:
