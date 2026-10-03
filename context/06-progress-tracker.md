@@ -15,6 +15,7 @@
 - [x] `feature-specs/06-community-forms-and-branches.md`: Community Engagement Hub with Prayer Request Altar (`/prayer-request`), Global Campus Directory (`/branches`) with city filter & Google Maps directions, and Plan a Visit & Contact Hub (`/contact`) with children's church guide and Server Actions.
 - [x] `feature-specs/08-about-and-founder.md`: About Ministry & Founder's Journey (`/about`) with Hero banner, Founder's detailed biographical testimony, 6-card Statement of Faith, Pastoral Council governance, and Prayer Mountain retreat spotlight.
 - [x] `feature-specs/09-orphanage-ministry.md`: Orphanage & Outreach Ministry (`/orphanage`) with Hero banner & impact stats, 4 pillars of care, tangible sponsorship tiers (`/give?fund=orphanage`), volunteer/visit CTA, and homepage teaser.
+- [x] `feature-specs/10-neno-style-giving-portal.md`: Transitioned Giving Portal (`/give`) to Pastor Ng'ang'a / Neno Evangelism Centre's direct model: removed automated STK push & polling delays in favor of universal 2-tab hub (Tab 1: 🇰🇪 Kenya M-Pesa Send Money `0700 000 001`, Paybill `174379` with 1-click copyable fund references `OFFERING`, `TITHE`, `ORPHANAGE`, `SEED`, `BUILDING`, and Co-op Bank Wire; Tab 2: 🌍 International Diaspora Remittance via Sendwave, Remitly, Lemfi, Taptap Send, WorldRemit + PayPal & Cash App), backed by pastoral receipt hotline.
 
 ## 🚧 In Progress
 
@@ -27,6 +28,8 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-03]:** Transitioned `/give` from Safaricom Daraja automated STK push to Pastor Ng'ang'a / Neno Evangelism Centre's direct giving model. Eliminated STK timeout/fail rates and external webhook tunneling overhead. Implemented unified 2-tab portal: Tab 1 for Kenyans with 1-click copyable M-Pesa Send Money, Paybill `174379` with fund tagging (supporting `/give?fund=orphanage`), and Co-op Bank details; Tab 2 for International Partners leveraging East African diaspora remittance apps (Sendwave, Remitly, Lemfi, Taptap Send, WorldRemit) sending straight to Kenya M-Pesa with zero conversion fees, alongside PayPal and Cash App. Verified zero TypeScript/build errors on port 3002.
 
 - **[2026-10-02]:** Decided to use Next.js App Router, Supabase (CMS/DB), and Tailwind CSS with a Royal Purple/Gold aesthetic inspired by the reference flyer.
 - **[2026-10-02]:** Enforced 'Plan First' requirement across all scenarios and configured port 3002 as the default dev port (ports 3000 and 3001 are unavailable).

@@ -202,20 +202,20 @@ export function Footer() {
             </p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2.5 rounded bg-black/25 border border-white/10 text-center">
-                <span className="font-bold text-white block">M-Pesa STK</span>
-                <span className="text-[11px] text-accent">Paybill / Express</span>
+                <span className="font-bold text-white block">M-Pesa Direct</span>
+                <span className="text-[11px] text-accent">Paybill 174379</span>
               </div>
               <div className="p-2.5 rounded bg-black/25 border border-white/10 text-center">
-                <span className="font-bold text-white block">PayPal</span>
-                <span className="text-[11px] text-accent">Global Cards</span>
+                <span className="font-bold text-white block">Remittance</span>
+                <span className="text-[11px] text-accent">Sendwave & Remitly</span>
               </div>
               <div className="p-2.5 rounded bg-black/25 border border-white/10 text-center">
-                <span className="font-bold text-white block">Cash App</span>
-                <span className="text-[11px] text-accent">$ChurchGiving</span>
+                <span className="font-bold text-white block">PayPal & Cards</span>
+                <span className="text-[11px] text-accent">@hgsugutta</span>
               </div>
               <div className="p-2.5 rounded bg-black/25 border border-white/10 text-center">
                 <span className="font-bold text-white block">Direct Wire</span>
-                <span className="text-[11px] text-accent">Bank Transfer</span>
+                <span className="text-[11px] text-accent">Co-op Bank</span>
               </div>
             </div>
 
@@ -227,11 +227,11 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-3.5 w-3.5 text-accent shrink-0" />
-                <span>+254 700 000 000</span>
+                <span>+254 700 000 001</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 text-accent shrink-0" />
-                <span>contact@churchministry.org</span>
+                <span>info@heavensgatesugutta.org</span>
               </div>
             </div>
           </div>

@@ -43,4 +43,18 @@ declare module "lucide-react" {
   export const Zap: LucideIcon;
   export const User: LucideIcon;
   export const Tag: LucideIcon;
+  export const Copy: LucideIcon;
+  export const Lock: LucideIcon;
+  export const CreditCard: LucideIcon;
+  export const Send: LucideIcon;
+  export const CheckCircle2: LucideIcon;
+  export const DollarSign: LucideIcon;
+  export const Globe2: LucideIcon;
+  export const QrCode: LucideIcon;
+  export const ShieldCheck: LucideIcon;
+  export const HeartHandshake: LucideIcon;
+  export const Loader2: LucideIcon;
+  export const AlertCircle: LucideIcon;
+  export const ChevronUp: LucideIcon;
+  export const RefreshCw: LucideIcon;
 }

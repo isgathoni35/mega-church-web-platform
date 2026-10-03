@@ -1,13 +1,12 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { MpesaGivingForm } from "@/components/giving/mpesa-form";
-import { InternationalGiving } from "@/components/giving/international-giving";
+import { DirectGivingPortal } from "@/components/giving/direct-giving-portal";
 import { ShieldCheck, Heart, Sparkles, BookOpen, Lock, Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Give Online | Heavens Gates Sugutta Fellowship Church International",
   description:
-    "Partner with Heavens Gates Sugutta Fellowship Church International. Give your tithes, offerings, and kingdom seeds securely via Safaricom M-Pesa STK push, Cash App, PayPal, Venmo, or Givelify.",
+    "Partner with Heavens Gates Sugutta Fellowship Church International. Give your tithes, offerings, and kingdom seeds securely via M-Pesa Send Money, Paybill 174379, international remittance apps (Sendwave, Remitly, Lemfi, Taptap Send), Cash App, or PayPal.",
 };
 
 export default function GivePage() {
@@ -57,27 +56,17 @@ export default function GivePage() {
       </section>
 
       {/* ================= GIVING PORTAL INTERFACE ================= */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl -mt-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* Column 1: M-Pesa STK Push */}
-          <div>
-            <Suspense
-              fallback={
-                <div className="p-12 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
-                  <Loader2 className="h-5 w-5 animate-spin text-accent" />
-                  Loading Giving Form...
-                </div>
-              }
-            >
-              <MpesaGivingForm />
-            </Suspense>
-          </div>
-
-          {/* Column 2: International Channels */}
-          <div>
-            <InternationalGiving />
-          </div>
-        </div>
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl -mt-8 relative z-10">
+        <Suspense
+          fallback={
+            <div className="p-12 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
+              <Loader2 className="h-5 w-5 animate-spin text-accent" />
+              Loading Giving Portal...
+            </div>
+          }
+        >
+          <DirectGivingPortal />
+        </Suspense>
 
         {/* ================= TRUST & SCRIPTURAL ACCORDION / FOOTER ================= */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
