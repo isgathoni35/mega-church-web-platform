@@ -18,7 +18,7 @@ const navLinks: NavItem[] = [
   { label: "Sermons & Media", href: "/sermons" },
   { label: "Global Campuses", href: "/branches" },
   { label: "Prayer Altar", href: "/prayer-request" },
-  { label: "Plan a Visit / Contact", href: "/contact" },
+  { label: "Connect", href: "/contact" },
 ];
 
 export function MobileNav() {

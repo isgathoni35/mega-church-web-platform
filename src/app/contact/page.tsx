@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Plan Your Visit & Contact | Heavens Gates Sugutta Fellowship Church International",
+  title: "Connect With Us | Heavens Gates Sugutta Fellowship Church International",
   description:
-    "Plan your first visit to Heavens Gates Sugutta Fellowship Church International. Discover what to expect, children's church details, service times, and sanctuary location.",
+    "Connect with Heavens Gates Sugutta Fellowship Church International. Plan your visit, discover what to expect, explore our children's church, or reach our pastoral administration.",
 };
 
 export default function ContactPage() {
@@ -34,11 +34,11 @@ export default function ContactPage() {
         <div className="relative max-w-4xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 border border-accent/40 text-accent text-xs font-semibold uppercase tracking-widest shadow-sm">
             <Sparkles className="h-3.5 w-3.5 fill-current" />
-            <span>Welcome Home to the Anointing</span>
+            <span>Connect &amp; Plan Your Visit</span>
           </div>
 
           <p className="font-script text-3xl sm:text-4xl lg:text-5xl text-accent">
-            Plan Your Visit
+            Connect With Us
           </p>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">

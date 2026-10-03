@@ -43,7 +43,7 @@ export function DesignSystemShowcase() {
             <Play className="mr-1 h-5 w-5" />
             Watch Live (Royal Purple)
           </Button>
-          <Button variant="secondary">Plan a Visit</Button>
+          <Button variant="secondary">Connect</Button>
           <Button variant="outline">Learn More</Button>
           <Button variant="ghost">
             Quick Link <ArrowRight className="ml-1 h-4 w-4" />

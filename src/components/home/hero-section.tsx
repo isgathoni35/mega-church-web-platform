@@ -73,7 +73,7 @@ export function HeroSection() {
           >
             <Link href="/contact">
               <Calendar className="mr-2 h-5 w-5 text-accent" />
-              Plan Your Visit
+              Connect With Us
             </Link>
           </Button>
         </div>

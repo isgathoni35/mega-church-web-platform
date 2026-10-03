@@ -18,7 +18,7 @@ const navLinks: NavItem[] = [
   { label: "Sermons", href: "/sermons" },
   { label: "Campuses", href: "/branches" },
   { label: "Prayer Altar", href: "/prayer-request" },
-  { label: "Plan a Visit", href: "/contact" },
+  { label: "Connect", href: "/contact" },
 ];
 
 export function Navbar() {

@@ -144,8 +144,7 @@ export function Footer() {
                   href="/contact"
                   className="hover:text-accent transition-colors flex items-center gap-1.5"
                 >
-                  <span className="text-accent text-xs">›</span> Plan a Visit &
-                  Contact
+                  <span className="text-accent text-xs">›</span> Connect
                 </Link>
               </li>
             </ul>
