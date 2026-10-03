@@ -1,11 +1,25 @@
 import React from "react";
+import Image from "next/image";
 import { Heart, Sparkles, Home, Utensils, GraduationCap, ShieldCheck } from "lucide-react";
 
 export function OrphanageHero() {
   return (
-    <section className="relative bg-primary text-primary-foreground py-20 lg:py-28 px-4 sm:px-8 overflow-hidden border-b border-white/10">
-      {/* Background radial gradient overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/20 via-primary/60 to-primary pointer-events-none" />
+    <section className="relative min-h-[80vh] flex flex-col justify-center bg-primary text-primary-foreground py-20 lg:py-28 px-4 sm:px-8 overflow-hidden border-b border-white/10">
+      {/* Full-bleed background children's home feeding photo */}
+      <Image
+        src="/images/orphanage-hero.png"
+        alt="Children gathering for community nourishment at Heavens Gates Sugutta Children's Home"
+        fill
+        className="object-cover object-center"
+        priority
+        quality={90}
+      />
+
+      {/* Rich Royal Purple & Dark Gradient Overlay for optimal readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/80 to-primary/95" />
+
+      {/* Golden spotlight radial glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-accent/20 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-4xl mx-auto text-center space-y-6">
         {/* Compassion Badge */}

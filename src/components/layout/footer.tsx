@@ -121,15 +121,7 @@ export function Footer() {
                   Sermons
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/branches"
-                  className="hover:text-accent transition-colors flex items-center gap-1.5"
-                >
-                  <span className="text-accent text-xs">›</span> Global Campuses &
-                  Branches
-                </Link>
-              </li>
+
               <li>
                 <Link
                   href="/prayer-request"

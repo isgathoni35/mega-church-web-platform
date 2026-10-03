@@ -2,9 +2,9 @@ import { HeroSection } from "@/components/home/hero-section";
 import { FounderSpotlight } from "@/components/home/founder-spotlight";
 import { MinistryPillars } from "@/components/home/ministry-pillars";
 import { RecentSermons } from "@/components/home/recent-sermons";
-import { ServiceSchedule } from "@/components/home/service-schedule";
+import { CategorizedActivities } from "@/components/home/categorized-activities";
 import { OrphanageTeaser } from "@/components/home/orphanage-teaser";
-import { BranchPreview } from "@/components/home/branch-preview";
+
 import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
 
@@ -77,9 +77,8 @@ export default async function Home() {
       <FounderSpotlight />
       <MinistryPillars />
       <RecentSermons sermons={sermons} />
-      <ServiceSchedule />
+      <CategorizedActivities />
       <OrphanageTeaser />
-      <BranchPreview />
     </div>
   );
 }

@@ -172,7 +172,7 @@ export function InternationalGiving() {
             <Heart className="w-4 h-4 text-accent shrink-0 mt-0.5" />
             <div className="text-[11px] text-foreground/80 leading-relaxed">
               <strong className="text-foreground font-semibold">Kingdom Accountability: </strong>
-              All gifts go directly toward evangelistic crusades, global branch expansion, and community outreach as stewarded by Apostle Dr. J. Taylor.
+              All gifts go directly toward evangelistic crusades, sanctuary expansion, and community outreach as stewarded by Apostle Dr. J. Taylor.
             </div>
           </div>
         </div>

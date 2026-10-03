@@ -16,15 +16,15 @@ const LEADERSHIP_COUNCIL: LeaderRole[] = [
     subtitle: "General Overseer & Spiritual Father",
     focus: "Apostolic Vision, Deliverance Altar & Global Broadcasts",
     description:
-      "Providing visionary leadership, apostolic impartation, and prophetic oversight across all international branches and mission operations.",
+      "Providing visionary leadership, apostolic impartation, and prophetic oversight across the mother altar, nationwide crusades, and mission operations.",
     icon: Crown,
   },
   {
     role: "Resident Pastoral Council",
-    subtitle: "Campus Pastors & Associate Shepherds",
+    subtitle: "Pastoral Council & Associate Shepherds",
     focus: "Congregational Shepherding, Discipleship & Weekly Services",
     description:
-      "A seasoned presbytery of ordained pastors pastoring local church families, administering sacraments, and teaching sound biblical doctrine.",
+      "A seasoned presbytery of ordained pastors pastoring the sanctuary family, administering sacraments, and teaching sound biblical doctrine.",
     icon: Shield,
   },
   {
@@ -38,7 +38,7 @@ const LEADERSHIP_COUNCIL: LeaderRole[] = [
   {
     role: "Next-Gen & Family Ministries",
     subtitle: "Youth & Kings Kids Directors",
-    focus: "Children's Ministry, Youth Awakening & Campus Outreach",
+    focus: "Children's Ministry, Youth Awakening & Community Outreach",
     description:
       "Raising an uncompromising, holy generation of young people grounded in scriptural truth, kingdom excellence, and spiritual boldness.",
     icon: Sparkles,

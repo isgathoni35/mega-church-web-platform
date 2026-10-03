@@ -6,10 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface ServiceTime {
-  service: string;
-  time: string;
-}
+
 
 export type SermonCategory =
   | 'Sunday Worship'
@@ -68,51 +65,7 @@ export interface Database {
         };
         Relationships: [];
       };
-      branches: {
-        Row: {
-          id: string;
-          name: string;
-          slug: string;
-          resident_pastor: string;
-          city: string;
-          country: string;
-          address: string;
-          phone: string;
-          email: string | null;
-          service_times: ServiceTime[] | Json;
-          is_hq: boolean;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          name: string;
-          slug: string;
-          resident_pastor: string;
-          city: string;
-          country?: string;
-          address: string;
-          phone: string;
-          email?: string | null;
-          service_times?: ServiceTime[] | Json;
-          is_hq?: boolean;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          name?: string;
-          slug?: string;
-          resident_pastor?: string;
-          city?: string;
-          country?: string;
-          address?: string;
-          phone?: string;
-          email?: string | null;
-          service_times?: ServiceTime[] | Json;
-          is_hq?: boolean;
-          created_at?: string;
-        };
-        Relationships: [];
-      };
+
       prayer_requests: {
         Row: {
           id: string;
@@ -212,9 +165,7 @@ export type Sermon = Database['public']['Tables']['sermons']['Row'];
 export type InsertSermon = Database['public']['Tables']['sermons']['Insert'];
 export type UpdateSermon = Database['public']['Tables']['sermons']['Update'];
 
-export type Branch = Database['public']['Tables']['branches']['Row'];
-export type InsertBranch = Database['public']['Tables']['branches']['Insert'];
-export type UpdateBranch = Database['public']['Tables']['branches']['Update'];
+
 
 export type PrayerRequest = Database['public']['Tables']['prayer_requests']['Row'];
 export type InsertPrayerRequest = Database['public']['Tables']['prayer_requests']['Insert'];

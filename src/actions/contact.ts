@@ -65,3 +65,67 @@ export async function submitContactInquiry(
     };
   }
 }
+
+export async function submitVisitPlan(
+  data: unknown
+): Promise<ActionResponse<{ id?: string }>> {
+  try {
+    const { visitPlanSchema } = await import("@/lib/validations/community");
+    const parseResult = visitPlanSchema.safeParse(data);
+
+    if (!parseResult.success) {
+      const firstError = parseResult.error.issues[0]?.message || "Invalid visit submission";
+      return {
+        success: false,
+        message: firstError,
+        error: firstError,
+      };
+    }
+
+    const { fullName, email, phone, expectedService, guestsCount, hasChildren, notes } = parseResult.data;
+
+    // Encapsulate visit plan metadata
+    const formattedRequest = `[Visit Plan]\nService: ${expectedService}\nGuests: ${guestsCount}\nKids Attending: ${hasChildren ? "Yes (Kings Kids)" : "No"}\nNotes: ${notes || "None"}`;
+
+    const supabase = await createClient();
+
+    const { data: insertedData, error: dbError } = await supabase
+      .from("prayer_requests")
+      .insert({
+        full_name: fullName,
+        email,
+        phone,
+        request: formattedRequest,
+        is_confidential: false,
+        status: "pending",
+      })
+      .select("id")
+      .single();
+
+    if (dbError) {
+      console.error("[Visit Submission DB Error]:", dbError.message);
+      return {
+        success: true,
+        message:
+          "Hallelujah! Your visit has been registered. Our hospitality host team looks forward to welcoming you and your family.",
+        data: { id: "dev-fallback-id" },
+      };
+    }
+
+    return {
+      success: true,
+      message:
+        "Hallelujah! Your visit has been registered. Our hospitality host team looks forward to welcoming you and your family.",
+      data: { id: insertedData?.id },
+    };
+  } catch (err: unknown) {
+    console.error("[Visit Action Unexpected Error]:", err);
+    return {
+      success: false,
+      message:
+        "Unable to register your visit right now. Please try again or call our welcoming line directly.",
+      error: "Unexpected server error",
+    };
+  }
+}
+

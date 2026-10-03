@@ -35,26 +35,7 @@ CREATE INDEX IF NOT EXISTS idx_sermons_category ON public.sermons (category);
 CREATE INDEX IF NOT EXISTS idx_sermons_is_featured ON public.sermons (is_featured);
 CREATE INDEX IF NOT EXISTS idx_sermons_date_preached ON public.sermons (date_preached DESC);
 
--- ==============================================================================
--- 3. Branches Table
--- ==============================================================================
-CREATE TABLE IF NOT EXISTS public.branches (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
-  slug TEXT UNIQUE NOT NULL,
-  resident_pastor TEXT NOT NULL,
-  city TEXT NOT NULL,
-  country TEXT NOT NULL DEFAULT 'Kenya',
-  address TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  email TEXT,
-  service_times JSONB NOT NULL DEFAULT '[]'::jsonb,
-  is_hq BOOLEAN DEFAULT false,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
 
-CREATE INDEX IF NOT EXISTS idx_branches_city ON public.branches (city);
-CREATE INDEX IF NOT EXISTS idx_branches_is_hq ON public.branches (is_hq);
 
 -- ==============================================================================
 -- 4. Prayer Requests Table
@@ -124,19 +105,7 @@ CREATE POLICY "Allow service role full access to sermons"
   USING (true)
   WITH CHECK (true);
 
--- Branches Policies: Public read, service_role write
-CREATE POLICY "Allow public read access to branches"
-  ON public.branches
-  FOR SELECT
-  TO public
-  USING (true);
 
-CREATE POLICY "Allow service role full access to branches"
-  ON public.branches
-  FOR ALL
-  TO service_role
-  USING (true)
-  WITH CHECK (true);
 
 -- Prayer Requests Policies: Public anonymous insert, service_role read/manage
 CREATE POLICY "Allow public insert of prayer requests"

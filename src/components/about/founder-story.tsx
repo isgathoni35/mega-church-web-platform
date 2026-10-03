@@ -108,7 +108,7 @@ export function FounderStory() {
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                   What started as a handful of passionate intercessors meeting under humble roofs
                   quickly erupted into Heavens Gates Sugutta Fellowship Church International. Today, the
-                  mother sanctuary at Sugutta stands as an apostolic beacon with 50+ regional campuses,
+                  mother sanctuary at Sugutta stands as an apostolic beacon of revival and deliverance, with nationwide crusades,
                   a 24/7 prayer mountain altar, and a digital television broadcast reaching millions of
                   homes worldwide with the message: <em>“Get Ready for the Overflow!”</em>
                 </p>

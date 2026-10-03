@@ -16,7 +16,6 @@ const navLinks: NavItem[] = [
   { label: "About", href: "/about" },
   { label: "Children's Home", href: "/orphanage" },
   { label: "Sermons", href: "/sermons" },
-  { label: "Campuses", href: "/branches" },
   { label: "Prayer Altar", href: "/prayer-request" },
   { label: "Connect", href: "/contact" },
 ];

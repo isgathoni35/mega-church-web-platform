@@ -41,11 +41,15 @@ export const prayerRequestSchema = z.object({
 export type PrayerRequestInput = z.infer<typeof prayerRequestSchema>;
 
 export const INQUIRY_TYPES = [
-  "First-time visitor",
-  "Pastoral counsel",
-  "Media & Broadcast",
   "General inquiry",
+  "Men of Valor Fellowship",
+  "Women of Destiny Ministry",
+  "Youth & Young Adults Ministry",
+  "Kings Kids Children's Church",
   "Children's Home & Orphanage Visit",
+  "Prayer Mountain Retreat Booking",
+  "Pastoral Counsel & Deliverance",
+  "Media & Broadcast",
 ] as const;
 
 export type InquiryType = (typeof INQUIRY_TYPES)[number];
@@ -77,3 +81,37 @@ export const contactInquirySchema = z.object({
 });
 
 export type ContactInquiryInput = z.infer<typeof contactInquirySchema>;
+
+export const VISIT_SERVICES = [
+  "Sunday Explosive Worship (10:00 AM)",
+  "Monday Live Miracle Service (6:00 PM)",
+  "Wednesday Bible Study & Deliverance (6:00 PM)",
+  "Upcoming All-Night Kesha",
+] as const;
+
+export type VisitService = (typeof VISIT_SERVICES)[number];
+
+export const visitPlanSchema = z.object({
+  fullName: z
+    .string()
+    .trim()
+    .min(2, "Full name must be at least 2 characters")
+    .max(100, "Full name cannot exceed 100 characters"),
+  email: z
+    .string()
+    .trim()
+    .email("Please provide a valid email address for visit confirmation"),
+  phone: z
+    .string()
+    .trim()
+    .min(7, "Please provide a phone number so our hospitality hosts can welcome you"),
+  expectedService: z.string().refine(
+    (val): val is VisitService => VISIT_SERVICES.includes(val as VisitService),
+    { message: "Please select which service you plan to attend" }
+  ),
+  guestsCount: z.coerce.number().int().min(1).max(20).default(1),
+  hasChildren: z.boolean().default(false),
+  notes: z.string().trim().max(1000).optional().or(z.literal("")),
+});
+
+export type VisitPlanInput = z.infer<typeof visitPlanSchema>;

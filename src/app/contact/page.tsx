@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ContactForm } from "@/components/community/contact-form";
+import { TabbedConnectHub } from "@/components/community/tabbed-connect-hub";
 import {
   MapPin,
   Phone,
@@ -174,17 +174,17 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Column 2: Inquiries Form (7 Columns) */}
+          {/* Column 2: Tabbed Connect Hub (7 Columns) */}
           <div className="lg:col-span-7">
             <Suspense
               fallback={
                 <div className="p-12 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin text-accent" />
-                  Loading Inquiry Form...
+                  Loading Connect Hub...
                 </div>
               }
             >
-              <ContactForm />
+              <TabbedConnectHub />
             </Suspense>
           </div>
         </div>

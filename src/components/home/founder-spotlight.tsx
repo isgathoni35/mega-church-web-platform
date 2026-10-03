@@ -83,7 +83,7 @@ export function FounderSpotlight() {
 
             <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
               Today, Heavens Gates Sugutta Fellowship Church International stands as an international beacon of revival,
-              impacting over 50 global branches, satellite prayer altars, and
+              impacting countless lives through the mother sanctuary altar, nationwide evangelistic miracle crusades, and
               charitable compassion outreach networks.
             </p>
 

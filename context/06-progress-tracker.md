@@ -19,6 +19,8 @@
 
 - [x] `feature-specs/11-mobile-nav-drawer-fix.md`: Resolved Mobile Navigation Drawer viewport clipping and transparency bleed-through. Portaled drawer and full-screen backdrop directly to `document.body` via `createPortal`, applied `h-[100dvh]` with `shrink-0` header/footer bands and scrollable link body, and removed `backdrop-blur` from `<header>` to eliminate CSS containing block trapping.
 - [x] `feature-specs/12-connect-label-harmonization.md`: Harmonized all touchpoints for "Plan a Visit / Contact" to "Connect" across desktop navbar, mobile drawer, global footer, homepage hero CTA, and connection hub page metadata/subtitles.
+- [x] `feature-specs/13-categorized-activities-and-connect-hub.md`: Benchmarked categorized activities from Neno Evangelism Centre and Glory Gate Church. Created `CategorizedActivities` on homepage with interactive filter pills (All, Weekly Worship, Fellowships, Crusades & Keshas, Prayer Mountain, Outreach), 11 rich activity cards with schedule/venue/demographic tags, and deep query linking. Implemented Glory Gate benchmarked 3-tab `TabbedConnectHub` on `/contact` with interactive tabs (Plan a Visit, Prayer Petition, Ministry Inquiry), validation via `visitPlanSchema`, `prayerRequestSchema`, `contactInquirySchema`, and Server Actions `submitVisitPlan`, `submitPrayerRequest`, `submitContactInquiry`.
+- [x] `feature-specs/14-branch-removal-single-sanctuary.md`: Completely removed all branch and multi-campus references across the entire platform. Heavens Gates Sugutta Fellowship Church International operates strictly as a single mother sanctuary altar in Nairobi (with Mai Mahiu Prayer Mountain and Children's Home). Removed `Campuses` from desktop navbar, mobile drawer, and footer. Removed `BranchPreview` from homepage. Deleted `branch-list.tsx`, `branch-preview.tsx`, and `branches.ts`. Replaced `/branches` with an instant Next.js permanent redirect to `/contact`. Purged `branches` table from `supabase/schema.sql`, sample branch records from `supabase/seed.sql`, and `Branch` types from `database.types.ts`. Harmonized all founder and leadership copy. Verified 0 TypeScript errors and HTTP 200 on port 3002.
 
 ## 🚧 In Progress
 
@@ -31,6 +33,27 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-03]:** Complete Transition to Single Mother Sanctuary Architecture (Eliminated All Branch Concepts):
+  1. Purged `branches` database table and RLS policies from `supabase/schema.sql`, removed all seed branch inserts from `supabase/seed.sql`, and cleaned up `database.types.ts`.
+  2. Removed `Campuses` / `Global Campuses` navigation links from desktop navbar ([src/components/layout/navbar.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/navbar.tsx)), mobile slide-over drawer ([src/components/layout/mobile-nav.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/mobile-nav.tsx)), and footer ([src/components/layout/footer.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/footer.tsx)).
+  3. Removed `BranchPreview` from homepage layout ([src/app/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/page.tsx)), and deleted obsolete components `branch-preview.tsx`, `branch-list.tsx`, and fallback data `branches.ts`.
+  4. Configured `/branches` route ([src/app/branches/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/branches/page.tsx)) to perform an automatic Next.js redirect to `/contact` for backward compatibility.
+  5. Harmonized copy across Founder Spotlight, Founder Story, Leadership Council, and Giving to reflect a single apostolic mother altar, nationwide evangelistic miracle crusades, and compassion ministries.
+  6. Verified zero TypeScript errors (`npx tsc --noEmit`) and HTTP 200 responses on port 3002.
+
+- **[2026-10-03]:** Integrated full-bleed authentic photography backdrop for Orphanage & Children's Home Hero ([src/components/orphanage/orphanage-hero.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-hero.tsx)):
+  1. Staged authentic meal line outreach photo at [public/images/orphanage-hero.png](file:///c:/Users/isgat/Projects/megachurch-web-platform/public/images/orphanage-hero.png).
+  2. Implemented full-bleed Next.js `<Image fill className="object-cover object-center" priority quality={90} />` mirroring the homepage hero section.
+  3. Applied Royal Purple & dark dual-layer gradient overlays (`from-primary/90 via-primary/80 to-primary/95` with golden radial glow) ensuring WCAG AAA legibility for the headline, James 1:27 scripture promise plate, and 3-metric impact stats counter.
+  4. Verified zero TypeScript errors (`npx tsc --noEmit`) and HTTP 200 on port 3002.
+
+- **[2026-10-03]:** Completed Categorized Activities and Glory Gate Connect Hub Integration:
+  1. Replaced static 3-item `ServiceSchedule` on homepage with interactive `CategorizedActivities` component, featuring 6 category pills (All, Weekly Worship, Fellowships, Crusades & Keshas, Prayer Mountain, Outreach) and 11 distinct activity tracks benchmarked from Neno's ecosystem (Sunday Worship, Monday Miracle Service, Wednesday Deliverance, Men of Valor, Women of Destiny, NextGen Youth, Kings Kids, Keshas, Mai Mahiu 24/7 Retreats, Orphanage Drives).
+  2. Implemented Glory Gate Church benchmarked 3-tab connection hub (`TabbedConnectHub`) on `/contact`, housing Plan a Visit (guest count, service selection, Kings Kids check-in), Prayer Petition (altar intercession with confidentiality toggle), and Ministry Inquiry (department routing).
+  3. Added `visitPlanSchema` in `src/lib/validations/community.ts` and `submitVisitPlan` in `src/actions/contact.ts`.
+  4. Verified deep query linking (`/contact?tab=visit&service=...`, `/contact?tab=inquiry&activity=...`, `/contact?tab=prayer`).
+  5. Verified zero TypeScript errors (`npx tsc --noEmit`) and HTTP 200 responses across all core routes on port 3002.
 
 - **[2026-10-03]:** Transitioned `/give` from Safaricom Daraja automated STK push to Pastor Ng'ang'a / Neno Evangelism Centre's direct giving model. Eliminated STK timeout/fail rates and external webhook tunneling overhead. Implemented unified 2-tab portal: Tab 1 for Kenyans with 1-click copyable M-Pesa Send Money, Paybill `174379` with fund tagging (supporting `/give?fund=orphanage`), and Co-op Bank details; Tab 2 for International Partners leveraging East African diaspora remittance apps (Sendwave, Remitly, Lemfi, Taptap Send, WorldRemit) sending straight to Kenya M-Pesa with zero conversion fees, alongside PayPal and Cash App. Verified zero TypeScript/build errors on port 3002.
 
