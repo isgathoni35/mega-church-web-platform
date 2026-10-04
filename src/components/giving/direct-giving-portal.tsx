@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import {
   Smartphone,
@@ -545,17 +546,28 @@ export function DirectGivingPortal() {
       {/* ================= PASTORAL RECEIPT CONFIRMATION & ASSISTANCE ================= */}
       <div className="p-4 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#0f172a] text-white border border-slate-800 shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 sm:gap-6">
-          <div className="space-y-1.5 sm:space-y-2 max-w-xl">
-            <div className="flex items-center gap-2 text-[#ff6b35] text-xs font-bold uppercase tracking-wider">
-              <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span>Personal Pastoral Oversight</span>
+          <div className="flex items-start gap-3 sm:gap-4 max-w-xl">
+            <div className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-lg shrink-0 bg-white hidden sm:block">
+              <Image
+                src="/images/sugutta-logo.png"
+                alt="Sugutta Fellowship Church Seal"
+                fill
+                sizes="64px"
+                className="object-contain p-0.5"
+              />
             </div>
-            <h4 className="text-lg sm:text-2xl font-extrabold text-white">
-              Need a Written Giving Receipt or Prayer Confirmation?
-            </h4>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              If you require a church receipt for tax purposes, or wish to notify Apostle Dr. J. Taylor directly of your kingdom seed, simply text or WhatsApp your transaction confirmation code to our Pastoral Line.
-            </p>
+            <div className="space-y-1.5 sm:space-y-2">
+              <div className="flex items-center gap-2 text-[#C59B27] text-xs font-bold uppercase tracking-wider">
+                <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <span>Official Church Seal &amp; Pastoral Oversight</span>
+              </div>
+              <h4 className="text-lg sm:text-2xl font-extrabold text-white">
+                Need a Written Giving Receipt or Prayer Confirmation?
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                If you require a church receipt for tax purposes, or wish to notify Apostle Dr. J. Taylor directly of your kingdom seed, simply text or WhatsApp your transaction confirmation code to our Pastoral Line.
+              </p>
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 shrink-0 w-full sm:w-auto">

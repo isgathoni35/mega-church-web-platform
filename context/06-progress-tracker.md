@@ -98,6 +98,14 @@
   5. Redesigned Volunteer CTA from a full-width dark collision into a framed, rounded-3xl feature card with margin spacing above the footer.
   6. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses on port 3002 across all routes, and end-to-end browser inspection across desktop (1440x900) and mobile (390x844).
 
+- [x] `feature-specs/23-logo-integration-and-brand-harmonization.md`: Logo Integration, Browser Tab Titles & Color Harmonization.
+  1. Processed and deployed official Sugutta Fellowship Church logo emblem into `public/images/sugutta-logo.png`, `public/logo.png`, `public/favicon.ico`, and `src/app/icon.png`.
+  2. Configured browser tab titles in `src/app/layout.tsx` using title template `%s | Sugutta Fellowship Church` and default `Sugutta Fellowship Church — Growing Together in Christ`, and registered the circular logo as the browser favicon and apple touch icon.
+  3. Replaced generic cross placeholder `✝` in desktop Navbar, mobile drawer, and footer with the high-resolution logo emblem framed by a gold ring border (`ring-2 ring-[#C59B27]/40`).
+  4. Harmonized the platform's color palette: anchored headers with the logo's Deep Royal Navy (`#0A2240`), trimmed with Divine Radiant Gold (`#C59B27`), retained soft warm ivory (`#FBF8F3`) backgrounds, and kept fiery sunset amber (`#FF6B35`) for high-converting action buttons.
+  5. Integrated official church seal into Pastoral Receipt confirmation cards on `/give` and `/orphanage/donate`.
+  6. Verified 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 on port 3002 across all routes, and end-to-end browser inspection.
+
 ## 🚧 In Progress
 
 None.
@@ -109,6 +117,14 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-04]:** Official Logo Integration, Browser Tab Titles & Color Harmonization:
+  1. Extracted and deployed the church's official emblem into standard Next.js asset locations (`public/images/sugutta-logo.png`, `public/favicon.ico`, `src/app/icon.png`).
+  2. Updated `src/app/layout.tsx` metadata with dynamic title template `%s | Sugutta Fellowship Church`, default title `"Sugutta Fellowship Church — Growing Together in Christ"`, official motto and Matthew 18:20 scripture anchor.
+  3. Integrated 48px circular emblem into `Navbar` with gold border ring and clean typography (Navy brand title + Gold subtitle).
+  4. Integrated circular emblem into mobile drawer header and 64px illuminated emblem into the global footer alongside Matthew 18:20 scripture.
+  5. Enhanced pastoral verification cards in `DirectGivingPortal` and `OrphanageDonateView` with the official church seal.
+  6. Verified 0 TypeScript errors (`npx tsc --noEmit`), server live on port 3002, and visually confirmed across desktop and mobile.
 
 - **[2026-10-04]:** Children's Home Page Overhaul (`/orphanage`) for Aesthetic & Design Harmony:
   1. Unified the page aesthetic with the rest of the site: replaced the dark, gloomy overlay hero with a warm ivory/cream split 2-column layout (`#fffaf5` to `#fbf8f3`), James 1:27 scripture card, framed photography with ambient warm glow, and dual action CTAs.

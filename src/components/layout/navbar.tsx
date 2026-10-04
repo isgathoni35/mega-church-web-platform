@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
@@ -25,22 +26,31 @@ export function Navbar() {
   return (
     <nav className="w-full bg-white/95 backdrop-blur-md text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8">
-        {/* Brand / Logo (Matching Neno Screenshot 1) */}
+        {/* Brand / Logo (Sugutta Fellowship Official Circular Emblem) */}
         <Link
           href="/"
           className="flex items-center gap-2.5 sm:gap-3 group min-w-0"
-          aria-label="Heavens Gates Sugutta Fellowship Church International - Home"
+          aria-label="Sugutta Fellowship Church International - Home"
         >
-          <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-[#ff6b35] flex items-center justify-center text-white font-bold text-lg shadow-md group-hover:scale-105 transition-transform shrink-0">
-            ✝
+          <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-full overflow-hidden ring-2 ring-[#C59B27]/50 group-hover:ring-[#C59B27] shadow-md group-hover:scale-105 transition-all shrink-0 bg-white">
+            <Image
+              src="/images/sugutta-logo.png"
+              alt="Sugutta Fellowship Church Logo"
+              fill
+              sizes="(max-width: 640px) 44px, 48px"
+              className="object-contain p-0.5"
+              priority
+            />
           </div>
           <div className="flex flex-col min-w-0">
-            <span className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-[#0f172a] leading-tight uppercase truncate">
+            <span className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-[#0A2240] leading-tight uppercase truncate">
               Heavens Gates Sugutta
             </span>
-            <span className="font-sans text-[10px] sm:text-xs font-bold tracking-wider text-[#ff6b35] uppercase truncate">
-              Fellowship Church International
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="font-sans text-[10px] sm:text-xs font-bold tracking-wider text-[#C59B27] uppercase truncate">
+                Fellowship Church International
+              </span>
+            </div>
           </div>
         </Link>
 

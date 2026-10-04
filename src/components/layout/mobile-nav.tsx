@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Heart, Radio, Calendar, ChevronRight } from "lucide-react";
@@ -85,20 +86,34 @@ export function MobileNav() {
               aria-modal="true"
               aria-label="Mobile Navigation Menu"
             >
-              {/* Drawer Header */}
-              <div className="flex items-center justify-between p-5 border-b border-slate-200 shrink-0">
-                <div className="flex flex-col">
-                  <span className="font-extrabold text-base tracking-tight text-[#0f172a] uppercase">
-                    Heavens Gates Sugutta
-                  </span>
-                  <span className="font-sans text-[11px] font-bold tracking-wider text-[#ff6b35] uppercase">
-                    Fellowship Church International
-                  </span>
+              {/* Drawer Header with Sugutta Logo */}
+              <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-200 shrink-0">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="relative h-11 w-11 rounded-full overflow-hidden ring-2 ring-[#C59B27]/50 shadow-sm shrink-0 bg-white">
+                    <Image
+                      src="/images/sugutta-logo.png"
+                      alt="Sugutta Fellowship Church Logo"
+                      fill
+                      sizes="44px"
+                      className="object-contain p-0.5"
+                    />
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <span className="font-extrabold text-sm tracking-tight text-[#0A2240] uppercase truncate">
+                      Heavens Gates Sugutta
+                    </span>
+                    <span className="font-sans text-[10px] font-bold tracking-wider text-[#C59B27] uppercase truncate">
+                      Fellowship Church
+                    </span>
+                    <span className="text-[9px] text-slate-500 italic truncate">
+                      Growing Together in Christ
+                    </span>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-accent"
+                  className="p-1.5 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-accent shrink-0 ml-1"
                   aria-label="Close Navigation Menu"
                 >
                   <X className="h-5 w-5" />

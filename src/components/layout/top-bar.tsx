@@ -11,18 +11,18 @@ export function TopBar() {
         {/* Contact Info (Hidden on very small screens, visible on sm+) */}
         <div className="hidden sm:flex items-center gap-6">
           <a
-            href="tel:+254700000000"
-            className="flex items-center gap-1.5 hover:text-[#ff6b35] transition-colors"
+            href="tel:+254700000001"
+            className="flex items-center gap-1.5 hover:text-[#C59B27] transition-colors"
           >
-            <Phone className="h-3.5 w-3.5 text-[#ff6b35]" />
-            <span>+254 700 000 000</span>
+            <Phone className="h-3.5 w-3.5 text-[#C59B27]" />
+            <span>+254 700 000 001</span>
           </a>
           <a
-            href="mailto:contact@churchministry.org"
-            className="flex items-center gap-1.5 hover:text-[#ff6b35] transition-colors"
+            href="mailto:contact@heavensgatesugutta.org"
+            className="flex items-center gap-1.5 hover:text-[#C59B27] transition-colors"
           >
-            <Mail className="h-3.5 w-3.5 text-[#ff6b35]" />
-            <span>contact@churchministry.org</span>
+            <Mail className="h-3.5 w-3.5 text-[#C59B27]" />
+            <span>contact@heavensgatesugutta.org</span>
           </a>
         </div>
 

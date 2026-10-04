@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Phone,
@@ -52,16 +53,25 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
           {/* Column 1: Ministry Mission & Founder */}
           <div className="space-y-3 sm:space-y-4">
-            <div className="flex items-start gap-2.5">
-              <div className="h-8 w-8 sm:h-9 sm:w-9 rounded-full bg-orange-500/10 border border-[#ff6b35] flex items-center justify-center text-[#ff6b35] font-bold text-sm sm:text-base shrink-0 mt-0.5">
-                ✝
+            <div className="flex items-center gap-3">
+              <div className="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-lg shrink-0 bg-white">
+                <Image
+                  src="/images/sugutta-logo.png"
+                  alt="Sugutta Fellowship Church Logo"
+                  fill
+                  sizes="56px"
+                  className="object-contain p-0.5"
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-extrabold text-base sm:text-lg tracking-tight text-white uppercase leading-snug">
                   Heavens Gates Sugutta
                 </span>
-                <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-wider text-[#ff6b35] uppercase">
+                <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-wider text-[#C59B27] uppercase">
                   Fellowship Church International
+                </span>
+                <span className="text-[10px] text-slate-400 italic">
+                  Growing Together in Christ
                 </span>
               </div>
             </div>
@@ -71,11 +81,11 @@ export function Footer() {
               authority, and unleashing revival across nations.
             </p>
             <div className="p-3 sm:p-4 bg-white/5 rounded-2xl border border-slate-800 space-y-1">
-              <span className="text-[11px] sm:text-xs uppercase tracking-wider text-[#ff6b35] font-semibold block">
-                Founding Vision
+              <span className="text-[11px] sm:text-xs uppercase tracking-wider text-[#C59B27] font-semibold block">
+                Biblical Anchor — Matthew 18:20
               </span>
               <p className="font-script text-[#ff6b35] text-base sm:text-lg leading-snug">
-                &ldquo;Walking in Divine Overflow and Covenant Power&rdquo;
+                &ldquo;For where two or three are gathered together in my name, there am I in the midst of them.&rdquo;
               </p>
             </div>
           </div>

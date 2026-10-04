@@ -21,9 +21,26 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "https://heavensgatesugutta.org"
   ),
-  title: "Heavens Gates Sugutta Fellowship Church International | Official Platform",
+  title: {
+    default: "Sugutta Fellowship Church — Growing Together in Christ",
+    template: "%s | Sugutta Fellowship Church",
+  },
   description:
-    "Official digital front door for Heavens Gates Sugutta Fellowship Church International. Experience divine deliverance, live worship, weekly service itinerary, and digital giving.",
+    "Official platform for Heavens Gates Sugutta Fellowship Church International. Growing Together in Christ (Matthew 18:20). Experience divine deliverance, live worship, apostolic teachings, and digital giving.",
+  icons: {
+    icon: [
+      { url: "/images/sugutta-logo.png", sizes: "any" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/images/sugutta-logo.png",
+    shortcut: "/images/sugutta-logo.png",
+  },
+  openGraph: {
+    title: "Sugutta Fellowship Church — Growing Together in Christ",
+    description:
+      "Official platform for Heavens Gates Sugutta Fellowship Church International. Growing Together in Christ (Matthew 18:20).",
+    images: [{ url: "/images/sugutta-logo.png" }],
+  },
 };
 
 export default function RootLayout({

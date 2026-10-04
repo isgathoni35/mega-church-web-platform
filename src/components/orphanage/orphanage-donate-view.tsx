@@ -447,12 +447,21 @@ export function OrphanageDonateView() {
           </div>
 
           {/* 5. Pastoral Confirmation & WhatsApp Assistance */}
-          <div className="p-5 sm:p-7 rounded-3xl bg-[#0f172a] text-white text-center space-y-3 border border-slate-800 shadow-xl">
-            <span className="font-script text-[#ff6b35] text-xl sm:text-2xl block">
+          <div className="p-6 sm:p-8 rounded-3xl bg-[#0f172a] text-white text-center space-y-3.5 border border-slate-800 shadow-xl relative overflow-hidden">
+            <div className="relative h-14 w-14 sm:h-16 sm:w-16 rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-lg shrink-0 bg-white mx-auto">
+              <Image
+                src="/images/sugutta-logo.png"
+                alt="Sugutta Fellowship Church Seal"
+                fill
+                sizes="64px"
+                className="object-contain p-0.5"
+              />
+            </div>
+            <span className="font-script text-[#C59B27] text-xl sm:text-2xl block">
               God Bless You for Blessing His Little Ones
             </span>
-            <h4 className="text-base sm:text-lg font-bold text-white">
-              Need a Donation Receipt or Have Questions?
+            <h4 className="text-base sm:text-xl font-bold text-white">
+              Official Orphanage Trust &amp; Pastoral Confirmation
             </h4>
             <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
               Send your M-Pesa or Sendwave confirmation message to our direct
