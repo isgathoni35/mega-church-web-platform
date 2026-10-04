@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/home/hero-section";
+import { ServiceSchedule } from "@/components/home/service-schedule";
 import { FounderSpotlight } from "@/components/home/founder-spotlight";
 import { MinistryPillars } from "@/components/home/ministry-pillars";
 import { MinistryVideoShowcase } from "@/components/home/ministry-video-showcase";
@@ -8,17 +9,18 @@ import { OrphanageTeaser } from "@/components/home/orphanage-teaser";
 
 import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
+import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 const fallbackSermons: Sermon[] = [
   {
     id: "1",
     title: "Walking in Divine Overflow and Covenant Power",
     slug: "walking-in-divine-overflow-and-covenant-power",
-    speaker: "Pastor Jeannette Taylor",
+    speaker: "Pastor Caesar Osebe Nyandwaro",
     youtube_url: "https://www.youtube.com/watch?v=placeholder",
     thumbnail_url:
       "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=1200",
-    category: "Sunday Worship",
+    category: "Sunday Service",
     is_featured: true,
     is_live: false,
     date_preached: new Date().toISOString().split("T")[0],
@@ -28,11 +30,11 @@ const fallbackSermons: Sermon[] = [
     id: "2",
     title: "Monday Inspiration Live: The Mystery of Prophetic Deliverance",
     slug: "monday-inspiration-live-mystery-of-prophetic-deliverance",
-    speaker: "Pastor Jeannette Taylor",
+    speaker: "Pastor Caesar Osebe Nyandwaro",
     youtube_url: "https://www.youtube.com/watch?v=placeholder",
     thumbnail_url:
       "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&q=80&w=1200",
-    category: "Monday Inspiration",
+    category: "Midweek Service",
     is_featured: false,
     is_live: true,
     date_preached: new Date().toISOString().split("T")[0],
@@ -46,7 +48,7 @@ const fallbackSermons: Sermon[] = [
     youtube_url: "https://www.youtube.com/watch?v=placeholder",
     thumbnail_url:
       "https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&q=80&w=1200",
-    category: "Wednesday Bible Study",
+    category: "Midweek Service",
     is_featured: false,
     is_live: false,
     date_preached: new Date().toISOString().split("T")[0],
@@ -56,6 +58,7 @@ const fallbackSermons: Sermon[] = [
 
 export default async function Home() {
   let sermons: Sermon[] = fallbackSermons;
+  const settings = await getSiteSettingsAction();
 
   try {
     const supabase = await createClient();
@@ -74,8 +77,9 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full">
-      <HeroSection />
-      <FounderSpotlight />
+      <HeroSection settings={settings} />
+      <ServiceSchedule settings={settings} />
+      <FounderSpotlight settings={settings} />
       <MinistryPillars />
       <MinistryVideoShowcase />
       <CategorizedActivities />
@@ -84,4 +88,3 @@ export default async function Home() {
     </div>
   );
 }
-

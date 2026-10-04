@@ -13,8 +13,19 @@ import {
   Video,
   ExternalLink,
 } from "lucide-react";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
-export function Footer() {
+interface FooterProps {
+  settings?: SiteSettingsData;
+}
+
+export function Footer({ settings: propSettings }: FooterProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+  const rawPhone = settings.mpesaPhone || DEFAULT_SETTINGS.mpesaPhone;
+  const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
+  const localCleanPhone = cleanPhone.startsWith("+254") ? "0" + cleanPhone.slice(4) : cleanPhone;
+  const paybill = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill;
+  const email = settings.contactEmail || DEFAULT_SETTINGS.contactEmail;
   return (
     <footer className="w-full bg-[#0f172a] text-white border-t-4 border-[#ff6b35]">
       {/* Top Footer Callout Ribbon */}
@@ -170,28 +181,28 @@ export function Footer() {
             <div className="space-y-2 sm:space-y-3">
               <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/5 border border-slate-800 space-y-0.5 sm:space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold text-[#ff6b35]">
-                  <span>Sunday Explosive Worship</span>
-                  <span>10:00 AM</span>
+                  <span>Sunday Church Programme</span>
+                  <span>8:00 AM – 11:45 AM</span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-400">
-                  Main Sanctuary Celebration & Global Broadcast
+                  5-Session Celebration &amp; Word Exposition
                 </p>
               </div>
 
               <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/5 border border-slate-800 space-y-0.5 sm:space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold text-[#ff6b35]">
-                  <span>Monday Live Service</span>
-                  <span>6:00 PM</span>
+                  <span>Monday Inspiration Live</span>
+                  <span>7:00 PM</span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-400">
-                  Miracle & Healing Broadcast
+                  Miracle &amp; Healing Broadcast
                 </p>
               </div>
 
               <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/5 border border-slate-800 space-y-0.5 sm:space-y-1">
                 <div className="flex items-center justify-between text-xs font-bold text-[#ff6b35]">
                   <span>Wednesday Bible Study</span>
-                  <span>6:00 PM</span>
+                  <span>7:00 PM</span>
                 </div>
                 <p className="text-[11px] sm:text-xs text-slate-400">
                   In-Depth Exposition of the Word
@@ -213,15 +224,15 @@ export function Footer() {
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
                 <span className="font-bold text-white block text-[11px] sm:text-xs">M-Pesa Direct</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Paybill 174379</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Paybill {paybill}</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
                 <span className="font-bold text-white block text-[11px] sm:text-xs">Send Money</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">0700 000 001</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">{localCleanPhone}</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
-                <span className="font-bold text-white block text-[11px] sm:text-xs">Sendwave App</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">International</span>
+                <span className="font-bold text-white block text-[11px] sm:text-xs">Sendwave / WU</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Diaspora</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
                 <span className="font-bold text-white block text-[11px] sm:text-xs">Direct Wire</span>
@@ -233,15 +244,15 @@ export function Footer() {
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 border-t border-slate-800">
               <div className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
-                <span>Nairobi, Kenya &bull; Global Ministry</span>
+                <span>{settings.physicalLocation || "Sugutta Sanctuary, Kenya"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
-                <span>+254 700 000 001</span>
+                <a href={`tel:${cleanPhone}`} className="hover:text-white transition-colors">{rawPhone}</a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
-                <span>info@heavensgatesugutta.org</span>
+                <a href={`mailto:${email}`} className="hover:text-white transition-colors">{email}</a>
               </div>
             </div>
           </div>
@@ -251,7 +262,7 @@ export function Footer() {
       {/* Bottom Copyright Bar */}
       <div className="border-t border-slate-800 bg-[#0a0f1d] py-3 sm:py-4 px-4 sm:px-8 text-center text-xs text-slate-400">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>&copy; 2026 Heavens Gates Sugutta Fellowship Church International. All Rights Reserved.</span>
+          <span>&copy; 2026 Sugutta Fellowship Church. All Rights Reserved.</span>
           <div className="flex items-center gap-4 text-slate-500 text-[11px]">
             <Link href="#privacy" className="hover:text-white transition-colors">
               Privacy Policy

@@ -1,6 +1,6 @@
 import React from "react";
-import { Users, Crown, Shield, HeartHandshake, Sparkles, BookOpen } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Crown, Shield, HeartHandshake, Sparkles } from "lucide-react";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
 interface LeaderRole {
   role: string;
@@ -10,42 +10,49 @@ interface LeaderRole {
   icon: React.ElementType;
 }
 
-const LEADERSHIP_COUNCIL: LeaderRole[] = [
-  {
-    role: "Apostle Dr. J. Taylor",
-    subtitle: "General Overseer & Spiritual Father",
-    focus: "Apostolic Vision, Deliverance Altar & Global Broadcasts",
-    description:
-      "Providing visionary leadership, apostolic impartation, and prophetic oversight across the mother altar, nationwide crusades, and mission operations.",
-    icon: Crown,
-  },
-  {
-    role: "Resident Pastoral Council",
-    subtitle: "Pastoral Council & Associate Shepherds",
-    focus: "Congregational Shepherding, Discipleship & Weekly Services",
-    description:
-      "A seasoned presbytery of ordained pastors pastoring the sanctuary family, administering sacraments, and teaching sound biblical doctrine.",
-    icon: Shield,
-  },
-  {
-    role: "Intercessory & Altar Directorate",
-    subtitle: "Pastoral Prayer & Deliverance Warriors",
-    focus: "24/7 Prayer Mountain, Daily Altar & Spiritual Warfare",
-    description:
-      "An anointed band of dedicated intercessors maintaining the sacred flame of continuous prayer, laying hands on petitions, and breaking yokes.",
-    icon: HeartHandshake,
-  },
-  {
-    role: "Next-Gen & Family Ministries",
-    subtitle: "Youth & Kings Kids Directors",
-    focus: "Children's Ministry, Youth Awakening & Community Outreach",
-    description:
-      "Raising an uncompromising, holy generation of young people grounded in scriptural truth, kingdom excellence, and spiritual boldness.",
-    icon: Sparkles,
-  },
-];
+interface LeadershipTeamProps {
+  settings?: SiteSettingsData;
+}
 
-export function LeadershipTeam() {
+export function LeadershipTeam({ settings: propSettings }: LeadershipTeamProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+
+  const LEADERSHIP_COUNCIL: LeaderRole[] = [
+    {
+      role: settings.pastorName || "Pastor Caesar Osebe Nyandwaro",
+      subtitle: settings.pastorTitle || "Resident Pastor & Visionary",
+      focus: "Apostolic Vision, Deliverance Altar & Community Transformation",
+      description:
+        settings.pastorBio ||
+        "Providing visionary leadership, apostolic impartation, and pastoral oversight across Sugutta sanctuary, discipleship ministries, and mission operations.",
+      icon: Crown,
+    },
+    {
+      role: "Resident Pastoral Council",
+      subtitle: "Pastoral Council & Associate Shepherds",
+      focus: "Congregational Shepherding, Discipleship & Weekly Services",
+      description:
+        "A seasoned presbytery of ordained pastors pastoring the sanctuary family, administering sacraments, and teaching sound biblical doctrine.",
+      icon: Shield,
+    },
+    {
+      role: "Intercessory & Altar Directorate",
+      subtitle: "Pastoral Prayer & Deliverance Warriors",
+      focus: "Daily Altar of Prayer, Intercession & Spiritual Warfare",
+      description:
+        "An anointed band of dedicated intercessors maintaining the sacred flame of continuous prayer, laying hands on petitions, and breaking yokes.",
+      icon: HeartHandshake,
+    },
+    {
+      role: "Next-Gen & Family Ministries",
+      subtitle: "Sunday School & Kings Kids Directors",
+      focus: "Children's Ministry, Youth Awakening & Community Outreach",
+      description:
+        "Raising an uncompromising, holy generation of young people grounded in scriptural truth, kingdom excellence, and spiritual boldness.",
+      icon: Sparkles,
+    },
+  ];
+
   return (
     <section className="py-10 sm:py-16 lg:py-24 bg-white text-slate-900 border-t border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8 lg:space-y-12">

@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { SendwaveQR } from "./sendwave-qr";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
 const GIVING_FUNDS = [
   { code: "OFFERING", name: "General Offering", desc: "Sunday worship and regular ministration" },
@@ -32,7 +33,25 @@ const GIVING_FUNDS = [
   { code: "BUILDING", name: "Building Fund", desc: "Cathedral expansion & prayer mountain development" },
 ];
 
-export function DirectGivingPortal() {
+interface DirectGivingPortalProps {
+  settings?: SiteSettingsData;
+}
+
+export function DirectGivingPortal({ settings: propSettings }: DirectGivingPortalProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+  const rawPhone = settings.mpesaPhone || DEFAULT_SETTINGS.mpesaPhone;
+  const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
+  const localCleanPhone = cleanPhone.startsWith("+254") ? "0" + cleanPhone.slice(4) : cleanPhone;
+  const paybill = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill;
+  const kcbAccount = settings.kcbAccountNumber || DEFAULT_SETTINGS.kcbAccountNumber;
+  const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName;
+  const kcbBranch = settings.kcbBranch || DEFAULT_SETTINGS.kcbBranch;
+  const kcbSwift = settings.kcbSwift || DEFAULT_SETTINGS.kcbSwift;
+  const email = settings.contactEmail || DEFAULT_SETTINGS.contactEmail;
+  const westernUnionRecipient = settings.westernUnionRecipient || DEFAULT_SETTINGS.westernUnionRecipient;
+  const pastorNationalId = settings.pastorNationalId || DEFAULT_SETTINGS.pastorNationalId;
+  const pastorName = settings.pastorName || DEFAULT_SETTINGS.pastorName;
+
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<"kenya" | "international">("kenya");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -106,7 +125,7 @@ export function DirectGivingPortal() {
       {activeTab === "kenya" && (
         <div className="space-y-4 sm:space-y-8 animate-in fade-in duration-200">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-start">
-            {/* METHOD 1: SEND MONEY (NENO STYLE) */}
+            {/* METHOD 1: SEND MONEY */}
             <div className="border border-slate-200/80 shadow-lg rounded-2xl sm:rounded-3xl overflow-hidden bg-white">
               <div className="bg-slate-50 border-b border-slate-100 p-3.5 sm:p-6 flex items-center gap-3 sm:gap-4">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff6b35] font-bold shrink-0">
@@ -159,11 +178,11 @@ export function DirectGivingPortal() {
                           </span>
                           <div className="flex items-center justify-between mt-1">
                             <span className="font-mono text-lg sm:text-2xl font-black text-slate-900 tracking-wide">
-                              0700 000 001
+                              {rawPhone.startsWith("+254") ? localCleanPhone : rawPhone}
                             </span>
                             <button
                               type="button"
-                              onClick={() => handleCopy("phone_local", "0700000001")}
+                              onClick={() => handleCopy("phone_local", localCleanPhone)}
                               className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] sm:text-xs font-bold shadow-sm transition-all"
                             >
                               {copiedKey === "phone_local" ? (
@@ -184,7 +203,7 @@ export function DirectGivingPortal() {
                         <div className="pt-2 sm:pt-3 border-t border-orange-100/80 flex items-center justify-between text-xs">
                           <span className="text-slate-500">Recipient Name</span>
                           <span className="font-bold text-slate-900">
-                            Pastor Jeannette Taylor
+                            {pastorName}
                           </span>
                         </div>
                       </div>
@@ -233,11 +252,11 @@ export function DirectGivingPortal() {
                   </span>
                   <div className="flex items-center justify-between mt-1">
                     <span className="font-mono text-xl sm:text-3xl font-black text-slate-900 tracking-wider">
-                      174379
+                      {paybill}
                     </span>
                     <button
                       type="button"
-                      onClick={() => handleCopy("paybill", "174379")}
+                      onClick={() => handleCopy("paybill", paybill)}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] sm:text-xs font-bold shadow-sm transition-all"
                     >
                       {copiedKey === "paybill" ? (
@@ -312,7 +331,7 @@ export function DirectGivingPortal() {
 
                 <ol className="list-decimal pl-5 text-[11px] sm:text-xs text-slate-500 space-y-1 sm:space-y-1.5 pt-2 sm:pt-3 border-t border-slate-100">
                   <li>Go to <strong>Lipa na M-Pesa</strong> &rarr; <strong>Pay Bill</strong>.</li>
-                  <li>Enter Business No: <strong>174379</strong>.</li>
+                  <li>Enter Business No: <strong>{paybill}</strong>.</li>
                   <li>Enter Account No: e.g. <strong>OFFERING</strong>, <strong>TITHE</strong>, or <strong>ORPHANAGE</strong>.</li>
                   <li>Enter amount and your M-Pesa PIN.</li>
                 </ol>
@@ -340,23 +359,23 @@ export function DirectGivingPortal() {
               <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-slate-500 block text-[10px] uppercase font-bold">Bank Name</span>
                 <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">Kenya Commercial Bank (KCB)</span>
-                <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">SWIFT: KCBLKENX</span>
+                <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">SWIFT: {kcbSwift}</span>
               </div>
 
               <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200">
                 <span className="text-slate-500 block text-[10px] uppercase font-bold">Branch</span>
-                <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">Nairobi Central Branch</span>
-                <span className="text-[10px] text-slate-500 mt-0.5 block">Nairobi, Kenya</span>
+                <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">{kcbBranch}</span>
+                <span className="text-[10px] text-slate-500 mt-0.5 block">Kenya</span>
               </div>
 
               <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                 <div className="min-w-0 pr-2">
                   <span className="text-slate-500 block text-[10px] uppercase font-bold">Account Name</span>
-                  <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block truncate">Heavens Gates Sugutta</span>
+                  <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block truncate">{kcbName}</span>
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleCopy("bank_name", "Heavens Gates Sugutta Fellowship Church")}
+                  onClick={() => handleCopy("bank_name", kcbName)}
                   className="p-1.5 sm:p-2 rounded-full hover:bg-slate-200 text-[#ff6b35] transition-colors shrink-0"
                   title="Copy Account Name"
                 >
@@ -367,11 +386,11 @@ export function DirectGivingPortal() {
               <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
                 <div>
                   <span className="text-slate-500 block text-[10px] uppercase font-bold">Account Number</span>
-                  <span className="font-mono font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">1234567890</span>
+                  <span className="font-mono font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">{kcbAccount}</span>
                 </div>
                 <button
                   type="button"
-                  onClick={() => handleCopy("bank_acc", "1234567890")}
+                  onClick={() => handleCopy("bank_acc", kcbAccount)}
                   className="p-1.5 sm:p-2 rounded-full hover:bg-slate-200 text-[#ff6b35] transition-colors"
                   title="Copy Account Number"
                 >
@@ -384,7 +403,7 @@ export function DirectGivingPortal() {
       )}
 
       {/* ========================================================================= */}
-      {/* TAB 2: FOR INTERNATIONAL PARTNERS (SENDWAVE DIRECT TO KCB BANK)           */}
+      {/* TAB 2: FOR INTERNATIONAL PARTNERS (SENDWAVE & WESTERN UNION)               */}
       {/* ========================================================================= */}
       {activeTab === "international" && (
         <div className="space-y-4 sm:space-y-8 animate-in fade-in duration-200">
@@ -394,26 +413,25 @@ export function DirectGivingPortal() {
               <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#ff6b35] mx-auto">
                 <Globe2 className="h-5 w-5 sm:h-7 sm:w-7" />
               </div>
-              <h3 className="font-extrabold text-xl sm:text-3xl text-white">Give via Sendwave Direct to KCB Bank</h3>
+              <h3 className="font-extrabold text-xl sm:text-3xl text-white">International Diaspora Remittance</h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-                Send your tithes, offerings, or kingdom seeds directly from your foreign bank debit card in the USA, UK, Canada, and Europe straight into our Kenya Commercial Bank (KCB) bank account with 0% transfer fee.
+                Send your tithes, offerings, or kingdom seeds directly from foreign debit cards or money transfer branches in the USA, UK, Canada, and Europe straight into our church accounts.
               </p>
             </div>
 
-            <div className="p-4 sm:p-8 space-y-4 sm:space-y-8">
-              {/* Step 1: Featured Sendwave Platform Card & QR Code */}
-              <div className="space-y-2.5 sm:space-y-3">
+            <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
+              {/* Remittance Option A: Sendwave Direct to KCB Bank */}
+              <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center text-xs">
-                    1
+                    A
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Open Sendwave (App or Scan QR Code):
+                    Option 1: Sendwave (Direct to KCB Bank with 0% Fee)
                   </h4>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
-                  {/* Left Column: Sendwave Benefit Card & Launch Button */}
                   <div className="lg:col-span-7 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-white hover:border-[#ff6b35] hover:shadow-lg transition-all flex flex-col justify-between space-y-4">
                     <div className="space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
@@ -425,19 +443,17 @@ export function DirectGivingPortal() {
                         </span>
                       </div>
                       <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        Download the Sendwave app on iOS/Android or visit their website. In Sendwave, select <strong>Bank Transfer &rarr; Kenya Commercial Bank (KCB)</strong> to credit our ministry bank account instantly with no deductions.
+                        Download the Sendwave app or visit their website. Select <strong>Bank Transfer &rarr; Kenya Commercial Bank (KCB)</strong> to credit our ministry bank account instantly.
                       </p>
 
                       <div className="p-3 rounded-xl bg-white border border-slate-200/80 text-xs text-slate-700 space-y-1">
                         <span className="font-bold text-[#ff6b35] block text-[11px] uppercase tracking-wider">
-                          Why Sendwave Direct to KCB Bank?
+                          KCB Bank Account Credentials:
                         </span>
                         <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
-                          &bull; 0% transfer fee directly into Kenya Commercial Bank
+                          &bull; Account: <strong>{kcbAccount}</strong> ({kcbName})
                           <br />
-                          &bull; High limits for kingdom seeds, tithes &amp; building fund
-                          <br />
-                          &bull; Regulated, licensed and instant CBK/PesaLink bank settlement
+                          &bull; SWIFT / BIC: <strong>{kcbSwift}</strong> &bull; {kcbBranch}
                         </p>
                       </div>
                     </div>
@@ -455,151 +471,105 @@ export function DirectGivingPortal() {
                     </div>
                   </div>
 
-                  {/* Right Column: Scan with Phone QR Code */}
                   <div className="lg:col-span-5 flex flex-col">
                     <SendwaveQR
                       mode="bank"
                       bankName="Kenya Commercial Bank (KCB)"
-                      accountNumber="1234567890"
-                      accountName="Heavens Gates Sugutta"
-                      swiftCode="KCBLKENX"
-                      phone="+254 700 000 001"
+                      accountNumber={kcbAccount}
+                      accountName={kcbName}
+                      swiftCode={kcbSwift}
+                      phone={rawPhone}
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Step 2: Select Country & Delivery Method */}
-              <div className="space-y-2">
+              {/* Remittance Option B: Western Union (From Authentic Church Flyer) */}
+              <div className="space-y-3 pt-4 border-t border-slate-100">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center text-xs">
-                    2
+                    B
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Select Destination in Sendwave:
-                  </h4>
-                </div>
-                <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-700 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 items-center">
-                  <div>Country: <strong className="text-slate-900">Kenya 🇰🇪</strong></div>
-                  <div>Delivery Method: <strong className="text-[#ff6b35]">Bank Transfer</strong></div>
-                  <div>Recipient Bank: <strong className="text-slate-900">Kenya Commercial Bank (KCB)</strong></div>
-                </div>
-              </div>
-
-              {/* Step 3: Enter KCB Recipient Details */}
-              <div className="space-y-2 sm:space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-orange-500/10 text-[#ff6b35] font-bold flex items-center justify-center text-xs">
-                    3
-                  </span>
-                  <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Enter KCB Bank Details Below:
+                    Option 2: Western Union Money Transfer (Cash / Online)
                   </h4>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
-                  {/* Account Number */}
-                  <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#fffaf5] border border-orange-100 flex items-center justify-between gap-3 sm:gap-4">
+                <div className="p-5 sm:p-7 rounded-2xl sm:rounded-3xl border-2 border-amber-300 bg-gradient-to-br from-amber-500/5 via-white to-amber-500/5 shadow-sm space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-amber-200/80 pb-3">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-slate-500 block">
-                        KCB Account Number
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-300">
+                        Official Diaspora Remittance
                       </span>
-                      <span className="font-mono text-base sm:text-xl font-black text-slate-900 mt-0.5 block">
-                        1234567890
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] text-slate-500">KCB Bank Kenya Ltd</span>
+                      <h5 className="font-extrabold text-lg text-slate-900 mt-1">
+                        Send via Western Union to Sugutta, Kenya
+                      </h5>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy("intl_kcb_acc", "1234567890")}
-                      className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] sm:text-xs font-bold shrink-0 shadow-sm"
-                    >
-                      {copiedKey === "intl_kcb_acc" ? (
-                        <span className="flex items-center gap-1">
-                          <Check className="h-3.5 w-3.5" /> Copied
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1">
-                          <Copy className="h-3.5 w-3.5" /> Copy
-                        </span>
-                      )}
-                    </button>
+                    <span className="text-xs text-slate-500">Pick up in Kenya</span>
                   </div>
 
-                  {/* Account Name */}
-                  <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#fffaf5] border border-orange-100 flex items-center justify-between gap-3 sm:gap-4">
-                    <div className="min-w-0 pr-1">
-                      <span className="text-[10px] uppercase font-bold text-slate-500 block">
-                        Account Name
-                      </span>
-                      <span className="font-bold text-xs sm:text-sm text-slate-900 mt-0.5 block truncate">
-                        Heavens Gates Sugutta
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] text-slate-500">Fellowship Church International</span>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    Diaspora partners sending via Western Union agent locations or online at westernunion.com should use the following official recipient details:
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {/* Recipient Full Name */}
+                    <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Recipient Full Name</span>
+                        <span className="font-bold text-slate-900 text-sm">{westernUnionRecipient}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy("wu_name", westernUnionRecipient)}
+                        className="p-1.5 rounded-full hover:bg-slate-100 text-[#ff6b35]"
+                        title="Copy Name"
+                      >
+                        {copiedKey === "wu_name" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy("intl_kcb_name", "Heavens Gates Sugutta Fellowship Church")}
-                      className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] sm:text-xs font-bold shrink-0 shadow-sm"
-                    >
-                      {copiedKey === "intl_kcb_name" ? (
-                        <span className="flex items-center gap-1">
-                          <Check className="h-3.5 w-3.5" /> Copied
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1">
-                          <Copy className="h-3.5 w-3.5" /> Copy
-                        </span>
-                      )}
-                    </button>
+
+                    {/* National ID Number */}
+                    <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">National ID / Passport</span>
+                        <span className="font-mono font-bold text-slate-900 text-sm">{pastorNationalId}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy("wu_id", pastorNationalId)}
+                        className="p-1.5 rounded-full hover:bg-slate-100 text-[#ff6b35]"
+                        title="Copy ID"
+                      >
+                        {copiedKey === "wu_id" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                      </button>
+                    </div>
+
+                    {/* Mobile Phone */}
+                    <div className="p-3.5 rounded-xl bg-white border border-slate-200 shadow-sm flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase text-slate-400 block">Mobile Telephone</span>
+                        <span className="font-mono font-bold text-slate-900 text-sm">{rawPhone}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy("wu_phone", rawPhone)}
+                        className="p-1.5 rounded-full hover:bg-slate-100 text-[#ff6b35]"
+                        title="Copy Phone"
+                      >
+                        {copiedKey === "wu_phone" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </div>
 
-                  {/* SWIFT Code */}
-                  <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#fffaf5] border border-orange-100 flex items-center justify-between gap-3 sm:gap-4 sm:col-span-2 lg:col-span-1">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 text-xs text-slate-500">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-slate-500 block">
-                        KCB SWIFT Code
-                      </span>
-                      <span className="font-mono text-base sm:text-lg font-black text-slate-900 mt-0.5 block">
-                        KCBLKENX
-                      </span>
-                      <span className="text-[10px] sm:text-[11px] text-slate-500">Nairobi Central Branch</span>
+                      City / Destination: <strong className="text-slate-800">Sugutta, Kenya</strong> &bull; Currency: <strong className="text-slate-800">KES / USD</strong>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy("intl_kcb_swift", "KCBLKENX")}
-                      className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] sm:text-xs font-bold shrink-0 shadow-sm"
-                    >
-                      {copiedKey === "intl_kcb_swift" ? (
-                        <span className="flex items-center gap-1">
-                          <Check className="h-3.5 w-3.5" /> Copied
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-1">
-                          <Copy className="h-3.5 w-3.5" /> Copy
-                        </span>
-                      )}
-                    </button>
+                    <div className="italic text-[11px] text-amber-800">
+                      After sending, please share the MTCN tracking number with our pastoral hotline.
+                    </div>
                   </div>
-                </div>
-
-                {/* Secondary Alternative: Mobile Money / M-Pesa line */}
-                <div className="mt-3 p-3 sm:p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-600">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-bold text-[10px] uppercase">
-                      Alternative
-                    </span>
-                    <span>
-                      Prefer sending to our <strong>M-Pesa Mobile Line</strong> in Sendwave? Enter <strong>+254 700 000 001</strong> (Pastor Jeannette Taylor).
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy("intl_alt_phone", "+254700000001")}
-                    className="self-start sm:self-auto text-[11px] font-bold text-[#ff6b35] hover:underline"
-                  >
-                    {copiedKey === "intl_alt_phone" ? "Copied +254 700 000 001" : "Copy Mobile Number"}
-                  </button>
                 </div>
               </div>
             </div>
@@ -629,25 +599,25 @@ export function DirectGivingPortal() {
                 Need a Written Giving Receipt or Prayer Confirmation?
               </h4>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                If you require a church receipt for tax purposes, or wish to notify Apostle Dr. J. Taylor directly of your kingdom seed, simply text or WhatsApp your transaction confirmation code to our Pastoral Line.
+                If you require a church receipt for tax purposes, or wish to notify {pastorName} directly of your kingdom seed or MTCN code, simply text or WhatsApp your transaction confirmation code to our Pastoral Line.
               </p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 shrink-0 w-full sm:w-auto">
             <a
-              href="tel:+254700000001"
+              href={`tel:${cleanPhone}`}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-bold text-xs transition-all shadow-md shadow-orange-500/20"
             >
               <Phone className="h-4 w-4" />
-              +254 700 000 001
+              {rawPhone}
             </a>
             <a
-              href="mailto:giving@heavensgatesugutta.org"
+              href={`mailto:${email}`}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-full bg-white/10 text-white hover:bg-white/20 border border-white/20 font-bold text-xs transition-all"
             >
               <Mail className="h-4 w-4 text-[#ff6b35]" />
-              giving@heavensgatesugutta.org
+              {email}
             </a>
           </div>
         </div>

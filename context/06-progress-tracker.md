@@ -120,6 +120,25 @@
   4. Created `MinistryVideoShowcase` component on Homepage and in `/sermons` with interactive filter pills (`All Highlights`, `Praise Reels`, `Outdoor Crusades`), video length badges, location tags, and play hover effects.
   5. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 on port 3002 across all routes.
 
+- [x] `feature-specs/26-church-admin-portal.md`: Church Administrative Management Portal (`/admin`).
+  1. Private Admin Authentication: Built master secret passcode authentication (`ADMIN_SECRET_KEY=sugutta_altar_admin_2026`) via `src/lib/auth/admin-auth.ts`, `src/actions/admin-auth.ts`, and HTTP-only cookie session `sugutta_admin_session`. Zero public login clutter or buttons on public user-facing pages.
+  2. Edge Route Protection Middleware: Built `src/middleware.ts` guarding `/admin/*` routes while leaving `/admin/login` and all public routes (`/`, `/give`, `/sermons`, `/about`, `/contact`, `/orphanage`) accessible. Redirects unauthenticated admin visits to `/admin/login?from=...`.
+  3. Altar Brand Theme & Layout Shell: Deep Navy (`#0A2240`), Radiant Gold (`#C59B27`), high-res church circular seal emblem, desktop sticky sidebar (`admin-sidebar.tsx`), mobile drawer with hamburger trigger (`admin-header.tsx`), live broadcasting indicator, and 1-click view public site action.
+  4. Executive Overview Altar Dashboard (`/admin`): Real-time metrics for Published Sermons, Intercessory Petitions, Sanctuary Visitors, and Live Broadcast state, with quick altar shortcuts and latest prayer request cards.
+  5. Video & Sermon Management Module (`/admin/sermons`): Instant YouTube URL parser extracting video ID and high-res thumbnail preview in real-time, category dropdown supporting standard sermons and Shorts, live Sunday broadcast switch, and deletion confirmation with automatic Next.js path cache revalidation (`revalidatePath('/')`, `revalidatePath('/sermons')`).
+  6. Pastoral Prayer Altar Module (`/admin/prayers`): Intercessory petition records with 1-click direct WhatsApp pastoral reach-out (`https://wa.me/...`), confidential tag detection, prayer state toggling (`pending` -> `prayed_for` -> `archived`), search and category filters.
+  7. Sanctuary Visitors Log (`/admin/visitors`): Inflow tracker separating worship visitors and ministry inquiries (`[Visit Plan]` vs general inquiries) with 1-click WhatsApp messaging and date stamps.
+  8. Church Banking & Remittance Settings (`/admin/settings`): Form updating KCB Account Number, Name, Branch, SWIFT, M-Pesa Paybill, Hotline phone, and Email with 1-click copyable SQL migration snippet.
+  9. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses verified on port 3002 across all 6 admin routes (`/admin/login`, `/admin`, `/admin/sermons`, `/admin/prayers`, `/admin/visitors`, `/admin/settings`) and core public routes.
+
+- [x] `feature-specs/27-dynamic-pastoral-and-flyer-harmonization.md`: Authentic Church Flyer Harmonization & 100% Dynamic Pastoral Admin Control.
+  1. High-Res Asset Pipeline: Cropped and deployed Pastor Caesar Osebe Nyandwaro's portrait from authentic flyer into `public/images/pastor-caesar.jpg` (400x425 @ 95% quality) and staged full flyer at `public/images/church-programme-flyer.jpg`.
+  2. Database & Types Expansion: Expanded `SiteSettingsData` in `src/types/settings.ts`, updated `site_settings` table in `src/types/database.types.ts`, created idempotent SQL migration `supabase/migrations/20261004_site_settings_v2.sql`, and enhanced `getSiteSettingsAction` & `saveSiteSettingsAction` with path revalidation across 9 core routes.
+  3. Upgraded Admin Settings Module (`/admin/settings`): Implemented 4 categorized control cards: Pastoral Profile (with live photo preview, pastorName, pastorTitle, pastorImageUrl, pastorBio, pastorNationalId), Church Identity (churchMotto, churchSlogan, postalAddress, physicalLocation), Communication & Socials (mpesaPhone, contactEmail, facebookUrl, instagramUrl), and Remittance (kcbAccountNumber, kcbAccountName, kcbBranch, kcbSwift, mpesaPaybill, westernUnionRecipient), with 1-click SQL migration copy snippet.
+  4. Authentic 5-Session Sunday Church Programme (`ServiceSchedule`): Rebuilt service schedule on Homepage with exact 5 stages from 8:00 AM to 11:45 AM (Prayer & Intercession, Sunday School, Worship & Praise, Main Service, Fellowship Time) and Hebrews 10:25 Scripture call to fellowship.
+  5. Dynamic Public Components: Connected `HeroSection`, `FounderSpotlight`, `ServiceSchedule`, `FounderStory`, `LeadershipTeam`, `EventsView`, `DirectGivingPortal`, `OrphanageDonateView`, and global `Footer` to dynamic `site_settings` data.
+  6. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), server live on port 3002.
+
 ## 🚧 In Progress
 
 None.
@@ -131,6 +150,13 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-04]:** Church Administrative Management Portal:
+  1. Solved user auth model for a church website with zero public member logins by deploying a secure Altar Master Passcode (`ADMIN_SECRET_KEY`) stored in `.env.local` and verified server-side with constant-time buffer comparison to prevent timing attacks.
+  2. Implemented HTTP-only cookie sessions (`sugutta_admin_session`, 7-day expiration) protected by Next.js Edge middleware (`src/middleware.ts`).
+  3. Handled Next.js Server Action constraints by moving constant objects and non-async functions (`SiteSettingsData`, `DEFAULT_SETTINGS`) from `"use server"` files into `@/types/settings.ts` to strictly adhere to Next.js 15+ server-side entry rules.
+  4. Unified prayer requests, visit plans (`[Visit Plan]`), and general inquiries into `public.prayer_requests` with automated prefix filtering, eliminating the need to create redundant database tables while allowing discrete administrative views.
+  5. Provided SQL migration `supabase/migrations/20261004_admin_portal.sql` for creating `public.site_settings` and updating category constraints in Supabase.
 
 - **[2026-10-04]:** Outdoor Ministry & Praise Video Showcase:
   1. Analyzed 9 raw WhatsApp videos uploaded to `public/videos/` and identified 2 vertical smartphone reels (`478x850`, 9:16) and 7 widescreen crusade captures (`848x478`, 16:9).

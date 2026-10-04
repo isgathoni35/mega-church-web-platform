@@ -12,7 +12,13 @@ export type SermonCategory =
   | 'Sunday Worship'
   | 'Monday Inspiration'
   | 'Wednesday Bible Study'
-  | 'Crusade & Deliverance';
+  | 'Crusade & Deliverance'
+  | 'Sunday Service'
+  | 'Midweek Service'
+  | 'Revival & Deliverance'
+  | 'Youth Service'
+  | 'Worship Night'
+  | 'Shorts';
 
 export type PrayerRequestStatus = 'pending' | 'prayed_for' | 'archived';
 
@@ -138,6 +144,78 @@ export interface Database {
           donor_name?: string | null;
           status?: DonationStatus;
           created_at?: string;
+        };
+        Relationships: [];
+      };
+      site_settings: {
+        Row: {
+          id: string;
+          pastor_name: string;
+          pastor_title: string;
+          pastor_image_url: string;
+          pastor_bio: string;
+          pastor_national_id: string;
+          church_motto: string;
+          church_slogan: string;
+          postal_address: string;
+          physical_location: string;
+          mpesa_phone: string;
+          contact_email: string;
+          facebook_url: string;
+          instagram_url: string;
+          kcb_account_number: string;
+          kcb_account_name: string;
+          kcb_branch: string;
+          kcb_swift: string;
+          mpesa_paybill: string;
+          western_union_recipient: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          pastor_name?: string;
+          pastor_title?: string;
+          pastor_image_url?: string;
+          pastor_bio?: string;
+          pastor_national_id?: string;
+          church_motto?: string;
+          church_slogan?: string;
+          postal_address?: string;
+          physical_location?: string;
+          mpesa_phone?: string;
+          contact_email?: string;
+          facebook_url?: string;
+          instagram_url?: string;
+          kcb_account_number?: string;
+          kcb_account_name?: string;
+          kcb_branch?: string;
+          kcb_swift?: string;
+          mpesa_paybill?: string;
+          western_union_recipient?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          pastor_name?: string;
+          pastor_title?: string;
+          pastor_image_url?: string;
+          pastor_bio?: string;
+          pastor_national_id?: string;
+          church_motto?: string;
+          church_slogan?: string;
+          postal_address?: string;
+          physical_location?: string;
+          mpesa_phone?: string;
+          contact_email?: string;
+          facebook_url?: string;
+          instagram_url?: string;
+          kcb_account_number?: string;
+          kcb_account_name?: string;
+          kcb_branch?: string;
+          kcb_swift?: string;
+          mpesa_paybill?: string;
+          western_union_recipient?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };

@@ -1,6 +1,6 @@
 export interface ActionResponse<T = unknown> {
   success: boolean;
-  message: string;
+  message?: string;
   data?: T;
   error?: string;
 }

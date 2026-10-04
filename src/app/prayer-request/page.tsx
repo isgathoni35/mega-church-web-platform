@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PrayerForm } from "@/components/community/prayer-form";
 import { Flame, Clock, Phone, ShieldCheck, HeartHandshake, Sparkles } from "lucide-react";
+import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
   title: "Submit Prayer Request | Heavens Gates Sugutta Fellowship Church International",
@@ -8,7 +9,10 @@ export const metadata: Metadata = {
     "Place your prayer petition before the altar of God. Our Senior Apostolic Team and intercessory warriors pray over every request with strict pastoral confidentiality.",
 };
 
-export default function PrayerRequestPage() {
+export default async function PrayerRequestPage() {
+  const settings = await getSiteSettingsAction();
+  const rawPhone = settings.mpesaPhone;
+  const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
   return (
     <div className="min-h-screen bg-[#fbf8f3] text-slate-900 pb-10 sm:pb-20">
       {/* Hero Banner */}
@@ -97,11 +101,11 @@ export default function PrayerRequestPage() {
               </p>
               <div className="pt-1 sm:pt-2">
                 <a
-                  href="tel:+254700000001"
+                  href={`tel:${cleanPhone}`}
                   className="inline-flex items-center justify-center w-full py-2.5 sm:py-3 px-4 rounded-xl bg-[#ff6b35] text-white font-bold text-xs sm:text-sm hover:bg-[#e05626] transition-all shadow-lg shadow-orange-500/20"
                 >
                   <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-2" />
-                  Call +254 700 000 001
+                  Call {rawPhone}
                 </a>
               </div>
             </div>

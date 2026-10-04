@@ -4,9 +4,16 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Play, ArrowRight, Sparkles, Flame, CheckCircle2 } from "lucide-react";
+import { Play, ArrowRight, Sparkles, Flame } from "lucide-react";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
-export function HeroSection() {
+interface HeroSectionProps {
+  settings?: SiteSettingsData;
+}
+
+export function HeroSection({ settings: propSettings }: HeroSectionProps) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+
   return (
     <section className="relative min-h-0 lg:min-h-[88vh] flex items-center bg-gradient-to-br from-[#fbf8f3] via-[#fffaf5] to-[#f5efe6] text-slate-900 overflow-hidden py-8 sm:py-12 lg:py-16">
       {/* Subtle warm ambient background effects */}
@@ -22,10 +29,10 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           {/* Left Column: Text & CTAs */}
           <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left pt-2 lg:pt-0">
-            {/* Top Badge matching Neno's International Deliverance Ministry tag */}
+            {/* Top Badge matching Church Motto / Vision Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs md:text-sm font-bold tracking-wide uppercase mb-3 sm:mb-4 lg:mb-6 shadow-sm">
               <Sparkles className="h-3.5 w-3.5" />
-              <span>International Deliverance Ministry</span>
+              <span>{settings.churchMotto || "REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD"}</span>
             </div>
 
             {/* Main Headline */}
@@ -51,7 +58,12 @@ export function HeroSection() {
 
             {/* Subtext */}
             <p className="max-w-2xl text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed mb-5 sm:mb-6 lg:mb-8">
-              Preaching the uncompromised Word of God, breaking chains of darkness, and raising a generation empowered in apostolic authority, righteousness, and miraculous breakthrough.
+              {settings.churchSlogan ? (
+                <strong className="text-slate-900 font-bold block mb-1">
+                  &ldquo;{settings.churchSlogan}&rdquo;
+                </strong>
+              ) : null}
+              Preaching the uncompromised Word of God, breaking chains of darkness, and raising a generation empowered in apostolic authority, righteousness, and miraculous breakthrough at {settings.physicalLocation || "Sugutta Sanctuary"}.
             </p>
 
             {/* Action Buttons */}
@@ -80,7 +92,7 @@ export function HeroSection() {
               </Button>
             </div>
 
-            {/* Stats Counter Bar matching Neno's metrics */}
+            {/* Stats Counter Bar */}
             <div className="grid grid-cols-3 gap-3 sm:gap-8 pt-4 sm:pt-6 border-t border-slate-200/80 w-full max-w-lg">
               <div className="text-left">
                 <p className="text-xl sm:text-3xl font-extrabold text-[#ff6b35]">50+</p>
@@ -97,7 +109,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: Prominent Apostle Portrait Card matching Neno */}
+          {/* Right Column: Dynamic Pastor Portrait Card */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end relative">
             <div className="relative w-full max-w-[280px] sm:max-w-sm lg:max-w-md">
               {/* Warm decorative backplate glow */}
@@ -106,25 +118,26 @@ export function HeroSection() {
               {/* Portrait Frame */}
               <div className="relative aspect-[4/5] rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
                 <Image
-                  src="/images/pastor-portrait.jpg"
-                  alt="Apostle Dr. J. Taylor"
+                  src={settings.pastorImageUrl || "/images/pastor-caesar.jpg"}
+                  alt={settings.pastorName}
                   fill
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                   priority
-                  quality={90}
+                  quality={92}
+                  unoptimized
                 />
 
                 {/* Subtle gradient vignette at the bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent" />
 
                 {/* Floating Nameplate & Title at the bottom of the portrait */}
                 <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-md border border-white/40 shadow-lg text-slate-900 flex items-center justify-between">
-                  <div>
-                    <h3 className="font-extrabold text-sm sm:text-lg text-slate-900 leading-tight">
-                      Apostle Dr. J. Taylor
+                  <div className="min-w-0 pr-2">
+                    <h3 className="font-extrabold text-sm sm:text-lg text-slate-900 leading-tight truncate">
+                      {settings.pastorName}
                     </h3>
-                    <p className="text-[11px] sm:text-sm font-medium text-[#ff6b35]">
-                      Senior Pastor &amp; Founder
+                    <p className="text-[11px] sm:text-sm font-medium text-[#ff6b35] truncate">
+                      {settings.pastorTitle}
                     </p>
                   </div>
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-orange-500/10 flex items-center justify-center text-[#ff6b35] flex-shrink-0">

@@ -43,20 +43,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+import { getSiteSettingsAction } from "@/actions/admin-settings";
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettingsAction();
+
   return (
     <html
       lang="en"
       className={`${montserrat.variable} ${greatVibes.variable} h-full antialiased overflow-x-clip`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-accent selection:text-accent-foreground overflow-x-clip w-full max-w-full">
-        <SiteHeader />
+        <SiteHeader settings={settings} />
         <main className="flex-1 flex flex-col w-full max-w-full overflow-x-clip">{children}</main>
-        <Footer />
+        <Footer settings={settings} />
       </body>
     </html>
   );

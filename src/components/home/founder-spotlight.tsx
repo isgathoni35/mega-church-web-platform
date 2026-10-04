@@ -14,22 +14,30 @@ import {
   Compass,
   Quote,
 } from "lucide-react";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
-export function FounderSpotlight() {
+interface FounderSpotlightProps {
+  settings?: SiteSettingsData;
+}
+
+export function FounderSpotlight({ settings: propSettings }: FounderSpotlightProps) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+
   return (
     <section id="founder" className="py-10 sm:py-16 lg:py-24 bg-white text-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Centered Orange Heading matching Neno */}
+        {/* Centered Orange Heading */}
         <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-10 lg:mb-16">
           <span className="inline-block text-[11px] sm:text-xs md:text-sm font-bold tracking-widest text-[#ff6b35] uppercase mb-1 sm:mb-2">
-            Founder &amp; Presiding Bishop
+            {settings.pastorTitle}
           </span>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight mb-2 sm:mb-4">
-            Apostle Dr. J. Taylor
+            {settings.pastorName}
           </h2>
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full mb-3 sm:mb-6" />
           <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed">
-            Called by God with an apostolic mandate to set the captives free, preach the unadulterated gospel of Jesus Christ, and ignite revival fires globally.
+            {settings.pastorBio ||
+              "Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact."}
           </p>
         </div>
 
@@ -44,17 +52,18 @@ export function FounderSpotlight() {
               {/* Portrait Container */}
               <div className="relative rounded-[1.75rem] sm:rounded-[2rem] overflow-hidden border-4 border-slate-100 shadow-xl bg-slate-50 aspect-[4/5]">
                 <Image
-                  src="/images/pastor-portrait.jpg"
-                  alt="Apostle Dr. J. Taylor"
+                  src={settings.pastorImageUrl || "/images/pastor-caesar.jpg"}
+                  alt={settings.pastorName}
                   fill
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                   sizes="(max-width: 768px) 90vw, 450px"
+                  unoptimized
                 />
 
                 {/* Subtle vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent" />
 
-                {/* Floating Bottom Quote Badge matching Neno's prophetic quote */}
+                {/* Floating Bottom Quote Badge */}
                 <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/95 backdrop-blur-md border border-white/50 shadow-xl text-slate-900">
                   <div className="flex items-start gap-2.5 sm:gap-3">
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-orange-500/10 flex items-center justify-center text-[#ff6b35] flex-shrink-0 mt-0.5">
@@ -62,10 +71,10 @@ export function FounderSpotlight() {
                     </div>
                     <div>
                       <p className="text-xs sm:text-sm font-bold italic text-slate-800 leading-snug">
-                        &ldquo;I have given you power; go and set My people free.&rdquo;
+                        &ldquo;{settings.churchMotto || "REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD"}&rdquo;
                       </p>
                       <p className="text-[10px] sm:text-[11px] font-semibold text-[#ff6b35] uppercase tracking-wider mt-0.5 sm:mt-1">
-                        — Divine Commission to Apostle Taylor
+                        — Vision &amp; Commission of {settings.pastorName}
                       </p>
                     </div>
                   </div>
@@ -74,7 +83,7 @@ export function FounderSpotlight() {
             </div>
           </div>
 
-          {/* Right Column: 4 White Feature Cards with Circular Orange Icons */}
+          {/* Right Column: 4 Feature Cards */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-5">
               {/* Feature 1 */}
@@ -83,10 +92,10 @@ export function FounderSpotlight() {
                   <Heart className="h-5 w-5 sm:h-6 sm:w-6 fill-current" />
                 </div>
                 <h4 className="text-base sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2">
-                  God&apos;s Salvation
+                  Reaching Out
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Proclaiming the transformative power of repentance and eternal redemption through the blood of Jesus Christ.
+                  Evangelism and community outreaches in Sugutta and beyond, proclaiming the love and salvation of Jesus Christ.
                 </p>
               </div>
 
@@ -96,10 +105,10 @@ export function FounderSpotlight() {
                   <Shield className="h-5 w-5 sm:h-6 sm:w-6 fill-current" />
                 </div>
                 <h4 className="text-base sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2">
-                  Divine Authority
+                  Growing Together
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Exercising spiritual power to dismantle witchcraft, break generational curses, and set captives free.
+                  Systematic discipleship, Sunday school classes, and vibrant fellowship building deep, mature believers.
                 </p>
               </div>
 
@@ -109,10 +118,10 @@ export function FounderSpotlight() {
                   <Flame className="h-5 w-5 sm:h-6 sm:w-6 fill-current" />
                 </div>
                 <h4 className="text-base sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2">
-                  Apostolic Mandate
+                  Impacting Our World
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Conducting stadium crusades, planting altars of fire, and equipping believers for end-time evangelism.
+                  Releasing the transformational fire of the Holy Spirit to heal the sick, break strongholds, and uplift society.
                 </p>
               </div>
 
@@ -122,10 +131,10 @@ export function FounderSpotlight() {
                   <Sparkles className="h-5 w-5 sm:h-6 sm:w-6 fill-current" />
                 </div>
                 <h4 className="text-base sm:text-lg font-bold text-slate-900 mb-1 sm:mb-2">
-                  Anointed Worship
+                  Come. Connect. Grow. Go.
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Experiencing tangible glory and spontaneous miracles in atmospheres of vibrant, high-praise worship.
+                  A 4-step spiritual journey taking every believer from salvation to mature apostolic sending.
                 </p>
               </div>
             </div>
@@ -138,7 +147,7 @@ export function FounderSpotlight() {
                 asChild
               >
                 <Link href="/about">
-                  Read Full Apostolic Story
+                  Read Full Pastoral Story
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -146,7 +155,7 @@ export function FounderSpotlight() {
           </div>
         </div>
 
-        {/* Mission & Vision Twin Cards matching Neno */}
+        {/* Mission & Vision Twin Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 pt-6 sm:pt-10 border-t border-slate-200">
           {/* Mission Card */}
           <div className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#fffaf5] to-white border border-orange-100 shadow-md flex flex-col justify-between">

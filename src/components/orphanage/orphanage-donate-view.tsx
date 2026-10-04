@@ -25,10 +25,26 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SendwaveQR } from "@/components/giving/sendwave-qr";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
 type PaymentTab = "kenya" | "international";
 
-export function OrphanageDonateView() {
+interface OrphanageDonateViewProps {
+  settings?: SiteSettingsData;
+}
+
+export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateViewProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+  const rawPhone = settings.mpesaPhone || DEFAULT_SETTINGS.mpesaPhone;
+  const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
+  const localCleanPhone = cleanPhone.startsWith("+254") ? "0" + cleanPhone.slice(4) : cleanPhone;
+  const waPhone = cleanPhone.replace(/^\+/, "");
+  const paybill = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill;
+  const kcbAccount = settings.kcbAccountNumber || DEFAULT_SETTINGS.kcbAccountNumber;
+  const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName;
+  const kcbBranch = settings.kcbBranch || DEFAULT_SETTINGS.kcbBranch;
+  const kcbSwift = settings.kcbSwift || DEFAULT_SETTINGS.kcbSwift;
+
   const [activeTab, setActiveTab] = useState<PaymentTab>("kenya");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
@@ -206,13 +222,13 @@ export function OrphanageDonateView() {
                         Business / Paybill No.
                       </span>
                       <span className="text-xl sm:text-2xl font-black text-slate-900 font-mono">
-                        174379
+                        {paybill}
                       </span>
                     </div>
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => copyToClipboard("174379", "paybill")}
+                      onClick={() => copyToClipboard(paybill, "paybill")}
                       className="border-slate-300 text-xs font-semibold h-9"
                     >
                       {copiedKey === "paybill" ? (
@@ -265,17 +281,17 @@ export function OrphanageDonateView() {
                     </h4>
                   </div>
                   <p className="text-xs text-slate-600">
-                    Send directly to Pastor Jeannette Taylor for immediate
+                    Send directly to {settings.pastorName} for immediate
                     orphanage needs or food market purchases:
                   </p>
                   <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
                     <span className="font-mono font-bold text-slate-900 text-sm">
-                      0700 000 001
+                      {rawPhone.startsWith("+254") ? localCleanPhone : rawPhone}
                     </span>
                     <Button
                       size="sm"
                       variant="ghost"
-                      onClick={() => copyToClipboard("0700000001", "phone")}
+                      onClick={() => copyToClipboard(localCleanPhone, "phone")}
                       className="h-8 text-xs font-semibold"
                     >
                       {copiedKey === "phone" ? (
@@ -304,16 +320,16 @@ export function OrphanageDonateView() {
                       Kenya Commercial Bank (KCB)
                     </p>
                     <p className="text-slate-600">
-                      Acc: Heavens Gates Children&apos;s Home
+                      Acc: {kcbName}
                     </p>
                     <div className="flex items-center justify-between pt-1">
                       <span className="font-mono font-bold text-slate-900">
-                        1234567890
+                        {kcbAccount}
                       </span>
                       <button
                         type="button"
                         onClick={() =>
-                          copyToClipboard("1234567890", "bank")
+                          copyToClipboard(kcbAccount, "bank")
                         }
                         className="text-[11px] text-[#ff6b35] font-bold hover:underline"
                       >
@@ -321,7 +337,7 @@ export function OrphanageDonateView() {
                       </button>
                     </div>
                     <div className="text-[10px] text-slate-400 pt-0.5">
-                      SWIFT: <strong>KCBLKENX</strong> &bull; Nairobi Central
+                      SWIFT: <strong>{kcbSwift}</strong> &bull; {kcbBranch}
                     </div>
                   </div>
                 </div>
@@ -387,27 +403,27 @@ export function OrphanageDonateView() {
                       </p>
                       <div className="space-y-1 font-mono text-[11px] text-slate-700 bg-white p-2.5 rounded-xl border border-slate-200">
                         <div className="flex items-center justify-between">
-                          <span>Acc: <strong>1234567890</strong></span>
+                          <span>Acc: <strong>{kcbAccount}</strong></span>
                           <button
                             type="button"
-                            onClick={() => copyToClipboard("1234567890", "kcbOrphAcc")}
+                            onClick={() => copyToClipboard(kcbAccount, "kcbOrphAcc")}
                             className="text-[#ff6b35] font-bold hover:underline"
                           >
                             {copiedKey === "kcbOrphAcc" ? "Copied" : "Copy Acc"}
                           </button>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="truncate pr-1">Name: Heavens Gates Children</span>
+                          <span className="truncate pr-1">Name: {kcbName}</span>
                           <button
                             type="button"
-                            onClick={() => copyToClipboard("Heavens Gates Children's Home", "kcbOrphName")}
+                            onClick={() => copyToClipboard(kcbName, "kcbOrphName")}
                             className="text-[#ff6b35] font-bold hover:underline shrink-0"
                           >
                             {copiedKey === "kcbOrphName" ? "Copied" : "Copy Name"}
                           </button>
                         </div>
                         <div className="text-[10px] text-slate-400 font-sans">
-                          SWIFT: <strong>KCBLKENX</strong> &bull; Ref: <strong>ORPHANAGE</strong>
+                          SWIFT: <strong>{kcbSwift}</strong> &bull; {kcbBranch} &bull; Ref: <strong>ORPHANAGE</strong>
                         </div>
                       </div>
                     </div>
@@ -424,7 +440,7 @@ export function OrphanageDonateView() {
                   </a>
 
                   <div className="text-[11px] text-slate-500 pt-1 text-center">
-                    Alternative: Also supports direct M-Pesa to <strong>+254 700 000 001</strong>
+                    Alternative: Also supports direct M-Pesa to <strong>{rawPhone}</strong>
                   </div>
                 </div>
 
@@ -433,10 +449,10 @@ export function OrphanageDonateView() {
                   <SendwaveQR
                     mode="bank"
                     bankName="Kenya Commercial Bank (KCB)"
-                    accountNumber="1234567890"
-                    accountName="Heavens Gates Children's Home"
-                    swiftCode="KCBLKENX"
-                    phone="+254 700 000 001"
+                    accountNumber={kcbAccount}
+                    accountName={kcbName}
+                    swiftCode={kcbSwift}
+                    phone={rawPhone}
                   />
                 </div>
               </div>
@@ -490,13 +506,13 @@ export function OrphanageDonateView() {
             </p>
             <div className="pt-2">
               <a
-                href="https://wa.me/254700000001?text=Hello%20Pastor%20Jeannette,%20I%20have%20sent%20a%20donation%20for%20the%20Children%27s%20Home."
+                href={`https://wa.me/${waPhone}?text=${encodeURIComponent(`Hello ${settings.pastorName}, I have sent a donation for the Children's Home.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-orange-500/20 transition-all"
               >
                 <PhoneCall className="w-4 h-4" />
-                <span>WhatsApp Pastoral Line (+254 700 000 001)</span>
+                <span>WhatsApp Pastoral Line ({rawPhone})</span>
               </a>
             </div>
           </div>

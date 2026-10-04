@@ -15,13 +15,20 @@ import {
   Loader2,
 } from "lucide-react";
 
+import { getSiteSettingsAction } from "@/actions/admin-settings";
+
 export const metadata: Metadata = {
   title: "Connect With Us | Heavens Gates Sugutta Fellowship Church International",
   description:
     "Connect with Heavens Gates Sugutta Fellowship Church International. Plan your visit, discover what to expect, explore our children's church, or reach our pastoral administration.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettingsAction();
+  const rawPhone = settings.mpesaPhone;
+  const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
+  const email = settings.contactEmail;
+
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     "Sugutta Main Altar Complex, Jogoo Road Corridor, Nairobi, Kenya"
   )}`;
@@ -143,19 +150,19 @@ export default function ContactPage() {
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-[#ff6b35] shrink-0" />
                   <a
-                    href="tel:+254700000001"
+                    href={`tel:${cleanPhone}`}
                     className="hover:text-[#ff6b35] font-semibold underline-offset-2 hover:underline"
                   >
-                    +254 700 000 001
+                    {rawPhone}
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-[#ff6b35] shrink-0" />
                   <a
-                    href="mailto:info@heavensgatesugutta.org"
+                    href={`mailto:${email}`}
                     className="hover:text-[#ff6b35] underline-offset-2 hover:underline"
                   >
-                    info@heavensgatesugutta.org
+                    {email}
                   </a>
                 </div>
               </div>

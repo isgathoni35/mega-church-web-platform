@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { OrphanageDonateView } from "@/components/orphanage/orphanage-donate-view";
+import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
   title:
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function OrphanageDonatePage() {
-  return <OrphanageDonateView />;
+export default async function OrphanageDonatePage() {
+  const settings = await getSiteSettingsAction();
+  return <OrphanageDonateView settings={settings} />;
 }
