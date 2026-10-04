@@ -6,6 +6,7 @@ import { MinistryVideoShowcase } from "@/components/home/ministry-video-showcase
 import { RecentSermons } from "@/components/home/recent-sermons";
 import { CategorizedActivities } from "@/components/home/categorized-activities";
 import { OrphanageTeaser } from "@/components/home/orphanage-teaser";
+import { VisitorFaq } from "@/components/home/visitor-faq";
 
 import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
@@ -85,6 +86,7 @@ export default async function Home() {
       <CategorizedActivities />
       <RecentSermons sermons={sermons} />
       <OrphanageTeaser />
+      <VisitorFaq />
     </div>
   );
 }

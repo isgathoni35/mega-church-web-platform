@@ -43,19 +43,15 @@ export default async function ContactPage() {
         </div>
 
         <div className="relative max-w-4xl mx-auto text-center space-y-2 sm:space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-widest shadow-sm">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Connect &amp; Plan Your Visit</span>
-          </div>
+          <span className="kicker">WE CAN&apos;T WAIT TO WELCOME YOU</span>
 
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#ff6b35] leading-tight">
-            We Can&apos;t Wait to Welcome You
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mt-2">
+            Come as you are. <span className="text-[#ff6b35]">Leave transformed.</span>
           </h1>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
-          <p className="text-xs sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Whether you are visiting for the first time or looking for a home church to grow
-            in spiritual authority, your seat is prepared in the presence of God.
+          <p className="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Whether you are visiting for the first time, seeking prayer, or looking for a loving church family to call home, our doors and hearts in Sugutta are wide open.
           </p>
         </div>
       </section>

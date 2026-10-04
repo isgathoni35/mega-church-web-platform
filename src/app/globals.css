@@ -167,6 +167,44 @@
   font-size: 0.875rem;
 }
 
+/* ─── Glory Gate Aesthetic Utilities ─── */
+
+@layer utilities {
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 800;
+    font-size: 0.72rem;
+    color: #c59b27;
+  }
+  .kicker::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: currentColor;
+    display: inline-block;
+  }
+  .kicker-dark {
+    color: #966b10;
+  }
+
+  /* Orbit celestial animation for hero seal */
+  @keyframes orbit-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .animate-orbit-spin {
+    animation: orbit-spin 50s linear infinite;
+  }
+}
+
 /* ─── Scroll-down bounce animation ─── */
 
 @keyframes gentle-bounce {
@@ -177,7 +215,7 @@
   animation: gentle-bounce 2.5s ease-in-out infinite;
 }
 
-/* ─── Warm fade-in on scroll (optional enhancement) ─── */
+/* ─── Warm fade-in on scroll ─── */
 
 @keyframes fade-in-up {
   from {

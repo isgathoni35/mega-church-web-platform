@@ -139,6 +139,15 @@
   5. Dynamic Public Components: Connected `HeroSection`, `FounderSpotlight`, `ServiceSchedule`, `FounderStory`, `LeadershipTeam`, `EventsView`, `DirectGivingPortal`, `OrphanageDonateView`, and global `Footer` to dynamic `site_settings` data.
   6. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), server live on port 3002.
 
+- [x] `feature-specs/28-glory-gate-content-and-editorial-alignment.md`: Glory Gate Benchmark Content & Editorial Voice Alignment (`https://glory-gate-church.vercel.app/`).
+  1. Editorial Tone & Narrative Transformation: Shifted sitewide headlines, kickers, and section descriptions to a welcoming, Christ-centered, and literary pastoral voice while retaining 100% of all existing platform features, admin systems, and remittance tools.
+  2. Hero Section Upgrade (`HeroSection`): Infused Glory Gate's headline (*"A place to meet Jesus. A people sent with hope."*), signature kicker with leading thin line (`— WELCOME TO SUGUTTA FELLOWSHIP`), Pastor Caesar portrait with celestial orbiting ring, and floating Quick Information Bar (Worship Time, Location, Prayer hotline, and Connect CTA).
+  3. "Who We Are" & Twin Mission/Vision Panels (`FounderSpotlight`): Built Glory Gate's "Who We Are" story (*"Jesus at the center. His love in motion."*), 4 Pillars (`✦ Built on the Word`, `✦ Spirit-Led Worship`, `✦ Real Community`, `✦ Kingdom Impact`), high-contrast Twin Mission (*"Proclaim. Disciple. Equip. Transform."*) & Vision (*"A faithful church with a global reach."*) contrast panels with Habakkuk 2:14 framing, and Pastor Caesar spotlight with 4-step spiritual journey (`Come. Connect. Grow. Go.`).
+  4. "Your First Sunday" Onboarding Timeline (`ServiceSchedule`): Added 4-step visitor timeline (`01. Come as you are`, `02. Meet a warm family`, `03. Encounter Jesus`, `04. Take your next step`) alongside the authentic 5-session Sunday Church Programme (8:00 AM – 11:45 AM) and Hebrews 10:25 Scripture banner.
+  5. Visitor FAQ Accordion & Newsletter Encouragement Bar (`VisitorFaq`): Built "Good to Know: Questions before you visit?" accordion with answers on attire, exploring faith, Sunday school, and church family connection, coupled with a weekly encouragement newsletter subscription bar.
+  6. Harmonized Giving, Sermons & Connect Titles: Elevated Recent Sermons to *"Messages for the journey: Truth to carry into Monday."*, Giving to *"We give because God first gave."*, Prayer Request to *"You don't have to carry it alone. How can we pray for you?"*, and Connect to *"Come as you are. Leave transformed."*.
+  7. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), dev server running on port 3002, and comprehensive browser subagent visual verification.
+
 ## 🚧 In Progress
 
 None.
@@ -150,6 +159,11 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-05]:** Vercel Production Build Prerender Fix (`/admin/login`):
+  1. Root Cause: In Next.js App Router, using `useSearchParams()` directly in a page component without a `<Suspense>` boundary triggers `missing-suspense-with-csr-bailout`, failing production build during `Generating static pages`.
+  2. Solution: Wrapped the form logic in an inner component and enclosed it in `<Suspense fallback={<LoginFormFallback />}>` inside `src/app/admin/login/page.tsx`, and declared `export const dynamic = "force-dynamic"`.
+  3. Verification: Ran `npm run build` locally—successfully generated all 19/19 routes with 0 errors (exited code 0).
 
 - **[2026-10-04]:** Church Administrative Management Portal:
   1. Solved user auth model for a church website with zero public member logins by deploying a secure Altar Master Passcode (`ADMIN_SECRET_KEY`) stored in `.env.local` and verified server-side with constant-time buffer comparison to prevent timing attacks.

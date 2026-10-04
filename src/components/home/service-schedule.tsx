@@ -9,17 +9,47 @@ import {
   MapPin,
   Sparkles,
   BookOpen,
-  Calendar,
   Flame,
-  Users,
   HeartHandshake,
   Music,
+  Smile,
+  Coffee,
+  Heart,
+  Compass,
+  ArrowRight,
 } from "lucide-react";
 import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
 interface ServiceScheduleProps {
   settings?: SiteSettingsData;
 }
+
+const FIRST_SUNDAY_STEPS = [
+  {
+    num: "01",
+    title: "Come as you are",
+    desc: "No dress codes, no expectations. You'll be warmly greeted at the door from the moment you arrive.",
+    icon: Smile,
+  },
+  {
+    num: "02",
+    title: "Meet a warm family",
+    desc: "Connect with welcoming believers, grab a seat, and experience a community that genuinely cares.",
+    icon: Coffee,
+  },
+  {
+    num: "03",
+    title: "Encounter Jesus",
+    desc: "Experience heartfelt, Spirit-led apostolic worship and dynamic, practical exposition grounded in God's Word.",
+    icon: Heart,
+  },
+  {
+    num: "04",
+    title: "Take your next step",
+    desc: "Whether it's personal altar prayer, discipleship, or community fellowship, we are here to walk with you.",
+    icon: Compass,
+  },
+];
 
 const SUNDAY_SESSIONS = [
   {
@@ -88,202 +118,248 @@ export function ServiceSchedule({ settings: propSettings }: ServiceScheduleProps
 
   return (
     <section id="schedule" className="py-12 sm:py-16 lg:py-24 bg-[#fbf8f3] text-slate-900">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12 space-y-2.5 sm:space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-            <Calendar className="w-3.5 h-3.5" />
-            <span>{settings.churchMotto || "REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD"}</span>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        
+        {/* ========================================================================= */}
+        {/* GLORY GATE BENCHMARK: YOUR FIRST SUNDAY ONBOARDING TIMELINE               */}
+        {/* ========================================================================= */}
+        <div>
+          <div className="max-w-2xl mb-8 sm:mb-12">
+            <span className="kicker">YOUR FIRST SUNDAY</span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mt-2 mb-3">
+              There is a seat with your name on it.
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+              We know visiting a new church can bring questions. Here is what you can expect when you walk through our doors in Sugutta:
+            </p>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-            Church Service Programme
-          </h2>
-          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
-          <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            {settings.churchSlogan ? (
-              <span className="font-semibold text-slate-800">&ldquo;{settings.churchSlogan}&rdquo;</span>
-            ) : null}{" "}
-            Gather with us at {settings.physicalLocation || "Sugutta Sanctuary"} under the leadership of{" "}
-            <span className="font-bold text-[#ff6b35]">{settings.pastorName}</span>.
-          </p>
-        </div>
-
-        {/* Tab Switcher */}
-        <div className="flex justify-center mb-8">
-          <div className="p-1 rounded-full bg-slate-200/80 border border-slate-300/80 shadow-inner flex items-center gap-1 max-w-md w-full">
-            <button
-              type="button"
-              onClick={() => setActiveTab("sunday")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all ${
-                activeTab === "sunday"
-                  ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>Sunday Programme (5 Sessions)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("midweek")}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all ${
-                activeTab === "midweek"
-                  ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <Clock className="w-4 h-4" />
-              <span>Midweek Fellowships</span>
-            </button>
-          </div>
-        </div>
-
-        {/* ================= TAB 1: SUNDAY 5-SESSION PROGRAMME ================= */}
-        {activeTab === "sunday" && (
-          <div className="space-y-6 animate-in fade-in duration-300">
-            {/* Sunday Service Timeline Container */}
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-lg overflow-hidden divide-y divide-slate-100">
-              {SUNDAY_SESSIONS.map((session, index) => {
-                const Icon = session.icon;
-                return (
-                  <div
-                    key={session.step}
-                    className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 sm:p-6 lg:p-7 transition-colors ${
-                      session.isPrimary
-                        ? "bg-gradient-to-r from-orange-500/[0.06] via-transparent to-transparent border-l-4 border-[#ff6b35]"
-                        : "hover:bg-slate-50/80"
-                    }`}
-                  >
-                    {/* Left: Step & Time */}
-                    <div className="flex items-center gap-4 sm:w-64 shrink-0">
-                      <div
-                        className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${
-                          session.isPrimary
-                            ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/25"
-                            : "bg-orange-500/10 text-[#ff6b35]"
-                        }`}
-                      >
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
-                          Phase {session.step} &bull; {session.badge}
-                        </span>
-                        <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-900 mt-0.5">
-                          <Clock className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" />
-                          <span>{session.time}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Middle: Title & Description */}
-                    <div className="flex-1 space-y-1">
-                      <h3 className="text-base sm:text-lg font-extrabold text-slate-900">
-                        {session.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        {session.desc}
-                      </p>
-                    </div>
-
-                    {/* Right: Resident Pastor or Watch CTA */}
-                    <div className="shrink-0 w-full md:w-auto pt-2 md:pt-0">
-                      {session.isPrimary ? (
-                        <Button
-                          size="sm"
-                          className="w-full md:w-auto font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20 text-xs py-2 px-4"
-                          asChild
-                        >
-                          <Link href="/sermons?live=true">
-                            <Video className="mr-1.5 h-3.5 w-3.5 fill-current" />
-                            Watch Live Service
-                          </Link>
-                        </Button>
-                      ) : (
-                        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
-                          <MapPin className="w-3.5 h-3.5 text-[#ff6b35]" />
-                          <span>{settings.physicalLocation || "Sugutta Sanctuary"}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Scripture Anchor Banner (Hebrews 10:25) matching Flyer */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0A2240] to-[#07192f] text-white border border-[#C59B27]/20 shadow-xl relative overflow-hidden">
-              <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-60 h-60 bg-[#C59B27]/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-                <div className="space-y-2 text-center md:text-left">
-                  <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#C59B27]">
-                    <BookOpen className="w-4 h-4" />
-                    <span>Scripture Call to Fellowship</span>
-                  </div>
-                  <p className="font-serif italic text-sm sm:text-lg text-slate-100 max-w-3xl leading-relaxed">
-                    &ldquo;And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another—and all the more as you see the Day approaching.&rdquo;
-                  </p>
-                  <span className="text-xs sm:text-sm font-bold text-[#C59B27] block tracking-wider">
-                    — HEBREWS 10:25
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {FIRST_SUNDAY_STEPS.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.num}
+                  className="p-5 sm:p-6 rounded-2xl bg-white border border-amber-900/10 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
+                >
+                  <span className="absolute top-3 right-4 font-mono font-bold text-2xl text-slate-200 group-hover:text-amber-500/40 transition-colors">
+                    {step.num}
                   </span>
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-[#ff6b35] flex items-center justify-center mb-4">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900 mb-1.5">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
+              );
+            })}
+          </div>
+        </div>
 
-                <div className="shrink-0 text-center md:text-right">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-400 block">Resident Minister</span>
-                  <span className="text-sm sm:text-base font-bold text-white block mt-0.5">{settings.pastorName}</span>
-                  <span className="text-xs text-[#C59B27] block">{settings.pastorTitle}</span>
+        {/* ========================================================================= */}
+        {/* AUTHENTIC 5-SESSION CHURCH PROGRAMME (SUGUTTA FLYER)                      */}
+        {/* ========================================================================= */}
+        <div className="pt-8 border-t border-slate-200">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-2">
+            <span className="kicker">WORSHIP SCHEDULE</span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Church Service Programme
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Gather with us at {settings.physicalLocation || "Sugutta Sanctuary"} under the leadership of{" "}
+              <span className="font-bold text-[#ff6b35]">{settings.pastorName}</span>.
+            </p>
+          </div>
+
+          {/* Tab Switcher */}
+          <div className="flex justify-center mb-8">
+            <div className="p-1 rounded-full bg-slate-200/80 border border-slate-300/80 shadow-inner flex items-center gap-1 max-w-md w-full">
+              <button
+                type="button"
+                onClick={() => setActiveTab("sunday")}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all ${
+                  activeTab === "sunday"
+                    ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Sunday (5 Sessions)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab("midweek")}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full text-xs sm:text-sm font-bold transition-all ${
+                  activeTab === "midweek"
+                    ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+                    : "text-slate-600 hover:text-slate-900"
+                }`}
+              >
+                <Clock className="w-4 h-4" />
+                <span>Midweek Fellowships</span>
+              </button>
+            </div>
+          </div>
+
+          {/* ================= TAB 1: SUNDAY 5-SESSION PROGRAMME ================= */}
+          {activeTab === "sunday" && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              {/* Sunday Service Timeline Container */}
+              <div className="bg-white rounded-3xl border border-slate-200/80 shadow-lg overflow-hidden divide-y divide-slate-100">
+                {SUNDAY_SESSIONS.map((session) => {
+                  const Icon = session.icon;
+                  return (
+                    <div
+                      key={session.step}
+                      className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-5 sm:p-6 lg:p-7 transition-colors ${
+                        session.isPrimary
+                          ? "bg-gradient-to-r from-orange-500/[0.06] via-transparent to-transparent border-l-4 border-[#ff6b35]"
+                          : "hover:bg-slate-50/80"
+                      }`}
+                    >
+                      {/* Left: Step & Time */}
+                      <div className="flex items-center gap-4 sm:w-64 shrink-0">
+                        <div
+                          className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${
+                            session.isPrimary
+                              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/25"
+                              : "bg-orange-500/10 text-[#ff6b35]"
+                          }`}
+                        >
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+                            Phase {session.step} &bull; {session.badge}
+                          </span>
+                          <div className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-900 mt-0.5">
+                            <Clock className="w-3.5 h-3.5 text-[#ff6b35] shrink-0" />
+                            <span>{session.time}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Middle: Title & Description */}
+                      <div className="flex-1 space-y-1">
+                        <h3 className="text-base sm:text-lg font-extrabold text-slate-900">
+                          {session.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                          {session.desc}
+                        </p>
+                      </div>
+
+                      {/* Right: Resident Pastor or Watch CTA */}
+                      <div className="shrink-0 w-full md:w-auto pt-2 md:pt-0">
+                        {session.isPrimary ? (
+                          <Button
+                            size="sm"
+                            className="w-full md:w-auto font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20 text-xs py-2 px-4"
+                            asChild
+                          >
+                            <Link href="/sermons?live=true">
+                              <Video className="mr-1.5 h-3.5 w-3.5 fill-current" />
+                              Watch Live Service
+                            </Link>
+                          </Button>
+                        ) : (
+                          <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
+                            <MapPin className="w-3.5 h-3.5 text-[#ff6b35]" />
+                            <span>{settings.physicalLocation || "Sugutta Sanctuary"}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Scripture Anchor Banner (Hebrews 10:25) matching Flyer */}
+              <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#061d43] to-[#04122b] text-white border border-[#c58d18]/30 shadow-xl relative overflow-hidden">
+                <div className="absolute right-0 top-0 translate-x-8 -translate-y-8 w-60 h-60 bg-[#c58d18]/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                  <div className="space-y-2 text-center md:text-left">
+                    <span className="kicker-dark">SCRIPTURE CALL TO FELLOWSHIP</span>
+                    <p className="font-serif italic text-sm sm:text-lg text-slate-100 max-w-3xl leading-relaxed mt-2">
+                      &ldquo;And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another—and all the more as you see the Day approaching.&rdquo;
+                    </p>
+                    <span className="text-xs sm:text-sm font-bold text-[#c58d18] block tracking-wider mt-1">
+                      — HEBREWS 10:25
+                    </span>
+                  </div>
+
+                  <div className="shrink-0 text-center md:text-right">
+                    <span className="text-[11px] uppercase tracking-wider text-slate-400 block">Resident Minister</span>
+                    <span className="text-sm sm:text-base font-bold text-white block mt-0.5">{settings.pastorName}</span>
+                    <span className="text-xs text-[#c58d18] block">{settings.pastorTitle}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* ================= TAB 2: MIDWEEK FELLOWSHIPS ================= */}
-        {activeTab === "midweek" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
-            {MIDWEEK_SERVICES.map((item) => (
-              <div
-                key={item.day}
-                className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 sm:p-8 flex flex-col justify-between space-y-4"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="px-3 py-1 rounded-full bg-orange-500/10 text-[#ff6b35] text-xs font-extrabold uppercase tracking-wide">
-                      {item.day}
-                    </span>
-                    <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
-                      <Clock className="w-3.5 h-3.5 text-[#ff6b35]" />
-                      <span>{item.time}</span>
+          {/* ================= TAB 2: MIDWEEK FELLOWSHIPS ================= */}
+          {activeTab === "midweek" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in duration-300">
+              {MIDWEEK_SERVICES.map((item) => (
+                <div
+                  key={item.day}
+                  className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 sm:p-8 flex flex-col justify-between space-y-4"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="px-3 py-1 rounded-full bg-orange-500/10 text-[#ff6b35] text-xs font-extrabold uppercase tracking-wide">
+                        {item.day}
+                      </span>
+                      <div className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
+                        <Clock className="w-3.5 h-3.5 text-[#ff6b35]" />
+                        <span>{item.time}</span>
+                      </div>
                     </div>
+
+                    <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                      <MapPin className="w-3.5 h-3.5 text-[#ff6b35]" />
+                      <span>{item.location}</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900">{item.title}</h3>
-                  <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                    <MapPin className="w-3.5 h-3.5 text-[#ff6b35]" />
-                    <span>{item.location}</span>
+                  <div className="pt-2">
+                    <Button
+                      size="sm"
+                      className="w-full font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20 text-xs py-2.5"
+                      asChild
+                    >
+                      <Link href="/sermons?live=true">
+                        <Video className="mr-1.5 h-3.5 w-3.5 fill-current" />
+                        Join Digital Altar
+                      </Link>
+                    </Button>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    {item.desc}
-                  </p>
                 </div>
+              ))}
+            </div>
+          )}
 
-                <div className="pt-2">
-                  <Button
-                    size="sm"
-                    className="w-full font-bold bg-[#ff6b35] hover:bg-[#e05626] text-white rounded-xl shadow-md shadow-orange-500/20 text-xs py-2.5"
-                    asChild
-                  >
-                    <Link href="/sermons?live=true">
-                      <Video className="mr-1.5 h-3.5 w-3.5 fill-current" />
-                      Join Digital Altar
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-            ))}
+          {/* Plan Visit Link */}
+          <div className="text-center pt-8">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-800 hover:text-[#ff6b35] transition-colors"
+            >
+              Have questions about your visit? Plan your visit with our welcoming team{" "}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
-        )}
+        </div>
+
       </div>
     </section>
   );

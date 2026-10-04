@@ -21,20 +21,18 @@ export function RecentSermons({ sermons }: RecentSermonsProps) {
   return (
     <section className="w-full py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200/70">
       <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8 lg:space-y-12">
-        {/* Centered Section Header matching Neno */}
-        <div className="text-center max-w-3xl mx-auto space-y-1.5 sm:space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-widest">
-            <Video className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-            <span>Media &amp; Broadcasts</span>
-          </div>
+        {/* Centered Section Header matching Glory Gate / Neno */}
+        <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
+          <span className="kicker">LATEST MESSAGES</span>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight">
-            Latest Sermons &amp; Teachings
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            Messages for the journey: <br className="hidden sm:inline" />
+            <span className="text-[#ff6b35]">Truth to carry into Monday.</span>
           </h2>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-sm sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            Stream powerful life-changing messages, prophetic declarations, and miraculous deliverance services from anywhere in the world.
+            Stream life-changing messages, systematic biblical expositions, and prophetic encouragement from Pastor Caesar to strengthen your walk wherever you are.
           </p>
         </div>
 

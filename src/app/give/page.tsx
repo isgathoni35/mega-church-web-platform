@@ -23,31 +23,28 @@ export default async function GivePage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl text-center space-y-2 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold tracking-wider uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Sow into the Kingdom</span>
-          </div>
+          <span className="kicker">GENEROSITY &amp; KINGDOM IMPACT</span>
 
-          <h1 className="font-extrabold text-2xl sm:text-4xl lg:text-5xl text-[#ff6b35] tracking-tight leading-tight max-w-3xl mx-auto">
-            Worship Through Giving
+          <h1 className="font-extrabold text-2xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight leading-tight max-w-3xl mx-auto mt-2">
+            We give because <span className="text-[#ff6b35]">God first gave.</span>
           </h1>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
-          <p className="text-slate-600 max-w-2xl mx-auto text-xs sm:text-lg leading-relaxed">
-            Your generous financial partnership empowers crusades across nations, sustains deliverance ministration, and spreads the gospel of Jesus Christ.
+          <p className="text-slate-600 max-w-2xl mx-auto text-xs sm:text-base leading-relaxed">
+            Every gift—large or small—fuels the proclamation of the Gospel, supports vulnerable children at the Sugutta Children&apos;s Home, and strengthens families across Kenya.
           </p>
 
           {/* Scripture Anchor Card */}
-          <div className="mt-4 sm:mt-8 max-w-2xl mx-auto p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-orange-200/80 shadow-md text-slate-800">
+          <div className="mt-4 sm:mt-8 max-w-2xl mx-auto p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-amber-900/10 shadow-md text-slate-800">
             <div className="flex items-center justify-center gap-1.5 text-[#ff6b35] text-[11px] sm:text-xs uppercase font-bold tracking-widest mb-1 sm:mb-2">
               <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Biblical Foundation</span>
             </div>
-            <blockquote className="font-serif italic text-xs sm:text-lg text-slate-900 leading-relaxed">
-              &ldquo;Look at the nations and watch—and be utterly amazed. For I am going to do something in your days that you would not believe, even if you were told.&rdquo;
+            <blockquote className="font-serif italic text-xs sm:text-base text-slate-900 leading-relaxed">
+              &ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
             </blockquote>
             <div className="text-[#ff6b35] text-[11px] sm:text-xs font-bold mt-1.5 sm:mt-2">
-              — Habakkuk 1:5 (NIV)
+              — 2 Corinthians 9:7 (NIV)
             </div>
           </div>
         </div>
