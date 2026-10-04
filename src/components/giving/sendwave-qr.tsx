@@ -6,18 +6,29 @@ import { QrCode, Smartphone, Copy, Check } from "lucide-react";
 interface SendwaveQRProps {
   phone?: string;
   recipientName?: string;
+  accountName?: string;
+  bankName?: string;
+  accountNumber?: string;
+  swiftCode?: string;
+  mode?: "bank" | "phone";
 }
 
 export function SendwaveQR({
   phone = "+254 700 000 001",
-  recipientName = "Pastor Jeannette Taylor",
+  recipientName = "Heavens Gates Sugutta Fellowship Church",
+  accountName,
+  bankName = "Kenya Commercial Bank (KCB)",
+  accountNumber = "1234567890",
+  swiftCode = "KCBLKENX",
+  mode = "bank",
 }: SendwaveQRProps) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
+  const displayName = accountName || recipientName;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText("+254700000001");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  const handleCopy = (text: string, key: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(key);
+    setTimeout(() => setCopied(null), 2500);
   };
 
   return (
@@ -31,10 +42,10 @@ export function SendwaveQR({
       {/* Title */}
       <div className="space-y-1">
         <h4 className="font-extrabold text-base sm:text-lg text-slate-900">
-          Fast Mobile Transfer via Sendwave
+          {mode === "bank" ? "Direct KCB Deposit via Sendwave" : "Fast Transfer via Sendwave"}
         </h4>
         <p className="text-xs text-slate-500 max-w-xs">
-          Point your phone camera at this QR code to instantly launch or download the Sendwave app.
+          Point your phone camera at this QR code to launch or download the Sendwave app with 0% transfer fee.
         </p>
       </div>
 
@@ -65,34 +76,65 @@ export function SendwaveQR({
       </div>
 
       {/* Recipient Quick Copy Strip */}
-      <div className="w-full p-2.5 sm:p-3 rounded-xl bg-[#fffaf5] border border-orange-100 flex items-center justify-between gap-2 text-left">
-        <div>
-          <span className="text-[10px] uppercase font-bold text-slate-500 block">
-            Recipient in Sendwave
-          </span>
-          <span className="font-mono text-xs sm:text-sm font-black text-slate-900 block">
-            {phone}
-          </span>
-          <span className="text-[10px] text-slate-500 block truncate">
-            {recipientName}
-          </span>
+      {mode === "bank" ? (
+        <div className="w-full p-2.5 sm:p-3 rounded-xl bg-[#fffaf5] border border-orange-100 flex items-center justify-between gap-2 text-left">
+          <div className="min-w-0">
+            <span className="text-[10px] uppercase font-bold text-slate-500 block">
+              {bankName}
+            </span>
+            <span className="font-mono text-xs sm:text-sm font-black text-slate-900 block truncate">
+              Acc: {accountNumber}
+            </span>
+            <span className="text-[10px] text-slate-500 block truncate">
+              {displayName}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleCopy(accountNumber, "acc")}
+            className="px-2.5 py-1.5 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] font-bold shrink-0 shadow-sm transition-all"
+          >
+            {copied === "acc" ? (
+              <span className="flex items-center gap-1">
+                <Check className="h-3 w-3" /> Copied
+              </span>
+            ) : (
+              <span className="flex items-center gap-1">
+                <Copy className="h-3 w-3" /> Copy Acc
+              </span>
+            )}
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="px-2.5 py-1.5 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] font-bold shrink-0 shadow-sm transition-all"
-        >
-          {copied ? (
-            <span className="flex items-center gap-1">
-              <Check className="h-3 w-3" /> Copied
+      ) : (
+        <div className="w-full p-2.5 sm:p-3 rounded-xl bg-[#fffaf5] border border-orange-100 flex items-center justify-between gap-2 text-left">
+          <div>
+            <span className="text-[10px] uppercase font-bold text-slate-500 block">
+              Recipient in Sendwave
             </span>
-          ) : (
-            <span className="flex items-center gap-1">
-              <Copy className="h-3 w-3" /> Copy
+            <span className="font-mono text-xs sm:text-sm font-black text-slate-900 block">
+              {phone}
             </span>
-          )}
-        </button>
-      </div>
+            <span className="text-[10px] text-slate-500 block truncate">
+              {displayName}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleCopy(phone.replace(/\s+/g, ""), "phone")}
+            className="px-2.5 py-1.5 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white text-[11px] font-bold shrink-0 shadow-sm transition-all"
+          >
+            {copied === "phone" ? (
+              <span className="flex items-center gap-1">
+                <Check className="h-3 w-3" /> Copied
+              </span>
+            ) : (
+              <span className="flex items-center gap-1">
+                <Copy className="h-3 w-3" /> Copy
+              </span>
+            )}
+          </button>
+        </div>
+      )}
 
       <div className="text-[10px] sm:text-[11px] text-slate-400 flex items-center justify-center gap-1">
         <Smartphone className="h-3 w-3 text-emerald-600" />
@@ -101,3 +143,4 @@ export function SendwaveQR({
     </div>
   );
 }
+

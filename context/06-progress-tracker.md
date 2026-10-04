@@ -106,6 +106,20 @@
   5. Integrated official church seal into Pastoral Receipt confirmation cards on `/give` and `/orphanage/donate`.
   6. Verified 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 on port 3002 across all routes, and end-to-end browser inspection.
 
+- [x] `feature-specs/24-sendwave-kcb-bank-integration.md`: Sendwave to KCB Bank International Payment Integration.
+  1. Configured Sendwave international remittance steps on `/give` and `/orphanage/donate` to route directly into Kenya Commercial Bank (KCB) bank account with placeholder numbers (`1234567890`) and SWIFT `KCBLKENX`.
+  2. Implemented structured KCB credentials card with 1-click copy for Account Number, Account Name, Branch, and SWIFT Code.
+  3. Updated Sendwave vector QR code (`sendwave-qr.tsx`) to support direct KCB Bank Account deposit mode with 1-click copy.
+  4. Standardized all direct bank wire references across the platform to KCB Bank (`KCBLKENX`), updating Tab 1 in `DirectGivingPortal`, Tab 1 in `OrphanageDonateView`, and the Global Footer digital giving channels.
+  5. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 on port 3002 across all routes.
+
+- [x] `feature-specs/25-outdoor-ministry-video-showcase.md`: Outdoor Ministry & Praise Video Showcase.
+  1. Renamed 9 raw WhatsApp MP4 files in `public/videos/` to clean, URL-safe filenames and mapped them in `src/data/ministry-videos.ts` with dimensions, durations, locations, and scripture anchors.
+  2. Identified mixed aspect ratios: 2 vertical 9:16 mobile praise reels (58s each) and 7 widescreen 16:9 outdoor crusade and procession videos (50s to 5:47).
+  3. Implemented `AdaptiveVideoModal` supporting both vertical 9:16 mobile frames with rounded gold borders and 16:9 cinematic widescreen players with progressive HTML5 streaming.
+  4. Created `MinistryVideoShowcase` component on Homepage and in `/sermons` with interactive filter pills (`All Highlights`, `Praise Reels`, `Outdoor Crusades`), video length badges, location tags, and play hover effects.
+  5. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 on port 3002 across all routes.
+
 ## 🚧 In Progress
 
 None.
@@ -117,6 +131,22 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-04]:** Outdoor Ministry & Praise Video Showcase:
+  1. Analyzed 9 raw WhatsApp videos uploaded to `public/videos/` and identified 2 vertical smartphone reels (`478x850`, 9:16) and 7 widescreen crusade captures (`848x478`, 16:9).
+  2. Renamed them to clean, URL-safe filenames (`praise-reel-01.mp4`, `outdoor-crusade-01.mp4`, etc.) and defined typed catalog `MINISTRY_VIDEOS` in `src/data/ministry-videos.ts`.
+  3. Built `AdaptiveVideoModal` in `src/components/media/adaptive-video-modal.tsx` which dynamically adapts its frame geometry based on video orientation.
+  4. Implemented `MinistryVideoShowcase` in `src/components/home/ministry-video-showcase.tsx` featuring filter tabs, preview video frames (`#t=0.5`), duration badges, location pins, and scripture anchors.
+  5. Integrated the showcase on the Homepage (between Ministry Pillars and Categorized Activities) and on `/sermons` below the Sermon Archive.
+  6. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 on port 3002.
+
+- **[2026-10-04]:** Sendwave to KCB Bank International Payment Integration:
+  1. Standardized all international Sendwave remittance instructions on `/give` and `/orphanage/donate` to guide donors to select: Country: Kenya &rarr; Delivery Method: Bank Transfer &rarr; Recipient Bank: Kenya Commercial Bank (KCB).
+  2. Deployed 1-click copy credential blocks for KCB Bank Account (`1234567890`), Account Name (*Heavens Gates Sugutta Fellowship Church* / *Heavens Gates Children's Home*), and SWIFT Code (`KCBLKENX`).
+  3. Upgraded `SendwaveQR` vector component to support direct KCB Bank Account deposit mode with 1-click copy button.
+  4. Unified all domestic bank deposit and wire references from Co-op Bank to KCB Bank across `DirectGivingPortal`, `OrphanageDonateView`, and the global `Footer`.
+  5. Preserved mobile line M-Pesa (`+254 700 000 001`) as a quick secondary alternative in Sendwave.
+  6. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 on port 3002 across all routes.
 
 - **[2026-10-04]:** Official Logo Integration, Browser Tab Titles & Color Harmonization:
   1. Extracted and deployed the church's official emblem into standard Next.js asset locations (`public/images/sugutta-logo.png`, `public/favicon.ico`, `src/app/icon.png`).

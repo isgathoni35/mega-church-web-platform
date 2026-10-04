@@ -287,38 +287,41 @@ export function OrphanageDonateView() {
                   </div>
                 </div>
 
-                {/* Bank Wire */}
+                {/* KCB Bank Wire */}
                 <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm space-y-3">
                   <div className="flex items-center gap-2.5">
                     <Building className="w-5 h-5 text-[#ff6b35]" />
                     <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                      Co-operative Bank Direct Wire
+                      KCB Bank Direct Wire
                     </h4>
                   </div>
                   <p className="text-xs text-slate-600">
-                    For larger organizational sponsorships, school tuition
-                    wire, or project partnerships:
+                    For organizational sponsorships, school tuition
+                    wires, or direct bank deposits:
                   </p>
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
                     <p className="font-semibold text-slate-900">
-                      Co-operative Bank of Kenya
+                      Kenya Commercial Bank (KCB)
                     </p>
                     <p className="text-slate-600">
-                      Acc: Heavens Gates Children Trust
+                      Acc: Heavens Gates Children&apos;s Home
                     </p>
                     <div className="flex items-center justify-between pt-1">
                       <span className="font-mono font-bold text-slate-900">
-                        01129000000000
+                        1234567890
                       </span>
                       <button
                         type="button"
                         onClick={() =>
-                          copyToClipboard("01129000000000", "bank")
+                          copyToClipboard("1234567890", "bank")
                         }
                         className="text-[11px] text-[#ff6b35] font-bold hover:underline"
                       >
-                        {copiedKey === "bank" ? "Copied" : "Copy"}
+                        {copiedKey === "bank" ? "Copied" : "Copy Acc"}
                       </button>
+                    </div>
+                    <div className="text-[10px] text-slate-400 pt-0.5">
+                      SWIFT: <strong>KCBLKENX</strong> &bull; Nairobi Central
                     </div>
                   </div>
                 </div>
@@ -335,28 +338,27 @@ export function OrphanageDonateView() {
                   <span>Sendwave International Remittance</span>
                 </div>
                 <h3 className="text-xl sm:text-2xl font-extrabold text-[#0f172a]">
-                  Donate Directly from USA, UK, Canada &amp; Europe
+                  Donate via Sendwave Direct to KCB Bank
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600">
-                  Sendwave delivers your donation straight to our Kenyan M-Pesa
-                  line with <strong className="text-slate-900">zero transfer fees</strong>.
+                  Sendwave transfers your love gift directly from foreign debit cards in the USA, UK, Canada &amp; Europe straight into our Kenya Commercial Bank (KCB) account with <strong className="text-slate-900">zero transfer fees</strong>.
                 </p>
               </div>
 
               {/* Side by Side Walkthrough & QR Code */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-2">
                 {/* 3 Step Walkthrough */}
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
                     <span className="w-7 h-7 rounded-full bg-[#ff6b35] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                       1
                     </span>
                     <div className="text-xs space-y-0.5">
                       <p className="font-bold text-slate-900">
-                        Download or Open Sendwave App
+                        Open Sendwave App
                       </p>
                       <p className="text-slate-500">
-                        Available free on App Store and Google Play.
+                        Available free on App Store and Google Play (0% fee).
                       </p>
                     </div>
                   </div>
@@ -367,22 +369,10 @@ export function OrphanageDonateView() {
                     </span>
                     <div className="text-xs space-y-1">
                       <p className="font-bold text-slate-900">
-                        Set Recipient to Kenya M-Pesa
+                        Choose Bank Transfer &rarr; Kenya Commercial Bank (KCB)
                       </p>
-                      <div className="flex items-center gap-2 font-mono font-bold text-slate-900">
-                        <span>+254 700 000 001</span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            copyToClipboard("+254700000001", "sendwavePhone")
-                          }
-                          className="text-[11px] text-[#ff6b35] font-bold hover:underline"
-                        >
-                          {copiedKey === "sendwavePhone" ? "Copied" : "Copy"}
-                        </button>
-                      </div>
-                      <p className="text-slate-500">
-                        Name: Pastor Jeannette Taylor (Orphanage)
+                      <p className="text-slate-600">
+                        Country: <strong>Kenya 🇰🇪</strong> &bull; Bank: <strong>KCB Bank</strong>
                       </p>
                     </div>
                   </div>
@@ -391,13 +381,35 @@ export function OrphanageDonateView() {
                     <span className="w-7 h-7 rounded-full bg-[#ff6b35] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                       3
                     </span>
-                    <div className="text-xs space-y-0.5">
+                    <div className="text-xs space-y-1.5 w-full">
                       <p className="font-bold text-slate-900">
-                        Enter Amount &amp; Confirm
+                        Enter KCB Orphanage Account Details:
                       </p>
-                      <p className="text-slate-500">
-                        Funds arrive instantly in Kenya with 0% fee.
-                      </p>
+                      <div className="space-y-1 font-mono text-[11px] text-slate-700 bg-white p-2.5 rounded-xl border border-slate-200">
+                        <div className="flex items-center justify-between">
+                          <span>Acc: <strong>1234567890</strong></span>
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard("1234567890", "kcbOrphAcc")}
+                            className="text-[#ff6b35] font-bold hover:underline"
+                          >
+                            {copiedKey === "kcbOrphAcc" ? "Copied" : "Copy Acc"}
+                          </button>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="truncate pr-1">Name: Heavens Gates Children</span>
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard("Heavens Gates Children's Home", "kcbOrphName")}
+                            className="text-[#ff6b35] font-bold hover:underline shrink-0"
+                          >
+                            {copiedKey === "kcbOrphName" ? "Copied" : "Copy Name"}
+                          </button>
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-sans">
+                          SWIFT: <strong>KCBLKENX</strong> &bull; Ref: <strong>ORPHANAGE</strong>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -410,13 +422,21 @@ export function OrphanageDonateView() {
                     <span>Launch Sendwave</span>
                     <ExternalLink className="w-4 h-4" />
                   </a>
+
+                  <div className="text-[11px] text-slate-500 pt-1 text-center">
+                    Alternative: Also supports direct M-Pesa to <strong>+254 700 000 001</strong>
+                  </div>
                 </div>
 
                 {/* Vector QR Code */}
                 <div>
                   <SendwaveQR
+                    mode="bank"
+                    bankName="Kenya Commercial Bank (KCB)"
+                    accountNumber="1234567890"
+                    accountName="Heavens Gates Children's Home"
+                    swiftCode="KCBLKENX"
                     phone="+254 700 000 001"
-                    recipientName="Pastor Jeannette Taylor (Orphanage)"
                   />
                 </div>
               </div>

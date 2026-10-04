@@ -225,7 +225,7 @@ export function Footer() {
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
                 <span className="font-bold text-white block text-[11px] sm:text-xs">Direct Wire</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Co-op Bank</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">KCB Bank</span>
               </div>
             </div>
 

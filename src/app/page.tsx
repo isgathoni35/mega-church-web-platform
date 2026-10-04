@@ -1,6 +1,7 @@
 import { HeroSection } from "@/components/home/hero-section";
 import { FounderSpotlight } from "@/components/home/founder-spotlight";
 import { MinistryPillars } from "@/components/home/ministry-pillars";
+import { MinistryVideoShowcase } from "@/components/home/ministry-video-showcase";
 import { RecentSermons } from "@/components/home/recent-sermons";
 import { CategorizedActivities } from "@/components/home/categorized-activities";
 import { OrphanageTeaser } from "@/components/home/orphanage-teaser";
@@ -76,8 +77,9 @@ export default async function Home() {
       <HeroSection />
       <FounderSpotlight />
       <MinistryPillars />
-      <RecentSermons sermons={sermons} />
+      <MinistryVideoShowcase />
       <CategorizedActivities />
+      <RecentSermons sermons={sermons} />
       <OrphanageTeaser />
     </div>
   );

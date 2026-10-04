@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { LiveHeroPlayer } from "@/components/sermons/live-hero-player";
 import { SermonArchive } from "@/components/sermons/sermon-archive";
+import { MinistryVideoShowcase } from "@/components/home/ministry-video-showcase";
 import { Sermon } from "@/types/database.types";
 
 export const metadata: Metadata = {
@@ -96,6 +97,7 @@ export default async function SermonsPage() {
     <div className="flex flex-col w-full min-h-screen">
       <LiveHeroPlayer featuredSermon={featuredSermon} />
       <SermonArchive initialSermons={sermons} />
+      <MinistryVideoShowcase />
     </div>
   );
 }
