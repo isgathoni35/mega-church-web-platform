@@ -11,7 +11,7 @@ export function FounderStory({ settings: propSettings }: FounderStoryProps = {})
   const settings = propSettings || DEFAULT_SETTINGS;
 
   return (
-    <section className="py-10 sm:py-16 lg:py-24 bg-white text-slate-900 overflow-hidden">
+    <section id="founder-story" className="py-10 sm:py-16 lg:py-24 bg-white text-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-16 items-center">
           {/* Left Column: Framed Portrait with Floating Quotation Badge */}

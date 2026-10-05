@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   // Pastoral Profile
   pastorName: "Pastor Caesar Osebe Nyandwaro",
   pastorTitle: "Resident Pastor & Visionary",
-  pastorImageUrl: "/images/pastor-caesar.jpg",
+  pastorImageUrl: "/images/pastor-caesar-hero.jpg",
   pastorBio:
     "Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact.",
   pastorNationalId: "39966005",

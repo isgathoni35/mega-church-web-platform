@@ -21,13 +21,14 @@ export function RecentSermons({ sermons }: RecentSermonsProps) {
   return (
     <section className="w-full py-10 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-200/70">
       <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8 lg:space-y-12">
-        {/* Centered Section Header matching Glory Gate / Neno */}
+        {/* Centered Section Header matching Neno */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
-          <span className="kicker">LATEST MESSAGES</span>
+          <span className="inline-block text-xs sm:text-sm font-bold tracking-widest text-[#ff6b35] uppercase">
+            Latest Messages
+          </span>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
-            Messages for the journey: <br className="hidden sm:inline" />
-            <span className="text-[#ff6b35]">Truth to carry into Monday.</span>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight">
+            Messages for the Journey: Truth to Carry into Monday
           </h2>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 

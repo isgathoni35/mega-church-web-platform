@@ -1,12 +1,14 @@
 import { HeroSection } from "@/components/home/hero-section";
-import { ServiceSchedule } from "@/components/home/service-schedule";
 import { FounderSpotlight } from "@/components/home/founder-spotlight";
 import { MinistryPillars } from "@/components/home/ministry-pillars";
-import { MinistryVideoShowcase } from "@/components/home/ministry-video-showcase";
+import { ServiceSchedule } from "@/components/home/service-schedule";
 import { RecentSermons } from "@/components/home/recent-sermons";
 import { CategorizedActivities } from "@/components/home/categorized-activities";
+import { HomePrayerMountain } from "@/components/home/home-prayer-mountain";
+import { AnointedReels } from "@/components/home/anointed-reels";
 import { OrphanageTeaser } from "@/components/home/orphanage-teaser";
-import { VisitorFaq } from "@/components/home/visitor-faq";
+import { HomeGivingModule } from "@/components/home/home-giving-module";
+import { HomeContactModule } from "@/components/home/home-contact-module";
 
 import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
@@ -78,15 +80,38 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full">
+      {/* 1. Hero Section + 3-Item Stats Bar */}
       <HeroSection settings={settings} />
-      <ServiceSchedule settings={settings} />
+
+      {/* 2. Section 2: Founder Spotlight & Testimony ("A Testimony of God's Grace & Power") */}
       <FounderSpotlight settings={settings} />
+
+      {/* 3. Section 3: Our Ministry Pillars + 3-Item Impact Counter */}
       <MinistryPillars />
-      <MinistryVideoShowcase />
-      <CategorizedActivities />
+
+      {/* 4. Section 4: Church Service Programme (Sunday 5 Sessions & Midweek) */}
+      <ServiceSchedule settings={settings} />
+
+      {/* 5. Section 5: Latest Services & Sermons */}
       <RecentSermons sermons={sermons} />
+
+      {/* 6. Section 6: Categorized Activities & Departments */}
+      <CategorizedActivities />
+
+      {/* 7. Section 7: Sacred Prayer Mountain (Mai Mahiu Fasting & Vigils) */}
+      <HomePrayerMountain />
+
+      {/* 8. Section 8: Anointed Moments (4 Vertical 9:16 Video Reels) */}
+      <AnointedReels />
+
+      {/* 9. Section 9: Children's Home & Compassion Mission Teaser */}
       <OrphanageTeaser />
-      <VisitorFaq />
+
+      {/* 10. Section 10: Give & Support the Ministry (Embedded M-Pesa & Sendwave Hub) */}
+      <HomeGivingModule settings={settings} />
+
+      {/* 11. Section 11: Get In Touch (Sanctuary Details & Message Form) */}
+      <HomeContactModule settings={settings} />
     </div>
   );
 }

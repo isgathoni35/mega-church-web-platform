@@ -75,9 +75,11 @@ export function StatementOfFaith() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8 lg:space-y-12">
         {/* Centered Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
-          <span className="kicker">WHAT WE BELIEVE</span>
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mt-2">
-            Built on the Word: <span className="text-[#ff6b35]">Pillars of Our Faith</span>
+          <span className="inline-block text-xs sm:text-sm font-bold tracking-widest text-[#ff6b35] uppercase">
+            What We Believe
+          </span>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight">
+            Built on the Word: Pillars of Our Faith
           </h2>
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
           <p className="text-sm sm:text-lg text-slate-600 leading-relaxed">

@@ -29,11 +29,12 @@ export const metadata: Metadata = {
     "Official platform for Heavens Gates Sugutta Fellowship Church International. Growing Together in Christ (Matthew 18:20). Experience divine deliverance, live worship, apostolic teachings, and digital giving.",
   icons: {
     icon: [
-      { url: "/images/sugutta-logo.png", sizes: "any" },
-      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico?v=2", sizes: "any" },
+      { url: "/images/sugutta-logo.png?v=2", type: "image/png", sizes: "32x32" },
+      { url: "/images/sugutta-logo.png?v=2", type: "image/png", sizes: "192x192" },
     ],
-    apple: "/images/sugutta-logo.png",
-    shortcut: "/images/sugutta-logo.png",
+    apple: "/images/sugutta-logo.png?v=2",
+    shortcut: "/favicon.ico?v=2",
   },
   openGraph: {
     title: "Sugutta Fellowship Church — Growing Together in Christ",

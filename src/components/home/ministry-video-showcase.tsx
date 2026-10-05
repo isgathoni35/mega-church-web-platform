@@ -36,14 +36,13 @@ export function MinistryVideoShowcase() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
         {/* ================= SECTION HEADER ================= */}
         <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C59B27]/10 border border-[#C59B27]/30 text-[#0A2240] text-xs font-extrabold uppercase tracking-wider shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-extrabold uppercase tracking-wider shadow-sm">
             <Flame className="w-3.5 h-3.5 text-[#ff6b35]" />
             <span>Ministry in Action &bull; Outdoor Praising</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2240] tracking-tight leading-tight">
-            Witness the Fire &amp;{" "}
-            <span className="text-[#ff6b35] italic font-serif">Uncompromised Praise</span>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight leading-tight">
+            Witness the Fire &amp; Uncompromised Praise
           </h2>
 
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
@@ -53,7 +52,7 @@ export function MinistryVideoShowcase() {
             and outdoor praise processions captured live with the saints of Sugutta Fellowship.
           </p>
 
-          <blockquote className="text-[11px] sm:text-xs text-[#C59B27] font-semibold italic">
+          <blockquote className="text-[11px] sm:text-xs text-slate-500 font-semibold italic">
             &ldquo;Make a joyful noise unto the Lord, all ye lands! Serve the Lord with gladness.&rdquo; &mdash; Psalm 100:1-2
           </blockquote>
         </div>
@@ -65,7 +64,7 @@ export function MinistryVideoShowcase() {
             onClick={() => setFilter("all")}
             className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
               filter === "all"
-                ? "bg-[#0A2240] text-white shadow-md shadow-slate-900/10 ring-2 ring-[#C59B27]/50"
+                ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20 scale-[1.02]"
                 : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
             }`}
           >
@@ -77,11 +76,11 @@ export function MinistryVideoShowcase() {
             onClick={() => setFilter("reels")}
             className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
               filter === "reels"
-                ? "bg-[#0A2240] text-white shadow-md shadow-slate-900/10 ring-2 ring-[#C59B27]/50"
+                ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20 scale-[1.02]"
                 : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
             }`}
           >
-            <Smartphone className="w-3.5 h-3.5 text-[#ff6b35]" />
+            <Smartphone className="w-3.5 h-3.5" />
             <span>Praise Reels (2)</span>
           </button>
 
@@ -90,11 +89,11 @@ export function MinistryVideoShowcase() {
             onClick={() => setFilter("crusades")}
             className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
               filter === "crusades"
-                ? "bg-[#0A2240] text-white shadow-md shadow-slate-900/10 ring-2 ring-[#C59B27]/50"
+                ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20 scale-[1.02]"
                 : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
             }`}
           >
-            <Tv className="w-3.5 h-3.5 text-[#C59B27]" />
+            <Tv className="w-3.5 h-3.5" />
             <span>Outdoor Crusades (7)</span>
           </button>
         </div>
@@ -110,7 +109,7 @@ export function MinistryVideoShowcase() {
                 onClick={() => setActiveVideo(video)}
                 className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-slate-950 border border-slate-200/80 shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer flex flex-col justify-end ${
                   isVertical
-                    ? "aspect-[9/14] sm:aspect-[9/15] ring-2 ring-[#C59B27]/30 hover:ring-[#C59B27]"
+                    ? "aspect-[9/14] sm:aspect-[9/15] ring-2 ring-orange-500/30 hover:ring-[#ff6b35]"
                     : "aspect-[16/10] sm:aspect-[16/10] ring-1 ring-slate-200 hover:ring-[#ff6b35]"
                 }`}
               >
@@ -132,8 +131,8 @@ export function MinistryVideoShowcase() {
                   <span
                     className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-wider backdrop-blur-md shadow-sm ${
                       isVertical
-                        ? "bg-[#C59B27] text-[#0A2240]"
-                        : "bg-[#0A2240]/80 text-white border border-white/20"
+                        ? "bg-[#ff6b35] text-white"
+                        : "bg-black/70 text-white border border-white/20"
                     }`}
                   >
                     {isVertical ? <Smartphone className="w-3 h-3" /> : <Tv className="w-3 h-3" />}
@@ -155,7 +154,7 @@ export function MinistryVideoShowcase() {
 
                 {/* Bottom Content Plate */}
                 <div className="relative p-4 sm:p-5 space-y-1.5 text-white z-10">
-                  <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-[#C59B27] font-bold">
+                  <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-orange-400 font-bold">
                     <MapPin className="w-3 h-3 text-[#ff6b35] shrink-0" />
                     <span className="truncate">{video.location}</span>
                   </div>
@@ -170,7 +169,7 @@ export function MinistryVideoShowcase() {
 
                   <div className="pt-1 flex items-center justify-between text-[10px] text-slate-400">
                     <span className="font-mono text-[#ff6b35] font-semibold">{video.scriptureAnchor}</span>
-                    <span className="text-[#C59B27] font-semibold flex items-center gap-1">
+                    <span className="text-[#ff6b35] font-semibold flex items-center gap-1">
                       <span>Watch Clip</span>
                       <ArrowRight className="w-2.5 h-2.5 group-hover:translate-x-1 transition-transform" />
                     </span>
@@ -185,10 +184,10 @@ export function MinistryVideoShowcase() {
         <div className="text-center pt-4">
           <Link
             href="/sermons"
-            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full bg-[#0A2240] hover:bg-[#07162c] text-white font-extrabold text-xs sm:text-sm transition-all shadow-lg shadow-slate-900/10 ring-2 ring-[#C59B27]/40 hover:ring-[#C59B27]"
+            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3.5 rounded-full bg-[#ff6b35] hover:bg-[#f25c23] text-white font-extrabold text-xs sm:text-sm transition-all shadow-lg shadow-orange-500/20"
           >
             <span>Explore Full Video &amp; Sermons Hub</span>
-            <ArrowRight className="w-4 h-4 text-[#ff6b35]" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </div>

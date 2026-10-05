@@ -23,10 +23,13 @@ export default async function GivePage() {
         </div>
 
         <div className="relative mx-auto max-w-4xl text-center space-y-2 sm:space-y-4">
-          <span className="kicker">GENEROSITY &amp; KINGDOM IMPACT</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold tracking-wider uppercase">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Generosity &amp; Kingdom Impact</span>
+          </div>
 
-          <h1 className="font-extrabold text-2xl sm:text-4xl lg:text-5xl text-slate-900 tracking-tight leading-tight max-w-3xl mx-auto mt-2">
-            We give because <span className="text-[#ff6b35]">God first gave.</span>
+          <h1 className="font-extrabold text-2xl sm:text-4xl lg:text-5xl text-[#ff6b35] tracking-tight leading-tight max-w-3xl mx-auto">
+            We Give Because God First Gave
           </h1>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
@@ -35,7 +38,7 @@ export default async function GivePage() {
           </p>
 
           {/* Scripture Anchor Card */}
-          <div className="mt-4 sm:mt-8 max-w-2xl mx-auto p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-amber-900/10 shadow-md text-slate-800">
+          <div className="mt-4 sm:mt-8 max-w-2xl mx-auto p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-orange-200/80 shadow-md text-slate-800">
             <div className="flex items-center justify-center gap-1.5 text-[#ff6b35] text-[11px] sm:text-xs uppercase font-bold tracking-widest mb-1 sm:mb-2">
               <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Biblical Foundation</span>

@@ -140,13 +140,53 @@
   6. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), server live on port 3002.
 
 - [x] `feature-specs/28-glory-gate-content-and-editorial-alignment.md`: Glory Gate Benchmark Content & Editorial Voice Alignment (`https://glory-gate-church.vercel.app/`).
-  1. Editorial Tone & Narrative Transformation: Shifted sitewide headlines, kickers, and section descriptions to a welcoming, Christ-centered, and literary pastoral voice while retaining 100% of all existing platform features, admin systems, and remittance tools.
-  2. Hero Section Upgrade (`HeroSection`): Infused Glory Gate's headline (*"A place to meet Jesus. A people sent with hope."*), signature kicker with leading thin line (`— WELCOME TO SUGUTTA FELLOWSHIP`), Pastor Caesar portrait with celestial orbiting ring, and floating Quick Information Bar (Worship Time, Location, Prayer hotline, and Connect CTA).
-  3. "Who We Are" & Twin Mission/Vision Panels (`FounderSpotlight`): Built Glory Gate's "Who We Are" story (*"Jesus at the center. His love in motion."*), 4 Pillars (`✦ Built on the Word`, `✦ Spirit-Led Worship`, `✦ Real Community`, `✦ Kingdom Impact`), high-contrast Twin Mission (*"Proclaim. Disciple. Equip. Transform."*) & Vision (*"A faithful church with a global reach."*) contrast panels with Habakkuk 2:14 framing, and Pastor Caesar spotlight with 4-step spiritual journey (`Come. Connect. Grow. Go.`).
-  4. "Your First Sunday" Onboarding Timeline (`ServiceSchedule`): Added 4-step visitor timeline (`01. Come as you are`, `02. Meet a warm family`, `03. Encounter Jesus`, `04. Take your next step`) alongside the authentic 5-session Sunday Church Programme (8:00 AM – 11:45 AM) and Hebrews 10:25 Scripture banner.
-  5. Visitor FAQ Accordion & Newsletter Encouragement Bar (`VisitorFaq`): Built "Good to Know: Questions before you visit?" accordion with answers on attire, exploring faith, Sunday school, and church family connection, coupled with a weekly encouragement newsletter subscription bar.
-  6. Harmonized Giving, Sermons & Connect Titles: Elevated Recent Sermons to *"Messages for the journey: Truth to carry into Monday."*, Giving to *"We give because God first gave."*, Prayer Request to *"You don't have to carry it alone. How can we pray for you?"*, and Connect to *"Come as you are. Leave transformed."*.
-  7. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), dev server running on port 3002, and comprehensive browser subagent visual verification.
+  1. Palette Preservation & Editorial Alignment: Retained 100% of the platform's signature vibrant orange (`#ff6b35`), soft warm cream/ivory (`#fbf8f3`), pure white, and midnight slate (`#0f172a`) branding, while adopting the literary, Christ-centered editorial voice and narrative structure from Glory Gate.
+  2. Hero Section (`HeroSection`): Warm ivory background, vibrant orange headline (*"A place to meet Jesus. A people sent with hope."*), orange CTA buttons (`bg-[#ff6b35] hover:bg-[#f25c23]`), framed portrait with warm amber glow, and crisp white floating Quick Information Bar with circular orange icons.
+  3. "Who We Are" & Twin Mission/Vision Panels (`FounderSpotlight`): Centered orange heading (*"Jesus at the Center. His Love in Motion."*), 4 Pillars (`✦ Built on the Word`, `✦ Spirit-Led Worship`, `✦ Real Community`, `✦ Kingdom Impact`) in clean white cards with circular orange icon holders, warm ivory Mission panel, midnight slate Vision panel with orange accents, and Pastor Caesar spotlight with 4-step spiritual journey (`Come. Connect. Grow. Go.`).
+  4. "Your First Sunday" Onboarding Timeline (`ServiceSchedule`): 4-step visitor timeline (`01. Come as you are`, `02. Meet a warm family`, `03. Encounter Jesus`, `04. Take your next step`) alongside the authentic 5-session Sunday Church Programme (8:00 AM – 11:45 AM) and Hebrews 10:25 Scripture banner in midnight slate with fiery orange highlights.
+  5. Visitor FAQ Accordion & Newsletter Encouragement Bar (`VisitorFaq`): Centered orange heading, crisp white expandable FAQ cards, and midnight slate (`#0f172a`) newsletter subscription banner with vibrant orange CTA button.
+  6. Harmonized Giving, Sermons & Connect Titles: All page headlines styled in signature vibrant orange (`text-[#ff6b35]`) with divider bars.
+  7. Favicon & Browser Tab Fix: Overwrote `src/app/favicon.ico` (which had the generic Vercel icon) and `public/favicon.ico` with the official circular church seal emblem and added cache-busting `?v=2` query strings in `src/app/layout.tsx`.
+  8. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 with all 19 routes generated statically and dynamically, and visual inspection verified on port 3002.
+- [x] `feature-specs/29-neno-layout-restoration-and-vercel-build-fix.md`: Neno Evangelism Centre Benchmark Layout Restoration, Vercel Build Suspense Fix, and Browser Tab Favicon:
+  1. Vercel Production Build Fix: Wrapped search parameters logic in `src/app/admin/login/page.tsx` within `<Suspense fallback={<LoginFormFallback />}>` and set `export const dynamic = "force-dynamic"`, eliminating the `useSearchParams()` static page bailout error during Next.js static page generation. Verified `npm run build` exits code 0 with 19/19 routes generated.
+  2. Official Church Seal Favicon: Overwrote default Vercel triangle icon in `src/app/favicon.ico` and `public/favicon.ico` with the official circular church seal emblem and updated `src/app/layout.tsx` metadata with `?v=2` cache-busting version query strings.
+  3. Homepage Neno Layout Rhythm Restored:
+     - Hero Section (`HeroSection`): Motto pill badge (`{settings.churchMotto}`), headline with curved vibrant orange SVG underline, pastoral subtext, dual CTAs (`Watch Live Service` & `Learn More`), 3-stat counter strip, and framed Pastor Caesar portrait with floating frosted nameplate card.
+     - Church Service Programme (`ServiceSchedule`): Centered vibrant orange heading with divider bar, Sunday vs Midweek tab switcher, authentic 5 Sunday sessions (8:00 AM – 11:45 AM), and Hebrews 10:25 Scripture banner.
+     - Founder Spotlight (`FounderSpotlight`): Centered vibrant orange heading, framed portrait with floating commission quote card, 4 pure white ministry values cards, and twin Mission & Vision cards.
+     - Ministry Pillars (`MinistryPillars`): 4 pure white cards with circular orange icon holders on warm ivory canvas.
+     - Video Showcase (`MinistryVideoShowcase`): Highlighting outdoor crusades and vertical praise reels with orange filter badges and play cards.
+     - Categorized Activities (`CategorizedActivities`): Interactive category filter pills with 11 distinct activity tracks.
+     - Recent Sermons (`RecentSermons`): Centered orange heading, 3-sermon grid, and centered orange button.
+     - Orphanage Teaser (`OrphanageTeaser`): Clean transition into the Heavens Gates Compassion Wing.
+     - Clean Page Termination: Removed visitor FAQ accordion from homepage to match Neno's clean section flow right into the midnight footer.
+  4. Palette & Style Integrity: Retained 100% of the church's signature vibrant orange (`#ff6b35`), soft warm cream/ivory (`#fbf8f3`), pure white, and midnight slate (`#0f172a`) branding.
+  5. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 across 19/19 routes, and visual browser subagent verification completed on `http://localhost:3002/`.
+
+- [x] `feature-specs/30-neno-homepage-architecture-alignment.md`: Complete Homepage Architecture & Section Alignment with Neno Evangelism Centre:
+  1. TopBar & Navbar White Aesthetics: Overhauled TopBar to pure white background (`bg-white`) with clean slate contact info (`📞 +254 700 000 001`, `✉️ caesarosebe@gmail.com`), orange live broadcast indicator, and prayer request. Updated Navbar to match Neno with bold orange `Sugutta Fellowship` and `International Ministry` subtitle, plus solid orange `Donate Now` button.
+  2. Hero Section & Picture Alignment (Exact match to Neno screenshot):
+     - Eyebrow: `★ REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD` warm peach star badge.
+     - 3-Line Headline: `Sugutta` / `Fellowship` (with warm golden curved underline brush stroke) / `Church`.
+     - Subtitle: `Founded by Pastor Caesar Osebe Nyandwaro — Resident Minister & Visionary Leader` with italic orange promise line.
+     - Dual buttons: Orange pill `▶ Watch Live Service` & White pill `Learn More →`.
+     - Divider & Stats Strip: `50+ • BRANCHES` | `1M+ • LIVES TOUCHED` | `25+ • YEARS MINISTRY`.
+     - Right Column Picture: Tall portrait card with rounded corners (`rounded-[2.75rem]`), top-left floating white squircle badge with sparkle icon, top-right orange outline ring, and bottom floating frosted glass nameplate card (`Pastor Caesar Osebe Nyandwaro` / `RESIDENT PASTOR & VISIONARY` + circular orange badge).
+     - Generated ultra high-definition, cinematic church portrait of Pastor Caesar ministering in his royal blue three-piece suit at the pulpit with choir in the background.
+  3. 11-Section Homepage Architecture:
+     - Hero Section + 3-Item Stats Bar
+     - Section 2: Founder Spotlight & Testimony (`FounderSpotlight`)
+     - Section 3: Our Ministry Pillars with 3-item impact counter (`MinistryPillars`)
+     - Section 4: Church Service Programme (`ServiceSchedule`)
+     - Section 5: Latest Services & Sermons (`RecentSermons`)
+     - Section 6: Categorized Activities & Departments (`CategorizedActivities`)
+     - Section 7: Sacred Prayer Mountain Retreat (`HomePrayerMountain`)
+     - Section 8: Anointed Moments 9:16 Vertical Video Reels (`AnointedReels`)
+     - Section 9: Children's Home & Compassion Mission (`OrphanageTeaser`)
+     - Section 10: Give & Support the Ministry with 2 tabs (`HomeGivingModule`)
+     - Section 11: Get In Touch with sanctuary details & message form (`HomeContactModule`)
+  4. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 with 19/19 routes generated, visual browser subagent verification completed on `http://localhost:3002/`.
 
 ## 🚧 In Progress
 

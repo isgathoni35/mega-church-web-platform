@@ -23,8 +23,8 @@ export default async function AboutPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* 1. About Hero Banner */}
-      <AboutHero />
+      {/* 1. About Hero Banner (Neno 2-Column Layout with Right Picture) */}
+      <AboutHero settings={settings} />
 
       {/* 2. Pastor's Testimony, Calling & Vision */}
       <FounderStory settings={settings} />

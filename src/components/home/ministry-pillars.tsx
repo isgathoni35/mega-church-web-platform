@@ -113,6 +113,22 @@ export function MinistryPillars() {
             );
           })}
         </div>
+
+        {/* Neno 3-Item Impact Counter Strip */}
+        <div className="mt-6 sm:mt-10 lg:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-6">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 text-center shadow-sm hover:shadow-md transition-shadow">
+            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">1,200+</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">Deliverance Sessions</span>
+          </div>
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 text-center shadow-sm hover:shadow-md transition-shadow">
+            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">50+</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">Miracle Crusades</span>
+          </div>
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 text-center shadow-sm hover:shadow-md transition-shadow">
+            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">1,000,000+</span>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">Believers Impacted</span>
+          </div>
+        </div>
       </div>
     </section>
   );

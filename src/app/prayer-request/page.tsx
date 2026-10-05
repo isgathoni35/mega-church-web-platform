@@ -19,14 +19,22 @@ export default async function PrayerRequestPage() {
       <section className="relative bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] text-slate-900 py-8 sm:py-14 lg:py-16 px-4 sm:px-8 overflow-hidden border-b border-slate-200/80">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
         <div className="relative max-w-4xl mx-auto text-center space-y-2 sm:space-y-4">
-          <span className="kicker">YOU DON&apos;T HAVE TO CARRY IT ALONE</span>
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-100 text-[#ff6b35] border border-orange-200 text-[11px] sm:text-xs font-bold uppercase tracking-widest shadow-sm">
+            <Flame className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
+            <span>Continual Intercession Altar</span>
+          </div>
 
-          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 leading-tight mt-2">
-            How can we <span className="text-[#ff6b35]">pray for you?</span>
+          <p className="font-script text-2xl sm:text-4xl lg:text-5xl text-[#ff6b35]">
+            The Altar of Intercession
+          </p>
+
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#ff6b35] leading-tight">
+            How Can We Pray for You?
           </h1>
+          <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Our intercessory prayer team and Pastor Caesar pray faithfully over every request with strict confidentiality.
+            Our intercessory prayer warriors and Pastor Caesar pray faithfully over every petition with strict pastoral confidentiality.
           </p>
 
           <p className="font-serif italic text-xs sm:text-sm text-slate-700 max-w-xl mx-auto">
