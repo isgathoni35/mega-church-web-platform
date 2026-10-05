@@ -191,6 +191,18 @@
      - Unified both `/` and `/about` so that users never encounter a plain centered hero without the right-side picture.
   5. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 with 19/19 routes generated, visual browser subagent verification completed on both `http://localhost:3002/` and `http://localhost:3002/about`.
 
+- [x] eature-specs/31-church-construction-and-mobile-donation-flow.md: Church Construction Campaign & 3-State Mobile-First Donation Flow:
+  1. 3-State Architecture Implemented in src/components/giving/campaign-donation-flow.tsx:
+     - State 1 (CAMPAIGN_VIEW): Hero card with vignette gradient and overlay ('Building Hope: The New Youth Center'), narrative 'Why We Need You', scripture blockquote with gold left border (Proverbs 22:6), 'Your Impact' tier breakdown (, , ), and persistent sticky bottom container with full-width gold button 'Make a Donation' and 100% guarantee subtext.
+     - State 2 (DONATION_FORM): 'Complete Your Gift' header, teal security badge, interactive 'I am giving to:' dropdown with checkmark indicators (Youth & Sanctuary Building Fund, Tithe & Offering, Global Missions, Prophetic Seed), Frequency 3-segment switcher (One-Time, Weekly, Monthly), 6-grid amount buttons + custom input, gold dynamic button ('Give  Now'), and '—— OR PAY WITH ——' divider.
+     - State 3 (THANK_YOU): Animated green checkmark, 'May the Lord Multiply Your Seed!' blessing, detailed receipt card with reference, fund name, amount, date, Nehemiah 2:20 scripture, 'Back to Story', and 'Return to Homepage' actions.
+  2. Maintained Authentic Payment Modes (Strictly App's Existing 4 Channels):
+     - Kenyan Well-Wishers: Method 1 (Send Money to Pastor Caesar 0112656123) and Method 2 (Lipa na M-Pesa Paybill 174379 with 1-click copy of dynamic Account Ref).
+     - International Friends: Method 1 (Sendwave / Remitly to +254112656123 with Sendwave QR) and Method 2 (KCB Bank Kenya wire transfer details).
+  3. Homepage Activities Overhaul in src/components/home/categorized-activities.tsx: Replaced 11 generic template activities with the active Sanctuary Construction & Building Project appeal for well-wishers and international partners with 3 construction phases.
+  4. Give Page Synchronized in src/app/give/page.tsx: Fully hosts the 3-state campaign flow with server-side query parameter resolution and trust indicators.
+  5. Verification: 100% zero TypeScript errors (px tsc --noEmit), pm run build exits code 0 across all 19 routes, tested on port 3002.
+
 ## 🚧 In Progress
 
 None.

@@ -1,31 +1,35 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import { DirectGivingPortal } from "@/components/giving/direct-giving-portal";
+import { CampaignDonationFlow, FlowState } from "@/components/giving/campaign-donation-flow";
 import { ShieldCheck, Heart, Sparkles, BookOpen, Lock, Loader2 } from "lucide-react";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
-  title: "Give Online | Heavens Gates Sugutta Fellowship Church International",
+  title: "Give & Support the Ministry | Sugutta Fellowship Church International",
   description:
-    "Partner with Heavens Gates Sugutta Fellowship Church International. Give your tithes, offerings, and kingdom seeds securely via M-Pesa Send Money, Paybill 174379, Sendwave, or bank wire.",
+    "Partner with Sugutta Fellowship Church. Contribute towards the Sanctuary Construction, Children's Home, Tithes, and Kingdom Seeds securely via M-Pesa Send Money, Paybill 174379, Sendwave, or KCB Bank wire.",
 };
 
-export default async function GivePage() {
-  const settings = await getSiteSettingsAction();
-  return (
-    <div className="min-h-screen bg-[#fbf8f3] text-slate-900 pb-10 sm:pb-20 w-full overflow-x-hidden">
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] border-b border-slate-200/80 py-8 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8">
-        {/* Subtle decorative warm ambient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full pointer-events-none opacity-40 overflow-hidden">
-          <div className="absolute top-1/4 left-1/3 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-orange-500/10 blur-3xl" />
-          <div className="absolute top-1/3 right-1/4 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-amber-500/10 blur-3xl" />
-        </div>
+interface GivePageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-        <div className="relative mx-auto max-w-4xl text-center space-y-2 sm:space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold tracking-wider uppercase">
+export default async function GivePage({ searchParams }: GivePageProps) {
+  const settings = await getSiteSettingsAction();
+  const resolvedParams = await searchParams;
+  const initialStep: FlowState =
+    resolvedParams?.step === "form" ? "DONATION_FORM" : "CAMPAIGN_VIEW";
+  const initialFund =
+    typeof resolvedParams?.fund === "string" ? resolvedParams.fund.toUpperCase() : "BUILDING";
+
+  return (
+    <div className="min-h-screen bg-[#fbf8f3] text-slate-900 pb-16 sm:pb-24 w-full overflow-x-hidden">
+      {/* ================= HERO BANNER ================= */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] border-b border-slate-200/80 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-4xl text-center space-y-2 sm:space-y-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold tracking-wider uppercase">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Generosity &amp; Kingdom Impact</span>
+            <span>Kingdom Giving &bull; Tithes, Offerings &amp; Building Fund</span>
           </div>
 
           <h1 className="font-extrabold text-2xl sm:text-4xl lg:text-5xl text-[#ff6b35] tracking-tight leading-tight max-w-3xl mx-auto">
@@ -34,51 +38,41 @@ export default async function GivePage() {
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-slate-600 max-w-2xl mx-auto text-xs sm:text-base leading-relaxed">
-            Every gift—large or small—fuels the proclamation of the Gospel, supports vulnerable children at the Sugutta Children&apos;s Home, and strengthens families across Kenya.
+            Every contribution fuels the proclamation of the Gospel, builds our permanent sanctuary, supports vulnerable children, and touches lives across Kenya and the nations.
           </p>
-
-          {/* Scripture Anchor Card */}
-          <div className="mt-4 sm:mt-8 max-w-2xl mx-auto p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-white border border-orange-200/80 shadow-md text-slate-800">
-            <div className="flex items-center justify-center gap-1.5 text-[#ff6b35] text-[11px] sm:text-xs uppercase font-bold tracking-widest mb-1 sm:mb-2">
-              <BookOpen className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span>Biblical Foundation</span>
-            </div>
-            <blockquote className="font-serif italic text-xs sm:text-base text-slate-900 leading-relaxed">
-              &ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;
-            </blockquote>
-            <div className="text-[#ff6b35] text-[11px] sm:text-xs font-bold mt-1.5 sm:mt-2">
-              — 2 Corinthians 9:7 (NIV)
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ================= GIVING PORTAL INTERFACE ================= */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl py-6 sm:py-12 relative z-10">
+      {/* ================= 3-STATE RESPONSIVE DONATION FLOW ================= */}
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl py-6 sm:py-10 relative z-10">
         <Suspense
           fallback={
             <div className="p-8 sm:p-12 text-center text-sm text-slate-500 flex items-center justify-center gap-2">
               <Loader2 className="h-5 w-5 animate-spin text-[#ff6b35]" />
-              Loading Giving Portal...
+              Loading Donation Flow...
             </div>
           }
         >
-          <DirectGivingPortal settings={settings} />
+          <CampaignDonationFlow
+            settings={settings}
+            initialState={initialStep}
+            initialFund={initialFund}
+          />
         </Suspense>
 
-        {/* ================= TRUST & SCRIPTURAL FOOTER ================= */}
-        <div className="mt-8 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6 text-center">
-          <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
+        {/* ================= TRUST & STEWARDSHIP FOOTER ================= */}
+        <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6 text-center">
+          <div className="p-4 sm:p-6 rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto text-[#ff6b35]">
               <Lock className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <h4 className="font-bold text-sm sm:text-base text-slate-900">Secure &amp; Encrypted</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              All transactions are processed through authenticated SSL connections and Safaricom Daraja protocols.
+              All transactions are processed through authenticated SSL connections and verified Safaricom Daraja protocols.
             </p>
           </div>
 
-          <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
+          <div className="p-4 sm:p-6 rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto text-[#ff6b35]">
               <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
@@ -88,13 +82,13 @@ export default async function GivePage() {
             </p>
           </div>
 
-          <div className="p-4 sm:p-6 rounded-xl sm:rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
+          <div className="p-4 sm:p-6 rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto text-[#ff6b35]">
               <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-            <h4 className="font-bold text-sm sm:text-base text-slate-900">Apostolic Stewardship</h4>
+            <h4 className="font-bold text-sm sm:text-base text-slate-900">Spiritual Stewardship</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Every coin is stewarded with supreme transparency under the spiritual oversight of Apostle Dr. J. Taylor.
+              Every coin is stewarded with absolute integrity under the pastoral oversight of Pastor Caesar Osebe Nyandwaro.
             </p>
           </div>
         </div>
