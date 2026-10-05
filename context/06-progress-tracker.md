@@ -169,7 +169,7 @@
   2. Hero Section & Picture Alignment (Exact match to Neno screenshot):
      - Eyebrow: `★ REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD` warm peach star badge.
      - 3-Line Headline: `Sugutta` / `Fellowship` (with warm golden curved underline brush stroke) / `Church`.
-     - Subtitle: `Founded by Pastor Caesar Osebe Nyandwaro — Resident Minister & Visionary Leader` with italic orange promise line.
+     - Subtitle: We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully and carry His Gospel into everyday life. with italic orange promise line.
      - Dual buttons: Orange pill `▶ Watch Live Service` & White pill `Learn More →`.
      - Divider & Stats Strip: `50+ • BRANCHES` | `1M+ • LIVES TOUCHED` | `25+ • YEARS MINISTRY`.
      - Right Column Picture: Tall portrait card with rounded corners (`rounded-[2.75rem]`), top-left floating white squircle badge with sparkle icon, top-right orange outline ring, and bottom floating frosted glass nameplate card (`Pastor Caesar Osebe Nyandwaro` / `RESIDENT PASTOR & VISIONARY` + circular orange badge).
@@ -186,7 +186,10 @@
      - Section 9: Children's Home & Compassion Mission (`OrphanageTeaser`)
      - Section 10: Give & Support the Ministry with 2 tabs (`HomeGivingModule`)
      - Section 11: Get In Touch with sanctuary details & message form (`HomeContactModule`)
-  4. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 with 19/19 routes generated, visual browser subagent verification completed on `http://localhost:3002/`.
+  4. About Page Hero Upgrade (`src/components/about/about-hero.tsx`):
+     - Transformed the bare centered hero on `/about` into Neno's 2-column split layout with headline and milestones on the left, and the tall rounded picture of Pastor Caesar with floating frosted nameplate card on the right.
+     - Unified both `/` and `/about` so that users never encounter a plain centered hero without the right-side picture.
+  5. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 with 19/19 routes generated, visual browser subagent verification completed on both `http://localhost:3002/` and `http://localhost:3002/about`.
 
 ## 🚧 In Progress
 

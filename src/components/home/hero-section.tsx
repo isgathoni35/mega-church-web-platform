@@ -54,12 +54,10 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
               Church
             </h1>
 
-            {/* Founder Lead & Spiritual Subtext matching Neno */}
+            {/* Vision Lead & Spiritual Subtext */}
             <div className="space-y-2 mb-6 sm:mb-8 max-w-xl">
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-                Founded by{" "}
-                <strong className="text-slate-900 font-extrabold">{settings.pastorName}</strong>{" "}
-                &mdash; Resident Minister &amp; Visionary Leader.
+                We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully and carry His Gospel into everyday life.
               </p>
               <p className="text-sm sm:text-base text-[#ff6b35] italic font-serif">
                 Experience God&apos;s power through deliverance and spiritual transformation.
