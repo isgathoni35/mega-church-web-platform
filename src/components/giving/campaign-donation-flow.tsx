@@ -17,7 +17,9 @@ import {
   Building2,
   ShieldCheck,
   Heart,
-  QrCode,
+  Baby,
+  Hammer,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SendwaveQR } from "@/components/giving/sendwave-qr";
@@ -28,29 +30,75 @@ export type FlowState = "CAMPAIGN_VIEW" | "DONATION_FORM" | "THANK_YOU";
 export interface GivingFund {
   code: string;
   name: string;
+  shortName: string;
+  icon: string;
   description: string;
+  scripture: string;
+  scriptureRef: string;
+  image: string;
+  impacts: { amountUsd: number; amountKes: number; text: string }[];
 }
 
 export const GIVING_FUNDS: GivingFund[] = [
   {
+    code: "ORPHANAGE",
+    name: "Sugutta Children's Home & Orphanage",
+    shortName: "Children's Home",
+    icon: "👶",
+    description: "Daily nutrition, primary & secondary schooling, healthcare, and warm shelter for 50+ vulnerable children.",
+    scripture: "Religion that God our Father accepts as pure and faultless is this: to look after orphans and widows in their distress.",
+    scriptureRef: "James 1:27",
+    image: "/images/orphanage-hero.png",
+    impacts: [
+      { amountUsd: 25, amountKes: 2500, text: "Provides balanced, nutritious daily hot meals for one child for an entire month." },
+      { amountUsd: 50, amountKes: 5000, text: "Sponsors school textbooks, learning stationery, and term school uniforms." },
+      { amountUsd: 100, amountKes: 10000, text: "Underwrites medical checkups, essential medicines, and hygiene care packages." },
+    ],
+  },
+  {
     code: "BUILDING",
     name: "Youth & Sanctuary Building Fund",
-    description: "Sanctuary construction, permanent roofing & youth hall expansion",
+    shortName: "Building Fund",
+    icon: "🏗️",
+    description: "Sanctuary construction, permanent roofing, pillar casting, and community youth hall expansion.",
+    scripture: "The God of heaven will make us prosper, and we his servants will arise and build.",
+    scriptureRef: "Nehemiah 2:20",
+    image: "/images/church-construction.jpg",
+    impacts: [
+      { amountUsd: 25, amountKes: 2500, text: "Provides 20 cured structural masonry blocks and mortar cement bags." },
+      { amountUsd: 50, amountKes: 5000, text: "Sponsors heavy steel rebar columns for load-bearing pillar reinforcement." },
+      { amountUsd: 200, amountKes: 20000, text: "Underwrites timber trusses and gauge-28 color-coated roofing sheets." },
+    ],
   },
   {
     code: "TITHE",
-    name: "General Tithe & Offering",
-    description: "10% covenant tithe and regular worship operations",
-  },
-  {
-    code: "ORPHANAGE",
-    name: "Global Missions & Children's Home",
-    description: "Food, shelter & education for vulnerable children",
+    name: "General Tithe & Worship Offering",
+    shortName: "Tithes & Offering",
+    icon: "🌾",
+    description: "10% covenant tithe of obedience, Sunday worship ministry, and weekly evangelism operations.",
+    scripture: "Bring all the tithes into the storehouse, that there may be food in My house, and try Me now in this.",
+    scriptureRef: "Malachi 3:10",
+    image: "/images/hero-worship.jpg",
+    impacts: [
+      { amountUsd: 25, amountKes: 2500, text: "Supports weekly Sunday school curriculum and service supplies." },
+      { amountUsd: 50, amountKes: 5000, text: "Funds community outreach logistics and pastoral visitation care." },
+      { amountUsd: 100, amountKes: 10000, text: "Sponsors regional outdoor crusades and audio evangelism." },
+    ],
   },
   {
     code: "SEED",
     name: "Prophetic Deliverance Seed",
-    description: "Altars of breakthrough, healing, and personal prayer requests",
+    shortName: "Prophetic Seed",
+    icon: "🔥",
+    description: "Altars of breakthrough, deliverance prayers, healing intercession, and family covenant alignment.",
+    scripture: "Honor the Lord with your wealth, with the firstfruits of all your crops; then your barns will be filled to overflowing.",
+    scriptureRef: "Proverbs 3:9-10",
+    image: "/images/ministry-healing.jpg",
+    impacts: [
+      { amountUsd: 25, amountKes: 2500, text: "Connects your prayer request to the 24/7 Mai Mahiu Prayer Mountain altar." },
+      { amountUsd: 50, amountKes: 5000, text: "Consecrated sacrificial seed for business breakthroughs and family fruitfulness." },
+      { amountUsd: 100, amountKes: 10000, text: "Apostolic deliverance seed ministered under Pastor Caesar Osebe Nyandwaro." },
+    ],
   },
 ];
 
@@ -66,7 +114,7 @@ interface CampaignDonationFlowProps {
 export function CampaignDonationFlow({
   settings: propSettings,
   initialState = "CAMPAIGN_VIEW",
-  initialFund = "BUILDING",
+  initialFund = "ORPHANAGE",
 }: CampaignDonationFlowProps) {
   const settings = propSettings || DEFAULT_SETTINGS;
   const searchParams = useSearchParams();
@@ -97,12 +145,13 @@ export function CampaignDonationFlow({
     currency: string;
     frequency: string;
     date: string;
+    scripture: string;
+    scriptureRef: string;
   } | null>(null);
 
   // Dropdown ref for outside click
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -148,6 +197,13 @@ export function CampaignDonationFlow({
     }
   };
 
+  // Quick CTA helper from campaign view
+  const handleSelectFundAndGoToForm = (fundCode: string) => {
+    setSelectedFundCode(fundCode);
+    setCurrentState("DONATION_FORM");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Complete Gift & Show Thank You
   const handleCompleteGift = () => {
     setReceiptData({
@@ -162,6 +218,8 @@ export function CampaignDonationFlow({
         day: "numeric",
         year: "numeric",
       }),
+      scripture: selectedFund.scripture,
+      scriptureRef: selectedFund.scriptureRef,
     });
     setCurrentState("THANK_YOU");
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -170,75 +228,150 @@ export function CampaignDonationFlow({
   return (
     <div className="w-full flex justify-center py-2 sm:py-6 px-2 sm:px-4">
       {/* Mobile-First Card Frame matching screenshots */}
-      <div className="w-full max-w-[440px] bg-white rounded-[2rem] sm:rounded-[2.25rem] shadow-2xl border border-slate-200/80 overflow-hidden relative transition-all duration-300">
+      <div className="w-full max-w-[450px] bg-white rounded-[2rem] sm:rounded-[2.25rem] shadow-2xl border border-slate-200/80 overflow-hidden relative transition-all duration-300">
         {/* ========================================================================= */}
-        {/* STATE 1: CAMPAIGN_VIEW (Exact match to Image 1)                           */}
+        {/* STATE 1: CAMPAIGN_VIEW (Balanced Multi-Pillar Story View)                  */}
         {/* ========================================================================= */}
         {currentState === "CAMPAIGN_VIEW" && (
           <div className="flex flex-col min-h-[640px] animate-in fade-in duration-300">
-            {/* Top Hero Image with Dark Gradient & Title Overlay */}
+            {/* Top Hero Image Banner */}
             <div className="relative aspect-[16/11] w-full bg-slate-900 overflow-hidden">
               <Image
-                src="/images/church-construction.jpg"
-                alt="Building Hope: The New Youth Center"
+                src="/images/orphanage-hero.png"
+                alt="Kingdom Impact: Children's Home & Sanctuary Construction"
                 fill
                 priority
                 className="object-cover object-center"
               />
               {/* Vignette Overlay matching screenshot */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/65 to-transparent" />
 
               {/* Title & Subtitle Overlay on bottom of image */}
               <div className="absolute bottom-4 left-5 right-5 z-10 text-white space-y-1.5">
-                <h1 className="text-2xl sm:text-[26px] font-extrabold tracking-tight text-white leading-tight">
-                  Building Hope: The New Youth Center
+                <span className="inline-block px-2.5 py-0.5 rounded-full bg-orange-500/80 text-white text-[10px] font-extrabold uppercase tracking-wider">
+                  Twin Core Missions
+                </span>
+                <h1 className="text-2xl sm:text-[25px] font-extrabold tracking-tight text-white leading-tight">
+                  Children&apos;s Home &amp; Sanctuary Building
                 </h1>
                 <p className="text-xs sm:text-[13px] text-slate-200 leading-snug font-normal">
-                  Help us create a safe, inspiring space for the next generation to grow in faith and community.
+                  Sheltering vulnerable orphans, erecting an enduring house of worship, and proclaiming the Gospel.
                 </p>
               </div>
             </div>
 
-            {/* Content Body matching Image 1 */}
+            {/* Content Body: Balanced Representation */}
             <div className="p-5 sm:p-6 space-y-5 text-slate-700 text-xs sm:text-[13px] leading-relaxed flex-1">
               {/* "Why We Need You" */}
               <div className="space-y-2">
                 <h3 className="text-sm sm:text-base font-extrabold text-[#0f172a]">
-                  Why We Need You
+                  Why We Need Your Partnership
                 </h3>
                 <p>
-                  For over a decade, our youth ministry has operated out of a cramped basement. As our community has grown, so has the need for a dedicated space where our teenagers can gather, study, and build lifelong friendships.
+                  At Sugutta Fellowship Church, our apostolic mandate is twofold: <strong>caring for the vulnerable</strong> and <strong>building an enduring house for God&apos;s presence</strong>.
                 </p>
                 <p>
-                  We are raising <strong>$50,000</strong> to renovate the adjacent property into a state-of-the-art Youth Center &amp; Sanctuary. This space will include a study hall, a recreation area, and a dedicated worship room.
+                  Our Children&apos;s Home shelters, feeds, and educates orphaned boys and girls, while our expanding congregation of over 1,000 worshippers is constructing a permanent sanctuary to shelter services from the rains and provide a dedicated youth learning center.
                 </p>
               </div>
 
               {/* Scripture Blockquote with Gold Left Border */}
-              <div className="border-l-[3px] border-[#c59b27] pl-3.5 py-1 my-3 bg-[#fdfbf7]/60 rounded-r-lg">
+              <div className="border-l-[3px] border-[#c59b27] pl-3.5 py-1.5 my-3 bg-[#fdfbf7]/80 rounded-r-lg">
                 <blockquote className="italic font-serif text-slate-800 text-xs sm:text-[13px] leading-normal">
-                  &ldquo;Train up a child in the way he should go; even when he is old he will not depart from it.&rdquo;
+                  &ldquo;Religion that God our Father accepts as pure and faultless is this: to look after orphans and widows in their distress... and King David rejoiced with great joy, for the people offered willingly to build the house of the Lord.&rdquo;
                 </blockquote>
                 <div className="text-right text-[11px] font-bold text-slate-900 mt-1">
-                  &mdash; Proverbs 22:6
+                  &mdash; James 1:27 &amp; 1 Chronicles 29:9
+                </div>
+              </div>
+
+              {/* TWIN PILLAR SHOWCASE CARDS (EQUAL REPRESENTATION) */}
+              <div className="space-y-3 pt-1">
+                <h3 className="text-sm sm:text-base font-extrabold text-[#0f172a]">
+                  Our Two Active Priority Missions
+                </h3>
+
+                {/* Pillar 1: Children's Home */}
+                <div className="p-3.5 rounded-2xl border border-rose-200/90 bg-rose-50/40 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-extrabold text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                      <Baby className="w-4 h-4 text-rose-500" />
+                      <span>1. Sugutta Children&apos;s Home</span>
+                    </span>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 uppercase">
+                      50+ Orphans
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                    Provides balanced meals, primary &amp; secondary education, medical care, and parental love to vulnerable children.
+                  </p>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[11px] font-bold text-slate-500">
+                      Ref: <strong className="text-slate-900 font-mono">ORPHANAGE</strong>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectFundAndGoToForm("ORPHANAGE")}
+                      className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 underline"
+                    >
+                      <span>Support Children&apos;s Home</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Pillar 2: Sanctuary Construction */}
+                <div className="p-3.5 rounded-2xl border border-orange-200/90 bg-orange-50/40 space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-extrabold text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">
+                      <Hammer className="w-4 h-4 text-[#ff6b35]" />
+                      <span>2. Sanctuary Building Project</span>
+                    </span>
+                    <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-orange-100 text-[#c2410c] uppercase">
+                      Active Build
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed">
+                    Erecting load-bearing pillars, concrete foundation blocks, and heavy roofing for our 5 Sunday worship sessions.
+                  </p>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[11px] font-bold text-slate-500">
+                      Ref: <strong className="text-slate-900 font-mono">BUILDING</strong>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleSelectFundAndGoToForm("BUILDING")}
+                      className="text-xs font-bold text-[#ff6b35] hover:text-[#ea580c] flex items-center gap-1 underline"
+                    >
+                      <span>Contribute to Building</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* "Your Impact" Bullet Cards */}
-              <div className="space-y-2.5 pt-1">
+              <div className="space-y-2 pt-2">
                 <h3 className="text-sm sm:text-base font-extrabold text-[#0f172a]">
-                  Your Impact
+                  Tangible Kingdom Impact
                 </h3>
 
                 <div className="space-y-2 text-slate-600">
                   <p>
-                    <strong className="text-slate-900 font-extrabold">$50</strong> provides Bibles and study materials for one student for a year.
+                    <strong className="text-slate-900 font-extrabold">$25 / KES 2,500</strong> feeds a child for a month or provides 20 foundation masonry blocks.
                   </p>
                   <p>
-                    <strong className="text-slate-900 font-extrabold">$100</strong> sponsors a student&apos;s ticket to our annual summer retreat.
+                    <strong className="text-slate-900 font-extrabold">$50 / KES 5,000</strong> sponsors a child&apos;s term school uniform or steel rebar pillar casting.
                   </p>
                   <p>
-                    <strong className="text-slate-900 font-extrabold">$500</strong> helps furnish the new recreation area.
+                    <strong className="text-slate-900 font-extrabold">$100 / KES 10,000</strong> provides medical health coverage or youth retreat discipleship.
+                  </p>
+                  <p>
+                    <strong className="text-slate-900 font-extrabold">$200 / KES 20,000</strong> underwrites structural roofing trusses or multi-child school sponsorships.
                   </p>
                 </div>
               </div>
@@ -257,14 +390,14 @@ export function CampaignDonationFlow({
                 Make a Donation
               </button>
               <p className="text-[10px] text-slate-400">
-                100% of your gift goes directly to the Building Fund.
+                Choose your cause: Children&apos;s Home, Building Fund, Tithes, or Seed.
               </p>
             </div>
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* STATE 2: DONATION_FORM (Exact match to Images 2 & 3)                      */}
+        {/* STATE 2: DONATION_FORM (Exact match to Images 2 & 3 with balanced causes) */}
         {/* ========================================================================= */}
         {currentState === "DONATION_FORM" && (
           <div className="p-5 sm:p-6 space-y-5 animate-in fade-in duration-300">
@@ -281,6 +414,10 @@ export function CampaignDonationFlow({
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back to Story</span>
               </button>
+
+              <span className="text-[11px] font-bold text-slate-400">
+                Designated: <strong className="text-slate-800">{selectedFund.shortName}</strong>
+              </span>
             </div>
 
             {/* Heading & Subtitle */}
@@ -305,10 +442,13 @@ export function CampaignDonationFlow({
                 onClick={() => setIsFundDropdownOpen((prev) => !prev)}
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-800 flex items-center justify-between shadow-sm hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0f172a]/10"
               >
-                <span className="truncate">{selectedFund.name}</span>
+                <span className="truncate flex items-center gap-2">
+                  <span>{selectedFund.icon}</span>
+                  <span>{selectedFund.name}</span>
+                </span>
                 <ChevronDown
                   className={cn(
-                    "w-4 h-4 text-slate-500 transition-transform duration-200",
+                    "w-4 h-4 text-slate-500 transition-transform duration-200 shrink-0",
                     isFundDropdownOpen && "rotate-180"
                   )}
                 />
@@ -334,7 +474,10 @@ export function CampaignDonationFlow({
                             : "text-slate-800 hover:bg-slate-50"
                         )}
                       >
-                        <span>{fund.name}</span>
+                        <span className="flex items-center gap-2 truncate">
+                          <span>{fund.icon}</span>
+                          <span>{fund.name}</span>
+                        </span>
                         {isSelected && <Check className="w-4 h-4 text-white shrink-0 ml-2" />}
                       </button>
                     );
@@ -437,13 +580,13 @@ export function CampaignDonationFlow({
               </div>
             </div>
 
-            {/* 4. GOLD ACTION BUTTON matching Image 2 ("Give $50 Now") */}
+            {/* 4. GOLD ACTION BUTTON matching Image 2 (Dynamic to selected cause) */}
             <button
               type="button"
               onClick={handleCompleteGift}
               className="w-full py-3.5 px-4 rounded-xl bg-[#c59b27] hover:bg-[#b08b23] text-white font-extrabold text-sm sm:text-base shadow-md transition-all active:scale-[0.99] flex items-center justify-center"
             >
-              Give {currency === "USD" ? `$${selectedAmount}` : `KES ${selectedAmount.toLocaleString()}`} Now
+              Give {currency === "USD" ? `$${selectedAmount}` : `KES ${selectedAmount.toLocaleString()}`} to {selectedFund.shortName} Now
             </button>
 
             {/* 5. DIVIDER matching Image 2 ("—— OR PAY WITH ——") */}
@@ -582,6 +725,10 @@ export function CampaignDonationFlow({
                       </div>
                     </div>
 
+                    <p className="text-[11px] text-slate-500 italic px-0.5">
+                      Account reference <strong className="text-slate-800">{selectedFund.code}</strong> ensures your gift is directly credited to {selectedFund.shortName}.
+                    </p>
+
                     <button
                       type="button"
                       onClick={handleCompleteGift}
@@ -696,7 +843,7 @@ export function CampaignDonationFlow({
                 <span>256-bit SSL Secure Encryption</span>
               </div>
               <p className="text-[10px] text-slate-400 max-w-xs mx-auto leading-tight">
-                Sugutta Fellowship Church is a registered 501(c)(3) ministry. Your gift is tax-deductible.
+                Sugutta Fellowship Church is a registered 501(c)(3) ministry. Your gift is tax-deductible and stewarded with apostolic transparency.
               </p>
             </div>
           </div>
@@ -734,7 +881,7 @@ export function CampaignDonationFlow({
 
               <div className="grid grid-cols-2 gap-2 text-slate-700">
                 <div>
-                  <span className="text-[10px] text-slate-400 block uppercase">Project</span>
+                  <span className="text-[10px] text-slate-400 block uppercase">Project / Purpose</span>
                   <span className="font-extrabold text-slate-900 block truncate">
                     {receiptData.fundName}
                   </span>
@@ -760,7 +907,7 @@ export function CampaignDonationFlow({
               </div>
 
               <div className="pt-2 border-t border-slate-200/80 text-[11px] italic text-slate-600 font-serif">
-                &ldquo;The God of heaven will make us prosper, and we his servants will arise and build.&rdquo; &mdash; Nehemiah 2:20
+                &ldquo;{receiptData.scripture}&rdquo; &mdash; {receiptData.scriptureRef}
               </div>
             </div>
 

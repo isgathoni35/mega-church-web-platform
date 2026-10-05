@@ -28,8 +28,8 @@ const pillars: Pillar[] = [
     subtitle: "Reaping the End-Time Harvest",
     description:
       "Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.",
-    imageSrc: "/images/ministry-healing.jpg",
-    imageAlt: "Large outdoor African gospel crusade at sunset with thousands gathered",
+    imageSrc: "/images/hero-worship.jpg",
+    imageAlt: "Large outdoor African gospel crusade at sunset with thousands gathered in worship",
     icon: Globe,
   },
   {
@@ -46,8 +46,8 @@ const pillars: Pillar[] = [
     subtitle: "Love in Demonstration",
     description:
       "Feeding the hungry, sheltering orphans, providing medical support, and clothing widows across underserved communities as an active demonstration of Christ's compassion.",
-    imageSrc: "/images/ministry-healing.jpg",
-    imageAlt: "Community outreach and feeding program with volunteers and families",
+    imageSrc: "/images/community-outreach.jpg",
+    imageAlt: "Grassroots village community fellowship, elders, mothers, and children outreach gathering with church leaders",
     icon: HeartHandshake,
   },
 ];

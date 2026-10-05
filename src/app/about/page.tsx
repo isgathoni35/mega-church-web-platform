@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AboutHero } from "@/components/about/about-hero";
 import { FounderStory } from "@/components/about/founder-story";
 import { StatementOfFaith } from "@/components/about/statement-of-faith";
+import { CommunityFellowship } from "@/components/about/community-fellowship";
 import { LeadershipTeam } from "@/components/about/leadership-team";
 import { PrayerMountain } from "@/components/about/prayer-mountain";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
@@ -29,13 +30,16 @@ export default async function AboutPage() {
       {/* 2. Pastor's Testimony, Calling & Vision */}
       <FounderStory settings={settings} />
 
-      {/* 3. Statement of Faith (What We Believe) */}
+      {/* 3. Authentic Grassroots Community & Village Outreach */}
+      <CommunityFellowship />
+
+      {/* 4. Statement of Faith (What We Believe) */}
       <StatementOfFaith />
 
-      {/* 4. Pastoral Governance & Council */}
+      {/* 5. Pastoral Governance & Council */}
       <LeadershipTeam settings={settings} />
 
-      {/* 5. Prayer Mountain & Sacred Retreat Spotlight */}
+      {/* 6. Prayer Mountain & Sacred Retreat Spotlight */}
       <PrayerMountain />
     </div>
   );

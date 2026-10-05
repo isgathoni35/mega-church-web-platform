@@ -191,17 +191,24 @@
      - Unified both `/` and `/about` so that users never encounter a plain centered hero without the right-side picture.
   5. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 with 19/19 routes generated, visual browser subagent verification completed on both `http://localhost:3002/` and `http://localhost:3002/about`.
 
-- [x] eature-specs/31-church-construction-and-mobile-donation-flow.md: Church Construction Campaign & 3-State Mobile-First Donation Flow:
-  1. 3-State Architecture Implemented in src/components/giving/campaign-donation-flow.tsx:
-     - State 1 (CAMPAIGN_VIEW): Hero card with vignette gradient and overlay ('Building Hope: The New Youth Center'), narrative 'Why We Need You', scripture blockquote with gold left border (Proverbs 22:6), 'Your Impact' tier breakdown (, , ), and persistent sticky bottom container with full-width gold button 'Make a Donation' and 100% guarantee subtext.
-     - State 2 (DONATION_FORM): 'Complete Your Gift' header, teal security badge, interactive 'I am giving to:' dropdown with checkmark indicators (Youth & Sanctuary Building Fund, Tithe & Offering, Global Missions, Prophetic Seed), Frequency 3-segment switcher (One-Time, Weekly, Monthly), 6-grid amount buttons + custom input, gold dynamic button ('Give  Now'), and '—— OR PAY WITH ——' divider.
-     - State 3 (THANK_YOU): Animated green checkmark, 'May the Lord Multiply Your Seed!' blessing, detailed receipt card with reference, fund name, amount, date, Nehemiah 2:20 scripture, 'Back to Story', and 'Return to Homepage' actions.
-  2. Maintained Authentic Payment Modes (Strictly App's Existing 4 Channels):
-     - Kenyan Well-Wishers: Method 1 (Send Money to Pastor Caesar 0112656123) and Method 2 (Lipa na M-Pesa Paybill 174379 with 1-click copy of dynamic Account Ref).
+- [x] `feature-specs/31-church-construction-and-mobile-donation-flow.md`: Balanced Multi-Pillar Campaign (Children's Home & Sanctuary Building) & 3-State Mobile-First Donation Flow:
+  1. Balanced Multi-Pillar Architecture in `src/components/giving/campaign-donation-flow.tsx`:
+     - State 1 (CAMPAIGN_VIEW): High-contrast hero banner highlighting twin core missions (Children's Home & Sanctuary Building), narrative on both sheltering vulnerable orphans and constructing the permanent cathedral, James 1:27 & 1 Chronicles 29:9 scripture callout, twin spotlight cards (Sugutta Children's Home 50+ orphans vs Sanctuary Building Project), balanced impact tier breakdown, and persistent sticky footer.
+     - State 2 (DONATION_FORM): Clean header, teal security badge, interactive dropdown with checkmark indicators (Sugutta Children's Home & Orphanage, Youth & Sanctuary Building Fund, General Tithe & Offering, Prophetic Deliverance Seed), Frequency switcher (One-Time, Weekly, Monthly), 6-grid amount buttons + custom input, dynamic gold action button (e.g. 'Give $50 to Children's Home Now'), and '—— OR PAY WITH ——' divider.
+     - State 3 (THANK_YOU): Animated green checkmark, tailored blessing and receipt matching the donor's chosen cause (Children's Home or Building or Tithes), scripture reference, 'Back to Story', and 'Return to Homepage'.
+  2. Maintained Authentic App Payment Channels (Strictly 4 Modes):
+     - Kenyan Partners: Method 1 (Send Money to Pastor Caesar 0112656123) and Method 2 (Lipa na M-Pesa Paybill 174379 with dynamic 1-click copy of ORPHANAGE, BUILDING, TITHE, SEED account reference).
      - International Friends: Method 1 (Sendwave / Remitly to +254112656123 with Sendwave QR) and Method 2 (KCB Bank Kenya wire transfer details).
-  3. Homepage Activities Overhaul in src/components/home/categorized-activities.tsx: Replaced 11 generic template activities with the active Sanctuary Construction & Building Project appeal for well-wishers and international partners with 3 construction phases.
-  4. Give Page Synchronized in src/app/give/page.tsx: Fully hosts the 3-state campaign flow with server-side query parameter resolution and trust indicators.
-  5. Verification: 100% zero TypeScript errors (px tsc --noEmit), pm run build exits code 0 across all 19 routes, tested on port 3002.
+  3. Homepage Section 6 Twin Missions Showcase in `src/components/home/categorized-activities.tsx`:
+     - Equal-weight side-by-side cards: Left Card (Sugutta Children's Home with /images/orphanage-hero.png & direct /give?fund=orphanage CTA) and Right Card (Sanctuary Construction with /images/church-construction.jpg & direct /give?fund=building CTA).
+  4. Give Page Synchronized in `src/app/give/page.tsx` with server-side query parameter resolution.
+  5. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 across all 19 routes, tested on port 3002.
+
+- [x] `feature-specs/32-authentic-community-outreach-image.md`: Integration of Authentic Grassroots Community Outreach & Elder Fellowship Photo:
+  1. Asset Deployment: Deployed authentic village outreach image to `public/images/community-outreach.jpg` (298 KB).
+  2. Homepage Ministry Pillars (`MinistryPillars`): Assigned `/images/community-outreach.jpg` to Pillar 4 (*Compassion & Outreach*) with descriptive alt tags and replaced duplicate image on Global Crusades with `/images/hero-worship.jpg`, giving each pillar unique, authentic imagery.
+  3. About Page Community Fellowship (`CommunityFellowship`): Built dedicated 2-column component on `/about` highlighting grassroots pastoral visits, elder care, and village home cells with the authentic photograph, floating badge, 3 key care pillars, and direct support actions.
+  4. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 across all 19 routes, tested on port 3002.
 
 ## 🚧 In Progress
 

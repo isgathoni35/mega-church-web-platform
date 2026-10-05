@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Sparkles,
   ArrowRight,
@@ -9,15 +10,13 @@ import {
   Check,
   Copy,
   Hammer,
-  Layers,
   ShieldCheck,
   Smartphone,
   Globe2,
-  HeartHandshake,
+  Heart,
+  Baby,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
 interface CategorizedActivitiesProps {
@@ -47,223 +46,166 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
         {/* Centered Orange Section Heading */}
         <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-widest shadow-sm">
-            <Hammer className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-            <span>Ongoing Church Project &bull; Appeal to Well-Wishers</span>
+            <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+            <span>Active Missions &bull; Appeal to Well-Wishers &amp; Global Friends</span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#ff6b35]">
-            Sanctuary Construction &amp; Building Project
+            Our Core Missions &amp; Community Projects
           </h2>
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-sm sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            We are actively erecting a permanent house of worship and refuge in Sugutta. We invite local well-wishers and international friends across the globe to partner with Pastor Caesar Osebe Nyandwaro in laying these enduring kingdom foundations.
+            Sugutta Fellowship Church is dedicated to transforming lives through practical compassion and establishing an altar of worship. We invite local partners and international friends to stand with us in these two urgent ongoing efforts.
           </p>
         </div>
 
-        {/* Construction Showcase Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Column: Narrative, Scripture & Milestones */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-5">
-              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#ff6b35]">
-                <Building2 className="w-4 h-4" />
-                <span>The Vision in Sugutta</span>
+        {/* 2 EQUAL HIGH-IMPACT CARDS (CHILDREN'S HOME & SANCTUARY CONSTRUCTION) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* Card 1: Sugutta Children's Home & Compassion Mission */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-rose-200/90 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group hover:border-rose-400 transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-700 text-xs font-extrabold uppercase tracking-wider border border-rose-200">
+                  <Baby className="w-3.5 h-3.5" />
+                  <span>Children&apos;s Home Mission</span>
+                </span>
+                <span className="text-xs font-bold text-slate-400">
+                  Account Ref: <strong className="text-slate-900 font-mono">ORPHANAGE</strong>
+                </span>
               </div>
 
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight leading-snug">
-                Building an Enduring House of Prayer, Deliverance &amp; Community Refuge
-              </h3>
+              {/* Image banner */}
+              <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900">
+                <Image
+                  src="/images/orphanage-hero.png"
+                  alt="Sugutta Children's Home"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4 text-white">
+                  <p className="font-extrabold text-sm sm:text-base leading-tight">
+                    Sheltering &amp; Sponsoring 50+ Vulnerable Children
+                  </p>
+                  <p className="text-[11px] text-slate-200">
+                    Hot nutritious meals, quality education, medical care &amp; parental love.
+                  </p>
+                </div>
+              </div>
 
-              <p className="text-sm text-slate-600 leading-relaxed">
-                With five vibrant Sunday worship sessions and midweek gatherings overflowing our temporary hall, our congregation is moving forward in faith. 100% of contributions received go straight into stone masonry, steel pillar reinforcement, and sanctuary roofing.
+              {/* Narrative */}
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.
               </p>
 
-              {/* 3 Project Phases */}
-              <div className="space-y-3 pt-1">
-                <div className="p-3.5 rounded-xl bg-orange-50/60 border border-orange-200/70 flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-[#ff6b35] text-white flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">
-                    1
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-xs sm:text-sm text-slate-900">
-                        Phase 1: Foundation &amp; Structural Sub-Grade
-                      </h4>
-                      <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-                        Underway
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Ground excavation, concrete footings, and structural masonry block walls.
-                    </p>
-                  </div>
+              {/* Giving Channels Box for Children's Home */}
+              <div className="p-3.5 rounded-2xl bg-rose-50/50 border border-rose-100 space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Paybill 174379</span>
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-mono font-bold">
+                    Acc: <strong>ORPHANAGE</strong>
+                  </span>
                 </div>
-
-                <div className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">
-                    2
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-xs sm:text-sm text-slate-900">
-                        Phase 2: Pillar Columns, Superstructure &amp; Roof Trussing
-                      </h4>
-                      <span className="px-1.5 py-0.5 rounded bg-orange-100 text-[#ff6b35] text-[10px] font-bold">
-                        Current Focus
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Reinforced steel rebar pillars and heavy-gauge timber/iron roofing enclosure.
-                    </p>
-                  </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <Globe2 className="w-3.5 h-3.5 text-rose-600" />
+                    <span>Sendwave Mobile</span>
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-mono font-bold">
+                    {settings.mpesaPhone || "+254112656123"}
+                  </span>
                 </div>
-
-                <div className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-start gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center font-extrabold text-xs shrink-0 mt-0.5">
-                    3
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-extrabold text-xs sm:text-sm text-slate-900">
-                        Phase 3: Altar Platform, Sanctuary Seating &amp; Audio/Visual
-                      </h4>
-                      <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold">
-                        Upcoming
-                      </span>
-                    </div>
-                    <p className="text-xs text-slate-600 mt-0.5">
-                      Flooring screed, pulpit stage, acoustic treatment, and high-capacity congregation pews.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Scripture quote */}
-              <div className="pt-2 text-xs italic text-slate-500 font-serif border-t border-slate-100">
-                &ldquo;Arise, and let us build the sanctuary of the Lord God...&rdquo; &mdash; 1 Chronicles 22:19
               </div>
             </div>
+
+            {/* Direct CTA */}
+            <Button
+              asChild
+              size="lg"
+              className="w-full font-extrabold text-sm bg-rose-600 hover:bg-rose-700 text-white rounded-full py-4 shadow-md shadow-rose-600/20 flex items-center justify-center gap-2 border-0"
+            >
+              <Link href="/give?fund=orphanage&step=form">
+                <span>Support the Children&apos;s Home</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
           </div>
 
-          {/* Right Column: Clear Contribution & Giving Channels Card */}
-          <div className="lg:col-span-5">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-orange-200 shadow-xl space-y-6 relative overflow-hidden">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff6b35] text-white text-[10px] font-extrabold uppercase tracking-wider">
-                  <ShieldCheck className="w-3.5 h-3.5" />
-                  <span>Clear Earmarked Giving</span>
-                </div>
-                <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-                  How Well-Wishers &amp; Friends Can Contribute
-                </h3>
-                <p className="text-xs text-slate-600">
-                  Whether in Kenya or internationally, use these exact channels to ensure your gift is designated specifically to Church Construction:
-                </p>
+          {/* Card 2: Sugutta Sanctuary Construction & Building Project */}
+          <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-orange-200/90 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group hover:border-orange-400 transition-all duration-300">
+            <div className="space-y-5">
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[#c2410c] text-xs font-extrabold uppercase tracking-wider border border-orange-200">
+                  <Hammer className="w-3.5 h-3.5" />
+                  <span>Sanctuary Construction</span>
+                </span>
+                <span className="text-xs font-bold text-slate-400">
+                  Account Ref: <strong className="text-slate-900 font-mono">BUILDING</strong>
+                </span>
               </div>
 
-              {/* 1. Kenyan Well-Wishers (M-Pesa) */}
-              <div className="p-4 rounded-2xl bg-orange-50/60 border border-orange-200/80 space-y-3">
+              {/* Image banner */}
+              <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900">
+                <Image
+                  src="/images/church-construction.jpg"
+                  alt="Sanctuary Construction Project"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                <div className="absolute bottom-3 left-4 right-4 text-white">
+                  <p className="font-extrabold text-sm sm:text-base leading-tight">
+                    Building a Permanent House of Prayer in Sugutta
+                  </p>
+                  <p className="text-[11px] text-slate-200">
+                    Concrete foundation blocks, steel pillar reinforcement &amp; roof trussing.
+                  </p>
+                </div>
+              </div>
+
+              {/* Narrative */}
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.
+              </p>
+
+              {/* Giving Channels Box for Construction */}
+              <div className="p-3.5 rounded-2xl bg-orange-50/50 border border-orange-100 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
-                    <Smartphone className="w-4 h-4 text-[#ff6b35]" />
-                    <span>For Kenyans &bull; M-Pesa Paybill</span>
+                  <span className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5 text-[#ff6b35]" />
+                    <span>Paybill 174379</span>
                   </span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-orange-100 text-[#ff6b35]">
-                    Lipa na M-Pesa
+                  <span className="text-[10px] text-slate-500 font-mono font-bold">
+                    Acc: <strong>BUILDING</strong>
                   </span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 block uppercase">
-                        Paybill No:
-                      </span>
-                      <span className="font-extrabold text-slate-900 text-sm">
-                        {settings.mpesaPaybill || "174379"}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy("home_paybill", settings.mpesaPaybill || "174379")}
-                      className="text-xs font-bold text-[#ff6b35] p-1 hover:bg-orange-50 rounded"
-                    >
-                      {copiedField === "home_paybill" ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-orange-100/70 border border-orange-200 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-[#ff6b35] block uppercase">
-                        Account No:
-                      </span>
-                      <span className="font-extrabold text-slate-900 text-sm">
-                        BUILDING
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => handleCopy("home_acc", "BUILDING")}
-                      className="text-xs font-bold text-[#ff6b35] p-1 hover:bg-white rounded"
-                    >
-                      {copiedField === "home_acc" ? (
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      ) : (
-                        <Copy className="w-3.5 h-3.5" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* 2. International Friends (Sendwave / Bank Wire) */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
-                    <Globe2 className="w-4 h-4 text-[#ff6b35]" />
-                    <span>International Friends &bull; Sendwave / Wire</span>
+                  <span className="font-bold text-slate-900 flex items-center gap-1.5">
+                    <Building2 className="w-3.5 h-3.5 text-[#ff6b35]" />
+                    <span>KCB Bank Kenya</span>
                   </span>
-                  <span className="text-[10px] font-bold text-slate-500">
-                    Direct Remittance
+                  <span className="text-[10px] text-slate-500 font-mono font-bold">
+                    Acc: <strong>{settings.kcbAccountNumber || "1234567890"}</strong>
                   </span>
-                </div>
-
-                <div className="space-y-1.5 text-xs text-slate-700">
-                  <p className="flex items-center justify-between p-2 rounded bg-white border border-slate-200">
-                    <span className="text-slate-500">Sendwave / Remitly:</span>
-                    <strong className="text-slate-900">
-                      {settings.mpesaPhone || "+254112656123"}
-                    </strong>
-                  </p>
-                  <p className="flex items-center justify-between p-2 rounded bg-white border border-slate-200">
-                    <span className="text-slate-500">KCB Bank Kenya:</span>
-                    <strong className="text-slate-900">
-                      Acc: {settings.kcbAccountNumber || "1234567890"}
-                    </strong>
-                  </p>
-                  <p className="text-[11px] text-slate-500 italic">
-                    Specify memo / reference: <strong>CHURCH CONSTRUCTION</strong>
-                  </p>
                 </div>
               </div>
-
-              {/* Main CTA: View Full 3-State Campaign Donation Flow */}
-              <Button
-                asChild
-                size="lg"
-                className="w-full font-extrabold text-sm sm:text-base bg-[#ff6b35] hover:bg-[#ea580c] text-white rounded-full py-4 shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 border-0"
-              >
-                <Link href="/give?fund=building&campaign=construction">
-                  <span>Make a Contribution to Construction</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
             </div>
+
+            {/* Direct CTA */}
+            <Button
+              asChild
+              size="lg"
+              className="w-full font-extrabold text-sm bg-[#ff6b35] hover:bg-[#ea580c] text-white rounded-full py-4 shadow-md shadow-orange-500/20 flex items-center justify-center gap-2 border-0"
+            >
+              <Link href="/give?fund=building&step=form">
+                <span>Contribute to Sanctuary Building</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
