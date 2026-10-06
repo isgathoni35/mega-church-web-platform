@@ -31,7 +31,7 @@ export default async function AboutPage() {
       <FounderStory settings={settings} />
 
       {/* 3. Authentic Grassroots Community & Village Outreach */}
-      <CommunityFellowship />
+      <CommunityFellowship settings={settings} />
 
       {/* 4. Statement of Faith (What We Believe) */}
       <StatementOfFaith />

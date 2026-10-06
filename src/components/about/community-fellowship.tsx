@@ -3,8 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Users, Heart, ArrowRight, Home, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
-export function CommunityFellowship() {
+interface CommunityFellowshipProps {
+  settings?: SiteSettingsData;
+}
+
+export function CommunityFellowship({ settings: propSettings }: CommunityFellowshipProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+
   return (
     <section className="py-10 sm:py-16 lg:py-24 bg-[#fbf8f3] text-slate-900 border-t border-slate-200/80 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,8 +26,8 @@ export function CommunityFellowship() {
               <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-slate-900">
                 <div className="relative aspect-[4/3] w-full">
                   <Image
-                    src="/images/community-outreach.jpg"
-                    alt="Sugutta Fellowship Church grassroots village outreach with elders, mothers, and children gathered for community fellowship"
+                    src={settings.communityImageUrl || "/images/community-outreach.jpg"}
+                    alt={settings.communityTitle || "Sugutta Fellowship Church grassroots village outreach"}
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -61,13 +68,14 @@ export function CommunityFellowship() {
 
             <div className="space-y-2">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#ff6b35] tracking-tight leading-tight">
-                Rooted in Our Community, Walking Alongside Families
+                {settings.communityTitle || "Rooted in Our Community, Walking Alongside Families"}
               </h2>
               <div className="w-16 h-1 bg-[#ff6b35] rounded-full" />
             </div>
 
             <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
-              True Christian ministry is never confined to sanctuary walls. In Sugutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads.
+              {settings.communityNarrative ||
+                "True Christian ministry is never confined to sanctuary walls. In Sugutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads."}
             </p>
 
             {/* 3 Pillars of Grassroots Care */}

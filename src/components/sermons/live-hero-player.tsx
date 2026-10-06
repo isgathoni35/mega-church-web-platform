@@ -1,16 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Radio, Sparkles, Calendar, User, ExternalLink, Share2, Check } from "lucide-react";
+import { Radio, Sparkles, Calendar, User, ExternalLink, Share2, Check, Tv } from "lucide-react";
 import { Sermon } from "@/types/database.types";
 import { getYouTubeId, getYouTubeEmbedUrl } from "@/lib/utils/youtube";
 import { Button } from "@/components/ui/button";
 
 interface LiveHeroPlayerProps {
   featuredSermon: Sermon | null;
+  youtubeChannelUrl?: string;
 }
 
-export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
+export function LiveHeroPlayer({
+  featuredSermon,
+  youtubeChannelUrl,
+}: LiveHeroPlayerProps) {
+
   const [copied, setCopied] = useState(false);
 
   if (!featuredSermon) return null;
@@ -130,8 +135,25 @@ export function LiveHeroPlayer({ featuredSermon }: LiveHeroPlayerProps) {
                 </>
               )}
             </Button>
+
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full sm:w-auto border-red-200 bg-red-50/70 text-red-700 hover:bg-red-100 hover:text-red-900 shadow-sm rounded-xl text-xs sm:text-sm py-2.5 sm:py-3 h-auto"
+              asChild
+            >
+              <a
+                href={youtubeChannelUrl || "https://www.youtube.com/@Brianmbera"}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Tv className="h-4 w-4 mr-2 text-red-600" />
+                Subscribe to Channel
+              </a>
+            </Button>
           </div>
         </div>
+
 
         {/* Right Column: 16:9 Video Player */}
         <div className="w-full lg:w-[580px] xl:w-[640px] shrink-0">

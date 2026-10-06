@@ -42,10 +42,10 @@ const NAV_ITEMS = [
     badge: null,
   },
   {
-    name: "Church & Bank Settings",
+    name: "Site Content & Photos",
     href: "/admin/settings",
     icon: Settings,
-    badge: null,
+    badge: "CMS",
   },
 ];
 

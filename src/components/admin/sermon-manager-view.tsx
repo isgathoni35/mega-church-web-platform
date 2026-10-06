@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   PlusCircle,
   Video,
@@ -25,7 +26,9 @@ import { Sermon, SermonCategory } from "@/types/database.types";
 
 interface SermonManagerViewProps {
   initialSermons: Sermon[];
+  youtubeChannelUrl?: string;
 }
+
 
 const CATEGORIES: SermonCategory[] = [
   "Sunday Worship",
@@ -40,15 +43,20 @@ const CATEGORIES: SermonCategory[] = [
   "Shorts",
 ];
 
-export function SermonManagerView({ initialSermons }: SermonManagerViewProps) {
+export function SermonManagerView({
+  initialSermons,
+  youtubeChannelUrl,
+}: SermonManagerViewProps) {
   const [sermons, setSermons] = useState<Sermon[]>(initialSermons);
+
   const [isPending, startTransition] = useTransition();
 
   // Form State
   const [title, setTitle] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [category, setCategory] = useState<SermonCategory>(CATEGORIES[0]);
-  const [speaker, setSpeaker] = useState("Pastor Jeannette Taylor");
+  const [speaker, setSpeaker] = useState("Pastor Caesar Osebe Nyandwaro");
+
   const [datePreached, setDatePreached] = useState(
     new Date().toISOString().split("T")[0]
   );
@@ -144,6 +152,40 @@ export function SermonManagerView({ initialSermons }: SermonManagerViewProps) {
           Publish YouTube sermons, shorts, and toggle Sunday live broadcast coverage.
         </p>
       </div>
+
+      {/* Official YouTube Channel Banner */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-red-50/80 via-white to-orange-50/80 border border-red-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-red-500/20">
+            <Tv className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-xs font-bold text-slate-900 block">Official Church YouTube Channel</span>
+            <span className="text-xs text-slate-500 block truncate max-w-md">
+              {youtubeChannelUrl || "https://www.youtube.com/@Brianmbera"}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0">
+          <a
+            href={youtubeChannelUrl || "https://www.youtube.com/@Brianmbera"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm"
+          >
+            <span>Visit Channel</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+          <Link
+            href="/admin/settings"
+            className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition-colors"
+          >
+            <span>Edit Channel URL</span>
+          </Link>
+        </div>
+      </div>
+
 
       {message && (
         <div
@@ -252,7 +294,8 @@ export function SermonManagerView({ initialSermons }: SermonManagerViewProps) {
                   type="text"
                   value={speaker}
                   onChange={(e) => setSpeaker(e.target.value)}
-                  placeholder="Pastor Jeannette Taylor"
+                  placeholder="Pastor Caesar Osebe Nyandwaro"
+
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs focus:ring-2 focus:ring-[#C59B27] focus:outline-none"
                 />
               </div>

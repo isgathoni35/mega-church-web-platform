@@ -254,7 +254,20 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
                 <Mail className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
                 <a href={`mailto:${email}`} className="hover:text-white transition-colors">{email}</a>
               </div>
+              <div className="flex items-center gap-2">
+                <Video className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
+                <a
+                  href={settings.youtubeChannelUrl || "https://www.youtube.com/@Brianmbera"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors flex items-center gap-1"
+                >
+                  <span>YouTube Channel</span>
+                  <ExternalLink className="h-3 w-3 text-slate-500" />
+                </a>
+              </div>
             </div>
+
           </div>
         </div>
       </div>

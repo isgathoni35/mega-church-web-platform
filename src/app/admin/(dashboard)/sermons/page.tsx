@@ -1,12 +1,15 @@
 import React from "react";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getSiteSettingsAction } from "@/actions/admin-settings";
 import { SermonManagerView } from "@/components/admin/sermon-manager-view";
 import { Sermon } from "@/types/database.types";
+
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSermonsPage() {
   let sermons: Sermon[] = [];
+  const settings = await getSiteSettingsAction();
 
   try {
     const supabase = createAdminClient();
@@ -22,5 +25,11 @@ export default async function AdminSermonsPage() {
     console.error("[Admin Sermons Fetch Error]:", err);
   }
 
-  return <SermonManagerView initialSermons={sermons} />;
+  return (
+    <SermonManagerView
+      initialSermons={sermons}
+      youtubeChannelUrl={settings.youtubeChannelUrl}
+    />
+  );
 }
+

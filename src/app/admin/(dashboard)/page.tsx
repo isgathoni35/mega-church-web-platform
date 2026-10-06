@@ -12,7 +12,9 @@ import {
   Sparkles,
   CheckCircle2,
   Calendar,
+  SlidersHorizontal,
 } from "lucide-react";
+
 import { createAdminClient } from "@/lib/supabase/admin";
 import { MINISTRY_VIDEOS } from "@/data/ministry-videos";
 
@@ -81,12 +83,21 @@ export default async function AdminOverviewPage() {
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
             <Link
+              href="/admin/settings"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#C59B27] hover:bg-[#b58c20] text-slate-950 font-black text-xs sm:text-sm transition-all shadow-md shadow-amber-500/20"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              <span>Edit Site Content &amp; Photos</span>
+            </Link>
+
+            <Link
               href="/admin/sermons"
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-orange-500/20"
             >
               <PlusCircle className="w-4 h-4" />
               <span>Add New Video / Sermon</span>
             </Link>
+
 
             <Link
               href="/"

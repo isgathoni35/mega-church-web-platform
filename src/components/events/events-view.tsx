@@ -37,57 +37,11 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
 
   const [copied, setCopied] = React.useState(false);
 
-  const EVENTS: MinistryEvent[] = [
-    {
-      id: "sugutta-crusade-2026",
-      badge: "MISSION 2026",
-      title: "Sugutta Miracle & Deliverance Crusade",
-      location: settings.physicalLocation || "Sugutta Sanctuary, Kenya",
-      dates: "April 24-26, 2026",
-      format: "In-Person & Live Broadcast",
-      description: `Join ${pastorName} for three powerful days of deliverance, healing, and supernatural transformation. Come expecting divine breakthrough.`,
-      imageUrl: "/images/hero-worship.jpg",
-      whatsappMessage: `Hello ${pastorName}, I would like to join the WhatsApp group for the Sugutta Miracle & Deliverance Crusade (April 24-26, 2026).`,
-    },
-    {
-      id: "prayer-mountain-retreat-2026",
-      badge: "RETREAT 2026",
-      title: "Sacred Prayer Mountain Fasting Retreat",
-      location: "Sugutta Prayer Mountain Sanctuary",
-      dates: "May 15-17, 2026",
-      format: "In-Person Retreat",
-      description:
-        "An intensive spiritual retreat dedicated to deep fasting, mountain intercession, and personal revival away from all worldly distractions.",
-      imageUrl: "/images/ministry-healing.jpg",
-      whatsappMessage: `Hello ${pastorName}, I would like to join the WhatsApp group and register for the Prayer Mountain Retreat (May 15-17, 2026).`,
-    },
-    {
-      id: "all-night-kesha",
-      badge: "MONTHLY KESHA",
-      title: "All-Night Deliverance Kesha",
-      location: settings.physicalLocation || "Sugutta Sanctuary Altar",
-      dates: "Every Last Friday of the Month",
-      format: "In-Person (9:00 PM – Dawn)",
-      description:
-        "A vigil of prophetic warfare, unbroken worship, and intense deliverance prayers under the apostolic mantle of Jesus Christ.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1519791883288-dc8bd696e667?auto=format&fit=crop&q=80&w=1200",
-      whatsappMessage: `Hello ${pastorName}, I would like to attend the All-Night Deliverance Kesha at the Main Sanctuary.`,
-    },
-    {
-      id: "diaspora-apostolic-summit",
-      badge: "GLOBAL MISSION",
-      title: "Global Diaspora Apostolic Virtual Summit",
-      location: "Live Virtual Broadcast (YouTube & Web Altar)",
-      dates: "June 12-14, 2026",
-      format: "Live Global Broadcast",
-      description:
-        "Connecting partners, covenant givers, and believers worldwide for apostolic impartation, prophetic insight, and collective miracle intercession.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&q=80&w=1200",
-      whatsappMessage: `Hello ${pastorName}, I would like to join the Global Diaspora Apostolic Virtual Summit.`,
-    },
-  ];
+  const EVENTS: MinistryEvent[] =
+    settings.eventsJson && settings.eventsJson.length > 0
+      ? settings.eventsJson
+      : DEFAULT_SETTINGS.eventsJson;
+
 
   const handleShare = async () => {
     const shareData = {

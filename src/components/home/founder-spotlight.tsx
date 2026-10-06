@@ -170,7 +170,8 @@ export function FounderSpotlight({ settings: propSettings }: FounderSpotlightPro
                 Our Mission
               </h3>
               <p className="text-slate-600 leading-relaxed text-xs sm:text-base">
-                To preach the full gospel of Jesus Christ with signs and wonders, deliver the oppressed from spiritual captivity, nurture believers in righteousness, and show tangible Christian love through holistic humanitarian outreaches.
+                {settings.missionStatement ||
+                  "To preach the full gospel of Jesus Christ with signs and wonders, deliver the oppressed from spiritual captivity, nurture believers in righteousness, and show tangible Christian love through holistic humanitarian outreaches."}
               </p>
             </div>
           </div>
@@ -188,7 +189,8 @@ export function FounderSpotlight({ settings: propSettings }: FounderSpotlightPro
                 Our Vision
               </h3>
               <p className="text-slate-600 leading-relaxed text-xs sm:text-base">
-                A world transformed by the raw power of God, where millions of souls are plucked from darkness into light, empowered to live victoriously in Christ, and actively preparing the bride for the glorious second coming of Jesus Christ.
+                {settings.visionStatement ||
+                  "A world transformed by the raw power of God, where millions of souls are plucked from darkness into light, empowered to live victoriously in Christ, and actively preparing the bride for the glorious second coming of Jesus Christ."}
               </p>
             </div>
           </div>

@@ -3,56 +3,58 @@
 import * as React from "react";
 import Image from "next/image";
 import { Flame, Globe, BookOpen, HeartHandshake } from "lucide-react";
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
-interface Pillar {
-  title: string;
-  subtitle: string;
-  description: string;
-  imageSrc: string;
-  imageAlt: string;
-  icon: React.ElementType;
+interface MinistryPillarsProps {
+  settings?: SiteSettingsData;
 }
 
-const pillars: Pillar[] = [
-  {
-    title: "Deliverance & Healing",
-    subtitle: "Supernatural Freedom & Miracles",
-    description:
-      "Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.",
-    imageSrc: "/images/ministry-healing.jpg",
-    imageAlt: "Hands laid in prayer for healing inside a warm church setting",
-    icon: Flame,
-  },
-  {
-    title: "Global Crusades",
-    subtitle: "Reaping the End-Time Harvest",
-    description:
-      "Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.",
-    imageSrc: "/images/hero-worship.jpg",
-    imageAlt: "Large outdoor African gospel crusade at sunset with thousands gathered in worship",
-    icon: Globe,
-  },
-  {
-    title: "Prophetic Word & Truth",
-    subtitle: "Truth, Righteousness & Power",
-    description:
-      "Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.",
-    imageSrc: "/images/ministry-healing.jpg",
-    imageAlt: "Small group Bible study session with open Bibles in warm church interior",
-    icon: BookOpen,
-  },
-  {
-    title: "Compassion & Outreach",
-    subtitle: "Love in Demonstration",
-    description:
-      "Feeding the hungry, sheltering orphans, providing medical support, and clothing widows across underserved communities as an active demonstration of Christ's compassion.",
-    imageSrc: "/images/community-outreach.jpg",
-    imageAlt: "Grassroots village community fellowship, elders, mothers, and children outreach gathering with church leaders",
-    icon: HeartHandshake,
-  },
-];
+export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
 
-export function MinistryPillars() {
+  const pillars = [
+    {
+      title: settings.pillar1Title || "Deliverance & Healing",
+      subtitle: "Supernatural Freedom & Miracles",
+      description:
+        settings.pillar1Desc ||
+        "Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.",
+      imageSrc: settings.pillar1Image || "/images/ministry-healing.jpg",
+      imageAlt: "Hands laid in prayer for healing inside a warm church setting",
+      icon: Flame,
+    },
+    {
+      title: settings.pillar2Title || "Global Crusades",
+      subtitle: "Reaping the End-Time Harvest",
+      description:
+        settings.pillar2Desc ||
+        "Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.",
+      imageSrc: settings.pillar2Image || "/images/hero-worship.jpg",
+      imageAlt: "Large outdoor African gospel crusade at sunset with thousands gathered in worship",
+      icon: Globe,
+    },
+    {
+      title: settings.pillar3Title || "Prophetic Word & Truth",
+      subtitle: "Truth, Righteousness & Power",
+      description:
+        settings.pillar3Desc ||
+        "Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.",
+      imageSrc: settings.pillar3Image || "/images/ministry-healing.jpg",
+      imageAlt: "Small group Bible study session with open Bibles in warm church interior",
+      icon: BookOpen,
+    },
+    {
+      title: settings.pillar4Title || "Compassion & Outreach",
+      subtitle: "Love in Demonstration",
+      description:
+        settings.pillar4Desc ||
+        "Feeding the hungry, sheltering orphans, providing medical support, and clothing widows across underserved communities as an active demonstration of Christ's compassion.",
+      imageSrc: settings.pillar4Image || "/images/community-outreach.jpg",
+      imageAlt: "Grassroots village community fellowship, elders, mothers, and children outreach gathering with church leaders",
+      icon: HeartHandshake,
+    },
+  ];
+
   return (
     <section className="py-10 sm:py-16 lg:py-24 bg-[#fbf8f3] text-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,16 +119,28 @@ export function MinistryPillars() {
         {/* Neno 3-Item Impact Counter Strip */}
         <div className="mt-6 sm:mt-10 lg:mt-14 grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-6">
           <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 text-center shadow-sm hover:shadow-md transition-shadow">
-            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">1,200+</span>
-            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">Deliverance Sessions</span>
+            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">
+              {settings.impactStat1Val || "1,200+"}
+            </span>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">
+              {settings.impactStat1Lbl || "Deliverance Sessions"}
+            </span>
           </div>
           <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 text-center shadow-sm hover:shadow-md transition-shadow">
-            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">50+</span>
-            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">Miracle Crusades</span>
+            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">
+              {settings.impactStat2Val || "50+"}
+            </span>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">
+              {settings.impactStat2Lbl || "Miracle Crusades"}
+            </span>
           </div>
           <div className="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200/80 text-center shadow-sm hover:shadow-md transition-shadow">
-            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">1,000,000+</span>
-            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">Believers Impacted</span>
+            <span className="text-2xl sm:text-4xl font-extrabold text-[#ff6b35] block mb-1">
+              {settings.impactStat3Val || "1,000,000+"}
+            </span>
+            <span className="text-xs sm:text-sm font-bold text-slate-700 uppercase tracking-wider">
+              {settings.impactStat3Lbl || "Believers Impacted"}
+            </span>
           </div>
         </div>
       </div>

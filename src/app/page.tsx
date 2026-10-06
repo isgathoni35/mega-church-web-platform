@@ -87,7 +87,7 @@ export default async function Home() {
       <FounderSpotlight settings={settings} />
 
       {/* 3. Section 3: Our Ministry Pillars + 3-Item Impact Counter */}
-      <MinistryPillars />
+      <MinistryPillars settings={settings} />
 
       {/* 4. Section 4: Church Service Programme (Sunday 5 Sessions & Midweek) */}
       <ServiceSchedule settings={settings} />
@@ -96,7 +96,7 @@ export default async function Home() {
       <RecentSermons sermons={sermons} />
 
       {/* 6. Section 6: Categorized Activities & Departments */}
-      <CategorizedActivities />
+      <CategorizedActivities settings={settings} />
 
       {/* 7. Section 7: Sacred Prayer Mountain (Mai Mahiu Fasting & Vigils) */}
       <HomePrayerMountain />

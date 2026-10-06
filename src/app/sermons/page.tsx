@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
+import { getSiteSettingsAction } from "@/actions/admin-settings";
 import { LiveHeroPlayer } from "@/components/sermons/live-hero-player";
 import { SermonArchive } from "@/components/sermons/sermon-archive";
 import { MinistryVideoShowcase } from "@/components/home/ministry-video-showcase";
@@ -17,7 +18,8 @@ const fallbackSermons: Sermon[] = [
     id: "1",
     title: "Walking in Divine Overflow and Covenant Power",
     slug: "walking-in-divine-overflow-and-covenant-power",
-    speaker: "Pastor Jeannette Taylor",
+    speaker: "Pastor Caesar Osebe Nyandwaro",
+
     youtube_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     thumbnail_url:
       "https://images.unsplash.com/photo-1544427920-c49ccfb85579?auto=format&fit=crop&q=80&w=1200",
@@ -92,12 +94,17 @@ export default async function SermonsPage() {
   const liveSermon = sermons.find((s) => s.is_live);
   const featuredSermon =
     liveSermon || sermons.find((s) => s.is_featured) || sermons[0] || null;
+  const settings = await getSiteSettingsAction();
 
   return (
     <div className="flex flex-col w-full min-h-screen">
-      <LiveHeroPlayer featuredSermon={featuredSermon} />
+      <LiveHeroPlayer
+        featuredSermon={featuredSermon}
+        youtubeChannelUrl={settings.youtubeChannelUrl}
+      />
       <SermonArchive initialSermons={sermons} />
       <MinistryVideoShowcase />
     </div>
   );
 }
+

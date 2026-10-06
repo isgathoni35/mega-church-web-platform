@@ -32,10 +32,10 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
 
             {/* Signature 3-Line Headline matching Neno */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#0f172a] leading-[1.08] mb-5 sm:mb-6">
-              Sugutta
+              {settings.heroHeadline1 || "Sugutta"}
               <br />
               <span className="relative inline-block text-[#ff6b35]">
-                Fellowship
+                {settings.heroHeadline2 || "Fellowship"}
                 <svg
                   className="absolute -bottom-2 left-0 w-full text-[#fed7aa] h-3.5 sm:h-4"
                   viewBox="0 0 100 12"
@@ -51,16 +51,18 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
                 </svg>
               </span>
               <br />
-              Church
+              {settings.heroHeadline3 || "Church"}
             </h1>
 
             {/* Vision Lead & Spiritual Subtext */}
             <div className="space-y-2 mb-6 sm:mb-8 max-w-xl">
               <p className="text-base sm:text-lg text-slate-700 leading-relaxed">
-                We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully and carry His Gospel into everyday life.
+                {settings.heroSubtitle ||
+                  "We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully and carry His Gospel into everyday life."}
               </p>
               <p className="text-sm sm:text-base text-[#ff6b35] italic font-serif">
-                Experience God&apos;s power through deliverance and spiritual transformation.
+                {settings.heroPromise ||
+                  "Experience God's power through deliverance and spiritual transformation."}
               </p>
             </div>
 
@@ -93,7 +95,9 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
             {/* Thin Divider Line & 3-Item Stats Bar matching Neno */}
             <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 sm:gap-10 w-full max-w-lg text-left">
               <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">50+</p>
+                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                  {settings.heroStatBranches || "50+"}
+                </p>
                 <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
                   <span>BRANCHES</span>
@@ -101,7 +105,9 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
               </div>
 
               <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">1M+</p>
+                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                  {settings.heroStatLives || "1M+"}
+                </p>
                 <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
                   <span>LIVES TOUCHED</span>
@@ -109,7 +115,9 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
               </div>
 
               <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">25+</p>
+                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                  {settings.heroStatYears || "25+"}
+                </p>
                 <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
                   <span>YEARS MINISTRY</span>
@@ -133,9 +141,10 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
               <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-[2.25rem] sm:rounded-[2.75rem] overflow-hidden shadow-2xl border-4 border-white bg-slate-900">
                 <Image
                   src={
-                    settings.pastorImageUrl && !settings.pastorImageUrl.includes("pastor-caesar.jpg")
+                    settings.heroImageUrl ||
+                    (settings.pastorImageUrl && !settings.pastorImageUrl.includes("pastor-caesar.jpg")
                       ? settings.pastorImageUrl
-                      : "/images/pastor-caesar-hero.jpg"
+                      : "/images/pastor-caesar-hero.jpg")
                   }
                   alt={settings.pastorName}
                   fill

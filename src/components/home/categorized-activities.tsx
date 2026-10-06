@@ -78,25 +78,26 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
               {/* Image banner */}
               <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900">
                 <Image
-                  src="/images/orphanage-hero.png"
-                  alt="Sugutta Children's Home"
+                  src={settings.orphanageImageUrl || "/images/orphanage-hero.png"}
+                  alt={settings.orphanageTitle || "Sugutta Children's Home"}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
                 <div className="absolute bottom-3 left-4 right-4 text-white">
                   <p className="font-extrabold text-sm sm:text-base leading-tight">
-                    Sheltering &amp; Sponsoring 50+ Vulnerable Children
+                    {settings.orphanageTitle || "Sheltering & Sponsoring 50+ Vulnerable Children"}
                   </p>
                   <p className="text-[11px] text-slate-200">
-                    Hot nutritious meals, quality education, medical care &amp; parental love.
+                    {settings.orphanageSubtitle || "Hot nutritious meals, quality education, medical care & parental love."}
                   </p>
                 </div>
               </div>
 
               {/* Narrative */}
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.
+                {settings.orphanageNarrative ||
+                  "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27."}
               </p>
 
               {/* Giving Channels Box for Children's Home */}
@@ -104,7 +105,7 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-slate-900 flex items-center gap-1.5">
                     <Smartphone className="w-3.5 h-3.5 text-rose-600" />
-                    <span>Paybill 174379</span>
+                    <span>Paybill {settings.mpesaPaybill || "174379"}</span>
                   </span>
                   <span className="text-[10px] text-slate-500 font-mono font-bold">
                     Acc: <strong>ORPHANAGE</strong>
@@ -141,7 +142,7 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-[#c2410c] text-xs font-extrabold uppercase tracking-wider border border-orange-200">
                   <Hammer className="w-3.5 h-3.5" />
-                  <span>Sanctuary Construction</span>
+                  <span>{settings.constructionBadge || "Sanctuary Construction"}</span>
                 </span>
                 <span className="text-xs font-bold text-slate-400">
                   Account Ref: <strong className="text-slate-900 font-mono">BUILDING</strong>
@@ -151,25 +152,26 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
               {/* Image banner */}
               <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900">
                 <Image
-                  src="/images/church-construction.jpg"
-                  alt="Sanctuary Construction Project"
+                  src={settings.constructionImageUrl || "/images/church-construction.jpg"}
+                  alt={settings.constructionTitle || "Sanctuary Construction Project"}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
                 <div className="absolute bottom-3 left-4 right-4 text-white">
                   <p className="font-extrabold text-sm sm:text-base leading-tight">
-                    Building a Permanent House of Prayer in Sugutta
+                    {settings.constructionTitle || "Building a Permanent House of Prayer in Sugutta"}
                   </p>
                   <p className="text-[11px] text-slate-200">
-                    Concrete foundation blocks, steel pillar reinforcement &amp; roof trussing.
+                    {settings.constructionSubtitle || "Concrete foundation blocks, steel pillar reinforcement & roof trussing."}
                   </p>
                 </div>
               </div>
 
               {/* Narrative */}
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.
+                {settings.constructionNarrative ||
+                  "With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship."}
               </p>
 
               {/* Giving Channels Box for Construction */}

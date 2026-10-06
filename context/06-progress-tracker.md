@@ -210,13 +210,33 @@
   3. About Page Community Fellowship (`CommunityFellowship`): Built dedicated 2-column component on `/about` highlighting grassroots pastoral visits, elder care, and village home cells with the authentic photograph, floating badge, 3 key care pillars, and direct support actions.
   4. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 across all 19 routes, tested on port 3002.
 
+- [x] `feature-specs/33-comprehensive-cms-and-media-manager.md`: Comprehensive Site-Wide Content & Media CMS Manager in Admin Portal:
+  1. Admin CMS Hub (`/admin/settings`): Transformed into 6-tabbed visual CMS (Home & Hero, Twin Projects, Ministry Pillars, About & Community, Events & Crusades, Banking & Contacts).
+  2. Supabase Storage & Upload Engine: Built `uploadChurchMediaAction` supporting direct uploads to public `church-media` Supabase Storage bucket with 10MB limit and image MIME validation, eliminating serverless filesystem wipes.
+  3. Reusable Media Component (`ImageUploadField`): Features live image preview, direct upload with progress state, 8-item authentic church preset library picker, and manual URL input.
+  4. Public Components Dynamic Binding:
+     - Homepage Hero (`HeroSection`): 3-line headline, subtitle, promise, dynamic background image, and 3-stat counters.
+     - Twin Ongoing Projects (`CategorizedActivities`): Sanctuary construction and Children's Home titles, subtitles, narratives, badges, and images.
+     - Ministry Pillars (`MinistryPillars`): Dynamic titles, descriptions, and photos for 4 pillars, plus 3 impact stats.
+     - About Page Community Fellowship (`CommunityFellowship`): Dynamic title, narrative, and photo.
+     - Mission Events (`EventsView`): Dynamic events list loaded from `settings.eventsJson` with fail-safe fallbacks.
+  5. Fallback Resilience & SQL Migration: Handled missing columns gracefully in `getSiteSettingsAction` so the public site never crashes even before the migration is executed. Provided complete idempotent migration `supabase/migrations/20261006_comprehensive_cms_settings.sql`.
+- [x] `feature-specs/34-official-youtube-channel-integration.md`: Official Church YouTube Channel Integration (`@Brianmbera`) & Live Streaming Workflow:
+  1. Channel Configuration: Integrated the church's official YouTube channel (`https://www.youtube.com/@Brianmbera`) site-wide with fallback resilience.
+  2. Database & Types: Added `youtube_channel_url` column to `site_settings` table in Supabase migration `supabase/migrations/20261006_comprehensive_cms_settings.sql`, `SiteSettingsData` in `src/types/settings.ts`, and `database.types.ts`.
+  3. Admin Portal Management:
+     - Added "Official YouTube Channel URL" input field to Admin Settings (`/admin/settings`) under Communications & Social Links with real-time test preview.
+     - Added prominent YouTube Channel Banner to Admin Media Hub (`/admin/sermons`) with 1-click "Visit Channel" and direct link to settings.
+  4. Public Frontend Integration:
+     - Global Footer (`src/components/layout/footer.tsx`): Added direct "YouTube Channel" link with video icon in the contact details block.
+     - Sermons Page (`src/components/sermons/live-hero-player.tsx`): Added "Subscribe to Channel" button on the live broadcast hero player linking directly to `@Brianmbera`.
+  5. Live Streaming Guide: Outlined step-by-step instructions for Pastor / Media team on going live from YouTube Studio or mobile, copying the stream URL/ID, and publishing it in Admin Media Hub to broadcast live to the congregation.
+  6. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 across 19/19 routes, tested on port 3002.
+
 ## 🚧 In Progress
 
 None.
 
-## ⏳ Pending Features
-
-None.
 
 ## 🏗️ Architectural Decisions Log
 
