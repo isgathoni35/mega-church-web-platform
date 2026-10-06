@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import QRCode from "qrcode";
 import { QrCode, Copy, Check, Smartphone, ShieldCheck } from "lucide-react";
 
 export type PaymentQrType = "till" | "send_money" | "kcb_bank" | "sendwave";
@@ -23,7 +24,7 @@ export function PaymentQrCode({
   tillNumber = "8146952",
   tillName = "Suggutta Fellowship Church",
   phone = "0112656123",
-  recipientName = "Pastor Caesar Osebe",
+  recipientName = "Pastor Caesar O. Nyandwaro",
   bankName = "KCB Bank Kenya",
   accountNumber = "1356891853",
   accountName = "Sugutta Fellowship church",
@@ -31,6 +32,50 @@ export function PaymentQrCode({
   className = "",
 }: PaymentQrCodeProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
+  const [isGenerating, setIsGenerating] = useState<boolean>(true);
+
+  useEffect(() => {
+    let active = true;
+    setIsGenerating(true);
+
+    let payload = "";
+    if (type === "till") {
+      payload = tillNumber || "8146952";
+    } else if (type === "send_money") {
+      payload = phone || "0112656123";
+    } else if (type === "kcb_bank") {
+      payload = `KCB Bank Deposit\nPaybill: ${paybillNumber}\nAccount: ${accountNumber}\nName: ${accountName}`;
+    } else if (type === "sendwave") {
+      payload = "https://www.sendwave.com";
+    }
+
+    QRCode.toDataURL(payload, {
+      errorCorrectionLevel: "H",
+      margin: 2,
+      width: 360,
+      color: {
+        dark: "#0f172a",
+        light: "#ffffff",
+      },
+    })
+      .then((url) => {
+        if (active) {
+          setQrDataUrl(url);
+          setIsGenerating(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Error generating payment QR code:", err);
+        if (active) {
+          setIsGenerating(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [type, tillNumber, phone, accountNumber, accountName, paybillNumber]);
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -43,8 +88,6 @@ export function PaymentQrCode({
       badgeText: "M-PESA BUY GOODS QR",
       badgeColor: "bg-emerald-500/10 border-emerald-500/20 text-emerald-700",
       accentColor: "#00A859",
-      centerBg: "bg-[#00A859]",
-      centerText: "M",
       title: "Lipa na M-Pesa Buy Goods",
       subtitle: "Scan with M-Pesa App or phone camera to pay directly into Church Till",
       primaryLabel: "Till Number",
@@ -57,8 +100,6 @@ export function PaymentQrCode({
       badgeText: "M-PESA SEND MONEY QR",
       badgeColor: "bg-emerald-500/10 border-emerald-500/20 text-emerald-700",
       accentColor: "#00A859",
-      centerBg: "bg-[#00A859]",
-      centerText: "M",
       title: "M-Pesa Direct Send Money",
       subtitle: "Scan with your phone camera or dial *334# to send offering seed",
       primaryLabel: "Mobile Number",
@@ -71,8 +112,6 @@ export function PaymentQrCode({
       badgeText: "KCB BANK M-PESA QR",
       badgeColor: "bg-blue-500/10 border-blue-500/20 text-blue-700",
       accentColor: "#005A9C",
-      centerBg: "bg-[#005A9C]",
-      centerText: "KCB",
       title: "KCB Bank Direct Deposit",
       subtitle: "Scan to deposit directly to church KCB account via M-Pesa (Paybill 522522)",
       primaryLabel: "KCB Account Number",
@@ -85,8 +124,6 @@ export function PaymentQrCode({
       badgeText: "SENDWAVE INTERNATIONAL QR",
       badgeColor: "bg-teal-500/10 border-teal-500/20 text-teal-700",
       accentColor: "#00C48C",
-      centerBg: "bg-emerald-500",
-      centerText: "W",
       title: "Sendwave Remittance",
       subtitle: "Scan with your smartphone to launch Sendwave with zero transfer fees",
       primaryLabel: "Recipient Line",
@@ -119,31 +156,21 @@ export function PaymentQrCode({
         </p>
       </div>
 
-      {/* Styled High-Precision Vector QR Code */}
-      <div className="relative p-3 sm:p-3.5 rounded-2xl bg-white border-2 border-slate-200 shadow-md">
-        <div className="w-36 h-36 sm:w-40 sm:h-40 mx-auto flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 29 29"
-            shapeRendering="crispEdges"
-            className="w-full h-full"
-            aria-label={`${config.title} QR Code`}
-          >
-            <path fill="#ffffff" d="M0 0h29v29H0z" />
-            <path
-              stroke="#0f172a"
-              d="M1 1.5h7m5 0h1m3 0h1m3 0h7M1 2.5h1m5 0h1m2 0h1m2 0h1m1 0h1m2 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h2m3 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h2m1 0h1m3 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h1m1 0h3m2 0h1m5 0h1M1 7.5h7m1 0h1m1 0h2m2 0h1m1 0h1m1 0h7M9 8.5h2m2 0h2m1 0h1m3 0h2M1 9.5h1m2 0h1m2 0h3m1 0h1m2 0h3m1 0h1m2 0h4M1 10.5h2m1 0h1m3 0h1m2 0h1m2 0h2m3 0h1m3 0h1M2 11.5h2m2 0h1m3 0h2m1 0h2m2 0h1m2 0h3M1 12.5h3m2 0h1m1 0h2m3 0h1m2 0h2m1 0h4M1 13.5h1m2 0h2m1 0h2m2 0h2m1 0h1m2 0h1m2 0h2M1 14.5h1m1 0h1m2 0h3m2 0h1m2 0h2m2 0h1m2 0h3M1 15.5h2m2 0h2m2 0h1m2 0h2m1 0h2m1 0h1m2 0h2M1 16.5h2m1 0h1m2 0h3m1 0h2m1 0h2m2 0h1m2 0h2M1 17.5h1m1 0h3m2 0h1m2 0h1m2 0h1m1 0h1m2 0h1m2 0h2M1 18.5h1m1 0h2m2 0h2m1 0h2m2 0h2m1 0h2m1 0h3M9 19.5h1m2 0h2m1 0h2m1 0h1m2 0h2M1 20.5h7m1 0h2m1 0h1m3 0h1m2 0h1m1 0h3M1 21.5h1m5 0h1m1 0h2m1 0h1m1 0h2m1 0h1m2 0h1m1 0h1M1 22.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h2m2 0h1m1 0h3M1 23.5h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h1m1 0h1m1 0h4M1 24.5h1m1 0h3m1 0h1m1 0h1m2 0h2m2 0h1m2 0h1m1 0h2M1 25.5h1m5 0h1m2 0h1m1 0h2m1 0h2m1 0h1m2 0h2M1 26.5h7m2 0h1m1 0h2m2 0h1m2 0h4"
+      {/* Authentic High-Definition Scannable QR Code */}
+      <div className="relative p-2.5 sm:p-3 rounded-2xl bg-white border-2 border-slate-200 shadow-md">
+        <div className="w-40 h-40 sm:w-44 sm:h-44 mx-auto flex items-center justify-center">
+          {qrDataUrl ? (
+            <img
+              src={qrDataUrl}
+              alt={`${config.title} QR Code`}
+              className="w-full h-full object-contain rounded-xl select-none"
             />
-          </svg>
-        </div>
-
-        {/* Center Logo/Badge Overlay */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-md border border-slate-200">
-          <div
-            className={`w-7 h-7 rounded-full flex items-center justify-center text-white font-black text-xs ${config.centerBg}`}
-          >
-            {config.centerText}
-          </div>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-slate-50 rounded-xl text-slate-400">
+              <QrCode className="w-8 h-8 animate-pulse text-slate-300" />
+              <span className="text-[10px] font-medium">Generating QR...</span>
+            </div>
+          )}
         </div>
       </div>
 

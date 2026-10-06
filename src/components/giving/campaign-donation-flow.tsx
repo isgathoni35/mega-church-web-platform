@@ -99,7 +99,7 @@ export const GIVING_FUNDS: GivingFund[] = [
     impacts: [
       { amountUsd: 25, amountKes: 2500, text: "Connects your prayer request to the 24/7 Mai Mahiu Prayer Mountain altar." },
       { amountUsd: 50, amountKes: 5000, text: "Consecrated sacrificial seed for business breakthroughs and family fruitfulness." },
-      { amountUsd: 100, amountKes: 10000, text: "Apostolic deliverance seed ministered under Pastor Caesar Osebe Nyandwaro." },
+      { amountUsd: 100, amountKes: 10000, text: "Apostolic deliverance seed ministered under Pastor Caesar O. Nyandwaro." },
     ],
   },
 ];
@@ -729,7 +729,7 @@ export function CampaignDonationFlow({
                       <PaymentQrCode
                         type="send_money"
                         phone={settings.mpesaPhone || "0112656123"}
-                        recipientName={settings.pastorName || "Pastor Caesar Osebe"}
+                        recipientName={settings.pastorName || "Pastor Caesar O. Nyandwaro"}
                       />
                     ) : (
                       <div className="space-y-2">
@@ -742,7 +742,7 @@ export function CampaignDonationFlow({
                               {settings.mpesaPhone || "+254112656123"}
                             </span>
                             <span className="text-[10px] text-slate-500 block">
-                              Pastor Caesar Osebe Nyandwaro
+                              Pastor Caesar O. Nyandwaro
                             </span>
                           </div>
                           <button
@@ -762,7 +762,7 @@ export function CampaignDonationFlow({
                         <ol className="list-decimal pl-4 text-[11px] text-slate-600 space-y-0.5 pt-0.5">
                           <li>Go to <strong>M-Pesa</strong> &rarr; <strong>Send Money</strong>.</li>
                           <li>Enter Phone: <strong>0112656123</strong>.</li>
-                          <li>Enter Amount &amp; PIN &rarr; Confirm name: <strong>CAESAR OSEBE</strong>.</li>
+                          <li>Enter Amount &amp; PIN &rarr; Confirm name: <strong>CAESAR O. NYANDWARO</strong>.</li>
                         </ol>
                       </div>
                     )}
@@ -873,7 +873,7 @@ export function CampaignDonationFlow({
                       <div className="p-2 rounded bg-white border border-slate-200">
                         <span className="text-[9px] text-slate-400 font-bold uppercase block">Recipient Name:</span>
                         <span className="font-extrabold text-slate-900">
-                          {settings.westernUnionRecipient || "Pastor Caesar Osebe Nyandwaro"}
+                          {settings.westernUnionRecipient || "Pastor Caesar O. Nyandwaro"}
                         </span>
                       </div>
                     </div>
@@ -882,7 +882,7 @@ export function CampaignDonationFlow({
                       <PaymentQrCode
                         type="sendwave"
                         phone={settings.mpesaPhone || "+254112656123"}
-                        recipientName={settings.westernUnionRecipient || "Pastor Caesar Osebe"}
+                        recipientName={settings.westernUnionRecipient || "Pastor Caesar O. Nyandwaro"}
                       />
                     </div>
                   </div>
@@ -1005,7 +1005,7 @@ export function CampaignDonationFlow({
                 <div>
                   <span className="text-[10px] text-slate-400 block uppercase">Leadership</span>
                   <span className="font-medium text-slate-800 block truncate">
-                    Pastor Caesar Osebe
+                    Pastor Caesar O. Nyandwaro
                   </span>
                 </div>
               </div>

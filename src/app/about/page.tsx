@@ -10,7 +10,7 @@ import { getSiteSettingsAction } from "@/actions/admin-settings";
 export const metadata: Metadata = {
   title: "About Ministry & Pastoral Journey | Sugutta Fellowship Church",
   description:
-    "Discover the spiritual calling of Pastor Caesar Osebe Nyandwaro, our biblical pillars of faith, pastoral leadership, and dynamic church programmes.",
+    "Discover the spiritual calling of Pastor Caesar O. Nyandwaro, our biblical pillars of faith, pastoral leadership, and dynamic church programmes.",
   openGraph: {
     title: "About Sugutta Fellowship Church",
     description:

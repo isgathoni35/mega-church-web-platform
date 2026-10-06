@@ -5,11 +5,11 @@ import { getSiteSettingsAction } from "@/actions/admin-settings";
 export const metadata: Metadata = {
   title: "Events & Mission Calendar | Sugutta Fellowship Church",
   description:
-    "Join Pastor Caesar Osebe Nyandwaro for upcoming crusades, prayer retreats, and Sunday programmes. Reaching out, growing together, impacting our world.",
+    "Join Pastor Caesar O. Nyandwaro for upcoming crusades, prayer retreats, and Sunday programmes. Reaching out, growing together, impacting our world.",
   openGraph: {
     title: "Events & Mission Calendar | Sugutta Fellowship Church",
     description:
-      "Join Pastor Caesar Osebe Nyandwaro for upcoming crusades, prayer retreats, and Sunday programmes.",
+      "Join Pastor Caesar O. Nyandwaro for upcoming crusades, prayer retreats, and Sunday programmes.",
     type: "website",
   },
 };

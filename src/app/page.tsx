@@ -19,7 +19,7 @@ const fallbackSermons: Sermon[] = [
     id: "1",
     title: "Walking in Divine Overflow and Covenant Power",
     slug: "walking-in-divine-overflow-and-covenant-power",
-    speaker: "Pastor Caesar Osebe Nyandwaro",
+    speaker: "Pastor Caesar O. Nyandwaro",
     youtube_url: "https://www.youtube.com/watch?v=placeholder",
     thumbnail_url:
       "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?auto=format&fit=crop&q=80&w=1200",
@@ -33,7 +33,7 @@ const fallbackSermons: Sermon[] = [
     id: "2",
     title: "Monday Inspiration Live: The Mystery of Prophetic Deliverance",
     slug: "monday-inspiration-live-mystery-of-prophetic-deliverance",
-    speaker: "Pastor Caesar Osebe Nyandwaro",
+    speaker: "Pastor Caesar O. Nyandwaro",
     youtube_url: "https://www.youtube.com/watch?v=placeholder",
     thumbnail_url:
       "https://images.unsplash.com/photo-1504052434569-70ad5836ab65?auto=format&fit=crop&q=80&w=1200",

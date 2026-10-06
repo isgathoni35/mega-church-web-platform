@@ -55,7 +55,7 @@ export function SermonManagerView({
   const [title, setTitle] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [category, setCategory] = useState<SermonCategory>(CATEGORIES[0]);
-  const [speaker, setSpeaker] = useState("Pastor Caesar Osebe Nyandwaro");
+  const [speaker, setSpeaker] = useState("Pastor Caesar O. Nyandwaro");
 
   const [datePreached, setDatePreached] = useState(
     new Date().toISOString().split("T")[0]
@@ -294,7 +294,7 @@ export function SermonManagerView({
                   type="text"
                   value={speaker}
                   onChange={(e) => setSpeaker(e.target.value)}
-                  placeholder="Pastor Caesar Osebe Nyandwaro"
+                  placeholder="Pastor Caesar O. Nyandwaro"
 
                   className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs focus:ring-2 focus:ring-[#C59B27] focus:outline-none"
                 />

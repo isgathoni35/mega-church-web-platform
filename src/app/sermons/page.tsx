@@ -18,7 +18,7 @@ const fallbackSermons: Sermon[] = [
     id: "1",
     title: "Walking in Divine Overflow and Covenant Power",
     slug: "walking-in-divine-overflow-and-covenant-power",
-    speaker: "Pastor Caesar Osebe Nyandwaro",
+    speaker: "Pastor Caesar O. Nyandwaro",
 
     youtube_url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     thumbnail_url:

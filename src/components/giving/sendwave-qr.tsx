@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import QRCode from "qrcode";
 import { QrCode, Smartphone, Copy, Check } from "lucide-react";
 
 interface SendwaveQRProps {
@@ -14,16 +15,42 @@ interface SendwaveQRProps {
 }
 
 export function SendwaveQR({
-  phone = "+254 700 000 001",
-  recipientName = "Heavens Gates Sugutta Fellowship Church",
-  accountName,
-  bankName = "Kenya Commercial Bank (KCB)",
-  accountNumber = "1234567890",
+  phone = "0112656123",
+  recipientName = "Pastor Caesar O. Nyandwaro",
+  accountName = "Sugutta Fellowship church",
+  bankName = "KCB Bank Kenya",
+  accountNumber = "1356891853",
   swiftCode = "KCBLKENX",
   mode = "bank",
 }: SendwaveQRProps) {
   const [copied, setCopied] = useState<string | null>(null);
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const displayName = accountName || recipientName;
+
+  useEffect(() => {
+    let active = true;
+    QRCode.toDataURL("https://www.sendwave.com", {
+      errorCorrectionLevel: "H",
+      margin: 2,
+      width: 360,
+      color: {
+        dark: "#0f172a",
+        light: "#ffffff",
+      },
+    })
+      .then((url) => {
+        if (active) {
+          setQrDataUrl(url);
+        }
+      })
+      .catch((err) => {
+        console.error("Error generating Sendwave QR code:", err);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -49,29 +76,21 @@ export function SendwaveQR({
         </p>
       </div>
 
-      {/* Styled QR Code Box with Brand Framing */}
-      <div className="relative p-3.5 sm:p-4 rounded-2xl bg-white border-2 border-slate-200 shadow-md">
-        <div className="w-36 h-36 sm:w-44 sm:h-44 mx-auto flex items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 27 27"
-            shapeRendering="crispEdges"
-            className="w-full h-full"
-            aria-label="Sendwave QR Code for International Payments"
-          >
-            <path fill="#ffffff" d="M0 0h27v27H0z" />
-            <path
-              stroke="#0f172a"
-              d="M1 1.5h7m4 0h1m4 0h1m1 0h7M1 2.5h1m5 0h1m8 0h2m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m3 0h5m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m5 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m1 0h6m2 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M9 8.5h1m2 0h2m2 0h2M1 9.5h1m1 0h5m4 0h5m2 0h5M1 10.5h3m2 0h1m2 0h1m3 0h1m3 0h2m1 0h1m3 0h1M3 11.5h3m1 0h2m2 0h1m1 0h1m1 0h2m1 0h5m1 0h2M1 12.5h2m3 0h1m2 0h1m1 0h1m3 0h1m1 0h2m1 0h1m4 0h1M1 13.5h2m1 0h1m2 0h1m2 0h3m1 0h1m3 0h4m1 0h3M1 14.5h1m1 0h2m5 0h2m1 0h2m2 0h2m1 0h1m1 0h1m1 0h1M1 15.5h1m1 0h2m1 0h2m2 0h2m2 0h9m1 0h2M1 16.5h1m1 0h2m1 0h1m1 0h3m2 0h1m2 0h3m1 0h2m3 0h1M1 17.5h1m1 0h5m2 0h1m2 0h9m1 0h1M9 18.5h1m6 0h2m3 0h2M1 19.5h7m2 0h1m1 0h3m2 0h1m1 0h1m1 0h1m1 0h3M1 20.5h1m5 0h1m1 0h1m2 0h1m2 0h1m1 0h1m3 0h2m2 0h1M1 21.5h1m1 0h3m1 0h1m1 0h13m1 0h1M1 22.5h1m1 0h3m1 0h1m1 0h2m2 0h2m2 0h1m1 0h1m1 0h5M1 23.5h1m1 0h3m1 0h1m1 0h2m3 0h3m5 0h2m1 0h1M1 24.5h1m5 0h1m3 0h1m3 0h1m1 0h2m1 0h3m2 0h1M1 25.5h7m1 0h2m1 0h4m4 0h6"
+      {/* Styled High-Precision Scannable QR Code */}
+      <div className="relative p-2.5 sm:p-3 rounded-2xl bg-white border-2 border-slate-200 shadow-md">
+        <div className="w-40 h-40 sm:w-44 sm:h-44 mx-auto flex items-center justify-center">
+          {qrDataUrl ? (
+            <img
+              src={qrDataUrl}
+              alt="Sendwave QR Code for International Payments"
+              className="w-full h-full object-contain rounded-xl select-none"
             />
-          </svg>
-        </div>
-
-        {/* Center Sendwave W Icon Badge */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-1 shadow-md border border-slate-200">
-          <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-500 flex items-center justify-center text-white font-black text-[11px] sm:text-xs">
-            W
-          </div>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-slate-50 rounded-xl text-slate-400">
+              <QrCode className="w-8 h-8 animate-pulse text-slate-300" />
+              <span className="text-[10px] font-medium">Generating QR...</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -143,4 +162,3 @@ export function SendwaveQR({
     </div>
   );
 }
-

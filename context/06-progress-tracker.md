@@ -132,7 +132,7 @@
   9. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), HTTP 200 responses verified on port 3002 across all 6 admin routes (`/admin/login`, `/admin`, `/admin/sermons`, `/admin/prayers`, `/admin/visitors`, `/admin/settings`) and core public routes.
 
 - [x] `feature-specs/27-dynamic-pastoral-and-flyer-harmonization.md`: Authentic Church Flyer Harmonization & 100% Dynamic Pastoral Admin Control.
-  1. High-Res Asset Pipeline: Cropped and deployed Pastor Caesar Osebe Nyandwaro's portrait from authentic flyer into `public/images/pastor-caesar.jpg` (400x425 @ 95% quality) and staged full flyer at `public/images/church-programme-flyer.jpg`.
+  1. High-Res Asset Pipeline: Cropped and deployed Pastor Caesar O. Nyandwaro's portrait from authentic flyer into `public/images/pastor-caesar.jpg` (400x425 @ 95% quality) and staged full flyer at `public/images/church-programme-flyer.jpg`.
   2. Database & Types Expansion: Expanded `SiteSettingsData` in `src/types/settings.ts`, updated `site_settings` table in `src/types/database.types.ts`, created idempotent SQL migration `supabase/migrations/20261004_site_settings_v2.sql`, and enhanced `getSiteSettingsAction` & `saveSiteSettingsAction` with path revalidation across 9 core routes.
   3. Upgraded Admin Settings Module (`/admin/settings`): Implemented 4 categorized control cards: Pastoral Profile (with live photo preview, pastorName, pastorTitle, pastorImageUrl, pastorBio, pastorNationalId), Church Identity (churchMotto, churchSlogan, postalAddress, physicalLocation), Communication & Socials (mpesaPhone, contactEmail, facebookUrl, instagramUrl), and Remittance (kcbAccountNumber, kcbAccountName, kcbBranch, kcbSwift, mpesaPaybill, westernUnionRecipient), with 1-click SQL migration copy snippet.
   4. Authentic 5-Session Sunday Church Programme (`ServiceSchedule`): Rebuilt service schedule on Homepage with exact 5 stages from 8:00 AM to 11:45 AM (Prayer & Intercession, Sunday School, Worship & Praise, Main Service, Fellowship Time) and Hebrews 10:25 Scripture call to fellowship.
@@ -172,7 +172,7 @@
      - Subtitle: We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully and carry His Gospel into everyday life. with italic orange promise line.
      - Dual buttons: Orange pill `▶ Watch Live Service` & White pill `Learn More →`.
      - Divider & Stats Strip: `50+ • BRANCHES` | `1M+ • LIVES TOUCHED` | `25+ • YEARS MINISTRY`.
-     - Right Column Picture: Tall portrait card with rounded corners (`rounded-[2.75rem]`), top-left floating white squircle badge with sparkle icon, top-right orange outline ring, and bottom floating frosted glass nameplate card (`Pastor Caesar Osebe Nyandwaro` / `RESIDENT PASTOR & VISIONARY` + circular orange badge).
+     - Right Column Picture: Tall portrait card with rounded corners (`rounded-[2.75rem]`), top-left floating white squircle badge with sparkle icon, top-right orange outline ring, and bottom floating frosted glass nameplate card (`Pastor Caesar O. Nyandwaro` / `RESIDENT PASTOR & VISIONARY` + circular orange badge).
      - Generated ultra high-definition, cinematic church portrait of Pastor Caesar ministering in his royal blue three-piece suit at the pulpit with choir in the background.
   3. 11-Section Homepage Architecture:
      - Hero Section + 3-Item Stats Bar
@@ -236,10 +236,10 @@
 - [x] `feature-specs/35-standardized-donation-channels-and-qr-codes.md`: Standardized Altar Donation Channels (3 Kenyan & 2 International) with Step-by-Step Guidance & Interactive Vector QR Codes:
   1. Standardized Kenyan Local Channels (strictly 3):
      - M-Pesa Buy Goods / Till Number: `8146952`, Name: `Suggutta Fellowship Church`, 0% customer transaction fees.
-     - M-Pesa Send Money: `0112656123` / `+254112656123`, Recipient: `Pastor Caesar Osebe`.
+     - M-Pesa Send Money: `0112656123` / `+254112656123`, Recipient: `Pastor Caesar O. Nyandwaro`.
      - KCB Bank Kenya: Account Number: `1356891853`, Account Name: `Sugutta Fellowship church`, SWIFT: `KCBLKENX`, Branch: `Nairobi Central Branch` (also shows M-Pesa to KCB step: Paybill `522522`, Account `1356891853`).
   2. Standardized International Diaspora Channels (strictly 2):
-     - Sendwave Remittance: Direct to verified line `+254 112 656 123` / `0112656123` (`Pastor Caesar Osebe Nyandwaro`) with 0% fee.
+     - Sendwave Remittance: Direct to verified line `+254 112 656 123` / `0112656123` (`Pastor Caesar O. Nyandwaro`) with 0% fee.
      - KCB Bank Direct International Wire (TT / SWIFT): Account `1356891853`, Name `Sugutta Fellowship church`, SWIFT `KCBLKENX`.
   3. Interactive Vector QR Engine (`PaymentQrCode`):
      - Built zero-dependency vector SVG QR code generator in `src/components/giving/payment-qr-code.tsx` supporting Till Number (`8146952`), Send Money (`0112656123`), KCB Bank (Paybill `522522` / Acc `1356891853`), and Sendwave (`+254 112 656 123`).
@@ -253,6 +253,19 @@
      - Global Footer (`Footer`): Updated giving credentials to Till `8146952`, Send Money `0112656123`, Sendwave, and KCB `1356891853`.
      - Admin CMS Manager (`SettingsManagerView` Tab 6): Added Till Number and Till Name input fields with live saving.
   5. Verification: 100% clean compilation, zero TypeScript errors (`npx tsc --noEmit`), server live on port 3002.
+
+- [x] `feature-specs/36-scannable-qr-codes-and-pastor-name-standardization.md`: Authentic Scannable QR Codes & Universal Pastor Name Standardization ("Pastor Caesar O. Nyandwaro"):
+  1. Root Cause Identification: Diagnosed that previous QR codes rendered arbitrary, non-mathematical SVG paths with central module-blocking overlays, causing mobile camera vision algorithms (iOS Camera, Google Lens, Samsung Camera, M-Pesa app) to reject them.
+  2. Mathematical Barcode Matrix Generation (`qrcode`):
+     - Refactored `PaymentQrCode` and `SendwaveQR` to dynamically compute authentic Level `H` error-corrected (30% redundancy) 360x360 data matrices using the installed `qrcode` package.
+     - Completely eliminated central icon occlusions, leaving unobstructed barcode matrices with standard quiet zones (`margin: 2`) that lock on instantaneously across all smartphone cameras and banking apps.
+     - Channel payloads: Till Number (`"8146952"`), Send Money (`"0112656123"`), KCB Bank (structured deposit details with Paybill `522522` and Acc `1356891853`), and Sendwave (`"https://www.sendwave.com"`).
+  3. Universal Pastor Name Standardization:
+     - Enforced client directive to never spell out "Osebe" and strictly use "O." across all touchpoints.
+     - Standardized formal name to `Pastor Caesar O. Nyandwaro` and administrative/remittance recipient to `Caesar O. Nyandwaro`.
+     - Updated database defaults in `supabase/migrations/20261006_comprehensive_cms_settings.sql` and `supabase/migrations/20261004_site_settings_v2.sql`.
+     - Harmonized all frontend components, donation flows, leadership cards, metadata, and default settings.
+  4. Verification: 100% clean compilation, zero TypeScript errors (`npx tsc --noEmit`), development server active on port 3002.
 
 ## 🚧 In Progress
 

@@ -108,7 +108,7 @@ export interface SiteSettingsData {
 
 export const DEFAULT_SETTINGS: SiteSettingsData = {
   // Pastoral Profile
-  pastorName: "Pastor Caesar Osebe Nyandwaro",
+  pastorName: "Pastor Caesar O. Nyandwaro",
   pastorTitle: "Resident Pastor & Visionary",
   pastorImageUrl: "/images/pastor-caesar-hero.jpg",
   pastorBio:
@@ -202,7 +202,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       dates: "April 24-26, 2026",
       format: "In-Person & Live Broadcast",
       description:
-        "Join Pastor Caesar Osebe Nyandwaro for three powerful days of deliverance, healing, and supernatural transformation.",
+        "Join Pastor Caesar O. Nyandwaro for three powerful days of deliverance, healing, and supernatural transformation.",
       imageUrl: "/images/hero-worship.jpg",
       whatsappMessage:
         "Hello Pastor Caesar, I would like to join the WhatsApp group for the Sugutta Miracle & Deliverance Crusade (April 24-26, 2026).",
@@ -239,5 +239,5 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   mpesaPaybill: "174379",
   mpesaTillNumber: "8146952",
   mpesaTillName: "Suggutta Fellowship Church",
-  westernUnionRecipient: "Caesar Osebe Nyandwaro",
+  westernUnionRecipient: "Caesar O. Nyandwaro",
 };

@@ -19,7 +19,7 @@ export function LeadershipTeam({ settings: propSettings }: LeadershipTeamProps =
 
   const LEADERSHIP_COUNCIL: LeaderRole[] = [
     {
-      role: settings.pastorName || "Pastor Caesar Osebe Nyandwaro",
+      role: settings.pastorName || "Pastor Caesar O. Nyandwaro",
       subtitle: settings.pastorTitle || "Resident Pastor & Visionary",
       focus: "Apostolic Vision, Deliverance Altar & Community Transformation",
       description:

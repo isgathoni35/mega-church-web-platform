@@ -88,7 +88,7 @@ export default async function GivePage({ searchParams }: GivePageProps) {
             </div>
             <h4 className="font-bold text-sm sm:text-base text-slate-900">Spiritual Stewardship</h4>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Every coin is stewarded with absolute integrity under the pastoral oversight of Pastor Caesar Osebe Nyandwaro.
+              Every coin is stewarded with absolute integrity under the pastoral oversight of Pastor Caesar O. Nyandwaro.
             </p>
           </div>
         </div>

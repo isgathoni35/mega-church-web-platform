@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
 );
 
 -- 2. Add all dynamic columns idempotently
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_name TEXT NOT NULL DEFAULT 'Pastor Caesar Osebe Nyandwaro';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_name TEXT NOT NULL DEFAULT 'Pastor Caesar O. Nyandwaro';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_title TEXT NOT NULL DEFAULT 'Resident Pastor & Visionary';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_image_url TEXT NOT NULL DEFAULT '/images/pastor-caesar.jpg';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_bio TEXT NOT NULL DEFAULT 'Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact.';
@@ -33,12 +33,12 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_branch TEXT NOT NULL DEFAULT 'Nairobi Central Branch';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_swift TEXT NOT NULL DEFAULT 'KCBLKENX';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '174379';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar Osebe Nyandwaro';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar O. Nyandwaro';
 
 -- 3. If there is an existing row, upgrade placeholder fields with authentic defaults
 UPDATE public.site_settings
 SET
-  pastor_name = COALESCE(NULLIF(pastor_name, ''), 'Pastor Caesar Osebe Nyandwaro'),
+  pastor_name = COALESCE(NULLIF(pastor_name, ''), 'Pastor Caesar O. Nyandwaro'),
   pastor_title = COALESCE(NULLIF(pastor_title, ''), 'Resident Pastor & Visionary'),
   pastor_image_url = COALESCE(NULLIF(pastor_image_url, ''), '/images/pastor-caesar.jpg'),
   pastor_national_id = COALESCE(NULLIF(pastor_national_id, ''), '39966005'),
@@ -48,7 +48,7 @@ SET
   physical_location = COALESCE(NULLIF(physical_location, ''), 'Sugutta Sanctuary, Kenya'),
   mpesa_phone = CASE WHEN mpesa_phone = '+254 700 000 001' THEN '+254112656123' ELSE mpesa_phone END,
   contact_email = CASE WHEN contact_email = 'contact@heavensgatesugutta.org' THEN 'caesarosebe@gmail.com' ELSE contact_email END,
-  western_union_recipient = COALESCE(NULLIF(western_union_recipient, ''), 'Caesar Osebe Nyandwaro');
+  western_union_recipient = COALESCE(NULLIF(western_union_recipient, ''), 'Caesar O. Nyandwaro');
 
 -- 4. Seed if row doesn't exist
 INSERT INTO public.site_settings (
@@ -58,7 +58,7 @@ INSERT INTO public.site_settings (
   kcb_account_number, kcb_account_name, kcb_branch, kcb_swift, mpesa_paybill, western_union_recipient
 )
 SELECT
-  'Pastor Caesar Osebe Nyandwaro',
+  'Pastor Caesar O. Nyandwaro',
   'Resident Pastor & Visionary',
   '/images/pastor-caesar.jpg',
   'Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact.',
@@ -76,7 +76,7 @@ SELECT
   'Nairobi Central Branch',
   'KCBLKENX',
   '174379',
-  'Caesar Osebe Nyandwaro'
+  'Caesar O. Nyandwaro'
 WHERE NOT EXISTS (SELECT 1 FROM public.site_settings);
 
 -- 5. Enable RLS and public policies
