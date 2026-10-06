@@ -1,17 +1,46 @@
 -- ==============================================================================
--- Migration: Comprehensive Site Content & Media CMS Settings
+-- Migration: Comprehensive Site Content, Media CMS & YouTube Settings
 -- Heavens Gates Sugutta Fellowship Church International
 --
--- Adds dynamic columns to public.site_settings for:
---  - Hero section headline, subtitle, promise, image, and 3-stat counters
---  - Church Mission & Vision statements
---  - Twin Ongoing Projects (Sanctuary Construction & Children's Home)
---  - Grassroots Community Fellowship photo & narrative
---  - 4 Ministry Pillars (titles, descriptions, images) and 3 impact counters
---  - Dynamic Mission Events (JSONB array)
+-- Idempotent & Fully Self-Contained:
+-- Safe to run in Supabase SQL Editor multiple times without errors.
 -- ==============================================================================
 
--- 1. Hero & Branding
+-- 1. Ensure public.site_settings table exists
+CREATE TABLE IF NOT EXISTS public.site_settings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- 2. Pastoral Profile & Church Identity
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_name TEXT NOT NULL DEFAULT 'Pastor Caesar Osebe Nyandwaro';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_title TEXT NOT NULL DEFAULT 'Resident Pastor & Visionary';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_image_url TEXT NOT NULL DEFAULT '/images/pastor-caesar.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_bio TEXT NOT NULL DEFAULT 'Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact.';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_national_id TEXT NOT NULL DEFAULT '39966005';
+
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS church_motto TEXT NOT NULL DEFAULT 'REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS church_slogan TEXT NOT NULL DEFAULT 'Come. Connect. Grow. Go.';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS postal_address TEXT NOT NULL DEFAULT 'P.O BOX 405-40211, SUGGUTTA';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS physical_location TEXT NOT NULL DEFAULT 'Sugutta Sanctuary, Kenya';
+
+-- 3. Communication, Social Channels & YouTube
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_phone TEXT NOT NULL DEFAULT '+254112656123';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS contact_email TEXT NOT NULL DEFAULT 'caesarosebe@gmail.com';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS facebook_url TEXT NOT NULL DEFAULT 'https://facebook.com/SUGGUTTA-FELLOWSHIP-CHURCH';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS instagram_url TEXT NOT NULL DEFAULT 'https://instagram.com/suggutta';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS youtube_channel_url TEXT NOT NULL DEFAULT 'https://www.youtube.com/@Brianmbera';
+
+-- 4. Banking & Remittances
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_number TEXT NOT NULL DEFAULT '1234567890';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'Sugutta Fellowship Church';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_branch TEXT NOT NULL DEFAULT 'Nairobi Central Branch';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_swift TEXT NOT NULL DEFAULT 'KCBLKENX';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '174379';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar Osebe Nyandwaro';
+
+-- 5. Hero & Branding
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_1 TEXT NOT NULL DEFAULT 'Sugutta';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_2 TEXT NOT NULL DEFAULT 'Fellowship';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_3 TEXT NOT NULL DEFAULT 'Church';
@@ -22,11 +51,11 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_stat_branches TEX
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_stat_lives TEXT NOT NULL DEFAULT '1M+';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_stat_years TEXT NOT NULL DEFAULT '25+';
 
--- 2. Mission & Vision Statements
+-- 6. Mission & Vision Statements
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mission_statement TEXT NOT NULL DEFAULT 'To win souls to Christ, disciple believers in sound biblical doctrine, break spiritual bondages through the power of the Holy Spirit, and raise an empowered community walking in holiness and divine covenant purpose.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS vision_statement TEXT NOT NULL DEFAULT 'To be an apostolic beacon of worship and spiritual awakening across Kenya and the nations, demonstrating Christ''s compassion, planting praying families, and advancing the Kingdom of God.';
 
--- 3. Twin Ongoing Projects (Sanctuary Construction & Children's Home)
+-- 7. Twin Ongoing Projects (Sanctuary Construction & Children's Home)
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_title TEXT NOT NULL DEFAULT 'Building a Permanent House of Prayer in Sugutta';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_subtitle TEXT NOT NULL DEFAULT 'Concrete foundation blocks, steel pillar reinforcement & roof trussing.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_narrative TEXT NOT NULL DEFAULT 'With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.';
@@ -39,12 +68,12 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_narrative TE
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_image_url TEXT NOT NULL DEFAULT '/images/orphanage-hero.png';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_badge TEXT NOT NULL DEFAULT 'Children''s Home Mission';
 
--- 4. Grassroots Community & Elder Care
+-- 8. Grassroots Community & Elder Care
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_title TEXT NOT NULL DEFAULT 'Rooted in Our Community, Walking Alongside Families';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_narrative TEXT NOT NULL DEFAULT 'True Christian ministry is never confined to sanctuary walls. In Sugutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_image_url TEXT NOT NULL DEFAULT '/images/community-outreach.jpg';
 
--- 5. 4 Ministry Pillars & Impact Counters
+-- 9. 4 Ministry Pillars & Impact Counters
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_title TEXT NOT NULL DEFAULT 'Deliverance & Healing';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_desc TEXT NOT NULL DEFAULT 'Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_image TEXT NOT NULL DEFAULT '/images/ministry-healing.jpg';
@@ -68,7 +97,7 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_2_lbl TEXT
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_3_val TEXT NOT NULL DEFAULT '1,000,000+';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_3_lbl TEXT NOT NULL DEFAULT 'Believers Impacted';
 
--- 6. Dynamic Events Data (JSONB array)
+-- 10. Dynamic Events Data (JSONB array)
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS events_json JSONB NOT NULL DEFAULT '[
   {
     "id": "sugutta-crusade-2026",
@@ -94,12 +123,36 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS events_json JSONB NOT 
   }
 ]'::jsonb;
 
--- 7. Official YouTube Channel
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS youtube_channel_url TEXT NOT NULL DEFAULT 'https://www.youtube.com/@Brianmbera';
+-- 11. Row Level Security & Policies
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'site_settings' AND policyname = 'Public Read Site Settings'
+  ) THEN
+    CREATE POLICY "Public Read Site Settings" ON public.site_settings
+      FOR SELECT USING (true);
+  END IF;
 
--- 8. Ensure church-media storage bucket exists and is public
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE tablename = 'site_settings' AND policyname = 'Service Role All Site Settings'
+  ) THEN
+    CREATE POLICY "Service Role All Site Settings" ON public.site_settings
+      FOR ALL USING (true);
+  END IF;
+END $$;
 
+-- 12. Ensure at least one configuration row exists
+INSERT INTO public.site_settings (id, youtube_channel_url)
+SELECT gen_random_uuid(), 'https://www.youtube.com/@Brianmbera'
+WHERE NOT EXISTS (SELECT 1 FROM public.site_settings);
+
+-- 13. Update existing row(s) with the YouTube channel
+UPDATE public.site_settings
+SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera';
+
+-- 14. Ensure church-media storage bucket exists and is public
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
   'church-media',
