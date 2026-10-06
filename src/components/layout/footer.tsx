@@ -223,20 +223,20 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
             </p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
-                <span className="font-bold text-white block text-[11px] sm:text-xs">M-Pesa Direct</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Paybill {paybill}</span>
+                <span className="font-bold text-white block text-[11px] sm:text-xs">M-Pesa Till</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Till {settings.mpesaTillNumber || "8146952"}</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
                 <span className="font-bold text-white block text-[11px] sm:text-xs">Send Money</span>
                 <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">{localCleanPhone}</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
-                <span className="font-bold text-white block text-[11px] sm:text-xs">Sendwave / WU</span>
+                <span className="font-bold text-white block text-[11px] sm:text-xs">Sendwave</span>
                 <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Diaspora</span>
               </div>
               <div className="p-2 sm:p-2.5 rounded-xl bg-black/40 border border-slate-800 text-center">
-                <span className="font-bold text-white block text-[11px] sm:text-xs">Direct Wire</span>
-                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">KCB Bank</span>
+                <span className="font-bold text-white block text-[11px] sm:text-xs">KCB Bank</span>
+                <span className="text-[10px] sm:text-[11px] text-[#ff6b35]">Acc {settings.kcbAccountNumber || "1356891853"}</span>
               </div>
             </div>
 

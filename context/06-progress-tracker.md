@@ -233,6 +233,27 @@
   5. Live Streaming Guide: Outlined step-by-step instructions for Pastor / Media team on going live from YouTube Studio or mobile, copying the stream URL/ID, and publishing it in Admin Media Hub to broadcast live to the congregation.
   6. Verification: 100% zero TypeScript errors (`npx tsc --noEmit`), `npm run build` exits code 0 across 19/19 routes, tested on port 3002.
 
+- [x] `feature-specs/35-standardized-donation-channels-and-qr-codes.md`: Standardized Altar Donation Channels (3 Kenyan & 2 International) with Step-by-Step Guidance & Interactive Vector QR Codes:
+  1. Standardized Kenyan Local Channels (strictly 3):
+     - M-Pesa Buy Goods / Till Number: `8146952`, Name: `Suggutta Fellowship Church`, 0% customer transaction fees.
+     - M-Pesa Send Money: `0112656123` / `+254112656123`, Recipient: `Pastor Caesar Osebe`.
+     - KCB Bank Kenya: Account Number: `1356891853`, Account Name: `Sugutta Fellowship church`, SWIFT: `KCBLKENX`, Branch: `Nairobi Central Branch` (also shows M-Pesa to KCB step: Paybill `522522`, Account `1356891853`).
+  2. Standardized International Diaspora Channels (strictly 2):
+     - Sendwave Remittance: Direct to verified line `+254 112 656 123` / `0112656123` (`Pastor Caesar Osebe Nyandwaro`) with 0% fee.
+     - KCB Bank Direct International Wire (TT / SWIFT): Account `1356891853`, Name `Sugutta Fellowship church`, SWIFT `KCBLKENX`.
+  3. Interactive Vector QR Engine (`PaymentQrCode`):
+     - Built zero-dependency vector SVG QR code generator in `src/components/giving/payment-qr-code.tsx` supporting Till Number (`8146952`), Send Money (`0112656123`), KCB Bank (Paybill `522522` / Acc `1356891853`), and Sendwave (`+254 112 656 123`).
+     - Added toggleable "Scan QR" / "View Steps" buttons across all giving surfaces.
+  4. Platform-Wide Harmonization:
+     - Direct Giving Portal (`/give`): Updated Tab 1 and Tab 2 with interactive QR codes and verified credentials.
+     - Campaign Donation Flow Modal (`CampaignDonationFlow`): Integrated 3 local Kenyan and 2 international channels with QR toggle.
+     - Children's Home Donation Portal (`/orphanage/donate`): Updated from old Paybill to Till `8146952`, Send Money `0112656123`, KCB `1356891853`, and Sendwave.
+     - Homepage Giving Module (`HomeGivingModule`, Section 10): Updated Tab 1 and Tab 2 with 1-click copy credentials and toggleable QR codes.
+     - Homepage Twin Activities (`CategorizedActivities`, Section 6): Updated quick-giving badges for Children's Home and Sanctuary Construction.
+     - Global Footer (`Footer`): Updated giving credentials to Till `8146952`, Send Money `0112656123`, Sendwave, and KCB `1356891853`.
+     - Admin CMS Manager (`SettingsManagerView` Tab 6): Added Till Number and Till Name input fields with live saving.
+  5. Verification: 100% clean compilation, zero TypeScript errors (`npx tsc --noEmit`), server live on port 3002.
+
 ## 🚧 In Progress
 
 None.
@@ -241,6 +262,11 @@ None.
 ## 🏗️ Architectural Decisions Log
 
 *(The AI will log any major structural decisions, package installations, or workarounds here to maintain a permanent record.)*
+
+- **[2026-10-06]:** Standardized Altar Donation Channels & Zero-Dependency SVG QR Codes:
+  1. Business Rule: Standardized all donation and seed collection across the entire application to strictly 3 local Kenyan payment methods (Till `8146952`, Send Money `0112656123`, KCB Bank Acc `1356891853`) and strictly 2 international methods (Sendwave `+254 112 656 123`, KCB Direct International Wire).
+  2. Zero-Dependency SVG QR Code Architecture: Designed and implemented `PaymentQrCode` using precision vector SVG path rendering, avoiding heavyweight external canvas libraries while providing responsive, crisp visual scanning for mobile banking apps.
+  3. Postgres UUID Schema Resilience: Supabase table `site_settings` has a UUID primary key (`gen_random_uuid()`). Updated migration `supabase/migrations/20261006_comprehensive_cms_settings.sql` to avoid any `WHERE id = 'default'` text-to-uuid casting errors (error 22P02), ensuring idempotent execution in Supabase SQL editor.
 
 - **[2026-10-05]:** Vercel Production Build Prerender Fix (`/admin/login`):
   1. Root Cause: In Next.js App Router, using `useSearchParams()` directly in a page component without a `<Suspense>` boundary triggers `missing-suspense-with-csr-bailout`, failing production build during `Generating static pages`.

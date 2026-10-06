@@ -101,6 +101,8 @@ export interface SiteSettingsData {
   kcbBranch: string;
   kcbSwift: string;
   mpesaPaybill: string;
+  mpesaTillNumber: string;
+  mpesaTillName: string;
   westernUnionRecipient: string;
 }
 
@@ -230,10 +232,12 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
 
 
   // Remittance & Banking
-  kcbAccountNumber: "1234567890",
-  kcbAccountName: "Sugutta Fellowship Church",
+  kcbAccountNumber: "1356891853",
+  kcbAccountName: "Sugutta Fellowship church",
   kcbBranch: "Nairobi Central Branch",
   kcbSwift: "KCBLKENX",
   mpesaPaybill: "174379",
+  mpesaTillNumber: "8146952",
+  mpesaTillName: "Suggutta Fellowship Church",
   westernUnionRecipient: "Caesar Osebe Nyandwaro",
 };

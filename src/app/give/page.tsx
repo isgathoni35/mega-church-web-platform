@@ -7,7 +7,7 @@ import { getSiteSettingsAction } from "@/actions/admin-settings";
 export const metadata: Metadata = {
   title: "Give & Support the Ministry | Sugutta Fellowship Church International",
   description:
-    "Partner with Sugutta Fellowship Church. Contribute towards the Sanctuary Construction, Children's Home, Tithes, and Kingdom Seeds securely via M-Pesa Send Money, Paybill 174379, Sendwave, or KCB Bank wire.",
+    "Partner with Sugutta Fellowship Church. Contribute towards the Sanctuary Construction, Children's Home, Tithes, and Kingdom Seeds securely via M-Pesa Till 8146952, Send Money 0112656123, Sendwave, or KCB Bank wire.",
 };
 
 interface GivePageProps {

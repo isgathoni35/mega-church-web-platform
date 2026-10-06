@@ -73,11 +73,13 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS instagram_url TEXT NOT
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS youtube_channel_url TEXT NOT NULL DEFAULT 'https://www.youtube.com/@Brianmbera';
 
 -- 4. Banking & Remittance
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_number TEXT NOT NULL DEFAULT '1234567890';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'Sugutta Fellowship Church';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_number TEXT NOT NULL DEFAULT '8146952';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_name TEXT NOT NULL DEFAULT 'Suggutta Fellowship Church';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_number TEXT NOT NULL DEFAULT '1356891853';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'Sugutta Fellowship church';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_branch TEXT NOT NULL DEFAULT 'Nairobi Central Branch';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_swift TEXT NOT NULL DEFAULT 'KCBLKENX';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '174379';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '522522';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar Osebe Nyandwaro';
 
 -- 5. Hero & Branding
@@ -141,13 +143,17 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_3_lbl TEXT
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS events_json JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 -- 11. Ensure at least one configuration row exists
-INSERT INTO public.site_settings (id, youtube_channel_url)
-SELECT gen_random_uuid(), 'https://www.youtube.com/@Brianmbera'
+INSERT INTO public.site_settings (id, youtube_channel_url, mpesa_till_number, mpesa_till_name, kcb_account_number, kcb_account_name)
+SELECT gen_random_uuid(), 'https://www.youtube.com/@Brianmbera', '8146952', 'Suggutta Fellowship Church', '1356891853', 'Sugutta Fellowship church'
 WHERE NOT EXISTS (SELECT 1 FROM public.site_settings);
 
--- 12. Update existing rows with YouTube channel
+-- 12. Update existing rows with accurate payment channels and YouTube
 UPDATE public.site_settings
-SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera';`;
+SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
+    mpesa_till_number = COALESCE(mpesa_till_number, '8146952'),
+    mpesa_till_name = COALESCE(mpesa_till_name, 'Suggutta Fellowship Church'),
+    kcb_account_number = '1356891853',
+    kcb_account_name = 'Sugutta Fellowship church';`;
 
 
 
@@ -1038,31 +1044,55 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera';`;
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Lipa na M-Pesa Paybill</label>
+                  <label className="text-xs font-bold text-slate-700">M-Pesa Buy Goods Till Number</label>
                   <Input
-                    value={settings.mpesaPaybill}
-                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
+                    value={settings.mpesaTillNumber}
+                    onChange={(e) => setSettings({ ...settings, mpesaTillNumber: e.target.value })}
+                    placeholder="8146952"
                   />
+                  <span className="text-[10px] text-slate-500 block">
+                    Zero customer transaction fee Safaricom Till number.
+                  </span>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">M-Pesa Registered Till Name</label>
+                  <Input
+                    value={settings.mpesaTillName}
+                    onChange={(e) => setSettings({ ...settings, mpesaTillName: e.target.value })}
+                    placeholder="Suggutta Fellowship Church"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Official business name displayed upon PIN confirmation.
+                  </span>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">Pastor Send Money Phone Line</label>
                   <Input
                     value={settings.mpesaPhone}
                     onChange={(e) => setSettings({ ...settings, mpesaPhone: e.target.value })}
+                    placeholder="+254112656123"
                   />
+                  <span className="text-[10px] text-slate-500 block">
+                    Direct altar pastoral line used for Send Money &amp; Sendwave.
+                  </span>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">KCB Bank Account Number</label>
                   <Input
                     value={settings.kcbAccountNumber}
                     onChange={(e) => setSettings({ ...settings, kcbAccountNumber: e.target.value })}
+                    placeholder="1356891853"
                   />
+                  <span className="text-[10px] text-slate-500 block">
+                    Kenya Commercial Bank deposit and international wire account.
+                  </span>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">KCB Account Name</label>
                   <Input
                     value={settings.kcbAccountName}
                     onChange={(e) => setSettings({ ...settings, kcbAccountName: e.target.value })}
+                    placeholder="Sugutta Fellowship church"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -1070,6 +1100,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera';`;
                   <Input
                     value={settings.kcbBranch}
                     onChange={(e) => setSettings({ ...settings, kcbBranch: e.target.value })}
+                    placeholder="Nairobi Central Branch"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -1077,7 +1108,19 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera';`;
                   <Input
                     value={settings.kcbSwift}
                     onChange={(e) => setSettings({ ...settings, kcbSwift: e.target.value })}
+                    placeholder="KCBLKENX"
                   />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">M-Pesa to KCB Deposit Paybill (Optional)</label>
+                  <Input
+                    value={settings.mpesaPaybill}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
+                    placeholder="522522"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    KCB Paybill number (522522) for M-Pesa account deposits.
+                  </span>
                 </div>
               </div>
             </div>

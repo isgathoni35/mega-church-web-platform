@@ -165,6 +165,8 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         kcbBranch: row.kcb_branch || DEFAULT_SETTINGS.kcbBranch,
         kcbSwift: row.kcb_swift || DEFAULT_SETTINGS.kcbSwift,
         mpesaPaybill: row.mpesa_paybill || DEFAULT_SETTINGS.mpesaPaybill,
+        mpesaTillNumber: row.mpesa_till_number || DEFAULT_SETTINGS.mpesaTillNumber,
+        mpesaTillName: row.mpesa_till_name || DEFAULT_SETTINGS.mpesaTillName,
         westernUnionRecipient: row.western_union_recipient || DEFAULT_SETTINGS.westernUnionRecipient,
       };
     }
@@ -270,6 +272,8 @@ export async function saveSiteSettingsAction(
       kcb_branch: settings.kcbBranch.trim(),
       kcb_swift: settings.kcbSwift.trim(),
       mpesa_paybill: settings.mpesaPaybill.trim(),
+      mpesa_till_number: settings.mpesaTillNumber.trim(),
+      mpesa_till_name: settings.mpesaTillName.trim(),
       western_union_recipient: settings.westernUnionRecipient.trim(),
       updated_at: new Date().toISOString(),
     };

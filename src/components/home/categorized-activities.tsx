@@ -105,18 +105,18 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-slate-900 flex items-center gap-1.5">
                     <Smartphone className="w-3.5 h-3.5 text-rose-600" />
-                    <span>Paybill {settings.mpesaPaybill || "174379"}</span>
+                    <span>M-Pesa Till: {settings.mpesaTillNumber || "8146952"}</span>
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono font-bold">
-                    Acc: <strong>ORPHANAGE</strong>
+                  <span className="text-[10px] text-emerald-700 font-bold">
+                    Buy Goods
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-slate-900 flex items-center gap-1.5">
                     <Globe2 className="w-3.5 h-3.5 text-rose-600" />
-                    <span>Sendwave Mobile</span>
+                    <span>Sendwave / Diaspora</span>
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono font-bold">
+                  <span className="text-[10px] text-slate-700 font-mono font-bold">
                     {settings.mpesaPhone || "+254112656123"}
                   </span>
                 </div>
@@ -179,10 +179,10 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-slate-900 flex items-center gap-1.5">
                     <Smartphone className="w-3.5 h-3.5 text-[#ff6b35]" />
-                    <span>Paybill 174379</span>
+                    <span>M-Pesa Till: {settings.mpesaTillNumber || "8146952"}</span>
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono font-bold">
-                    Acc: <strong>BUILDING</strong>
+                  <span className="text-[10px] text-emerald-700 font-bold">
+                    Buy Goods
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
@@ -190,8 +190,8 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
                     <Building2 className="w-3.5 h-3.5 text-[#ff6b35]" />
                     <span>KCB Bank Kenya</span>
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono font-bold">
-                    Acc: <strong>{settings.kcbAccountNumber || "1234567890"}</strong>
+                  <span className="text-[10px] text-slate-700 font-mono font-bold">
+                    Acc: <strong>{settings.kcbAccountNumber || "1356891853"}</strong>
                   </span>
                 </div>
               </div>

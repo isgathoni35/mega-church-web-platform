@@ -33,11 +33,13 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS instagram_url TEXT NOT
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS youtube_channel_url TEXT NOT NULL DEFAULT 'https://www.youtube.com/@Brianmbera';
 
 -- 4. Banking & Remittances
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_number TEXT NOT NULL DEFAULT '1234567890';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'Sugutta Fellowship Church';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_number TEXT NOT NULL DEFAULT '1356891853';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'Sugutta Fellowship church';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_branch TEXT NOT NULL DEFAULT 'Nairobi Central Branch';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_swift TEXT NOT NULL DEFAULT 'KCBLKENX';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '174379';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_number TEXT NOT NULL DEFAULT '8146952';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_name TEXT NOT NULL DEFAULT 'Suggutta Fellowship Church';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar Osebe Nyandwaro';
 
 -- 5. Hero & Branding
@@ -148,9 +150,15 @@ INSERT INTO public.site_settings (id, youtube_channel_url)
 SELECT gen_random_uuid(), 'https://www.youtube.com/@Brianmbera'
 WHERE NOT EXISTS (SELECT 1 FROM public.site_settings);
 
--- 13. Update existing row(s) with the YouTube channel
+-- 13. Update existing row(s) with YouTube channel, KCB account, and M-Pesa Till
 UPDATE public.site_settings
-SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera';
+SET 
+  youtube_channel_url = COALESCE(NULLIF(youtube_channel_url, ''), 'https://www.youtube.com/@Brianmbera'),
+  kcb_account_number = '1356891853',
+  kcb_account_name = 'Sugutta Fellowship church',
+  mpesa_till_number = '8146952',
+  mpesa_till_name = 'Suggutta Fellowship Church',
+  mpesa_phone = '+254112656123';
 
 -- 14. Ensure church-media storage bucket exists and is public
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)

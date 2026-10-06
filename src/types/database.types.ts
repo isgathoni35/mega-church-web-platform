@@ -213,6 +213,8 @@ export interface Database {
           kcb_branch: string;
           kcb_swift: string;
           mpesa_paybill: string;
+          mpesa_till_number?: string;
+          mpesa_till_name?: string;
           western_union_recipient: string;
           updated_at: string;
         };
@@ -280,6 +282,8 @@ export interface Database {
           kcb_branch?: string;
           kcb_swift?: string;
           mpesa_paybill?: string;
+          mpesa_till_number?: string;
+          mpesa_till_name?: string;
           western_union_recipient?: string;
           updated_at?: string;
         };
@@ -347,6 +351,8 @@ export interface Database {
           kcb_branch?: string;
           kcb_swift?: string;
           mpesa_paybill?: string;
+          mpesa_till_number?: string;
+          mpesa_till_name?: string;
           western_union_recipient?: string;
           updated_at?: string;
         };
