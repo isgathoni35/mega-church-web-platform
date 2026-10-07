@@ -159,7 +159,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   heroPromise:
     "Experience God's power through deliverance and spiritual transformation.",
   heroImageUrl: "/images/pastor-caesar-hero.jpg",
-  heroStatBranches: "50+",
+  heroStatBranches: "",
   heroStatLives: "1M+",
   heroStatYears: "25+",
 

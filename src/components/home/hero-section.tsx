@@ -92,40 +92,54 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
               </Button>
             </div>
 
-            {/* Thin Divider Line & 3-Item Stats Bar matching Neno */}
-            <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-2 sm:gap-10 w-full max-w-lg text-left">
-              <div>
-                <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
-                  {settings.heroStatBranches && settings.heroStatBranches !== "-"
-                    ? settings.heroStatBranches
-                    : "50+"}
-                </p>
-                <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span className="truncate">OUTREACHES</span>
-                </p>
-              </div>
+            {/* Thin Divider Line & Ministry Stats Bar */}
+            {(() => {
+              const hasExtraStat = Boolean(
+                settings.heroStatBranches &&
+                settings.heroStatBranches.trim() !== "" &&
+                settings.heroStatBranches.trim() !== "-"
+              );
 
-              <div>
-                <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
-                  {settings.heroStatLives || "1M+"}
-                </p>
-                <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span className="truncate">LIVES TOUCHED</span>
-                </p>
-              </div>
+              return (
+                <div
+                  className={`pt-6 border-t border-slate-200/80 grid ${
+                    hasExtraStat ? "grid-cols-3 max-w-lg" : "grid-cols-2 max-w-sm"
+                  } gap-3 sm:gap-10 w-full text-left`}
+                >
+                  <div>
+                    <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
+                      {settings.heroStatLives || "1M+"}
+                    </p>
+                    <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
+                      <span className="truncate">LIVES TOUCHED</span>
+                    </p>
+                  </div>
 
-              <div>
-                <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
-                  {settings.heroStatYears || "25+"}
-                </p>
-                <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span className="truncate">YEARS MINISTRY</span>
-                </p>
-              </div>
-            </div>
+                  <div>
+                    <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
+                      {settings.heroStatYears || "25+"}
+                    </p>
+                    <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
+                      <span className="truncate">YEARS MINISTRY</span>
+                    </p>
+                  </div>
+
+                  {hasExtraStat && (
+                    <div>
+                      <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
+                        {settings.heroStatBranches}
+                      </p>
+                      <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
+                        <span className="truncate">OUTREACHES</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           {/* ================= RIGHT COLUMN: PICTURE (EXACT MATCH TO NENO SCREENSHOT) ================= */}

@@ -29,10 +29,10 @@ export function AboutHero({ settings: propSettings }: AboutHeroProps = {}) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* ================= LEFT COLUMN: NARRATIVE & CTAs ================= */}
           <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
-            {/* Milestone Pill Badge matching Neno */}
+            {/* Milestone Pill Badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ffedd5]/70 border border-orange-200/80 text-[#c2410c] text-xs font-bold uppercase tracking-wider mb-5 sm:mb-6 shadow-sm">
               <History className="h-3.5 w-3.5" />
-              <span>Est. 2000 &bull; 25+ Years of Impact</span>
+              <span>Est. 2000 &bull; {settings.heroStatYears || "25+"} Years of Impact</span>
             </div>
 
             {/* Main Headline with curved golden underline */}
@@ -89,32 +89,54 @@ export function AboutHero({ settings: propSettings }: AboutHeroProps = {}) {
               </Button>
             </div>
 
-            {/* Thin Divider Line & 3-Item Stats Bar matching Neno */}
-            <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 sm:gap-10 w-full max-w-lg text-left">
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">25+</p>
-                <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span>YEARS IMPACT</span>
-                </p>
-              </div>
+            {/* Thin Divider Line & Ministry Stats Bar */}
+            {(() => {
+              const hasExtraStat = Boolean(
+                settings.heroStatBranches &&
+                settings.heroStatBranches.trim() !== "" &&
+                settings.heroStatBranches.trim() !== "-"
+              );
 
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">1M+</p>
-                <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span>LIVES TOUCHED</span>
-                </p>
-              </div>
+              return (
+                <div
+                  className={`pt-6 border-t border-slate-200/80 grid ${
+                    hasExtraStat ? "grid-cols-3 max-w-lg" : "grid-cols-2 max-w-sm"
+                  } gap-4 sm:gap-10 w-full text-left`}
+                >
+                  <div>
+                    <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                      {settings.heroStatLives || "1M+"}
+                    </p>
+                    <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1 truncate">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
+                      <span className="truncate">LIVES TOUCHED</span>
+                    </p>
+                  </div>
 
-              <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">50+</p>
-                <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span>CRUSADES</span>
-                </p>
-              </div>
-            </div>
+                  <div>
+                    <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                      {settings.heroStatYears || "25+"}
+                    </p>
+                    <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1 truncate">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
+                      <span className="truncate">YEARS MINISTRY</span>
+                    </p>
+                  </div>
+
+                  {hasExtraStat && (
+                    <div>
+                      <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                        {settings.heroStatBranches}
+                      </p>
+                      <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1 truncate">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
+                        <span className="truncate">OUTREACHES</span>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
 
           {/* ================= RIGHT COLUMN: PICTURE (EXACT MATCH TO NENO SCREENSHOT) ================= */}

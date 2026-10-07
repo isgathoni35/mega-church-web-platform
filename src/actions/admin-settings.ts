@@ -121,7 +121,7 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         heroSubtitle: row.hero_subtitle || DEFAULT_SETTINGS.heroSubtitle,
         heroPromise: row.hero_promise || DEFAULT_SETTINGS.heroPromise,
         heroImageUrl: extractCleanImageUrl(row.hero_image_url || row.pastor_image_url) || DEFAULT_SETTINGS.heroImageUrl,
-        heroStatBranches: row.hero_stat_branches || DEFAULT_SETTINGS.heroStatBranches,
+        heroStatBranches: row.hero_stat_branches ?? DEFAULT_SETTINGS.heroStatBranches,
         heroStatLives: row.hero_stat_lives || DEFAULT_SETTINGS.heroStatLives,
         heroStatYears: row.hero_stat_years || DEFAULT_SETTINGS.heroStatYears,
 

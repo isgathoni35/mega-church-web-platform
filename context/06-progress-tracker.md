@@ -291,6 +291,12 @@
      - Provided migration [supabase/migrations/20261007_orphanage_media_and_topbar.sql](file:///c:/Users/isgat/Projects/megachurch-web-platform/supabase/migrations/20261007_orphanage_media_and_topbar.sql).
      - Verified with `npx tsc --noEmit` (0 errors) and automated HTTP 200 route checks on port 3002 without launching the browser.
 
+- [x] `feature-specs/38-purge-church-branches-and-unify-shared-stats.md`: Complete Church Branch Removal & Dynamic Multi-Page Shared Metrics Unification:
+   1. Complete Church Branch Reference Elimination: Purged all references to church branches across the platform. Removed legacy hardcoded "BRANCHES" label from the Homepage hero stat strip. Defaulted extra stat column (`heroStatBranches`) to empty string (`""`), dynamically collapsing into a clean 2-stat grid (`LIVES TOUCHED` & `YEARS MINISTRY`). Cleared legacy branch metric in live Supabase row.
+   2. Shared Metrics Unification (Homepage & About Page): Replaced hardcoded static stats (`25+`, `1M+`, `50+`) on `/about` with dynamic bindings from `site_settings` (`heroStatLives`, `heroStatYears`). Updated milestone pill on `/about` to reflect `{settings.heroStatYears || "25+"} Years of Impact`. Bound both `/` and `/about` to the same real-time settings source.
+   3. Admin Settings CMS Control (`/admin/settings`): Cleanly labeled counters in Tab 1 (Home & Header) as Stat 1: Lives Touched, Stat 2: Years Ministry, and Stat 3: Extra Stat (Optional, leave blank to hide). Added real-time notification that metrics synchronize simultaneously across Homepage and About page.
+   4. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 on port 3002 for `/` and `/about` with zero occurrences of "BRANCHES". No browser opened.
+
 ## 🚧 In Progress
 
 None.

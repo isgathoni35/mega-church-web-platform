@@ -579,33 +579,43 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               aspectRatio="portrait"
             />
 
-            {/* 3 Hero Counter Strip */}
+            {/* Hero Counter Strip (Synchronized across Homepage & About Page) */}
             <div className="space-y-2 pt-2 border-t border-slate-100">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-500">
-                Hero Bottom Stat Counters
-              </h3>
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
+                  Hero Stat Counters (Shared Across Homepage &amp; About Page)
+                </h3>
+                <span className="text-[10px] text-slate-500 font-medium">
+                  Synchronizes instantly on Homepage &amp; About
+                </span>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 1: Outreaches (e.g. 50+)</label>
-                  <Input
-                    value={settings.heroStatBranches}
-                    onChange={(e) => setSettings({ ...settings, heroStatBranches: e.target.value })}
-                    placeholder="50+"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 2: Lives Touched (e.g. 1M+)</label>
+                  <label className="text-[11px] font-bold text-slate-700">Stat 1: Lives Touched (e.g. 1M+)</label>
                   <Input
                     value={settings.heroStatLives}
                     onChange={(e) => setSettings({ ...settings, heroStatLives: e.target.value })}
+                    placeholder="1M+"
                   />
+                  <span className="text-[10px] text-slate-400 block">Displays as &quot;LIVES TOUCHED&quot;</span>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 3: Years Ministry (e.g. 25+)</label>
+                  <label className="text-[11px] font-bold text-slate-700">Stat 2: Years Ministry (e.g. 25+)</label>
                   <Input
                     value={settings.heroStatYears}
                     onChange={(e) => setSettings({ ...settings, heroStatYears: e.target.value })}
+                    placeholder="25+"
                   />
+                  <span className="text-[10px] text-slate-400 block">Displays as &quot;YEARS MINISTRY&quot;</span>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Stat 3: Extra Stat (Optional)</label>
+                  <Input
+                    value={settings.heroStatBranches}
+                    onChange={(e) => setSettings({ ...settings, heroStatBranches: e.target.value })}
+                    placeholder="Leave blank to hide"
+                  />
+                  <span className="text-[10px] text-slate-400 block">Leave blank for a clean 2-stat layout</span>
                 </div>
               </div>
             </div>
