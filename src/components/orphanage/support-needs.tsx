@@ -92,7 +92,7 @@ export function SupportNeeds() {
           </p>
         </div>
 
-        {/* 3 Impact Columns (Genuine Ministry Care, No Pricing Tiers) */}
+        {/* 3 Impact Columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 items-stretch">
           {IMPACT_AREAS.map((area) => {
             const Icon = area.icon;
@@ -100,19 +100,19 @@ export function SupportNeeds() {
             return (
               <div
                 key={area.id}
-                className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border-t-4 border-t-[#ff6b35] border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-orange-200/80 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   {/* Icon & Title */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-2xl bg-white border border-orange-200 text-[#ff6b35] flex items-center justify-center shrink-0 shadow-sm">
-                      <Icon className="w-5 h-5" />
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 text-[#ff6b35] flex items-center justify-center shrink-0 shadow-sm">
+                      <Icon className="w-6 h-6" />
                     </div>
                     <div>
                       <h3 className="font-extrabold text-lg sm:text-xl text-slate-900 leading-snug">
                         {area.title}
                       </h3>
-                      <p className="text-xs text-[#ff6b35] font-semibold">
+                      <p className="text-xs text-[#ff6b35] font-bold uppercase tracking-wider">
                         {area.subtitle}
                       </p>
                     </div>
@@ -124,7 +124,7 @@ export function SupportNeeds() {
                   </p>
 
                   {/* Direct Highlights */}
-                  <div className="pt-2 border-t border-orange-200/50 space-y-2">
+                  <div className="pt-3 border-t border-slate-100 space-y-2">
                     <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
                       What Your Gift Makes Possible:
                     </span>
@@ -134,7 +134,7 @@ export function SupportNeeds() {
                           key={idx}
                           className="flex items-start gap-2 text-xs text-slate-700"
                         >
-                          <Check className="h-3.5 w-3.5 text-[#ff6b35] shrink-0 mt-0.5" />
+                          <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                           <span>{benefit}</span>
                         </li>
                       ))}
@@ -147,12 +147,12 @@ export function SupportNeeds() {
         </div>
 
         {/* Convincing Donation Action Card */}
-        <div className="p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#fffaf5] to-[#fbf8f3] border-2 border-orange-300/80 text-center max-w-3xl mx-auto space-y-4 sm:space-y-6 shadow-md">
+        <div className="p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#fffaf5] to-[#fbf8f3] border border-orange-200/90 text-center max-w-3xl mx-auto space-y-4 sm:space-y-6 shadow-sm">
           <div className="space-y-2">
             <span className="font-script text-[#ff6b35] text-2xl sm:text-3xl block">
               Pure Religion Before God
             </span>
-            <h3 className="text-xl sm:text-3xl font-extrabold text-[#0f172a] tracking-tight">
+            <h3 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Ready to Bless a Child Today?
             </h3>
             <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
@@ -166,12 +166,12 @@ export function SupportNeeds() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button
               size="lg"
-              className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/20 px-8 py-3.5 sm:py-6 text-sm sm:text-base rounded-xl h-auto"
+              className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/20 px-8 py-3.5 sm:py-6 text-sm sm:text-base rounded-full h-auto transition-all"
               asChild
             >
               <Link href="/orphanage/donate">
                 <Heart className="mr-2 h-4 w-4 fill-current" />
-                Donate to Children&apos;s Home
+                <span>Donate to Children&apos;s Home</span>
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -179,12 +179,11 @@ export function SupportNeeds() {
             <Button
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto border-2 border-slate-300 hover:border-[#ff6b35] text-slate-700 hover:text-[#ff6b35] bg-white font-bold px-6 py-3.5 sm:py-6 text-sm sm:text-base rounded-xl h-auto transition-colors"
+              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-bold px-7 py-3.5 sm:py-6 text-sm sm:text-base rounded-full h-auto shadow-sm"
               asChild
             >
               <Link href="/contact?subject=orphanage_visit">
-                <Gift className="mr-2 h-4 w-4 text-[#ff6b35]" />
-                Deliver Food &amp; Supplies
+                <span>Deliver Food &amp; Supplies</span>
               </Link>
             </Button>
           </div>

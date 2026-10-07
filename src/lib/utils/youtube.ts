@@ -6,9 +6,9 @@
 export function getYouTubeId(url: string): string | null {
   if (!url) return null;
 
-  // Handle standard URL, short URL, embed URL, live stream URL
+  // Handle standard URL, short URL, embed URL, live stream URL, and YouTube Shorts
   const regExp =
-    /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|live\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
+    /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/|live\/|shorts\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
 
   const match = url.match(regExp);
 

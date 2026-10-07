@@ -25,7 +25,7 @@ export default async function OrphanagePage() {
   return (
     <div className="min-h-screen bg-[#fbf8f3] text-slate-900 w-full overflow-x-hidden">
       {/* 1. Hero Banner with 3-Stat Impact Bar */}
-      <OrphanageHero />
+      <OrphanageHero settings={settings} />
 
       {/* 2. 4 Pillars of Comprehensive Care */}
       <CarePillars />

@@ -26,7 +26,7 @@ export function VolunteerCta() {
             </p>
 
             {/* Heading */}
-            <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
               Want to Spend Time With the Children?
             </h2>
 
@@ -39,7 +39,7 @@ export function VolunteerCta() {
 
             {/* Visiting Days Badge */}
             <div className="pt-1">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-xs text-white/90">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-xs text-white/90 font-medium">
                 <Calendar className="h-3.5 w-3.5 text-[#ff6b35]" />
                 <span>Visiting Days: Saturdays &amp; Sundays by Prior Appointment</span>
               </div>
@@ -49,12 +49,12 @@ export function VolunteerCta() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
               <Button
                 size="lg"
-                className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/25 px-8 py-3.5 sm:py-6 text-xs sm:text-base rounded-full h-auto transition-all"
+                className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/25 px-8 py-3.5 sm:py-6 text-sm sm:text-base rounded-full h-auto transition-all"
                 asChild
               >
                 <Link href="/orphanage/donate">
                   <Heart className="mr-2 h-4 w-4 fill-current" />
-                  Donate to Children&apos;s Home
+                  <span>Donate to Children&apos;s Home</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -62,11 +62,11 @@ export function VolunteerCta() {
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-3.5 sm:py-6 text-xs sm:text-base rounded-full border border-white/20 h-auto transition-all"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 sm:py-6 text-sm sm:text-base rounded-full border border-white/20 h-auto transition-all"
                 asChild
               >
                 <Link href="/contact?subject=orphanage_visit">
-                  Arrange a Visit
+                  <span>Arrange a Visit</span>
                 </Link>
               </Button>
             </div>

@@ -82,27 +82,27 @@ export function CarePillars() {
           </p>
         </div>
 
-        {/* 4-Card Grid with Top Orange Accent and Squircle Icons */}
+        {/* 4-Card Grid with Clean Elevated Styling */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {CARE_PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
               <div
                 key={pillar.title}
-                className="flex flex-col justify-between rounded-2xl sm:rounded-3xl bg-white border-t-4 border-t-[#ff6b35] border border-slate-200/80 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group overflow-hidden"
+                className="flex flex-col justify-between rounded-2xl sm:rounded-3xl bg-white border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-orange-200/80 hover:-translate-y-0.5 transition-all duration-300 group overflow-hidden"
               >
-                <div className="p-5 sm:p-7 space-y-3 sm:space-y-4 flex-1">
+                <div className="p-5 sm:p-7 space-y-3.5 sm:space-y-4 flex-1">
                   {/* Circular Orange Icon Holder */}
-                  <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-200 text-[#ff6b35] flex items-center justify-center group-hover:bg-[#ff6b35] group-hover:text-white transition-all shadow-sm">
+                  <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 text-[#ff6b35] flex items-center justify-center group-hover:bg-[#ff6b35] group-hover:text-white transition-all shadow-sm">
                     <Icon className="w-6 h-6 transition-transform group-hover:scale-110" />
                   </div>
 
                   {/* Title & Subtitle */}
-                  <div className="space-y-0.5 sm:space-y-1">
+                  <div className="space-y-1">
                     <h3 className="text-lg sm:text-xl font-bold text-slate-900 group-hover:text-[#ff6b35] transition-colors leading-snug">
                       {pillar.title}
                     </h3>
-                    <p className="text-[11px] sm:text-xs font-semibold text-[#ff6b35]">
+                    <p className="text-[11px] sm:text-xs font-bold text-[#ff6b35] uppercase tracking-wider">
                       {pillar.subtitle}
                     </p>
                   </div>
@@ -119,7 +119,7 @@ export function CarePillars() {
                         key={idx}
                         className="flex items-center gap-2 text-xs text-slate-700 font-medium"
                       >
-                        <CheckCircle2 className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}

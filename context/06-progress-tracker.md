@@ -297,6 +297,16 @@
    3. Admin Settings CMS Control (`/admin/settings`): Cleanly labeled counters in Tab 1 (Home & Header) as Stat 1: Lives Touched, Stat 2: Years Ministry, and Stat 3: Extra Stat (Optional, leave blank to hide). Added real-time notification that metrics synchronize simultaneously across Homepage and About page.
    4. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 on port 3002 for `/` and `/about` with zero occurrences of "BRANCHES". No browser opened.
 
+- [x] `feature-specs/39-orphanage-page-professional-layout-polish.md`: Children's Home (`/orphanage`) Professional Layout Polish & Zero-Scope-Creep Harmonization:
+   1. Dynamic Admin CMS Binding: Connected `OrphanageHero` to `settings` from `getSiteSettingsAction()`. Edits made in the Admin Portal under Twin Projects (`orphanageImageUrl`, `orphanageTitle`, `orphanageSubtitle`, `orphanageBadge`) now instantly synchronize with the live hero.
+   2. Zero-Scope-Creep Layout Polish: Maintained strictly the exact contracted 5 sections without adding unrequested features or database tables:
+      - `OrphanageHero`: Replaced harsh borders with clean border tokens, elevated typography hierarchy, added 100% direct impact trust badge, and refined the 3-stat strip with soft shadows and squircle icon containers.
+      - `CarePillars`: Removed repetitive thick orange top borders. Upgraded cards to clean white backgrounds with soft shadows, subtle micro-accents, and emerald checkmarks communicating trust and health.
+      - `SupportNeeds`: Streamlined the 3 impact cards with clean borders, aligned checkmark lists, and rounded-full primary/secondary CTA buttons linking to `/orphanage/donate` and `/contact`.
+      - `VolunteerCta`: Refined the midnight slate card (`#0f172a`), added warm ambient radial lighting, polished button typography, and aligned visiting appointment notice.
+   3. Universal YouTube Parser Upgrade: Enhanced `getYouTubeId` regex in `src/lib/utils/youtube.ts` to parse YouTube Shorts URLs (`/shorts/`) across all video cards and media modals.
+   4. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 OK on port 3002 for `/orphanage` and `/orphanage/donate`. No browser opened.
+
 ## 🚧 In Progress
 
 None.
