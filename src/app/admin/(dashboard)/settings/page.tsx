@@ -7,6 +7,8 @@ export const metadata = {
   description: "Configure church remittance coordinates, M-Pesa paybill, and communication channels.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminSettingsPage() {
   const settings = await getSiteSettingsAction();
 

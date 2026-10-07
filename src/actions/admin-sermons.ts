@@ -24,7 +24,7 @@ export async function addSermonAction(
       title,
       youtubeUrl,
       category,
-      speaker = "Pastor Jeannette Taylor",
+      speaker = "Pastor Caesar O. Nyandwaro",
       datePreached = new Date().toISOString().split("T")[0],
       isFeatured = false,
       isLive = false,

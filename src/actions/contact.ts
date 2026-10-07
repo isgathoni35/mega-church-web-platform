@@ -42,10 +42,8 @@ export async function submitContactInquiry(
     if (dbError) {
       console.error("[Contact Submission DB Error]:", dbError.message);
       return {
-        success: true,
-        message:
-          "Thank you for contacting Heavens Gates Sugutta Fellowship Church. Our pastoral administration will respond promptly.",
-        data: { id: "dev-fallback-id" },
+        success: false,
+        error: `Unable to submit inquiry: ${dbError.message}. Please reach out directly to our sanctuary office.`,
       };
     }
 
@@ -105,10 +103,8 @@ export async function submitVisitPlan(
     if (dbError) {
       console.error("[Visit Submission DB Error]:", dbError.message);
       return {
-        success: true,
-        message:
-          "Hallelujah! Your visit has been registered. Our hospitality host team looks forward to welcoming you and your family.",
-        data: { id: "dev-fallback-id" },
+        success: false,
+        error: `Unable to register visit: ${dbError.message}. Please reach out directly to our hospitality team.`,
       };
     }
 

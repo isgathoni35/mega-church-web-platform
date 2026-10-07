@@ -3,7 +3,19 @@ import Link from "next/link";
 import { Heart, ArrowRight, Home, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export function OrphanageTeaser() {
+import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
+
+interface OrphanageTeaserProps {
+  settings?: SiteSettingsData;
+}
+
+export function OrphanageTeaser({ settings: propSettings }: OrphanageTeaserProps = {}) {
+  const settings = propSettings || DEFAULT_SETTINGS;
+  const title = settings.orphanageTitle || "Discover Our Children's Home";
+  const narrative =
+    settings.orphanageNarrative ||
+    "Rescuing, sheltering, and raising orphaned and vulnerable children with the unconditional love of Christ. Providing daily nutrition, 100% schooling, and family warmth.";
+
   return (
     <section className="py-10 sm:py-16 lg:py-20 bg-[#fbf8f3] text-slate-900 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -16,19 +28,17 @@ export function OrphanageTeaser() {
             <div className="space-y-2.5 sm:space-y-4 max-w-2xl text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-wider">
                 <Heart className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-                <span>Heavens Gates Compassion Wing</span>
+                <span>{settings.orphanageBadge || "Heavens Gates Compassion Wing"}</span>
               </div>
 
               <div className="space-y-1">
                 <h3 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-                  Discover Our Children&apos;s Home
+                  {title}
                 </h3>
               </div>
 
               <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
-                Rescuing, sheltering, and raising orphaned and vulnerable children with the
-                unconditional love of Christ. Providing daily nutrition, 100% schooling, and
-                family warmth.
+                {narrative}
               </p>
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-5 pt-1 sm:pt-2 text-xs sm:text-sm text-[#ff6b35] font-bold">
@@ -37,7 +47,7 @@ export function OrphanageTeaser() {
                 </span>
                 <span className="text-slate-300">•</span>
                 <span className="flex items-center gap-1.5">
-                  <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> 100% In School
+                  <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> 100% In Formal School
                 </span>
               </div>
             </div>

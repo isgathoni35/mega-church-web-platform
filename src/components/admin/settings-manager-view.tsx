@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useState, useTransition, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   Building2,
@@ -48,11 +49,18 @@ interface SettingsManagerViewProps {
 type TabType = "hero" | "projects" | "orphanage" | "pillars" | "about" | "events" | "bank";
 
 export function SettingsManagerView({ initialSettings }: SettingsManagerViewProps) {
+  const router = useRouter();
   const [settings, setSettings] = useState<SiteSettingsData>(initialSettings);
   const [activeTab, setActiveTab] = useState<TabType>("hero");
   const [isPending, startTransition] = useTransition();
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [copiedSql, setCopiedSql] = useState(false);
+
+  useEffect(() => {
+    if (initialSettings) {
+      setSettings(initialSettings);
+    }
+  }, [initialSettings]);
 
   // New Children's Home Photo State
   const [newPhotoTitle, setNewPhotoTitle] = useState("");
@@ -202,6 +210,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           type: "success",
           message: res.message || "Site content, photos, and church details updated successfully across all pages!",
         });
+        router.refresh();
       } else {
         setFeedback({
           type: "error",
@@ -328,7 +337,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         </div>
       </div>
       <Button
-        type="submit"
+        type="button"
+        onClick={(e) => handleSave(e)}
         disabled={isPending}
         className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-black px-7 py-3 rounded-full shadow-lg shadow-orange-500/25 text-xs sm:text-sm h-auto flex items-center justify-center gap-2 border-0 shrink-0"
       >
@@ -348,7 +358,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
   );
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto pb-32">
+    <form onSubmit={handleSave} className="space-y-6 max-w-6xl mx-auto pb-32">
       {/* Header and Save Action Strip */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm">
         <div>
@@ -1718,7 +1728,6 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           </Button>
         </div>
       </div>
-    </div>
-
+    </form>
   );
 }

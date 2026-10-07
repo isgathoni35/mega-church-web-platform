@@ -10,6 +10,7 @@ import {
   Sparkles,
   Send,
   Lock,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -132,10 +133,23 @@ export function PrayerForm() {
             </div>
           )}
 
-          <div className="pt-2 sm:pt-4">
+          <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href={`https://wa.me/254112656123?text=${encodeURIComponent(
+                `Shalom Pastor Caesar O. Nyandwaro, I have submitted a prayer request on the church altar.`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold px-6 py-3 text-xs sm:text-sm rounded-xl shadow-md transition-all w-full sm:w-auto"
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>Direct WhatsApp Line</span>
+            </a>
+
             <Button
               onClick={handleReset}
-              className="bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold px-6 py-2.5 sm:px-8 sm:py-6 text-xs sm:text-base rounded-xl shadow-lg shadow-orange-500/20 h-auto"
+              variant="outline"
+              className="border border-slate-200 text-slate-700 font-bold px-6 py-3 text-xs sm:text-sm rounded-xl hover:bg-slate-50 transition-all w-full sm:w-auto h-auto"
             >
               Submit Another Petition
             </Button>

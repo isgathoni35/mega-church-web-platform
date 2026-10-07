@@ -13,6 +13,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   let sermons: Sermon[] = [];
   const settings = await getSiteSettingsAction();
@@ -56,7 +58,7 @@ export default async function Home() {
       <HomePrayerMountain />
 
       {/* 8. Section 8: Children's Home & Compassion Mission Teaser */}
-      <OrphanageTeaser />
+      <OrphanageTeaser settings={settings} />
 
       {/* 9. Section 9: Give & Support the Ministry (Embedded M-Pesa & Sendwave Hub) */}
       <HomeGivingModule settings={settings} />

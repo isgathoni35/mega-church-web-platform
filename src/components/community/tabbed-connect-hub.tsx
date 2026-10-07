@@ -18,6 +18,7 @@ import {
   Building2,
   Clock,
   ChevronDown,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -369,13 +370,27 @@ export function TabbedConnectHub() {
                   </div>
                 </div>
 
-                <Button
-                  variant="outline"
-                  onClick={handleResetVisit}
-                  className="rounded-full border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-white text-xs font-bold px-6 py-4"
-                >
-                  Schedule Another Visit
-                </Button>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <a
+                    href={`https://wa.me/254112656123?text=${encodeURIComponent(
+                      `Shalom Pastor Caesar, I have registered my visit for ${visitService} (${visitGuestsCount} guest(s)). Looking forward to worshipping with the sanctuary!`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold px-6 py-3 text-xs sm:text-sm rounded-full shadow-md transition-all w-full sm:w-auto"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Chat With Welcoming Team</span>
+                  </a>
+
+                  <Button
+                    variant="outline"
+                    onClick={handleResetVisit}
+                    className="rounded-full border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold px-6 py-3 w-full sm:w-auto h-auto"
+                  >
+                    Schedule Another Visit
+                  </Button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleVisitSubmit} className="space-y-5">
@@ -733,13 +748,27 @@ export function TabbedConnectHub() {
                   </p>
                 </div>
 
-                <Button
-                  variant="outline"
-                  onClick={handleResetInquiry}
-                  className="rounded-full border-[#ff6b35] text-[#ff6b35] hover:bg-[#ff6b35] hover:text-white text-xs font-bold px-6 py-4"
-                >
-                  Send Another Inquiry
-                </Button>
+                <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <a
+                    href={`https://wa.me/254112656123?text=${encodeURIComponent(
+                      `Shalom Pastor Caesar, I have sent a ministry inquiry regarding ${inquiryType}.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold px-6 py-3 text-xs sm:text-sm rounded-full shadow-md transition-all w-full sm:w-auto"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Direct WhatsApp Inquiry</span>
+                  </a>
+
+                  <Button
+                    variant="outline"
+                    onClick={handleResetInquiry}
+                    className="rounded-full border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold px-6 py-3 w-full sm:w-auto h-auto"
+                  >
+                    Send Another Inquiry
+                  </Button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleInquirySubmit} className="space-y-5">

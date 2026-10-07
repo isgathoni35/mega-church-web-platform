@@ -380,6 +380,16 @@ None.
   4. Standardized all button labels and links from "Give Online", "Give Online Now", and "Partner With Us" to "Donate" across desktop Navbar, mobile drawer, footer, and `/give` hero. Updated footer Column 4 grid to showcase Sendwave alongside Kenyan Paybill, Send Money, and Co-op Bank.
   5. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
 
+- **[2026-10-07]:** Senior Developer Audit, Vercel Production Alignment & Admin Saving Pipeline Overhaul:
+  1. Resolved Admin Settings Persistence Bug: Fixed inert bottom save buttons in `SettingsManagerView` by wrapping the settings view in `<form onSubmit={handleSave}>` and attaching explicit `onClick` handlers to `renderSaveSectionBar`. Added `useEffect` state syncing from `initialSettings` and `router.refresh()` upon save success to instantly invalidate client-side caches.
+  2. Fixed Vercel Static Freezing & Added Dynamic Serverless Execution: Added `export const dynamic = "force-dynamic";` across all CMS-driven routes (`/admin/settings`, `/`, `/orphanage`, `/about`, `/events`) preventing Vercel build-time static HTML freezing.
+  3. Added Supabase Storage Whitelisting to `next.config.ts`: Added `*.supabase.co` and `ybwxbwnxnydssgfrrbbo.supabase.co` to `images.remotePatterns` to prevent Next.js image optimization crashes on uploaded media in production.
+  4. Dynamized `OrphanageTeaser` on Homepage: Passed dynamic `settings` prop into `src/components/home/orphanage-teaser.tsx`.
+  5. Harmonized Default Speaker & Form Error Handling: Updated default speaker parameter in `addSermonAction` (`src/actions/admin-sermons.ts`) to `"Pastor Caesar O. Nyandwaro"`. Replaced masked fake successes with truthful error handling in `src/actions/contact.ts`.
+  6. Instant Pastoral Escalation on WhatsApp: Integrated 1-click WhatsApp buttons on prayer petition (`PrayerForm`) and visitor/inquiry (`TabbedConnectHub`) confirmation screens.
+  7. Built SEO & Error Infrastructure: Generated dynamic `src/app/sitemap.ts` (XML sitemap), `src/app/robots.ts` (crawling rules), branded `src/app/not-found.tsx` (404 page), and `src/app/error.tsx` (global error boundary).
+  8. Verified 0 TypeScript compilation errors (`npx tsc --noEmit`) and HTTP 200 OK across all 13 routes on port 3002 without opening a browser.
+
 - **[2026-10-07]:** Elimination of AI Placeholder Content & Transition to 100% Dynamic Admin-Controlled Media Architecture:
   1. Purged hardcoded `fallbackSermons` (containing Rick Astley YouTube URLs `dQw4w9WgXcQ` / `placeholder` and Unsplash stock photos) from `src/app/sermons/page.tsx` and `src/app/page.tsx`. Sermons are now loaded 100% dynamically from Supabase `sermons` table.
   2. Purged 160MB of local static MP4 videos from `public/videos/` and deleted obsolete static video modules (`src/data/ministry-videos.ts`, `src/components/home/ministry-video-showcase.tsx`, `src/components/home/anointed-reels.tsx`, `src/components/media/adaptive-video-modal.tsx`).

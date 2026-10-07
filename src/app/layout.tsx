@@ -17,10 +17,16 @@ const greatVibes = Great_Vibes({
   display: "swap",
 });
 
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://heavensgatesugutta.org");
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "https://heavensgatesugutta.org"
-  ),
+  metadataBase: new URL(appUrl),
   title: {
     default: "Sugutta Fellowship Church — Growing Together in Christ",
     template: "%s | Sugutta Fellowship Church",
