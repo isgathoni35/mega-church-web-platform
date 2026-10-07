@@ -25,9 +25,9 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
           {/* ================= LEFT COLUMN: TEXT CONTENT ================= */}
           <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
             {/* Top Star Eyebrow Pill Badge matching Neno */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ffedd5]/70 border border-orange-200/80 text-[#c2410c] text-xs font-bold uppercase tracking-wider mb-5 sm:mb-6 shadow-sm">
-              <span className="text-sm">★</span>
-              <span>{settings.churchMotto || "INTERNATIONAL DELIVERANCE MINISTRY"}</span>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#ffedd5]/70 border border-orange-200/80 text-[#c2410c] text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-5 sm:mb-6 shadow-sm max-w-full truncate">
+              <span className="text-xs sm:text-sm shrink-0">★</span>
+              <span className="truncate">{settings.churchMotto || "INTERNATIONAL DELIVERANCE MINISTRY"}</span>
             </div>
 
             {/* Signature 3-Line Headline matching Neno */}
@@ -93,34 +93,34 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
             </div>
 
             {/* Thin Divider Line & 3-Item Stats Bar matching Neno */}
-            <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-4 sm:gap-10 w-full max-w-lg text-left">
+            <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-2 sm:gap-10 w-full max-w-lg text-left">
               <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
                   {settings.heroStatBranches || "50+"}
                 </p>
-                <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
+                <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span>BRANCHES</span>
+                  <span className="truncate">BRANCHES</span>
                 </p>
               </div>
 
               <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
                   {settings.heroStatLives || "1M+"}
                 </p>
-                <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
+                <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span>LIVES TOUCHED</span>
+                  <span className="truncate">LIVES TOUCHED</span>
                 </p>
               </div>
 
               <div>
-                <p className="text-2xl sm:text-4xl font-extrabold text-slate-900">
+                <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
                   {settings.heroStatYears || "25+"}
                 </p>
-                <p className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5 mt-1">
+                <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span>YEARS MINISTRY</span>
+                  <span className="truncate">YEARS MINISTRY</span>
                 </p>
               </div>
             </div>

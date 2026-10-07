@@ -406,11 +406,11 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       )}
 
       {/* Visual Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 overflow-x-auto scrollbar-none w-full max-w-full">
         <button
           type="button"
           onClick={() => setActiveTab("hero")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "hero"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -423,7 +423,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("projects")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "projects"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -436,7 +436,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("orphanage")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "orphanage"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -449,7 +449,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("pillars")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "pillars"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -462,7 +462,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("about")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "about"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -475,7 +475,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("events")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "events"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -488,7 +488,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("bank")}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
             activeTab === "bank"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"

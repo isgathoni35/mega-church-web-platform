@@ -37,11 +37,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
 
   const [copied, setCopied] = React.useState(false);
 
-  const EVENTS: MinistryEvent[] =
-    settings.eventsJson && settings.eventsJson.length > 0
-      ? settings.eventsJson
-      : DEFAULT_SETTINGS.eventsJson;
-
+  const EVENTS: MinistryEvent[] = settings.eventsJson || [];
 
   const handleShare = async () => {
     const shareData = {
@@ -115,88 +111,123 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
       {/* 2. Events Grid */}
       <section className="py-6 sm:py-10 px-4 sm:px-8">
         <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {EVENTS.map((event) => {
-              const whatsappUrl = `https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
-                event.whatsappMessage
-              )}`;
+          {EVENTS.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {EVENTS.map((event) => {
+                const whatsappUrl = `https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
+                  event.whatsappMessage
+                )}`;
 
-              return (
-                <div
-                  key={event.id}
-                  className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group"
+                return (
+                  <div
+                    key={event.id}
+                    className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group"
+                  >
+                    {/* Event Thumbnail */}
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
+                      <Image
+                        src={event.imageUrl}
+                        alt={event.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                      <div className="absolute top-4 left-4">
+                        <span className="inline-block px-3 py-1 rounded-full bg-[#ff6b35] text-white text-[11px] font-black tracking-wider uppercase shadow-md">
+                          {event.badge}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="p-5 sm:p-7 flex flex-col flex-1">
+                      {/* Event Title */}
+                      <h3 className="text-xl sm:text-2xl font-bold text-[#0f172a] group-hover:text-[#ff6b35] transition-colors leading-snug mb-2">
+                        {event.title}
+                      </h3>
+
+                      {/* Location */}
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 font-medium mb-4">
+                        <MapPin className="h-4 w-4 text-[#ff6b35] shrink-0" />
+                        <span>{event.location}</span>
+                      </div>
+
+                      {/* DATES & FORMAT Strip */}
+                      <div className="grid grid-cols-2 gap-3 py-3 px-4 bg-slate-50 rounded-xl mb-4 border border-slate-100">
+                        <div>
+                          <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                            Dates
+                          </span>
+                          <span className="text-xs sm:text-sm font-semibold text-slate-800">
+                            {event.dates}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                            Format
+                          </span>
+                          <span className="text-xs sm:text-sm font-semibold text-slate-800">
+                            {event.format}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 flex-1">
+                        {event.description}
+                      </p>
+
+                      {/* Action Button: Join WhatsApp Group */}
+                      <a
+                        href={whatsappUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full bg-[#0f172a] hover:bg-[#ff6b35] text-white text-xs sm:text-sm font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm group-hover:bg-[#ff6b35]"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        <span>Join WhatsApp Group</span>
+                        <ArrowRight className="w-4 h-4 ml-1" />
+                      </a>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="p-8 sm:p-14 rounded-3xl bg-white border border-orange-200/90 text-center space-y-4 shadow-sm max-w-3xl mx-auto">
+              <div className="w-14 h-14 rounded-2xl bg-orange-100 text-[#ff6b35] flex items-center justify-center mx-auto shadow-sm">
+                <Calendar className="w-7 h-7" />
+              </div>
+              <div className="space-y-1.5 max-w-lg mx-auto">
+                <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">
+                  Mission Calendar Scheduling in Progress
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  Upcoming miracle crusades, deliverance meetings, and mountain retreat dates are actively being scheduled by the pastoral council. Join our weekly sanctuary services in Nairobi or tune into live broadcasts.
+                </p>
+              </div>
+              <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href={`https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
+                    `Hello ${pastorName}, please notify me when new church events and crusades are scheduled.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold py-3 px-6 rounded-full shadow-md shadow-orange-500/20 transition-all"
                 >
-                  {/* Event Thumbnail */}
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
-                    <Image
-                      src={event.imageUrl}
-                      alt={event.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                    <div className="absolute top-4 left-4">
-                      <span className="inline-block px-3 py-1 rounded-full bg-[#ff6b35] text-white text-[11px] font-black tracking-wider uppercase shadow-md">
-                        {event.badge}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-5 sm:p-7 flex flex-col flex-1">
-                    {/* Event Title */}
-                    <h3 className="text-xl sm:text-2xl font-bold text-[#0f172a] group-hover:text-[#ff6b35] transition-colors leading-snug mb-2">
-                      {event.title}
-                    </h3>
-
-                    {/* Location */}
-                    <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 font-medium mb-4">
-                      <MapPin className="h-4 w-4 text-[#ff6b35] shrink-0" />
-                      <span>{event.location}</span>
-                    </div>
-
-                    {/* DATES & FORMAT Strip */}
-                    <div className="grid grid-cols-2 gap-3 py-3 px-4 bg-slate-50 rounded-xl mb-4 border border-slate-100">
-                      <div>
-                        <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                          Dates
-                        </span>
-                        <span className="text-xs sm:text-sm font-semibold text-slate-800">
-                          {event.dates}
-                        </span>
-                      </div>
-                      <div>
-                        <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                          Format
-                        </span>
-                        <span className="text-xs sm:text-sm font-semibold text-slate-800">
-                          {event.format}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 flex-1">
-                      {event.description}
-                    </p>
-
-                    {/* Action Button: Join WhatsApp Group */}
-                    <a
-                      href={whatsappUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full bg-[#0f172a] hover:bg-[#ff6b35] text-white text-xs sm:text-sm font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm group-hover:bg-[#ff6b35]"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Join WhatsApp Group</span>
-                      <ArrowRight className="w-4 h-4 ml-1" />
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Inquire via WhatsApp</span>
+                </a>
+                <a
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold py-3 px-6 rounded-full transition-all"
+                >
+                  <span>Sanctuary Timings</span>
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 

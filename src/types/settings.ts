@@ -222,82 +222,11 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   impactStat3Lbl: "Believers Impacted",
 
   // Events Data
-  eventsJson: [
-    {
-      id: "sugutta-crusade-2026",
-      badge: "MISSION 2026",
-      title: "Sugutta Miracle & Deliverance Crusade",
-      location: "Sugutta Sanctuary, Kenya",
-      dates: "April 24-26, 2026",
-      format: "In-Person & Live Broadcast",
-      description:
-        "Join Pastor Caesar O. Nyandwaro for three powerful days of deliverance, healing, and supernatural transformation.",
-      imageUrl: "/images/hero-worship.jpg",
-      whatsappMessage:
-        "Hello Pastor Caesar, I would like to join the WhatsApp group for the Sugutta Miracle & Deliverance Crusade (April 24-26, 2026).",
-    },
-    {
-      id: "prayer-mountain-retreat-2026",
-      badge: "RETREAT 2026",
-      title: "Sacred Prayer Mountain Fasting Retreat",
-      location: "Sugutta Prayer Mountain Sanctuary",
-      dates: "May 15-17, 2026",
-      format: "In-Person Retreat",
-      description:
-        "An intensive spiritual retreat dedicated to deep fasting, mountain intercession, and personal revival away from all worldly distractions.",
-      imageUrl: "/images/ministry-healing.jpg",
-      whatsappMessage:
-        "Hello Pastor Caesar, I would like to register for the Sacred Prayer Mountain Fasting Retreat (May 15-17, 2026).",
-    },
-  ],
+  eventsJson: [],
 
   // Children's Home Media Gallery (Photos & Videos)
-  orphanagePhotos: [
-    {
-      id: "photo-1",
-      title: "Daily Morning Devotions & Scripture Reading",
-      caption: "Every morning at our children's home begins with worship songs, Bible reading, and prayer for our partners.",
-      imageUrl: "/images/orphanage-hero.png",
-      category: "Spiritual Life",
-    },
-    {
-      id: "photo-2",
-      title: "Nutritious Hot Meals Served Every Day",
-      caption: "Ensuring every boy and girl receives 3 balanced, wholesome meals prepared with love by our kitchen staff.",
-      imageUrl: "/images/community-outreach.jpg",
-      category: "Nutrition",
-    },
-    {
-      id: "photo-3",
-      title: "100% Formal School Education Sponsorship",
-      caption: "Equipping our children with uniforms, books, and school tuition to build brilliant futures and careers.",
-      imageUrl: "/images/church-programme-flyer.jpg",
-      category: "Education",
-    },
-    {
-      id: "photo-4",
-      title: "Safe Shelter, Warm Beds & Family Fellowship",
-      caption: "A joyful and protective sanctuary where every child feels loved, secure, and part of God's family.",
-      imageUrl: "/images/hero-worship.jpg",
-      category: "Family Life",
-    },
-  ],
-  orphanageVideos: [
-    {
-      id: "video-1",
-      title: "A Day of Joy at Heavens Gates Children's Home",
-      description: "Follow along for an inspiring walkthrough of daily life, classes, hot meals, and evening praise fellowship with our children.",
-      videoUrl: "https://www.youtube.com/@Brianmbera",
-      badge: "Daily Life Story",
-    },
-    {
-      id: "video-2",
-      title: "Children's Choir Praise Ministration",
-      description: "Our children ministering before the Lord with heartfelt thanksgiving during Sunday Main Service.",
-      videoUrl: "https://www.youtube.com/@Brianmbera",
-      badge: "Worship Ministration",
-    },
-  ],
+  orphanagePhotos: [],
+  orphanageVideos: [],
 
   // Top Bar & Live Broadcast Banner
   topbarLiveActive: true,

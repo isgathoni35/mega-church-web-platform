@@ -170,32 +170,32 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
       <section className="py-4 sm:py-8 px-4 sm:px-8">
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           {/* Tab Switcher */}
-          <div className="flex justify-center">
-            <div className="inline-flex p-1.5 rounded-full bg-slate-200/70 border border-slate-300/80 shadow-inner">
+          <div className="flex justify-center w-full">
+            <div className="w-full max-w-md grid grid-cols-2 p-1 sm:p-1.5 rounded-full bg-slate-200/80 border border-slate-300/80 shadow-inner gap-1">
               <button
                 type="button"
                 onClick={() => setActiveTab("kenya")}
-                className={`flex items-center gap-2 px-5 sm:px-8 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-1.5 px-2 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer text-center ${
                   activeTab === "kenya"
                     ? "bg-[#ff6b35] text-white shadow-md"
                     : "text-slate-700 hover:text-slate-900"
                 }`}
               >
                 <span>🇰🇪</span>
-                <span>From Kenya (M-Pesa)</span>
+                <span>M-Pesa (Kenya)</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab("international")}
-                className={`flex items-center gap-2 px-5 sm:px-8 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                className={`flex items-center justify-center gap-1.5 px-2 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all cursor-pointer text-center ${
                   activeTab === "international"
                     ? "bg-[#ff6b35] text-white shadow-md"
                     : "text-slate-700 hover:text-slate-900"
                 }`}
               >
                 <span>🌍</span>
-                <span>International (Sendwave)</span>
+                <span>Diaspora (Sendwave)</span>
               </button>
             </div>
           </div>

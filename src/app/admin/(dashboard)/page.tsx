@@ -13,15 +13,18 @@ import {
   CheckCircle2,
   Calendar,
   SlidersHorizontal,
+  Camera,
+  Heart,
 } from "lucide-react";
 
 import { createAdminClient } from "@/lib/supabase/admin";
-import { MINISTRY_VIDEOS } from "@/data/ministry-videos";
+import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminOverviewPage() {
   const supabase = createAdminClient();
+  const settings = await getSiteSettingsAction();
 
   // Fetch quick metrics
   let totalSermons = 0;
@@ -201,30 +204,29 @@ export default async function AdminOverviewPage() {
           </Link>
         </div>
 
-        {/* Card 4: Authentic Outdoor Clips */}
+        {/* Card 4: Children's Home Media */}
         <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs uppercase font-extrabold tracking-wider text-slate-500">
-              Praise Highlights
+              Children&apos;s Home Media
             </span>
-            <div className="w-9 h-9 rounded-xl bg-[#C59B27]/10 text-[#C59B27] flex items-center justify-center">
-              <Flame className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+              <Heart className="w-5 h-5" />
             </div>
           </div>
           <div>
             <span className="text-2xl font-black text-slate-900 block font-mono">
-              {MINISTRY_VIDEOS.length} Clips
+              {(settings.orphanagePhotos?.length || 0) + (settings.orphanageVideos?.length || 0)} Items
             </span>
             <span className="text-xs text-slate-500 block">
-              Outdoor Praise &amp; Crusades
+              Photos &amp; Video Stories
             </span>
           </div>
           <Link
-            href="/#ministry-videos"
-            target="_blank"
-            className="text-xs font-bold text-[#C59B27] hover:underline flex items-center gap-1 pt-1 border-t border-slate-100"
+            href="/admin/settings"
+            className="text-xs font-bold text-rose-600 hover:underline flex items-center gap-1 pt-1 border-t border-slate-100"
           >
-            <span>View on Homepage</span>
+            <span>Manage Gallery</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

@@ -113,24 +113,27 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
             </div>
             <div className="space-y-1 max-w-md">
               <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                No Sermons Found
+                {initialSermons.length === 0 ? "Broadcast Archive Preparing" : "No Sermons Found"}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600">
-                No messages matched your search criteria for &ldquo;
-                {searchQuery || selectedCategory}&rdquo;. Try another keyword or reset the filter.
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                {initialSermons.length === 0
+                  ? "Our media ministry is actively preparing the next sermon broadcast series. Subscribe to our official YouTube channel or join our weekly sanctuary services."
+                  : `No messages matched your search criteria for "${searchQuery || selectedCategory}". Try another keyword or reset the filter.`}
               </p>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setSelectedCategory("All Sermons");
-                setSearchQuery("");
-              }}
-              className="mt-2 text-[#ff6b35] border-orange-200 hover:bg-orange-50 hover:text-[#ff6b35] rounded-xl text-xs"
-            >
-              Reset Filters
-            </Button>
+            {initialSermons.length > 0 && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setSelectedCategory("All Sermons");
+                  setSearchQuery("");
+                }}
+                className="mt-2 text-[#ff6b35] border-orange-200 hover:bg-orange-50 hover:text-[#ff6b35] rounded-xl text-xs"
+              >
+                Reset Filters
+              </Button>
+            )}
           </div>
         )}
 

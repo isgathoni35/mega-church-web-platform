@@ -168,19 +168,29 @@ export function MobileNav() {
                   <p className="text-xs text-slate-700 font-medium">
                     Wednesdays: 6:00 PM (Bible Study)
                   </p>
+                  {/* Direct Pastoral Assistance */}
+                  <div className="mt-4 p-3 rounded-xl bg-orange-50/70 border border-orange-200/80 flex items-center justify-between gap-2 text-xs font-bold text-slate-800">
+                    <span className="text-slate-500 font-semibold text-[11px]">Pastoral Altar:</span>
+                    <a
+                      href="tel:+254112656123"
+                      className="text-[#ff6b35] hover:underline font-mono"
+                    >
+                      +254 112 656 123
+                    </a>
+                  </div>
                 </div>
               </nav>
 
               {/* Bottom CTA Action Button */}
-              <div className="p-5 border-t border-slate-200 bg-slate-50 shrink-0">
+              <div className="p-4 sm:p-5 border-t border-slate-200 bg-slate-50 shrink-0">
                 <Button
                   size="lg"
-                  className="w-full text-base font-bold shadow-md bg-[#ff6b35] hover:bg-[#ea580c] text-white border-0 hover:brightness-110 transition-all rounded-md"
+                  className="w-full text-base font-extrabold shadow-md bg-[#ff6b35] hover:bg-[#ea580c] text-white border-0 hover:brightness-110 transition-all rounded-md"
                   asChild
                 >
                   <Link href="/give" onClick={() => setIsOpen(false)}>
                     <Heart className="mr-2 h-5 w-5 fill-current" />
-                    Give
+                    Donate Now
                   </Link>
                 </Button>
               </div>

@@ -55,11 +55,11 @@ export function OrphanageMediaShowcase({
           </p>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2 sm:pt-4">
+          <div className="flex items-center justify-start sm:justify-center gap-2 pt-2 sm:pt-4 overflow-x-auto pb-1.5 scrollbar-none w-full max-w-full">
             <button
               type="button"
               onClick={() => setActiveFilter("all")}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`shrink-0 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeFilter === "all"
                   ? "bg-[#ff6b35] text-white shadow-orange-500/20 shadow-md"
                   : "bg-slate-100 hover:bg-slate-200 text-slate-700"
@@ -70,7 +70,7 @@ export function OrphanageMediaShowcase({
             <button
               type="button"
               onClick={() => setActiveFilter("photos")}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeFilter === "photos"
                   ? "bg-[#ff6b35] text-white shadow-orange-500/20 shadow-md"
                   : "bg-slate-100 hover:bg-slate-200 text-slate-700"
@@ -82,7 +82,7 @@ export function OrphanageMediaShowcase({
             <button
               type="button"
               onClick={() => setActiveFilter("videos")}
-              className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
+              className={`shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all shadow-sm ${
                 activeFilter === "videos"
                   ? "bg-[#ff6b35] text-white shadow-orange-500/20 shadow-md"
                   : "bg-slate-100 hover:bg-slate-200 text-slate-700"
@@ -94,132 +94,163 @@ export function OrphanageMediaShowcase({
           </div>
         </div>
 
-        {/* Media Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {/* Render Videos First if present in current filter */}
-          {displayVideos.map((video) => {
-            const ytId = getYouTubeId(video.videoUrl);
-            const thumbUrl = ytId ? getYouTubeThumbnail(ytId) : "/images/orphanage-hero.png";
+        {/* Media Grid or Clean Empty Notice */}
+        {totalCount > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {/* Render Videos First if present in current filter */}
+            {displayVideos.map((video) => {
+              const ytId = getYouTubeId(video.videoUrl);
+              const thumbUrl = ytId ? getYouTubeThumbnail(ytId) : "/images/orphanage-hero.png";
 
-            return (
-              <div
-                key={video.id}
-                className="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-200 flex flex-col transition-all hover:-translate-y-1 hover:shadow-2xl"
-              >
-                {/* Video Thumbnail Plate */}
-                <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
-                  <Image
-                    src={thumbUrl}
-                    alt={video.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                  />
+              return (
+                <div
+                  key={video.id}
+                  className="group relative bg-slate-900 rounded-3xl overflow-hidden shadow-lg border border-slate-200 flex flex-col transition-all hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  {/* Video Thumbnail Plate */}
+                  <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
+                    <Image
+                      src={thumbUrl}
+                      alt={video.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-black/30 to-transparent" />
 
-                  {/* Video Badge */}
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-rose-600/90 text-white font-extrabold text-[10px] uppercase tracking-wider shadow-md backdrop-blur-sm">
-                      <Video className="w-3 h-3" />
-                      <span>{video.badge || "Video Story"}</span>
-                    </span>
+                    {/* Video Badge */}
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-rose-600/90 text-white font-extrabold text-[10px] uppercase tracking-wider shadow-md backdrop-blur-sm">
+                        <Video className="w-3 h-3" />
+                        <span>{video.badge || "Video Story"}</span>
+                      </span>
+                    </div>
+
+                    {/* Play Button Overlay */}
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideo(video)}
+                      className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#ff6b35] text-white flex items-center justify-center shadow-xl shadow-orange-500/40 group-hover:scale-110 transition-transform cursor-pointer"
+                      aria-label={`Play ${video.title}`}
+                    >
+                      <Play className="w-6 h-6 fill-current ml-0.5" />
+                    </button>
                   </div>
 
-                  {/* Play Button Overlay */}
-                  <button
-                    type="button"
-                    onClick={() => setActiveVideo(video)}
-                    className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-[#ff6b35] text-white flex items-center justify-center shadow-xl shadow-orange-500/40 group-hover:scale-110 transition-transform cursor-pointer"
-                    aria-label={`Play ${video.title}`}
-                  >
-                    <Play className="w-6 h-6 fill-current ml-0.5" />
-                  </button>
+                  {/* Video Details */}
+                  <div className="p-5 flex-1 flex flex-col justify-between bg-white space-y-3">
+                    <div className="space-y-1.5">
+                      <h3 className="font-extrabold text-base sm:text-lg text-slate-900 line-clamp-2 leading-snug group-hover:text-[#ff6b35] transition-colors">
+                        {video.title}
+                      </h3>
+                      <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+                        {video.description}
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setActiveVideo(video)}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#ff6b35] hover:text-[#e05626] transition-colors pt-1 cursor-pointer"
+                    >
+                      <span>Watch Full Story</span>
+                      <ChevronRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Render Photos */}
+            {displayPhotos.map((photo) => (
+              <div
+                key={photo.id}
+                className="group relative bg-white rounded-3xl overflow-hidden shadow-md border border-slate-200/90 flex flex-col transition-all hover:-translate-y-1 hover:shadow-xl"
+              >
+                {/* Photo Image Plate */}
+                <div
+                  className="relative aspect-4/3 w-full overflow-hidden bg-slate-100 cursor-pointer"
+                  onClick={() => setSelectedPhoto(photo)}
+                >
+                  <Image
+                    src={photo.imageUrl || "/images/orphanage-hero.png"}
+                    alt={photo.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  {/* Category Pill */}
+                  {photo.category && (
+                    <div className="absolute top-3 left-3">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-slate-800 font-bold text-[10px] uppercase tracking-wider shadow-sm backdrop-blur-sm border border-slate-200">
+                        <Camera className="w-3 h-3 text-[#ff6b35]" />
+                        <span>{photo.category}</span>
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Fullscreen Expand Icon */}
+                  <div className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
+                    <Maximize2 className="w-4 h-4" />
+                  </div>
                 </div>
 
-                {/* Video Details */}
-                <div className="p-5 flex-1 flex flex-col justify-between bg-white space-y-3">
-                  <div className="space-y-1.5">
-                    <h3 className="font-extrabold text-base sm:text-lg text-slate-900 line-clamp-2 leading-snug group-hover:text-[#ff6b35] transition-colors">
-                      {video.title}
+                {/* Photo Caption & Title */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
+                  <div className="space-y-1">
+                    <h3 className="font-extrabold text-base text-slate-900 group-hover:text-[#ff6b35] transition-colors leading-snug">
+                      {photo.title}
                     </h3>
                     <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                      {video.description}
+                      {photo.caption}
                     </p>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() => setActiveVideo(video)}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-[#ff6b35] hover:text-[#e05626] transition-colors pt-1 cursor-pointer"
+                    onClick={() => setSelectedPhoto(photo)}
+                    className="text-left text-[11px] font-bold text-[#ff6b35] hover:underline pt-1 cursor-pointer"
                   >
-                    <span>Watch Full Story</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    View Large Photo &rarr;
                   </button>
                 </div>
               </div>
-            );
-          })}
-
-          {/* Render Photos */}
-          {displayPhotos.map((photo) => (
-            <div
-              key={photo.id}
-              className="group relative bg-white rounded-3xl overflow-hidden shadow-md border border-slate-200/90 flex flex-col transition-all hover:-translate-y-1 hover:shadow-xl"
-            >
-              {/* Photo Image Plate */}
-              <div
-                className="relative aspect-4/3 w-full overflow-hidden bg-slate-100 cursor-pointer"
-                onClick={() => setSelectedPhoto(photo)}
-              >
-                <Image
-                  src={photo.imageUrl || "/images/orphanage-hero.png"}
-                  alt={photo.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                {/* Category Pill */}
-                {photo.category && (
-                  <div className="absolute top-3 left-3">
-                    <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 text-slate-800 font-bold text-[10px] uppercase tracking-wider shadow-sm backdrop-blur-sm border border-slate-200">
-                      <Camera className="w-3 h-3 text-[#ff6b35]" />
-                      <span>{photo.category}</span>
-                    </span>
-                  </div>
-                )}
-
-                {/* Fullscreen Expand Icon */}
-                <div className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-md">
-                  <Maximize2 className="w-4 h-4" />
-                </div>
-              </div>
-
-              {/* Photo Caption & Title */}
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
-                <div className="space-y-1">
-                  <h3 className="font-extrabold text-base text-slate-900 group-hover:text-[#ff6b35] transition-colors leading-snug">
-                    {photo.title}
-                  </h3>
-                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
-                    {photo.caption}
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setSelectedPhoto(photo)}
-                  className="text-left text-[11px] font-bold text-[#ff6b35] hover:underline pt-1 cursor-pointer"
-                >
-                  View Large Photo &rarr;
-                </button>
-              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="p-8 sm:p-14 rounded-3xl bg-[#fffaf5] border border-orange-200/90 text-center max-w-3xl mx-auto space-y-4 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-orange-100 text-[#ff6b35] flex items-center justify-center mx-auto shadow-sm">
+              <Camera className="w-7 h-7" />
             </div>
-          ))}
-        </div>
+            <div className="space-y-1.5">
+              <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">
+                Children&apos;s Home Media Gallery Updating
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
+                Our caregiver team is actively capturing fresh moments of morning worship, classroom achievements, and meal times. You can partner with us directly or schedule an in-person visit.
+              </p>
+            </div>
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/orphanage/donate"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 transition-all text-center"
+              >
+                <Heart className="w-4 h-4 fill-current" />
+                <span>Donate to Children&apos;s Home</span>
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 text-xs sm:text-sm font-bold shadow-sm transition-all text-center"
+              >
+                <span>Schedule a Visit &amp; Volunteer</span>
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Bottom Partnership Banner */}
         <div className="p-6 sm:p-10 rounded-3xl bg-[#fffaf5] border border-orange-200/90 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
@@ -255,7 +286,7 @@ export function OrphanageMediaShowcase({
           onClick={() => setSelectedPhoto(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col"
+            className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -297,7 +328,7 @@ export function OrphanageMediaShowcase({
           onClick={() => setActiveVideo(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col"
+            className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <button

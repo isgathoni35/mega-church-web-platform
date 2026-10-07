@@ -129,7 +129,7 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
               size="lg"
               className="w-full font-extrabold text-sm bg-rose-600 hover:bg-rose-700 text-white rounded-full py-4 shadow-md shadow-rose-600/20 flex items-center justify-center gap-2 border-0"
             >
-              <Link href="/give?fund=orphanage&step=form">
+              <Link href="/orphanage/donate">
                 <span>Support the Children&apos;s Home</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>

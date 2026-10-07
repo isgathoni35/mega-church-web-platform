@@ -84,34 +84,34 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
   return (
     <div className="w-full space-y-5 sm:space-y-8">
       {/* ================= TAB SELECTOR ================= */}
-      <div className="flex justify-center">
-        <div className="p-1 sm:p-1.5 rounded-full bg-slate-200/80 border border-slate-300/80 shadow-inner flex items-center gap-1 sm:gap-2 max-w-md w-full">
+      <div className="flex justify-center w-full">
+        <div className="p-1 sm:p-1.5 rounded-full bg-slate-200/80 border border-slate-300/80 shadow-inner grid grid-cols-2 gap-1 max-w-md w-full">
           <button
             type="button"
             onClick={() => setActiveTab("kenya")}
             className={cn(
-              "flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-3 px-3.5 sm:px-5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200",
+              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 sm:py-3 px-2 sm:px-5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 text-center",
               activeTab === "kenya"
                 ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
                 : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <Smartphone className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            <span>For Kenyans</span>
+            <Smartphone className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span>M-Pesa (Kenya)</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab("international")}
             className={cn(
-              "flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2 sm:py-3 px-3.5 sm:px-5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200",
+              "flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 sm:py-3 px-2 sm:px-5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 text-center",
               activeTab === "international"
                 ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
                 : "text-slate-600 hover:text-slate-900"
             )}
           >
-            <Globe2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            <span>For International</span>
+            <Globe2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+            <span>Diaspora (Sendwave)</span>
           </button>
         </div>
       </div>

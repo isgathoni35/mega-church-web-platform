@@ -380,6 +380,23 @@ None.
   4. Standardized all button labels and links from "Give Online", "Give Online Now", and "Partner With Us" to "Donate" across desktop Navbar, mobile drawer, footer, and `/give` hero. Updated footer Column 4 grid to showcase Sendwave alongside Kenyan Paybill, Send Money, and Co-op Bank.
   5. Verified 0 TypeScript errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002.
 
+- **[2026-10-07]:** Elimination of AI Placeholder Content & Transition to 100% Dynamic Admin-Controlled Media Architecture:
+  1. Purged hardcoded `fallbackSermons` (containing Rick Astley YouTube URLs `dQw4w9WgXcQ` / `placeholder` and Unsplash stock photos) from `src/app/sermons/page.tsx` and `src/app/page.tsx`. Sermons are now loaded 100% dynamically from Supabase `sermons` table.
+  2. Purged 160MB of local static MP4 videos from `public/videos/` and deleted obsolete static video modules (`src/data/ministry-videos.ts`, `src/components/home/ministry-video-showcase.tsx`, `src/components/home/anointed-reels.tsx`, `src/components/media/adaptive-video-modal.tsx`).
+  3. Reset `DEFAULT_SETTINGS` in `src/types/settings.ts` for `orphanagePhotos`, `orphanageVideos`, and `eventsJson` to empty arrays (`[]`), eliminating hardcoded dummy photo and event records.
+  4. Implemented senior-grade, resilient empty states across `LiveHeroPlayer`, `SermonArchive`, `RecentSermons`, `OrphanageMediaShowcase`, and `EventsView` that provide clear, inspiring invitations to attend sanctuary services or watch on YouTube when 0 records exist.
+  5. Created database cleanup migration script [`supabase/migrations/20261007_cleanup_placeholders.sql`](file:///c:/Users/isgat/Projects/megachurch-web-platform/supabase/migrations/20261007_cleanup_placeholders.sql) to purge seed placeholder sermons and reset JSON columns in Supabase.
+  6. Verified 0 TypeScript compilation errors (`npx tsc --noEmit`) and HTTP 200 OK across all 11 public and admin routes on port 3002 without launching a browser.
+
+- **[2026-10-07]:** Comprehensive Mobile Responsiveness & Small Viewport (320px–390px) UX Overhaul:
+  1. Overhauled `TopBar` with dual-layout architecture: ultra-compact 1-row layout on mobile (`sm:hidden`) displaying direct call link (`0112 656 123`), vibrant compact **`🔴 LIVE`** stream pill badge, and quick `<Sparkles /> Prayer` link, preventing text collisions on small screens.
+  2. Enhanced `MobileNav` slide-over drawer with direct pastoral line link (`+254 112 656 123`) and standardized `"Donate Now"` drawer button.
+  3. Optimized `OrphanageMediaShowcase` with swipeable category filter pills (`overflow-x-auto pb-1.5 scrollbar-none`) and `max-h-[90vh] overflow-y-auto` scroll containment on photo and video modals to eliminate bottom caption clipping on short phone screens.
+  4. Converted donation portal tab switchers (`OrphanageDonateView` and `DirectGivingPortal`) to responsive full-width 2-column grid containers with clean mobile tab text (`🇰🇪 M-Pesa (Kenya)` & `🌍 Diaspora (Sendwave)`).
+  5. Responsive font scaling and stat label truncation in `HeroSection` and updated `CategorizedActivities` Card 1 button link to point directly to `/orphanage/donate`.
+  6. Converted 7 admin management tabs in `SettingsManagerView` into a swipeable horizontal pill bar (`overflow-x-auto scrollbar-none`).
+  7. Verified 0 TypeScript compilation errors (`npx tsc --noEmit`) and HTTP 200 OK across all routes on port 3002 without launching browser.
+
 - **[2026-10-03]:** Mobile Compactness & Responsive Density Overhaul Across All Pages:
   1. Identified that mobile viewports (360px–430px) were overly spaced out due to global desktop utilities (`py-20`, `py-24`, `min-h-[85vh]`, `p-8`, `gap-8`) applied without mobile breakpoints.
   2. Applied systematic mobile density scaling across all 27 platform components:

@@ -18,7 +18,48 @@ export function LiveHeroPlayer({
 
   const [copied, setCopied] = useState(false);
 
-  if (!featuredSermon) return null;
+  if (!featuredSermon) {
+    const channel = youtubeChannelUrl || "https://www.youtube.com/@Brianmbera";
+    return (
+      <section className="relative w-full bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] text-slate-900 py-10 sm:py-16 px-4 sm:px-8 border-b border-slate-200/80 overflow-hidden">
+        <div className="relative max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wider shadow-sm">
+            <Radio className="h-3.5 w-3.5 animate-pulse" />
+            <span>Sugutta Live Broadcast Hub</span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+            Anointed Messages &amp; Live Altar Broadcasts
+          </h1>
+          <p className="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            Join Pastor Caesar O. Nyandwaro for prophetic teachings, deliverance ministrations, and Sunday morning worship live from our Nairobi sanctuary.
+          </p>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Button
+              variant="default"
+              size="lg"
+              className="bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/20 rounded-xl text-xs sm:text-sm py-2.5 sm:py-3 h-auto"
+              asChild
+            >
+              <a href={channel} target="_blank" rel="noopener noreferrer">
+                <Tv className="h-4 w-4 mr-2" />
+                <span>Watch Live on YouTube Channel</span>
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              size="lg"
+              className="border-slate-300 bg-white text-slate-700 hover:bg-slate-50 rounded-xl text-xs sm:text-sm py-2.5 sm:py-3 h-auto"
+              asChild
+            >
+              <a href="/contact">
+                <span>Join In-Person Service</span>
+              </a>
+            </Button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const videoId = getYouTubeId(featuredSermon.youtube_url);
   const embedUrl = videoId ? getYouTubeEmbedUrl(videoId, false) : "";
