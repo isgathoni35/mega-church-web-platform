@@ -96,11 +96,13 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
             <div className="pt-6 border-t border-slate-200/80 grid grid-cols-3 gap-2 sm:gap-10 w-full max-w-lg text-left">
               <div>
                 <p className="text-xl sm:text-4xl font-extrabold text-slate-900">
-                  {settings.heroStatBranches || "50+"}
+                  {settings.heroStatBranches && settings.heroStatBranches !== "-"
+                    ? settings.heroStatBranches
+                    : "50+"}
                 </p>
                 <p className="text-[9px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 mt-1 truncate">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#ff6b35] shrink-0" />
-                  <span className="truncate">BRANCHES</span>
+                  <span className="truncate">OUTREACHES</span>
                 </p>
               </div>
 
@@ -150,7 +152,7 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
                   fill
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                   priority
-                  quality={95}
+                  unoptimized
                 />
 
                 {/* Subtle vignette gradient at the bottom */}

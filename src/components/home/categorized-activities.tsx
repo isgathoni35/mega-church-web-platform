@@ -82,6 +82,7 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
                   alt={settings.orphanageTitle || "Sugutta Children's Home"}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
                 <div className="absolute bottom-3 left-4 right-4 text-white">
@@ -156,6 +157,7 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
                   alt={settings.constructionTitle || "Sanctuary Construction Project"}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  unoptimized
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
                 <div className="absolute bottom-3 left-4 right-4 text-white">

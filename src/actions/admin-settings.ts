@@ -11,6 +11,7 @@ import {
   OrphanageVideoItem,
 } from "@/types/settings";
 import { Json } from "@/types/database.types";
+import { extractCleanImageUrl } from "@/lib/utils";
 
 
 export async function uploadChurchMediaAction(
@@ -103,7 +104,7 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         // Pastoral Profile
         pastorName: cleanPastorName,
         pastorTitle: row.pastor_title || DEFAULT_SETTINGS.pastorTitle,
-        pastorImageUrl: row.pastor_image_url || DEFAULT_SETTINGS.pastorImageUrl,
+        pastorImageUrl: extractCleanImageUrl(row.pastor_image_url) || DEFAULT_SETTINGS.pastorImageUrl,
         pastorBio: row.pastor_bio ? row.pastor_bio.replace(/\bOsebe\b/gi, "O.") : DEFAULT_SETTINGS.pastorBio,
         pastorNationalId: row.pastor_national_id || DEFAULT_SETTINGS.pastorNationalId,
 
@@ -119,7 +120,7 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         heroHeadline3: row.hero_headline_3 || DEFAULT_SETTINGS.heroHeadline3,
         heroSubtitle: row.hero_subtitle || DEFAULT_SETTINGS.heroSubtitle,
         heroPromise: row.hero_promise || DEFAULT_SETTINGS.heroPromise,
-        heroImageUrl: row.hero_image_url || row.pastor_image_url || DEFAULT_SETTINGS.heroImageUrl,
+        heroImageUrl: extractCleanImageUrl(row.hero_image_url || row.pastor_image_url) || DEFAULT_SETTINGS.heroImageUrl,
         heroStatBranches: row.hero_stat_branches || DEFAULT_SETTINGS.heroStatBranches,
         heroStatLives: row.hero_stat_lives || DEFAULT_SETTINGS.heroStatLives,
         heroStatYears: row.hero_stat_years || DEFAULT_SETTINGS.heroStatYears,
@@ -132,36 +133,36 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         constructionTitle: row.construction_title || DEFAULT_SETTINGS.constructionTitle,
         constructionSubtitle: row.construction_subtitle || DEFAULT_SETTINGS.constructionSubtitle,
         constructionNarrative: row.construction_narrative || DEFAULT_SETTINGS.constructionNarrative,
-        constructionImageUrl: row.construction_image_url || DEFAULT_SETTINGS.constructionImageUrl,
+        constructionImageUrl: extractCleanImageUrl(row.construction_image_url) || DEFAULT_SETTINGS.constructionImageUrl,
         constructionBadge: row.construction_badge || DEFAULT_SETTINGS.constructionBadge,
 
         orphanageTitle: row.orphanage_title || DEFAULT_SETTINGS.orphanageTitle,
         orphanageSubtitle: row.orphanage_subtitle || DEFAULT_SETTINGS.orphanageSubtitle,
         orphanageNarrative: row.orphanage_narrative || DEFAULT_SETTINGS.orphanageNarrative,
-        orphanageImageUrl: row.orphanage_image_url || DEFAULT_SETTINGS.orphanageImageUrl,
+        orphanageImageUrl: extractCleanImageUrl(row.orphanage_image_url) || DEFAULT_SETTINGS.orphanageImageUrl,
         orphanageBadge: row.orphanage_badge || DEFAULT_SETTINGS.orphanageBadge,
 
         // Grassroots Community Outreach
         communityTitle: row.community_title || DEFAULT_SETTINGS.communityTitle,
         communityNarrative: row.community_narrative || DEFAULT_SETTINGS.communityNarrative,
-        communityImageUrl: row.community_image_url || DEFAULT_SETTINGS.communityImageUrl,
+        communityImageUrl: extractCleanImageUrl(row.community_image_url) || DEFAULT_SETTINGS.communityImageUrl,
 
         // 4 Ministry Pillars
         pillar1Title: row.pillar_1_title || DEFAULT_SETTINGS.pillar1Title,
         pillar1Desc: row.pillar_1_desc || DEFAULT_SETTINGS.pillar1Desc,
-        pillar1Image: row.pillar_1_image || DEFAULT_SETTINGS.pillar1Image,
+        pillar1Image: extractCleanImageUrl(row.pillar_1_image) || DEFAULT_SETTINGS.pillar1Image,
 
         pillar2Title: row.pillar_2_title || DEFAULT_SETTINGS.pillar2Title,
         pillar2Desc: row.pillar_2_desc || DEFAULT_SETTINGS.pillar2Desc,
-        pillar2Image: row.pillar_2_image || DEFAULT_SETTINGS.pillar2Image,
+        pillar2Image: extractCleanImageUrl(row.pillar_2_image) || DEFAULT_SETTINGS.pillar2Image,
 
         pillar3Title: row.pillar_3_title || DEFAULT_SETTINGS.pillar3Title,
         pillar3Desc: row.pillar_3_desc || DEFAULT_SETTINGS.pillar3Desc,
-        pillar3Image: row.pillar_3_image || DEFAULT_SETTINGS.pillar3Image,
+        pillar3Image: extractCleanImageUrl(row.pillar_3_image) || DEFAULT_SETTINGS.pillar3Image,
 
         pillar4Title: row.pillar_4_title || DEFAULT_SETTINGS.pillar4Title,
         pillar4Desc: row.pillar_4_desc || DEFAULT_SETTINGS.pillar4Desc,
-        pillar4Image: row.pillar_4_image || DEFAULT_SETTINGS.pillar4Image,
+        pillar4Image: extractCleanImageUrl(row.pillar_4_image) || DEFAULT_SETTINGS.pillar4Image,
 
         // 3 Pillar Impact Counters
         impactStat1Val: row.impact_stat_1_val || DEFAULT_SETTINGS.impactStat1Val,
@@ -178,13 +179,18 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
               title: ev.title ? ev.title.replace(/\bOsebe\b/gi, "O.") : "",
               description: ev.description ? ev.description.replace(/\bOsebe\b/gi, "O.") : "",
               whatsappMessage: ev.whatsappMessage ? ev.whatsappMessage.replace(/\bOsebe\b/gi, "O.") : "",
+              imageUrl: extractCleanImageUrl(ev.imageUrl),
             }))
           : DEFAULT_SETTINGS.eventsJson,
 
         // Children's Home Gallery (Photos & Videos)
         orphanagePhotos: Array.isArray(row.orphanage_photos_json)
-          ? (row.orphanage_photos_json as unknown as OrphanagePhotoItem[])
+          ? (row.orphanage_photos_json as unknown as OrphanagePhotoItem[]).map((p) => ({
+              ...p,
+              imageUrl: extractCleanImageUrl(p.imageUrl),
+            }))
           : DEFAULT_SETTINGS.orphanagePhotos,
+
         orphanageVideos: Array.isArray(row.orphanage_videos_json)
           ? (row.orphanage_videos_json as unknown as OrphanageVideoItem[])
           : DEFAULT_SETTINGS.orphanageVideos,
@@ -233,7 +239,7 @@ export async function saveSiteSettingsAction(
       // Pastoral Profile
       pastor_name: settings.pastorName.trim(),
       pastor_title: settings.pastorTitle.trim(),
-      pastor_image_url: settings.pastorImageUrl.trim(),
+      pastor_image_url: extractCleanImageUrl(settings.pastorImageUrl),
       pastor_bio: settings.pastorBio.trim(),
       pastor_national_id: settings.pastorNationalId.trim(),
 
@@ -249,7 +255,7 @@ export async function saveSiteSettingsAction(
       hero_headline_3: settings.heroHeadline3.trim(),
       hero_subtitle: settings.heroSubtitle.trim(),
       hero_promise: settings.heroPromise.trim(),
-      hero_image_url: settings.heroImageUrl.trim(),
+      hero_image_url: extractCleanImageUrl(settings.heroImageUrl),
       hero_stat_branches: settings.heroStatBranches.trim(),
       hero_stat_lives: settings.heroStatLives.trim(),
       hero_stat_years: settings.heroStatYears.trim(),
@@ -262,36 +268,36 @@ export async function saveSiteSettingsAction(
       construction_title: settings.constructionTitle.trim(),
       construction_subtitle: settings.constructionSubtitle.trim(),
       construction_narrative: settings.constructionNarrative.trim(),
-      construction_image_url: settings.constructionImageUrl.trim(),
+      construction_image_url: extractCleanImageUrl(settings.constructionImageUrl),
       construction_badge: settings.constructionBadge.trim(),
 
       orphanage_title: settings.orphanageTitle.trim(),
       orphanage_subtitle: settings.orphanageSubtitle.trim(),
       orphanage_narrative: settings.orphanageNarrative.trim(),
-      orphanage_image_url: settings.orphanageImageUrl.trim(),
+      orphanage_image_url: extractCleanImageUrl(settings.orphanageImageUrl),
       orphanage_badge: settings.orphanageBadge.trim(),
 
       // Grassroots Community Outreach
       community_title: settings.communityTitle.trim(),
       community_narrative: settings.communityNarrative.trim(),
-      community_image_url: settings.communityImageUrl.trim(),
+      community_image_url: extractCleanImageUrl(settings.communityImageUrl),
 
       // 4 Ministry Pillars
       pillar_1_title: settings.pillar1Title.trim(),
       pillar_1_desc: settings.pillar1Desc.trim(),
-      pillar_1_image: settings.pillar1Image.trim(),
+      pillar_1_image: extractCleanImageUrl(settings.pillar1Image),
 
       pillar_2_title: settings.pillar2Title.trim(),
       pillar_2_desc: settings.pillar2Desc.trim(),
-      pillar_2_image: settings.pillar2Image.trim(),
+      pillar_2_image: extractCleanImageUrl(settings.pillar2Image),
 
       pillar_3_title: settings.pillar3Title.trim(),
       pillar_3_desc: settings.pillar3Desc.trim(),
-      pillar_3_image: settings.pillar3Image.trim(),
+      pillar_3_image: extractCleanImageUrl(settings.pillar3Image),
 
       pillar_4_title: settings.pillar4Title.trim(),
       pillar_4_desc: settings.pillar4Desc.trim(),
-      pillar_4_image: settings.pillar4Image.trim(),
+      pillar_4_image: extractCleanImageUrl(settings.pillar4Image),
 
       // 3 Pillar Impact Counters
       impact_stat_1_val: settings.impactStat1Val.trim(),
@@ -302,11 +308,18 @@ export async function saveSiteSettingsAction(
       impact_stat_3_lbl: settings.impactStat3Lbl.trim(),
 
       // Events Data
-      events_json: settings.eventsJson as unknown as Json,
+      events_json: (settings.eventsJson || []).map((ev) => ({
+        ...ev,
+        imageUrl: extractCleanImageUrl(ev.imageUrl),
+      })) as unknown as Json,
 
       // Children's Home Gallery (Photos & Videos)
-      orphanage_photos_json: (settings.orphanagePhotos || []) as unknown as Json,
+      orphanage_photos_json: (settings.orphanagePhotos || []).map((p) => ({
+        ...p,
+        imageUrl: extractCleanImageUrl(p.imageUrl),
+      })) as unknown as Json,
       orphanage_videos_json: (settings.orphanageVideos || []) as unknown as Json,
+
 
       // Top Bar & Live Broadcast Banner
       topbar_live_active: Boolean(settings.topbarLiveActive),
@@ -363,7 +376,8 @@ export async function saveSiteSettingsAction(
       }
     }
 
-    // Comprehensive Path Revalidations
+    // Comprehensive Path Revalidations (including root layout for TopBar & Footer)
+    revalidatePath("/", "layout");
     revalidatePath("/");
     revalidatePath("/about");
     revalidatePath("/events");

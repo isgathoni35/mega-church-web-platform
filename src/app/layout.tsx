@@ -50,6 +50,8 @@ export const metadata: Metadata = {
   },
 };
 
+export const dynamic = "force-dynamic";
+
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export default async function RootLayout({

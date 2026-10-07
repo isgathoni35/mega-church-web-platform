@@ -136,7 +136,7 @@ export function AboutHero({ settings: propSettings }: AboutHeroProps = {}) {
                   fill
                   className="object-cover object-top hover:scale-105 transition-transform duration-700"
                   priority
-                  quality={95}
+                  unoptimized
                 />
 
                 {/* Subtle vignette gradient at the bottom */}

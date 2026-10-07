@@ -115,6 +115,7 @@ export function OrphanageMediaShowcase({
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                      unoptimized
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-black/30 to-transparent" />
@@ -179,6 +180,7 @@ export function OrphanageMediaShowcase({
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    unoptimized
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -303,6 +305,7 @@ export function OrphanageMediaShowcase({
                 alt={selectedPhoto.title}
                 fill
                 className="object-contain"
+                unoptimized
               />
             </div>
 

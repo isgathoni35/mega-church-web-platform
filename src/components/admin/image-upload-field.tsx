@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { uploadChurchMediaAction } from "@/actions/admin-settings";
+import { extractCleanImageUrl } from "@/lib/utils";
 
 interface LibraryPreset {
   label: string;
@@ -40,6 +41,7 @@ interface ImageUploadFieldProps {
   aspectRatio?: "square" | "video" | "portrait";
 }
 
+
 export function ImageUploadField({
   label,
   value,
@@ -49,9 +51,15 @@ export function ImageUploadField({
 }: ImageUploadFieldProps) {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
   const [showPresets, setShowPresets] = useState(false);
-  const [manualInput, setManualInput] = useState(value);
+  const [manualInput, setManualInput] = useState(value || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    setManualInput(value || "");
+    setImageError(false);
+  }, [value]);
 
   const aspectClass =
     aspectRatio === "portrait"
@@ -91,10 +99,18 @@ export function ImageUploadField({
     setShowPresets(false);
   };
 
-  const handleManualBlur = () => {
-    if (manualInput.trim() && manualInput !== value) {
-      onChange(manualInput.trim());
+  const handleManualChange = (val: string) => {
+    setManualInput(val);
+    const cleaned = extractCleanImageUrl(val);
+    if (cleaned) {
+      onChange(cleaned);
     }
+  };
+
+  const handleManualBlur = () => {
+    const cleaned = extractCleanImageUrl(manualInput);
+    setManualInput(cleaned);
+    onChange(cleaned);
   };
 
   return (
@@ -209,7 +225,7 @@ export function ImageUploadField({
         <div
           className={`relative rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm bg-slate-900 shrink-0 w-full ${aspectClass}`}
         >
-          {value ? (
+          {value && !imageError ? (
             <Image
               src={value}
               alt={label}
@@ -217,11 +233,14 @@ export function ImageUploadField({
               className="object-cover hover:scale-105 transition-transform duration-300"
               sizes="200px"
               unoptimized
+              onError={() => setImageError(true)}
             />
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-2 text-center">
               <ImageIcon className="w-6 h-6 mb-1 text-slate-500" />
-              <span className="text-[10px]">No image set</span>
+              <span className="text-[10px]">
+                {imageError ? "Image preview unavailable (Check URL)" : "No image set"}
+              </span>
             </div>
           )}
 
@@ -243,7 +262,7 @@ export function ImageUploadField({
             <Input
               type="text"
               value={manualInput}
-              onChange={(e) => setManualInput(e.target.value)}
+              onChange={(e) => handleManualChange(e.target.value)}
               onBlur={handleManualBlur}
               placeholder="/images/example.jpg or https://..."
               className="h-8 text-xs font-mono bg-white border-slate-200"
@@ -251,7 +270,7 @@ export function ImageUploadField({
           </div>
 
           <p className="text-[10px] text-slate-400">
-            Tip: You can click <strong>Upload Photo</strong> to upload directly from your phone/computer, or paste any external image URL above.
+            Tip: You can click <strong>Upload Photo</strong> to upload directly from your device, or paste any external image / Google link above.
           </p>
 
           {uploadError && (
@@ -264,3 +283,4 @@ export function ImageUploadField({
     </div>
   );
 }
+

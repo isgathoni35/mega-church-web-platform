@@ -586,21 +586,22 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 1 (e.g. Branches)</label>
+                  <label className="text-[11px] font-bold text-slate-600">Stat 1: Outreaches (e.g. 50+)</label>
                   <Input
                     value={settings.heroStatBranches}
                     onChange={(e) => setSettings({ ...settings, heroStatBranches: e.target.value })}
+                    placeholder="50+"
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 2 (e.g. Lives Touched)</label>
+                  <label className="text-[11px] font-bold text-slate-600">Stat 2: Lives Touched (e.g. 1M+)</label>
                   <Input
                     value={settings.heroStatLives}
                     onChange={(e) => setSettings({ ...settings, heroStatLives: e.target.value })}
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 3 (e.g. Years Ministry)</label>
+                  <label className="text-[11px] font-bold text-slate-600">Stat 3: Years Ministry (e.g. 25+)</label>
                   <Input
                     value={settings.heroStatYears}
                     onChange={(e) => setSettings({ ...settings, heroStatYears: e.target.value })}
@@ -609,7 +610,90 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </div>
             </div>
 
-            {renderSaveSectionBar("Ready to update Homepage & Hero?")}
+            {/* Header Top Bar & Broadcast Controls */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/40 border border-orange-100 space-y-4 pt-3">
+              <div className="flex items-center gap-2 border-b border-orange-200/60 pb-2.5">
+                <Radio className="w-4 h-4 text-rose-600" />
+                <h3 className="text-xs sm:text-sm font-extrabold text-slate-900">
+                  Header Top Bar &amp; Live Broadcast Alert
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Church Phone Number</label>
+                  <Input
+                    value={settings.mpesaPhone}
+                    onChange={(e) => setSettings({ ...settings, mpesaPhone: e.target.value })}
+                    placeholder="+254112656123"
+                  />
+                  <span className="text-[10px] text-slate-500 block">Displayed at the top left of every page.</span>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Official Church Email</label>
+                  <Input
+                    value={settings.contactEmail}
+                    onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+                    placeholder="sugutafellowshipchurch@gmail.com"
+                  />
+                  <span className="text-[10px] text-slate-500 block">Displayed next to phone in the top bar.</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Top Bar Announcement / Service Schedule</label>
+                  <Input
+                    value={settings.topbarAnnouncement}
+                    onChange={(e) => setSettings({ ...settings, topbarAnnouncement: e.target.value })}
+                    placeholder="Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Live Broadcast Label</label>
+                  <Input
+                    value={settings.topbarLiveLabel}
+                    onChange={(e) => setSettings({ ...settings, topbarLiveLabel: e.target.value })}
+                    placeholder="Watch Live Broadcast"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-bold text-slate-700">Live Broadcast Destination URL</label>
+                  <Input
+                    value={settings.topbarLiveUrl}
+                    onChange={(e) => setSettings({ ...settings, topbarLiveUrl: e.target.value })}
+                    placeholder="https://www.youtube.com/@Brianmbera"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200">
+                  <div>
+                    <label className="text-xs font-bold text-slate-900 block">Live Broadcast Alert Active</label>
+                    <span className="text-[10px] text-slate-500">Pulsing red live badge on top bar</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSettings({ ...settings, topbarLiveActive: !settings.topbarLiveActive })}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      settings.topbarLiveActive ? "bg-rose-600" : "bg-slate-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                        settings.topbarLiveActive ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {renderSaveSectionBar("Ready to update Homepage & Header?")}
           </div>
         )}
 
