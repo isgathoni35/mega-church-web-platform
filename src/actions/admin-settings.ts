@@ -3,7 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { ActionResponse } from "@/types/actions";
-import { SiteSettingsData, DEFAULT_SETTINGS, MinistryEventItem } from "@/types/settings";
+import {
+  SiteSettingsData,
+  DEFAULT_SETTINGS,
+  MinistryEventItem,
+  OrphanagePhotoItem,
+  OrphanageVideoItem,
+} from "@/types/settings";
 import { Json } from "@/types/database.types";
 
 
@@ -74,12 +80,31 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
 
     if (!error && data && data.length > 0) {
       const row = data[0];
+
+      // Normalize pastor name to ensure 'Osebe' is strictly formatted as 'O.'
+      const cleanPastorName = (row.pastor_name || DEFAULT_SETTINGS.pastorName)
+        .replace(/\bOsebe\b/gi, "O.")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      const cleanWesternUnion = (row.western_union_recipient || DEFAULT_SETTINGS.westernUnionRecipient)
+        .replace(/\bOsebe\b/gi, "O.")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      // Normalize contact email: if legacy address or missing, fallback to official church email
+      const rawEmail = (row.contact_email || "").trim();
+      const cleanEmail =
+        !rawEmail || rawEmail === "caesarosebe@gmail.com" || rawEmail === "contact@heavensgatesugutta.org"
+          ? DEFAULT_SETTINGS.contactEmail
+          : rawEmail;
+
       return {
         // Pastoral Profile
-        pastorName: row.pastor_name || DEFAULT_SETTINGS.pastorName,
+        pastorName: cleanPastorName,
         pastorTitle: row.pastor_title || DEFAULT_SETTINGS.pastorTitle,
         pastorImageUrl: row.pastor_image_url || DEFAULT_SETTINGS.pastorImageUrl,
-        pastorBio: row.pastor_bio || DEFAULT_SETTINGS.pastorBio,
+        pastorBio: row.pastor_bio ? row.pastor_bio.replace(/\bOsebe\b/gi, "O.") : DEFAULT_SETTINGS.pastorBio,
         pastorNationalId: row.pastor_national_id || DEFAULT_SETTINGS.pastorNationalId,
 
         // Church Identity & Location
@@ -148,12 +173,34 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
 
         // Events Data
         eventsJson: Array.isArray(row.events_json)
-          ? (row.events_json as unknown as MinistryEventItem[])
+          ? (row.events_json as unknown as MinistryEventItem[]).map((ev) => ({
+              ...ev,
+              title: ev.title ? ev.title.replace(/\bOsebe\b/gi, "O.") : "",
+              description: ev.description ? ev.description.replace(/\bOsebe\b/gi, "O.") : "",
+              whatsappMessage: ev.whatsappMessage ? ev.whatsappMessage.replace(/\bOsebe\b/gi, "O.") : "",
+            }))
           : DEFAULT_SETTINGS.eventsJson,
+
+        // Children's Home Gallery (Photos & Videos)
+        orphanagePhotos: Array.isArray(row.orphanage_photos_json)
+          ? (row.orphanage_photos_json as unknown as OrphanagePhotoItem[])
+          : DEFAULT_SETTINGS.orphanagePhotos,
+        orphanageVideos: Array.isArray(row.orphanage_videos_json)
+          ? (row.orphanage_videos_json as unknown as OrphanageVideoItem[])
+          : DEFAULT_SETTINGS.orphanageVideos,
+
+        // Top Bar & Live Broadcast Banner
+        topbarLiveActive:
+          row.topbar_live_active !== undefined && row.topbar_live_active !== null
+            ? Boolean(row.topbar_live_active)
+            : DEFAULT_SETTINGS.topbarLiveActive,
+        topbarLiveLabel: row.topbar_live_label || DEFAULT_SETTINGS.topbarLiveLabel,
+        topbarLiveUrl: row.topbar_live_url || DEFAULT_SETTINGS.topbarLiveUrl,
+        topbarAnnouncement: row.topbar_announcement || DEFAULT_SETTINGS.topbarAnnouncement,
 
         // Communication & Social Channels
         mpesaPhone: row.mpesa_phone || DEFAULT_SETTINGS.mpesaPhone,
-        contactEmail: row.contact_email || DEFAULT_SETTINGS.contactEmail,
+        contactEmail: cleanEmail,
         facebookUrl: row.facebook_url || DEFAULT_SETTINGS.facebookUrl,
         instagramUrl: row.instagram_url || DEFAULT_SETTINGS.instagramUrl,
         youtubeChannelUrl: row.youtube_channel_url || DEFAULT_SETTINGS.youtubeChannelUrl,
@@ -167,7 +214,7 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         mpesaPaybill: row.mpesa_paybill || DEFAULT_SETTINGS.mpesaPaybill,
         mpesaTillNumber: row.mpesa_till_number || DEFAULT_SETTINGS.mpesaTillNumber,
         mpesaTillName: row.mpesa_till_name || DEFAULT_SETTINGS.mpesaTillName,
-        westernUnionRecipient: row.western_union_recipient || DEFAULT_SETTINGS.westernUnionRecipient,
+        westernUnionRecipient: cleanWesternUnion,
       };
     }
   } catch (err) {
@@ -257,6 +304,15 @@ export async function saveSiteSettingsAction(
       // Events Data
       events_json: settings.eventsJson as unknown as Json,
 
+      // Children's Home Gallery (Photos & Videos)
+      orphanage_photos_json: (settings.orphanagePhotos || []) as unknown as Json,
+      orphanage_videos_json: (settings.orphanageVideos || []) as unknown as Json,
+
+      // Top Bar & Live Broadcast Banner
+      topbar_live_active: Boolean(settings.topbarLiveActive),
+      topbar_live_label: (settings.topbarLiveLabel || "").trim(),
+      topbar_live_url: (settings.topbarLiveUrl || "").trim(),
+      topbar_announcement: (settings.topbarAnnouncement || "").trim(),
 
       // Communication & Social Channels
       mpesa_phone: settings.mpesaPhone.trim(),

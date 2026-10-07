@@ -87,6 +87,16 @@ export interface SiteSettingsData {
   // Events Data
   eventsJson: MinistryEventItem[];
 
+  // Children's Home Media Gallery
+  orphanagePhotos: OrphanagePhotoItem[];
+  orphanageVideos: OrphanageVideoItem[];
+
+  // Top Bar & Live Broadcast Banner
+  topbarLiveActive: boolean;
+  topbarLiveLabel: string;
+  topbarLiveUrl: string;
+  topbarAnnouncement: string;
+
   // Communication & Social Channels
   mpesaPhone: string;
   contactEmail: string;
@@ -104,6 +114,25 @@ export interface SiteSettingsData {
   mpesaTillNumber: string;
   mpesaTillName: string;
   westernUnionRecipient: string;
+}
+
+export interface OrphanagePhotoItem {
+  id: string;
+  title: string;
+  caption?: string;
+  imageUrl: string;
+  category?: string;
+  uploadedAt?: string;
+}
+
+export interface OrphanageVideoItem {
+  id: string;
+  title: string;
+  description?: string;
+  videoUrl: string;
+  badge?: string;
+  publishedDate?: string;
+  youtubeUrl?: string;
 }
 
 export const DEFAULT_SETTINGS: SiteSettingsData = {
@@ -222,14 +251,66 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
     },
   ],
 
+  // Children's Home Media Gallery (Photos & Videos)
+  orphanagePhotos: [
+    {
+      id: "photo-1",
+      title: "Daily Morning Devotions & Scripture Reading",
+      caption: "Every morning at our children's home begins with worship songs, Bible reading, and prayer for our partners.",
+      imageUrl: "/images/orphanage-hero.png",
+      category: "Spiritual Life",
+    },
+    {
+      id: "photo-2",
+      title: "Nutritious Hot Meals Served Every Day",
+      caption: "Ensuring every boy and girl receives 3 balanced, wholesome meals prepared with love by our kitchen staff.",
+      imageUrl: "/images/community-outreach.jpg",
+      category: "Nutrition",
+    },
+    {
+      id: "photo-3",
+      title: "100% Formal School Education Sponsorship",
+      caption: "Equipping our children with uniforms, books, and school tuition to build brilliant futures and careers.",
+      imageUrl: "/images/church-programme-flyer.jpg",
+      category: "Education",
+    },
+    {
+      id: "photo-4",
+      title: "Safe Shelter, Warm Beds & Family Fellowship",
+      caption: "A joyful and protective sanctuary where every child feels loved, secure, and part of God's family.",
+      imageUrl: "/images/hero-worship.jpg",
+      category: "Family Life",
+    },
+  ],
+  orphanageVideos: [
+    {
+      id: "video-1",
+      title: "A Day of Joy at Heavens Gates Children's Home",
+      description: "Follow along for an inspiring walkthrough of daily life, classes, hot meals, and evening praise fellowship with our children.",
+      videoUrl: "https://www.youtube.com/@Brianmbera",
+      badge: "Daily Life Story",
+    },
+    {
+      id: "video-2",
+      title: "Children's Choir Praise Ministration",
+      description: "Our children ministering before the Lord with heartfelt thanksgiving during Sunday Main Service.",
+      videoUrl: "https://www.youtube.com/@Brianmbera",
+      badge: "Worship Ministration",
+    },
+  ],
+
+  // Top Bar & Live Broadcast Banner
+  topbarLiveActive: true,
+  topbarLiveLabel: "Watch Live Broadcast",
+  topbarLiveUrl: "https://www.youtube.com/@Brianmbera",
+  topbarAnnouncement: "Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online",
+
   // Communication & Social Channels
   mpesaPhone: "+254112656123",
-  contactEmail: "caesarosebe@gmail.com",
+  contactEmail: "sugutafellowshipchurch@gmail.com",
   facebookUrl: "https://facebook.com/SUGGUTTA-FELLOWSHIP-CHURCH",
   instagramUrl: "https://instagram.com/suggutta",
   youtubeChannelUrl: "https://www.youtube.com/@Brianmbera",
-
-
 
   // Remittance & Banking
   kcbAccountNumber: "1356891853",

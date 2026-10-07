@@ -24,9 +24,10 @@ export function getYouTubeId(url: string): string | null {
   return null;
 }
 
-export function getYouTubeThumbnail(videoId: string): string {
-  if (!videoId) return "";
-  return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+export function getYouTubeThumbnail(urlOrId: string): string {
+  if (!urlOrId) return "";
+  const id = getYouTubeId(urlOrId) || urlOrId;
+  return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 }
 
 export function getYouTubeEmbedUrl(

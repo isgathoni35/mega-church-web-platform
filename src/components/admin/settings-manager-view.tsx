@@ -23,10 +23,20 @@ import {
   Trash2,
   Users,
   Compass,
+  Camera,
+  Video,
+  Play,
+  Radio,
 } from "lucide-react";
-import { SiteSettingsData, MinistryEventItem } from "@/types/settings";
+import {
+  SiteSettingsData,
+  MinistryEventItem,
+  OrphanagePhotoItem,
+  OrphanageVideoItem,
+} from "@/types/settings";
 import { saveSiteSettingsAction } from "@/actions/admin-settings";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
+import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -35,7 +45,7 @@ interface SettingsManagerViewProps {
   initialSettings: SiteSettingsData;
 }
 
-type TabType = "hero" | "projects" | "pillars" | "about" | "events" | "bank";
+type TabType = "hero" | "projects" | "orphanage" | "pillars" | "about" | "events" | "bank";
 
 export function SettingsManagerView({ initialSettings }: SettingsManagerViewProps) {
   const [settings, setSettings] = useState<SiteSettingsData>(initialSettings);
@@ -43,6 +53,18 @@ export function SettingsManagerView({ initialSettings }: SettingsManagerViewProp
   const [isPending, startTransition] = useTransition();
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [copiedSql, setCopiedSql] = useState(false);
+
+  // New Children's Home Photo State
+  const [newPhotoTitle, setNewPhotoTitle] = useState("");
+  const [newPhotoCaption, setNewPhotoCaption] = useState("");
+  const [newPhotoCategory, setNewPhotoCategory] = useState("Daily Life");
+  const [newPhotoUrl, setNewPhotoUrl] = useState("");
+
+  // New Children's Home Video State
+  const [newVideoTitle, setNewVideoTitle] = useState("");
+  const [newVideoDescription, setNewVideoDescription] = useState("");
+  const [newVideoUrl, setNewVideoUrl] = useState("");
+  const [newVideoBadge, setNewVideoBadge] = useState("Daily Life Story");
 
   const sqlCode = `-- Sugutta Fellowship Church - Comprehensive CMS, Media & Channel Migration
 -- Run this in Supabase SQL Editor (SQL Editor -> New Query -> Run)
@@ -65,12 +87,18 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS church_slogan TEXT NOT
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS postal_address TEXT NOT NULL DEFAULT 'P.O BOX 405-40211, SUGGUTTA';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS physical_location TEXT NOT NULL DEFAULT 'Sugutta Sanctuary, Kenya';
 
--- 3. Communication, Socials & YouTube
+-- 3. Communication, Socials, YouTube & TopBar
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_phone TEXT NOT NULL DEFAULT '+254112656123';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS contact_email TEXT NOT NULL DEFAULT 'caesarosebe@gmail.com';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS contact_email TEXT NOT NULL DEFAULT 'sugutafellowshipchurch@gmail.com';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS facebook_url TEXT NOT NULL DEFAULT 'https://facebook.com/SUGGUTTA-FELLOWSHIP-CHURCH';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS instagram_url TEXT NOT NULL DEFAULT 'https://instagram.com/suggutta';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS youtube_channel_url TEXT NOT NULL DEFAULT 'https://www.youtube.com/@Brianmbera';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS topbar_live_active BOOLEAN NOT NULL DEFAULT true;
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS topbar_live_label TEXT NOT NULL DEFAULT 'Watch Live Broadcast';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS topbar_live_url TEXT NOT NULL DEFAULT 'https://www.youtube.com/@Brianmbera';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS topbar_announcement TEXT NOT NULL DEFAULT 'Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_photos_json JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_videos_json JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 -- 4. Banking & Remittance
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_number TEXT NOT NULL DEFAULT '8146952';
@@ -225,6 +253,67 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     setSettings({ ...settings, eventsJson: updated });
   };
 
+  // Children's Home Photo Helpers
+  const handleAddPhoto = () => {
+    if (!newPhotoUrl.trim() || !newPhotoTitle.trim()) {
+      alert("Please provide at least a photo image and a title.");
+      return;
+    }
+    const newPhoto: OrphanagePhotoItem = {
+      id: `photo-${Date.now()}`,
+      title: newPhotoTitle.trim(),
+      category: newPhotoCategory.trim() || "Daily Life",
+      imageUrl: newPhotoUrl.trim(),
+      caption: newPhotoCaption.trim() || undefined,
+      uploadedAt: new Date().toISOString().split("T")[0],
+    };
+    setSettings({
+      ...settings,
+      orphanagePhotos: [newPhoto, ...settings.orphanagePhotos],
+    });
+    setNewPhotoTitle("");
+    setNewPhotoCaption("");
+    setNewPhotoUrl("");
+  };
+
+  const handleDeletePhoto = (id: string) => {
+    setSettings({
+      ...settings,
+      orphanagePhotos: settings.orphanagePhotos.filter((p) => p.id !== id),
+    });
+  };
+
+  // Children's Home Video Helpers
+  const handleAddVideo = () => {
+    if (!newVideoUrl.trim() || !newVideoTitle.trim()) {
+      alert("Please provide at least a video URL and a title.");
+      return;
+    }
+    const newVideo: OrphanageVideoItem = {
+      id: `video-${Date.now()}`,
+      title: newVideoTitle.trim(),
+      videoUrl: newVideoUrl.trim(),
+      youtubeUrl: newVideoUrl.trim(),
+      badge: newVideoBadge.trim() || "Daily Life Story",
+      description: newVideoDescription.trim() || undefined,
+      publishedDate: new Date().toISOString().split("T")[0],
+    };
+    setSettings({
+      ...settings,
+      orphanageVideos: [newVideo, ...settings.orphanageVideos],
+    });
+    setNewVideoTitle("");
+    setNewVideoDescription("");
+    setNewVideoUrl("");
+  };
+
+  const handleDeleteVideo = (id: string) => {
+    setSettings({
+      ...settings,
+      orphanageVideos: settings.orphanageVideos.filter((v) => v.id !== id),
+    });
+  };
+
   const renderSaveSectionBar = (label = "Ready to publish your updates?") => (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50/90 via-white to-amber-50/90 rounded-2xl sm:rounded-3xl border border-orange-200/90 shadow-sm mt-6">
       <div className="flex items-center gap-3.5">
@@ -342,6 +431,19 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         >
           <Hammer className="w-4 h-4" />
           <span>Twin Projects</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("orphanage")}
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+            activeTab === "orphanage"
+              ? "bg-white text-[#ff6b35] shadow-sm"
+              : "text-slate-600 hover:text-slate-900"
+          }`}
+        >
+          <Baby className="w-4 h-4" />
+          <span>Children&apos;s Home Media</span>
         </button>
 
         <button
@@ -606,6 +708,303 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
             </div>
 
             {renderSaveSectionBar("Ready to update Twin Projects?")}
+          </div>
+        )}
+
+
+        {/* ================= TAB: CHILDREN'S HOME MEDIA ================= */}
+        {activeTab === "orphanage" && (
+          <div className="space-y-8">
+            {/* Header Card */}
+            <div className="bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-transparent p-6 rounded-3xl border border-rose-200/80">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                  <Baby className="w-5 h-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                    Children&apos;s Home Photo &amp; Video Manager
+                  </h2>
+                  <p className="text-xs text-slate-600 mt-0.5">
+                    Post authentic photographs and YouTube video stories directly to the public Children&apos;s Home page (/orphanage).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Photos Manager */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <Camera className="w-5 h-5 text-rose-600" />
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                      Photo Moments Gallery ({settings.orphanagePhotos.length} Photos)
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      High-resolution photos showcasing daily meals, education, spiritual discipleship, and laughter.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Add New Photo Form */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <h4 className="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-rose-600" />
+                  <span>Add New Children&apos;s Home Photo</span>
+                </h4>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">Photo Title</label>
+                    <Input
+                      placeholder="e.g. Joyful Family Meals Together"
+                      value={newPhotoTitle}
+                      onChange={(e) => setNewPhotoTitle(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">Category / Tag</label>
+                    <Input
+                      placeholder="e.g. Nutrition & Meals, Education, Worship"
+                      value={newPhotoCategory}
+                      onChange={(e) => setNewPhotoCategory(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Caption / Brief Story (Optional)</label>
+                  <Textarea
+                    rows={2}
+                    placeholder="Short description describing the moment, the children, and impact..."
+                    value={newPhotoCaption}
+                    onChange={(e) => setNewPhotoCaption(e.target.value)}
+                  />
+                </div>
+
+                <ImageUploadField
+                  label="Upload or Select Photo"
+                  description="Upload a photo from your computer or paste an image URL."
+                  value={newPhotoUrl}
+                  onChange={(url) => setNewPhotoUrl(url)}
+                  aspectRatio="video"
+                />
+
+                <Button
+                  type="button"
+                  onClick={handleAddPhoto}
+                  className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Photo to Gallery</span>
+                </Button>
+              </div>
+
+              {/* Existing Photos Grid */}
+              {settings.orphanagePhotos.length === 0 ? (
+                <div className="p-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                  <Camera className="w-8 h-8 mx-auto mb-2 text-slate-400" />
+                  <p className="text-sm font-bold">No photos in the gallery yet.</p>
+                  <p className="text-xs mt-1">Use the form above to add your first photo.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {settings.orphanagePhotos.map((photo) => (
+                    <div
+                      key={photo.id}
+                      className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden flex flex-col group"
+                    >
+                      <div className="relative aspect-video w-full bg-slate-200 overflow-hidden">
+                        <Image
+                          src={photo.imageUrl}
+                          alt={photo.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          unoptimized
+                        />
+                        <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          {photo.category}
+                        </span>
+                      </div>
+                      <div className="p-3.5 flex-1 flex flex-col justify-between gap-3">
+                        <div>
+                          <p className="text-xs font-black text-slate-900 line-clamp-1">{photo.title}</p>
+                          {photo.caption && (
+                            <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{photo.caption}</p>
+                          )}
+                        </div>
+                        <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
+                          <span className="text-[10px] text-slate-400 font-mono">
+                            {photo.uploadedAt || "Active"}
+                          </span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDeletePhoto(photo.id)}
+                            className="text-rose-600 hover:bg-rose-50 h-7 px-2 text-xs font-bold"
+                          >
+                            <Trash2 className="w-3.5 h-3.5 mr-1" />
+                            <span>Remove</span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Videos Manager */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <Video className="w-5 h-5 text-rose-600" />
+                  <div>
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                      Video Stories &amp; Testimonies ({settings.orphanageVideos.length} Videos)
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      YouTube video links with automatic high-res thumbnails and embedded play modal for supporters.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Add New Video Form */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <h4 className="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-rose-600" />
+                  <span>Add New Children&apos;s Home Video</span>
+                </h4>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">Video Title</label>
+                    <Input
+                      placeholder="e.g. Life at the Home: Morning Devotion & Smiles"
+                      value={newVideoTitle}
+                      onChange={(e) => setNewVideoTitle(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">Badge / Tag</label>
+                    <Input
+                      placeholder="e.g. Daily Life Story, Testimonial, Impact Report"
+                      value={newVideoBadge}
+                      onChange={(e) => setNewVideoBadge(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">YouTube Video URL</label>
+                  <Input
+                    placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                    value={newVideoUrl}
+                    onChange={(e) => setNewVideoUrl(e.target.value)}
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Paste any standard YouTube watch link, share link, or short. The thumbnail is auto-fetched.
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Description (Optional)</label>
+                  <Textarea
+                    rows={2}
+                    placeholder="Brief description of this video for donors and sponsors..."
+                    value={newVideoDescription}
+                    onChange={(e) => setNewVideoDescription(e.target.value)}
+                  />
+                </div>
+
+                <Button
+                  type="button"
+                  onClick={handleAddVideo}
+                  className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Video Story</span>
+                </Button>
+              </div>
+
+              {/* Existing Videos Grid */}
+              {settings.orphanageVideos.length === 0 ? (
+                <div className="p-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                  <Video className="w-8 h-8 mx-auto mb-2 text-slate-400" />
+                  <p className="text-sm font-bold">No video stories added yet.</p>
+                  <p className="text-xs mt-1">Add YouTube videos using the form above.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {settings.orphanageVideos.map((video) => {
+                    const videoLink = video.videoUrl || video.youtubeUrl || "";
+                    const thumb = getYouTubeThumbnail(videoLink);
+                    return (
+                      <div
+                        key={video.id}
+                        className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden flex flex-col group"
+                      >
+                        <div className="relative aspect-video w-full bg-slate-900 overflow-hidden flex items-center justify-center">
+                          {thumb ? (
+                            <Image
+                              src={thumb}
+                              alt={video.title}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
+                              unoptimized
+                            />
+                          ) : (
+                            <div className="text-slate-400 text-xs">Video Preview</div>
+                          )}
+                          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                              <Play className="w-5 h-5 ml-0.5 fill-white" />
+                            </div>
+                          </div>
+                          {video.badge && (
+                            <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                              {video.badge}
+                            </span>
+                          )}
+                        </div>
+                        <div className="p-3.5 flex-1 flex flex-col justify-between gap-3">
+                          <div>
+                            <p className="text-xs font-black text-slate-900 line-clamp-1">{video.title}</p>
+                            {video.description && (
+                              <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">{video.description}</p>
+                            )}
+                            <p className="text-[10px] text-slate-400 font-mono mt-1 truncate">
+                              {videoLink}
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between pt-2 border-t border-slate-200/60">
+                            <span className="text-[10px] text-slate-400 font-mono">
+                              {video.publishedDate || "Ready"}
+                            </span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeleteVideo(video.id)}
+                              className="text-rose-600 hover:bg-rose-50 h-7 px-2 text-xs font-bold"
+                            >
+                              <Trash2 className="w-3.5 h-3.5 mr-1" />
+                              <span>Remove</span>
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {renderSaveSectionBar("Ready to publish Children's Home Photos & Videos?")}
           </div>
         )}
 
@@ -1132,11 +1531,15 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Contact Email</label>
+                  <label className="text-xs font-bold text-slate-700">Official General Church Email</label>
                   <Input
                     value={settings.contactEmail}
                     onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+                    placeholder="sugutafellowshipchurch@gmail.com"
                   />
+                  <span className="text-[10px] text-slate-500 block">
+                    Universal church contact email displayed in top bar, website footer, and contact/giving forms.
+                  </span>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">Facebook Page URL</label>
@@ -1158,14 +1561,84 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     value={settings.youtubeChannelUrl}
                     onChange={(e) => setSettings({ ...settings, youtubeChannelUrl: e.target.value })}
                     placeholder="https://www.youtube.com/@Brianmbera"
-
                   />
                   <span className="text-[10px] text-slate-500 block">
                     Your official church YouTube channel for live streaming, recordings, and subscriber growth.
                   </span>
                 </div>
               </div>
+            </div>
 
+            {/* Top Bar, Live Broadcast & Announcements */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+                <Radio className="w-5 h-5 text-rose-600" />
+                <div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                    Header Top Bar &amp; Live Broadcast Alert
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Controls the very top thin banner showing live broadcast status, pastoral phone, email, and schedule.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-900">Live Broadcast Alert Active</label>
+                    <button
+                      type="button"
+                      onClick={() => setSettings({ ...settings, topbarLiveActive: !settings.topbarLiveActive })}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        settings.topbarLiveActive ? "bg-rose-600" : "bg-slate-300"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          settings.topbarLiveActive ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-slate-500">
+                    When active, a pulsing red indicator and clickable broadcast badge appear in the top bar.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Live Broadcast Label</label>
+                  <Input
+                    value={settings.topbarLiveLabel}
+                    onChange={(e) => setSettings({ ...settings, topbarLiveLabel: e.target.value })}
+                    placeholder="Watch Live Broadcast"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Live Broadcast URL</label>
+                  <Input
+                    value={settings.topbarLiveUrl}
+                    onChange={(e) => setSettings({ ...settings, topbarLiveUrl: e.target.value })}
+                    placeholder="https://www.youtube.com/@Brianmbera"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Direct live stream URL or official YouTube channel URL.
+                  </span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Top Bar Announcement / Service Schedule</label>
+                  <Input
+                    value={settings.topbarAnnouncement}
+                    onChange={(e) => setSettings({ ...settings, topbarAnnouncement: e.target.value })}
+                    placeholder="Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Displays in the center of the top bar on desktop and tablets.
+                  </span>
+                </div>
+              </div>
             </div>
 
             {renderSaveSectionBar("Ready to update Banking & Contact Channels?")}

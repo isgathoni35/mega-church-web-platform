@@ -267,6 +267,30 @@
      - Harmonized all frontend components, donation flows, leadership cards, metadata, and default settings.
   4. Verification: 100% clean compilation, zero TypeScript errors (`npx tsc --noEmit`), development server active on port 3002.
 
+- [x] `feature-specs/37-childrens-home-media-topbar-and-email-standardization.md`: Children's Home Dynamic Photo & Video Manager, Dynamic TopBar Broadcast Controls & Universal Church Email Standardization:
+  1. Children's Home Dynamic Photo & Video Gallery (`/orphanage`):
+     - Created `OrphanageMediaShowcase` component ([src/components/orphanage/orphanage-media-showcase.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-media-showcase.tsx)) with interactive filter tabs ("All Media", "Photo Moments", "Video Stories"), high-resolution image lightbox, and YouTube video story playback modal.
+     - Added typed photo and video structures (`orphanagePhotos`, `orphanageVideos`) with JSONB persistence (`orphanage_photos_json`, `orphanage_videos_json`) in `site_settings`.
+  2. Admin CMS Children's Home Media Manager:
+     - Added dedicated "Children's Home Media" tab in Admin Settings ([src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx)).
+     - Allows instant posting of new photos (title, category, optional caption, image upload or URL) and video stories (title, badge, YouTube URL, description) with preview thumbnails and deletion.
+  3. Header Top Bar & Live Broadcast Overhaul:
+     - Rebuilt `TopBar` ([src/components/layout/top-bar.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/top-bar.tsx)) with dynamic data binding from `site_settings`:
+       - Shows active pulsing broadcast indicator when `topbarLiveActive` is true, with customizable button text (`topbarLiveLabel`) and stream destination (`topbarLiveUrl`).
+       - Displays central service schedule / announcement banner (`topbarAnnouncement`) on desktop.
+       - Dynamically displays pastor's phone (`mpesaPhone`) and official email (`contactEmail`), responsive on mobile and desktop.
+       - Admin controls integrated into Admin Settings under "Header Top Bar & Live Broadcast Alert".
+  4. Universal Church Email Standardization (`sugutafellowshipchurch@gmail.com`):
+     - Set default email to `sugutafellowshipchurch@gmail.com` across `DEFAULT_SETTINGS`, TopBar, Footer, Contact Page, Giving Portals, and Supabase migration.
+     - Fully editable by church administrators in Admin Settings with instant real-time synchronization.
+     - Added normalization fallback in `getSiteSettingsAction` to ensure legacy placeholder emails automatically upgrade to `sugutafellowshipchurch@gmail.com`.
+  5. Scannable QR Codes & Pastor Name Verification:
+     - Confirmed mathematical Level `H` error-corrected QR code generation for M-Pesa Till (`8146952`), Send Money (`0112656123`), KCB Bank, and Sendwave.
+     - Enforced strict pastoral formatting to `Pastor Caesar O. Nyandwaro` and `Caesar O. Nyandwaro` across all queries and views.
+  6. Migration & Verification:
+     - Provided migration [supabase/migrations/20261007_orphanage_media_and_topbar.sql](file:///c:/Users/isgat/Projects/megachurch-web-platform/supabase/migrations/20261007_orphanage_media_and_topbar.sql).
+     - Verified with `npx tsc --noEmit` (0 errors) and automated HTTP 200 route checks on port 3002 without launching the browser.
+
 ## 🚧 In Progress
 
 None.

@@ -216,6 +216,12 @@ export interface Database {
           mpesa_till_number?: string;
           mpesa_till_name?: string;
           western_union_recipient: string;
+          orphanage_photos_json?: Json;
+          orphanage_videos_json?: Json;
+          topbar_live_active?: boolean;
+          topbar_live_label?: string;
+          topbar_live_url?: string;
+          topbar_announcement?: string;
           updated_at: string;
         };
         Insert: {
@@ -285,6 +291,12 @@ export interface Database {
           mpesa_till_number?: string;
           mpesa_till_name?: string;
           western_union_recipient?: string;
+          orphanage_photos_json?: Json;
+          orphanage_videos_json?: Json;
+          topbar_live_active?: boolean;
+          topbar_live_label?: string;
+          topbar_live_url?: string;
+          topbar_announcement?: string;
           updated_at?: string;
         };
         Update: {
@@ -354,6 +366,12 @@ export interface Database {
           mpesa_till_number?: string;
           mpesa_till_name?: string;
           western_union_recipient?: string;
+          orphanage_photos_json?: Json;
+          orphanage_videos_json?: Json;
+          topbar_live_active?: boolean;
+          topbar_live_label?: string;
+          topbar_live_url?: string;
+          topbar_announcement?: string;
           updated_at?: string;
         };
         Relationships: [];
