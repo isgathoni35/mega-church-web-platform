@@ -29,15 +29,31 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
   const cleanWaPhone = phone.replace(/[^0-9]/g, "");
 
   const [copied, setCopied] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState<"upcoming" | "past" | "all">("upcoming");
   const [activeVideoEvent, setActiveVideoEvent] = React.useState<MinistryEventItem | null>(null);
   const [zoomedFlyerEvent, setZoomedFlyerEvent] = React.useState<MinistryEventItem | null>(null);
 
   const EVENTS: MinistryEventItem[] = settings.eventsJson || [];
 
+  const upcomingEvents = React.useMemo(
+    () => EVENTS.filter((e) => (e.status || "upcoming") === "upcoming"),
+    [EVENTS]
+  );
+  const pastEvents = React.useMemo(
+    () => EVENTS.filter((e) => e.status === "past"),
+    [EVENTS]
+  );
+
+  const displayEvents = React.useMemo(() => {
+    if (activeTab === "upcoming") return upcomingEvents;
+    if (activeTab === "past") return pastEvents;
+    return EVENTS;
+  }, [activeTab, upcomingEvents, pastEvents, EVENTS]);
+
   const handleShare = async () => {
     const shareData = {
       title: `Events - ${settings.churchMotto || "Sugutta Fellowship Church"}`,
-      text: `Join ${pastorName} for upcoming apostolic crusades and deliverance gatherings.`,
+      text: `Join ${pastorName} for apostolic crusades, revival gatherings, and media archives.`,
       url: typeof window !== "undefined" ? window.location.href : "",
     };
 
@@ -64,21 +80,20 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
         <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6">
           {/* Eyebrow */}
           <p className="font-serif italic text-lg sm:text-xl md:text-2xl text-slate-700">
-            The 2026 Mission Tour
+            Apostolic Mission Tour &amp; Media Archive
           </p>
 
           {/* Main Headline */}
           <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0f172a] leading-tight">
             {pastorName}&apos;s{" "}
             <span className="italic font-normal text-[#ff6b35]">
-              Global Mission
+              Crusades &amp; Events
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-sm sm:text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            An invitation to an exclusive spiritual encounter. Experience
-            Deliverance &amp; Transformation in the presence of the Divine.
+            Experience the move of the Holy Spirit. Explore upcoming crusades, prophetic gatherings, and watch video recaps from past mission encounters.
           </p>
 
           {/* Centered Quote Box Card */}
@@ -103,22 +118,96 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
         </div>
       </section>
 
-      {/* 2. Events Grid */}
-      <section className="py-6 sm:py-10 px-4 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          {EVENTS.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-              {EVENTS.map((event) => {
-                const whatsappUrl = `https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
-                  event.whatsappMessage || `Hello ${pastorName}, I would like to attend ${event.title}.`
-                )}`;
+      {/* 2. Filter Tabs & Events Grid */}
+      <section className="py-4 sm:py-8 px-4 sm:px-8">
+        <div className="max-w-6xl mx-auto space-y-8">
+          {/* Filter Tab Bar */}
+          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-slate-200/70 backdrop-blur-md rounded-2xl max-w-xl mx-auto border border-slate-300/60 shadow-inner">
+            <button
+              type="button"
+              onClick={() => setActiveTab("upcoming")}
+              className={`flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === "upcoming"
+                  ? "bg-white text-[#0f172a] shadow-md scale-[1.02]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+              }`}
+            >
+              <span>Upcoming Missions</span>
+              <span
+                className={`text-[11px] px-2 py-0.5 rounded-full font-extrabold ${
+                  activeTab === "upcoming"
+                    ? "bg-orange-100 text-[#ff6b35]"
+                    : "bg-slate-300/80 text-slate-700"
+                }`}
+              >
+                {upcomingEvents.length}
+              </span>
+            </button>
 
+            <button
+              type="button"
+              onClick={() => setActiveTab("past")}
+              className={`flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === "past"
+                  ? "bg-[#0f172a] text-white shadow-md scale-[1.02]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+              }`}
+            >
+              <span>Past Crusades &amp; Media</span>
+              <span
+                className={`text-[11px] px-2 py-0.5 rounded-full font-extrabold ${
+                  activeTab === "past"
+                    ? "bg-[#ff6b35] text-white"
+                    : "bg-slate-300/80 text-slate-700"
+                }`}
+              >
+                {pastEvents.length}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setActiveTab("all")}
+              className={`py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
+                activeTab === "all"
+                  ? "bg-white text-[#0f172a] shadow-md scale-[1.02]"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+              }`}
+            >
+              <span>All</span>
+              <span
+                className={`text-[11px] px-2 py-0.5 rounded-full font-extrabold ${
+                  activeTab === "all"
+                    ? "bg-orange-100 text-[#ff6b35]"
+                    : "bg-slate-300/80 text-slate-700"
+                }`}
+              >
+                {EVENTS.length}
+              </span>
+            </button>
+          </div>
+
+          {/* Events Grid / Empty States */}
+          {displayEvents.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+              {displayEvents.map((event) => {
+                const isPast = event.status === "past";
                 const hasVideo = Boolean(event.videoUrl && event.videoUrl.trim().length > 0);
+                const whatsappUrl = `https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
+                  event.whatsappMessage ||
+                    (isPast
+                      ? `Hello ${pastorName}, I saw the media recap for "${event.title}". When is the next crusade scheduled?`
+                      : `Hello ${pastorName}, I would like to attend ${event.title}.`)
+                )}`;
 
                 return (
                   <div
                     key={event.id}
-                    className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group"
+                    className={`bg-white rounded-2xl sm:rounded-3xl border shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group ${
+                      isPast
+                        ? "border-slate-300/80 ring-1 ring-slate-200/60"
+                        : "border-slate-200/80"
+                    }`}
                   >
                     {/* Event Thumbnail & Media Overlays */}
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
@@ -131,12 +220,18 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                         sizes="(max-width: 768px) 100vw, 50vw"
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent pointer-events-none" />
 
-                      {/* Event Badge */}
-                      <div className="absolute top-4 left-4 z-10">
-                        <span className="inline-block px-3 py-1 rounded-full bg-[#ff6b35] text-white text-[11px] font-black tracking-wider uppercase shadow-md">
-                          {event.badge}
+                      {/* Status / Category Badge */}
+                      <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-1.5">
+                        <span
+                          className={`inline-block px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase shadow-md ${
+                            isPast
+                              ? "bg-slate-900 text-amber-300 border border-amber-400/40"
+                              : "bg-[#ff6b35] text-white"
+                          }`}
+                        >
+                          {isPast ? "🎬 Past Crusade & Media" : event.badge || "Upcoming Mission"}
                         </span>
                       </div>
 
@@ -149,21 +244,21 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                               e.stopPropagation();
                               setActiveVideoEvent(event);
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 hover:bg-[#ff6b35] text-white text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-md shadow-lg transition-all cursor-pointer group/vid"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600/95 hover:bg-red-500 text-white text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-md shadow-lg transition-all cursor-pointer group/vid animate-pulse hover:animate-none"
                           >
-                            <Play className="w-3 h-3 fill-white text-white group-hover/vid:scale-110 transition-transform" />
-                            <span>Watch Clip</span>
+                            <Play className="w-3.5 h-3.5 fill-white text-white group-hover/vid:scale-110 transition-transform" />
+                            <span>Watch Video Recap</span>
                           </button>
                         </div>
                       )}
 
-                      {/* Hover Center Play Overlay if video attached */}
+                      {/* Center Play Button on hover / if video attached */}
                       {hasVideo && (
                         <div
                           onClick={() => setActiveVideoEvent(event)}
-                          className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/45 transition-colors cursor-pointer group/center"
+                          className="absolute inset-0 flex items-center justify-center bg-black/25 hover:bg-black/50 transition-colors cursor-pointer group/center"
                         >
-                          <div className="w-14 h-14 rounded-full bg-white/90 text-slate-950 group-hover/center:bg-[#ff6b35] group-hover/center:text-white flex items-center justify-center shadow-2xl transition-all transform group-hover/center:scale-110">
+                          <div className="w-14 h-14 rounded-full bg-white/95 text-slate-950 group-hover/center:bg-[#ff6b35] group-hover/center:text-white flex items-center justify-center shadow-2xl transition-all transform group-hover/center:scale-110">
                             <Play className="w-6 h-6 ml-1 fill-current" />
                           </div>
                         </div>
@@ -173,7 +268,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                       <button
                         type="button"
                         onClick={() => setZoomedFlyerEvent(event)}
-                        className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/60 hover:bg-black/90 text-white text-[10px] font-bold backdrop-blur-sm transition-all flex items-center gap-1 cursor-pointer z-10"
+                        className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/70 hover:bg-black/95 text-white text-[10px] font-bold backdrop-blur-sm transition-all flex items-center gap-1 cursor-pointer z-10"
                         title="View high-resolution flyer"
                       >
                         <Maximize2 className="w-3 h-3" />
@@ -198,7 +293,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                       <div className="grid grid-cols-2 gap-3 py-3 px-4 bg-slate-50 rounded-xl mb-4 border border-slate-100">
                         <div>
                           <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                            Dates
+                            Dates / Timeline
                           </span>
                           <span className="text-xs sm:text-sm font-semibold text-slate-800">
                             {event.dates}
@@ -215,20 +310,33 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                       </div>
 
                       {/* Description */}
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 flex-1">
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4 flex-1">
                         {event.description}
                       </p>
 
-                      {/* Action Buttons Row */}
-                      <div className="space-y-2.5">
+                      {/* Crusade Recap Notes / Testimonies if past */}
+                      {isPast && event.recapNotes && (
+                        <div className="mb-5 p-3.5 bg-amber-50/70 border border-amber-200/80 rounded-xl text-xs text-amber-950 space-y-1">
+                          <div className="flex items-center gap-1.5 font-bold text-amber-800 uppercase text-[10px] tracking-wider">
+                            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                            <span>Crusade Impact &amp; Testimonies</span>
+                          </div>
+                          <p className="leading-relaxed italic text-slate-700">
+                            &ldquo;{event.recapNotes}&rdquo;
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="space-y-2.5 pt-2">
                         {hasVideo && (
                           <button
                             type="button"
                             onClick={() => setActiveVideoEvent(event)}
-                            className="w-full bg-orange-50 hover:bg-orange-100 border border-orange-200 text-[#ff6b35] text-xs sm:text-sm font-bold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                            className="w-full bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 text-xs sm:text-sm font-bold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                           >
-                            <Film className="w-4 h-4 text-[#ff6b35]" />
-                            <span>Watch Crusade / Event Video</span>
+                            <Film className="w-4 h-4 text-red-600" />
+                            <span>{isPast ? "Watch Crusade Video Recap" : "Watch Event Preview Video"}</span>
                           </button>
                         )}
 
@@ -236,10 +344,14 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                           href={whatsappUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full bg-[#0f172a] hover:bg-[#ff6b35] text-white text-xs sm:text-sm font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm group-hover:bg-[#ff6b35]"
+                          className={`w-full text-white text-xs sm:text-sm font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm ${
+                            isPast
+                              ? "bg-slate-900 hover:bg-[#ff6b35]"
+                              : "bg-[#0f172a] hover:bg-[#ff6b35] group-hover:bg-[#ff6b35]"
+                          }`}
                         >
                           <MessageCircle className="w-4 h-4" />
-                          <span>Join WhatsApp Group</span>
+                          <span>{isPast ? "Inquire About Next Crusade" : "Join WhatsApp Group"}</span>
                           <ArrowRight className="w-4 h-4 ml-1" />
                         </a>
                       </div>
@@ -255,24 +367,38 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
               </div>
               <div className="space-y-1.5 max-w-lg mx-auto">
                 <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">
-                  Mission Calendar Scheduling in Progress
+                  {activeTab === "past"
+                    ? "No Past Crusades Archived Yet"
+                    : "Mission Calendar Scheduling in Progress"}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Upcoming miracle crusades, deliverance meetings, and mountain retreat dates are actively being scheduled by the pastoral council. Join our weekly sanctuary services in Nairobi or tune into live broadcasts.
+                  {activeTab === "past"
+                    ? "As crusades and revival tours conclude, full video recaps and photographic records will be published here in the archive."
+                    : "Upcoming miracle crusades, deliverance meetings, and mountain retreat dates are actively being scheduled by the pastoral council. Join our weekly sanctuary services in Nairobi or tune into live broadcasts."}
                 </p>
               </div>
               <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
-                <a
-                  href={`https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
-                    `Hello ${pastorName}, please notify me when new church events and crusades are scheduled.`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold py-3 px-6 rounded-full shadow-md shadow-orange-500/20 transition-all"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Inquire via WhatsApp</span>
-                </a>
+                {activeTab === "past" ? (
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("upcoming")}
+                    className="inline-flex items-center justify-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold py-3 px-6 rounded-full shadow-md shadow-orange-500/20 transition-all cursor-pointer"
+                  >
+                    <span>View Upcoming Missions</span>
+                  </button>
+                ) : (
+                  <a
+                    href={`https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
+                      `Hello ${pastorName}, please notify me when new church events and crusades are scheduled.`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold py-3 px-6 rounded-full shadow-md shadow-orange-500/20 transition-all"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>Inquire via WhatsApp</span>
+                  </a>
+                )}
                 <a
                   href="/contact"
                   className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold py-3 px-6 rounded-full transition-all"

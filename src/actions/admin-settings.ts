@@ -523,6 +523,8 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
               imageUrl: extractCleanImageUrl(ev.imageUrl),
               videoUrl: ev.videoUrl ? ev.videoUrl.trim() : undefined,
               videoSourceType: ev.videoSourceType || undefined,
+              status: ev.status === "past" ? "past" : "upcoming",
+              recapNotes: ev.recapNotes ? ev.recapNotes.trim() : undefined,
             }))
           : DEFAULT_SETTINGS.eventsJson,
 
@@ -656,6 +658,8 @@ export async function saveSiteSettingsAction(
         imageUrl: extractCleanImageUrl(ev.imageUrl),
         videoUrl: ev.videoUrl ? ev.videoUrl.trim() : undefined,
         videoSourceType: ev.videoSourceType || undefined,
+        status: ev.status === "past" ? "past" : "upcoming",
+        recapNotes: ev.recapNotes ? ev.recapNotes.trim() : undefined,
       })) as unknown as Json,
 
       // Children's Home Gallery (Photos & Videos)

@@ -269,6 +269,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       whatsappMessage: `Hello ${settings.pastorName}, I would like to inquire about the upcoming church mission.`,
       videoUrl: "",
       videoSourceType: "upload",
+      status: "upcoming",
+      recapNotes: "",
     };
     setSettings({
       ...settings,
@@ -1748,9 +1750,20 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-4"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-black text-slate-700 uppercase">
-                        Event #{idx + 1}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black text-slate-700 uppercase">
+                          Event #{idx + 1}
+                        </span>
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                            event.status === "past"
+                              ? "bg-slate-200 text-slate-800"
+                              : "bg-emerald-100 text-emerald-800"
+                          }`}
+                        >
+                          {event.status === "past" ? "Past Crusade Archive" : "Upcoming Event"}
+                        </span>
+                      </div>
                       <Button
                         type="button"
                         variant="ghost"
@@ -1763,6 +1776,42 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                       </Button>
                     </div>
 
+                    {/* Event Status Toggle */}
+                    <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
+                      <label className="text-[11px] font-bold text-slate-700 block">
+                        Event Status / Category
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleUpdateEvent(idx, { status: "upcoming" })}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            event.status !== "past"
+                              ? "bg-emerald-600 text-white shadow-sm"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                          }`}
+                        >
+                          🟢 Upcoming Event / Mission
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleUpdateEvent(idx, { status: "past" })}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            event.status === "past"
+                              ? "bg-[#0f172a] text-white shadow-sm"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                          }`}
+                        >
+                          🏛️ Past Crusade / Media Archive
+                        </button>
+                      </div>
+                      <p className="text-[10px] text-slate-400">
+                        {event.status === "past"
+                          ? "This event will be listed in the Past Crusades & Media Archive tab on the website with its video recap and photos."
+                          : "This event will be featured under Upcoming Missions for registration."}
+                      </p>
+                    </div>
+
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-[11px] font-bold text-slate-700">Event Title</label>
@@ -1772,7 +1821,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">Category Badge (e.g. MISSION 2026)</label>
+                        <label className="text-[11px] font-bold text-slate-700">Category Badge (e.g. MISSION 2026 / KISII CRUSADE)</label>
                         <Input
                           value={event.badge}
                           onChange={(e) => handleUpdateEvent(idx, "badge", e.target.value)}
@@ -1812,6 +1861,20 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                         onChange={(e) => handleUpdateEvent(idx, "description", e.target.value)}
                       />
                     </div>
+
+                    {event.status === "past" && (
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-slate-700">
+                          Crusade Recap / Testimony Notes (Optional)
+                        </label>
+                        <Textarea
+                          rows={2}
+                          placeholder="e.g. Over 5,000 believers gathered with powerful deliverance testimonies, miracles, and souls won to Christ."
+                          value={event.recapNotes || ""}
+                          onChange={(e) => handleUpdateEvent(idx, "recapNotes", e.target.value)}
+                        />
+                      </div>
+                    )}
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       <ImageUploadField

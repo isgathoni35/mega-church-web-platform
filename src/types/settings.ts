@@ -10,6 +10,8 @@ export interface MinistryEventItem {
   whatsappMessage: string;
   videoUrl?: string;
   videoSourceType?: "upload" | "youtube";
+  status?: "upcoming" | "past";
+  recapNotes?: string;
   [key: string]: string | undefined;
 }
 

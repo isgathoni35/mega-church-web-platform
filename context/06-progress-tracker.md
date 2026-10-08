@@ -567,3 +567,18 @@ None.
      - Enriched [src/components/orphanage/orphanage-hero.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-hero.tsx): added comprehensive multi-sentence mission narrative, a 4-point impact highlights pill strip (60+ Sheltered Children, 100% School Enrollment, 3 Daily Hot Meals, 24/7 Maternal Care), and James 1:27 scripture card.
      - Mobile-First Responsiveness Pass: Scaled typography (`text-2xl sm:text-4xl lg:text-5xl`), responsive button heights (`py-3.5 text-xs sm:text-sm`), capped mobile photo cards, and refined grid layouts across all 8 components.
   3. Verification: 100% clean compilation (`npx tsc --noEmit` exited 0) and HTTP 200 responses verified on port 3002 across all orphanage, connect, and admin management routes.
+
+- **[2026-10-08]:** Completed Feature 45 (Past Crusades & Media Archive with Full Admin CMS Control):
+   1. Data Model Extension:
+      - Extended `MinistryEventItem` in `src/types/settings.ts` with `status?: "upcoming" | "past"` and `recapNotes?: string`.
+      - Updated `getSiteSettingsAction` and `saveSiteSettingsAction` in `src/actions/admin-settings.ts` for JSONB serialization and deserialization of the new event status and recap notes fields.
+   2. Admin Portal CMS Control (`src/components/admin/settings-manager-view.tsx` Tab 5):
+      - Added event status classification toggle (`🟢 Upcoming Event / Mission` vs `🏛️ Past Crusade / Media Archive`).
+      - Added Crusade Impact / Recap Notes textarea for recording testimonies, miracles, and attendance highlights.
+      - Integrated existing high-res flyer photo uploader and direct device/YouTube video uploaders for past media records.
+   3. Public Events Page Overhaul (`src/components/events/events-view.tsx`):
+      - Added interactive category filter bar: `Upcoming Missions` (with count), `🎬 Past Crusades & Media Archive` (with count), and `All` (with total count).
+      - Added distinct visual styling for past crusade cards with dark/gold archive badges (`🎬 Past Crusade & Media`), recap note quotes, and pulsing `Watch Video Recap` play badges.
+      - Updated call-to-actions on past events to `"Inquire About Next Crusade"` with tailored WhatsApp pre-filled messaging and `"Watch Crusade Video Recap"`.
+      - Added responsive empty state handlers when switching between upcoming and past crusade tabs.
+   4. Verification: 100% clean TypeScript type check (`npx tsc --noEmit` exited 0) and HTTP 200 response verified on `http://localhost:3002/events`.
