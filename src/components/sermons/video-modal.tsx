@@ -107,6 +107,15 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
               allowFullScreen
               className="absolute inset-0 w-full h-full border-0"
             />
+          ) : sermon.youtube_url ? (
+            <video
+              src={sermon.youtube_url}
+              poster={sermon.thumbnail_url || undefined}
+              controls
+              autoPlay
+              playsInline
+              className="absolute inset-0 w-full h-full object-contain bg-black"
+            />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-white/60 text-sm">
               Video stream currently unavailable
@@ -169,7 +178,7 @@ export function VideoModal({ sermon, isOpen, onClose }: VideoModalProps) {
                   rel="noopener noreferrer"
                 >
                   <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-                  Open in YouTube
+                  {videoId ? "Open in YouTube" : "Open Video Stream"}
                 </a>
               </Button>
             </div>

@@ -207,9 +207,17 @@ export function LiveHeroPlayer({
                 allowFullScreen
                 className="absolute inset-0 w-full h-full border-0"
               />
+            ) : featuredSermon.youtube_url ? (
+              <video
+                src={featuredSermon.youtube_url}
+                poster={featuredSermon.thumbnail_url || undefined}
+                controls
+                playsInline
+                className="absolute inset-0 w-full h-full object-contain bg-black"
+              />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-white/60 text-sm">
-                Live stream player loading...
+                Video player loading...
               </div>
             )}
           </div>

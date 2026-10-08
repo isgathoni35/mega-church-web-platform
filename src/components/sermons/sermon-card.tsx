@@ -15,10 +15,11 @@ interface SermonCardProps {
 export function SermonCard({ sermon, onPlay }: SermonCardProps) {
   const videoId = getYouTubeId(sermon.youtube_url);
   const defaultThumb = videoId ? getYouTubeThumbnail(videoId) : "";
+  const fallbackThumb = "/images/pastor-caesar-hero.jpg";
   const [imgSrc, setImgSrc] = useState<string>(
-    sermon.thumbnail_url || defaultThumb
+    sermon.thumbnail_url || defaultThumb || fallbackThumb
   );
-  const [hasError, setHasError] = useState(!sermon.thumbnail_url && !defaultThumb);
+  const [hasError, setHasError] = useState(false);
 
   const formatDate = (dateStr: string) => {
     try {

@@ -307,6 +307,20 @@
    3. Universal YouTube Parser Upgrade: Enhanced `getYouTubeId` regex in `src/lib/utils/youtube.ts` to parse YouTube Shorts URLs (`/shorts/`) across all video cards and media modals.
    4. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 OK on port 3002 for `/orphanage` and `/orphanage/donate`. No browser opened.
 
+- [x] `feature-specs/40-fluent-media-upload-and-hero-pinning-controls.md`: Fluent Direct Video Uploads & Explicit Hero Pinning Controls:
+   1. Dual-Mode Media Ingestion in Admin Hub (`/admin/sermons`):
+      - Tab 1 (Upload Video File): Drag-and-drop or device file picker for MP4, WebM, and MOV video files up to 50MB directly into Supabase Storage `church-media` bucket via `uploadSermonVideoAction`. Real-time progress and optional custom poster thumbnail upload via `uploadSermonThumbnailAction`.
+      - Tab 2 (YouTube / Web Link): Preserves standard YouTube, YouTube Shorts, and live stream link input with automated video ID and thumbnail detection.
+   2. Eradication of Hero Auto-Pinning Flaw:
+      - Purged the aggressive `|| sermons[0]` fallback in `src/app/sermons/page.tsx`. Sermons now strictly only pin to the hero if explicitly set as Live (`is_live: true`) or Pinned/Featured (`is_featured: true`). Otherwise, newly added sermons go strictly into the library grid below and the hero displays the clean default broadcast hub banner.
+   3. 1-Click Pin / Unpin Controls in Admin Library Table:
+      - Added Server Action `toggleFeaturedSermonAction` in `src/actions/admin-sermons.ts` to pin/unpin hero videos with single-hero mutual exclusion and instant Next.js cache revalidation.
+      - Integrated prominent "Pin as Hero" / "Pinned" button with pin icons alongside the "Set Live" broadcast toggle on every sermon in the library list.
+   4. Universal Video Player Playback:
+      - Updated `LiveHeroPlayer` (`live-hero-player.tsx`) and `VideoModal` (`video-modal.tsx`) to support native HTML5 `<video controls>` playback for uploaded video files alongside YouTube `<iframe>` embeds.
+      - Updated `SermonCard` (`sermon-card.tsx`) with fallback poster thumbnails.
+   5. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 OK across `/sermons`, `/admin/sermons`, and `/` on port 3002. No browser opened.
+
 ## 🚧 In Progress
 
 None.

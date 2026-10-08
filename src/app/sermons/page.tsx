@@ -31,7 +31,7 @@ export default async function SermonsPage() {
 
   const liveSermon = sermons.find((s) => s.is_live);
   const featuredSermon =
-    liveSermon || sermons.find((s) => s.is_featured) || sermons[0] || null;
+    liveSermon || sermons.find((s) => s.is_featured) || null;
   const settings = await getSiteSettingsAction();
 
   return (
