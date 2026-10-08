@@ -83,7 +83,7 @@ export function CarePillars() {
         </div>
 
         {/* 4-Card Grid with Clean Elevated Styling */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {CARE_PILLARS.map((pillar) => {
             const Icon = pillar.icon;
             return (
@@ -91,7 +91,7 @@ export function CarePillars() {
                 key={pillar.title}
                 className="flex flex-col justify-between rounded-2xl sm:rounded-3xl bg-white border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-orange-200/80 hover:-translate-y-0.5 transition-all duration-300 group overflow-hidden"
               >
-                <div className="p-5 sm:p-7 space-y-3.5 sm:space-y-4 flex-1">
+                <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 flex-1">
                   {/* Circular Orange Icon Holder */}
                   <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 text-[#ff6b35] flex items-center justify-center group-hover:bg-[#ff6b35] group-hover:text-white transition-all shadow-sm">
                     <Icon className="w-6 h-6 transition-transform group-hover:scale-110" />

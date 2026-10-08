@@ -1,7 +1,8 @@
 "use server";
 
-import { prayerRequestSchema, PrayerRequestInput } from "@/lib/validations/community";
-import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
+import { prayerRequestSchema } from "@/lib/validations/community";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { ActionResponse } from "@/types/actions";
 
 export async function submitPrayerRequest(
@@ -22,18 +23,18 @@ export async function submitPrayerRequest(
     const { fullName, email, phone, category, request, isConfidential } = parseResult.data;
 
     // Format request content with category metadata for the intercessory ministry
-    const formattedRequest = `[Category: ${category}]\n\n${request}`;
+    const formattedRequest = `[Category: ${category}]\n\n${request.trim()}`;
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: insertedData, error: dbError } = await supabase
       .from("prayer_requests")
       .insert({
-        full_name: fullName,
-        email,
+        full_name: fullName.trim(),
+        email: email.trim().toLowerCase(),
         phone: phone && phone.trim().length > 0 ? phone.trim() : null,
         request: formattedRequest,
-        is_confidential: isConfidential,
+        is_confidential: Boolean(isConfidential),
         status: "pending",
       })
       .select("id")
@@ -41,19 +42,21 @@ export async function submitPrayerRequest(
 
     if (dbError) {
       console.error("[Prayer Submission DB Error]:", dbError.message);
-      // If in dev placeholder or network error, provide graceful acknowledgment
       return {
-        success: true,
-        message:
-          "Your prayer petition has been received at the altar. Our pastoral team will lift your needs before God.",
-        data: { id: "dev-fallback-id" },
+        success: false,
+        message: `Database submission error: ${dbError.message}. Please try again or call our pastoral prayer line.`,
+        error: dbError.message,
       };
     }
+
+    // Immediately revalidate admin dashboard & prayers view
+    revalidatePath("/admin");
+    revalidatePath("/admin/prayers");
 
     return {
       success: true,
       message:
-        "Your prayer petition has been received at the altar. Our pastoral team will lift your needs before God.",
+        "Your prayer petition has been received at the altar. Our pastoral team and intercessors will lift your needs before God.",
       data: { id: insertedData?.id },
     };
   } catch (err: unknown) {

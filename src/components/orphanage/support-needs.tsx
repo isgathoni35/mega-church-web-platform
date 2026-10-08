@@ -10,7 +10,7 @@ import {
   Utensils,
   GraduationCap,
   Home,
-  BookOpen,
+  Droplets,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -27,113 +27,118 @@ const IMPACT_AREAS: ImpactArea[] = [
   {
     id: "nutrition",
     title: "Daily Food & Nutrition",
-    subtitle: "Three Hot Meals & Wholesome Care",
+    subtitle: "Three Hot Meals & Fresh Milk",
     icon: Utensils,
     description:
-      "Ensuring that over 60 children wake up and go to sleep with full stomachs, wholesome nutrition, fresh milk, and clean water every single day of the year.",
+      "Ensuring that every boy and girl wakes up and sleeps with a full stomach, wholesome nutrition, clean water, and fresh milk every single day.",
     benefits: [
       "Three hot, balanced meals daily",
       "Fresh milk & clean drinking water",
       "Essential fruit & nutrition supplements",
-      "Dedicated Christian kitchen staff",
+      "Dedicated resident kitchen mothers",
     ],
   },
   {
     id: "education",
-    title: "Education & Schooling",
-    subtitle: "Tuition, Books, Uniforms & Tutoring",
+    title: "Formal Schooling & Tuition",
+    subtitle: "Books, Uniforms, Fees & Tutoring",
     icon: GraduationCap,
     description:
-      "Breaking the cycle of poverty by sponsoring every boy and girl through primary school, high school, and vocational colleges with all required materials.",
+      "Breaking the cycle of poverty by sponsoring children through nursery, primary, secondary school, and tertiary vocational colleges.",
     benefits: [
-      "100% school attendance & tuition fees",
-      "Complete school uniforms & shoes",
-      "Textbooks, exercise books & stationery",
-      "Evening tutoring & computer skills",
+      "100% formal school attendance & tuition",
+      "Full school uniforms & durable shoes",
+      "Textbooks, exercise books & revision sets",
+      "Evening study tutoring & computer literacy",
     ],
   },
   {
-    id: "shelter-health",
-    title: "Shelter, Health & Family Love",
-    subtitle: "Safe Dormitories & Motherly Care",
+    id: "health-hygiene",
+    title: "Healthcare & Motherly Warmth",
+    subtitle: "Sanitation, Bedding & Clinic Care",
     icon: Home,
     description:
-      "A peaceful home environment with clean dormitories, warm bedding, immediate clinical medical attention, and devoted house mothers offering maternal warmth.",
+      "A peaceful, loving home with clean beds, warm blankets, routine pediatric clinic screenings, and devoted house mothers providing emotional security.",
     benefits: [
-      "Secure, sanitized dormitories",
-      "Routine pediatric & clinic checkups",
-      "Warm clothes, bedding & hygiene kits",
+      "Warm fleece blankets & single bed sheets",
+      "Routine clinic checkups & emergency care",
+      "Bathing soaps, laundry powder & hygiene kits",
       "24/7 loving house mothers & counseling",
+    ],
+  },
+  {
+    id: "campus-water",
+    title: "Clean Water & Home Utilities",
+    subtitle: "Sanitation, Power & Safe Shelter",
+    icon: Droplets,
+    description:
+      "Maintaining our clean borehole water system, solar lighting, sanitized bathrooms, and secure compound so the children live safely in dignity.",
+    benefits: [
+      "Purified clean borehole water pumping",
+      "Compound lighting & study power",
+      "Clean sanitized bathrooms & laundry area",
+      "Gated, secure Christian living environment",
     ],
   },
 ];
 
 export function SupportNeeds() {
   return (
-    <section className="py-10 sm:py-16 lg:py-24 bg-white text-slate-900 border-y border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 space-y-6 sm:space-y-8 lg:space-y-12">
+    <section className="py-12 sm:py-18 lg:py-24 bg-white text-slate-900 border-b border-slate-200/80">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-14">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-2 sm:space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-wider">
+        <div className="text-center max-w-3xl mx-auto space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-wider shadow-sm">
             <Heart className="w-3.5 h-3.5 fill-current" />
             <span>Ministry of Compassion</span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Ways You Can Stand With Our Children
+            How Your Financial Support Blesses Our Children
           </h2>
-          <div className="w-14 sm:w-20 h-1 bg-[#ff6b35] mx-auto rounded-full mt-2 sm:mt-3" />
+          <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
-          <p className="text-xs sm:text-base text-slate-600 leading-relaxed pt-1">
-            Every child sheltered at Heavens Gates was rescued from extreme
-            vulnerability, abandonment, or loss of parents. Give from the
-            heart—any gift of any amount directly feeds, educates, and protects
-            these precious lives.
+          <p className="text-xs sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            Every shilling and dollar given to Sugutta Children&apos;s Home goes straight to essential living needs. Here is exactly what your compassion achieves.
           </p>
         </div>
 
-        {/* 3 Impact Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 items-stretch">
+        {/* 4 Impact Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {IMPACT_AREAS.map((area) => {
             const Icon = area.icon;
 
             return (
               <div
                 key={area.id}
-                className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-orange-200/80 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
+                className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-sm hover:shadow-lg hover:border-orange-200 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="space-y-4">
-                  {/* Icon & Title */}
-                  <div className="flex items-center gap-3.5">
-                    <div className="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 text-[#ff6b35] flex items-center justify-center shrink-0 shadow-sm">
-                      <Icon className="w-6 h-6" />
+                <div className="space-y-3.5">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-100 text-[#ff6b35] flex items-center justify-center shrink-0 shadow-sm">
+                      <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-extrabold text-lg sm:text-xl text-slate-900 leading-snug">
+                      <h3 className="font-extrabold text-base sm:text-lg text-slate-900 leading-snug">
                         {area.title}
                       </h3>
-                      <p className="text-xs text-[#ff6b35] font-bold uppercase tracking-wider">
+                      <p className="text-[11px] text-[#ff6b35] font-bold uppercase tracking-wider">
                         {area.subtitle}
                       </p>
                     </div>
                   </div>
 
-                  {/* Description */}
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     {area.description}
                   </p>
 
-                  {/* Direct Highlights */}
                   <div className="pt-3 border-t border-slate-100 space-y-2">
-                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block">
-                      What Your Gift Makes Possible:
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                      Direct Impact Provided:
                     </span>
-                    <ul className="space-y-2">
+                    <ul className="space-y-1.5">
                       {area.benefits.map((benefit, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-2 text-xs text-slate-700"
-                        >
+                        <li key={idx} className="flex items-start gap-2 text-xs text-slate-700">
                           <Check className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
                           <span>{benefit}</span>
                         </li>
@@ -146,19 +151,17 @@ export function SupportNeeds() {
           })}
         </div>
 
-        {/* Convincing Donation Action Card */}
+        {/* Action Callout Card */}
         <div className="p-6 sm:p-10 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-[#fffaf5] to-[#fbf8f3] border border-orange-200/90 text-center max-w-3xl mx-auto space-y-4 sm:space-y-6 shadow-sm">
           <div className="space-y-2">
-            <span className="font-script text-[#ff6b35] text-2xl sm:text-3xl block">
-              Pure Religion Before God
+            <span className="font-serif italic text-[#ff6b35] text-xl sm:text-2xl block">
+              Pure Religion Before God (James 1:27)
             </span>
             <h3 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               Ready to Bless a Child Today?
             </h3>
             <p className="text-xs sm:text-sm md:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
-              We welcome one-time and recurring gifts of any amount. 100% of your
-              contributions go directly to the children&apos;s food, school fees,
-              and healthcare.
+              We welcome one-time and recurring gifts of any amount. 100% of your contribution goes directly to the children&apos;s food, school tuition, and daily wellbeing.
             </p>
           </div>
 
@@ -188,16 +191,16 @@ export function SupportNeeds() {
             </Button>
           </div>
 
-          {/* Trust strip */}
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-[11px] sm:text-xs text-slate-500 font-medium">
+          {/* Trust Strip */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[11px] sm:text-xs text-slate-500 font-medium">
             <span className="inline-flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
               100% Direct Allocation
             </span>
-            <span>•</span>
-            <span>Local Kenyan M-Pesa &amp; Sendwave Supported</span>
-            <span>•</span>
-            <span>Tax-Deductible Charitable Trust</span>
+            <span>&bull;</span>
+            <span>M-Pesa Till 8146952 &amp; Paybill 174379</span>
+            <span>&bull;</span>
+            <span>International Sendwave &amp; KCB Wire</span>
           </div>
         </div>
       </div>

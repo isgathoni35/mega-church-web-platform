@@ -52,16 +52,17 @@ export function PrayerManagerView({ initialPrayers }: PrayerManagerViewProps) {
       : cleanDigits;
 
     const message = encodeURIComponent(
-      `Praise the Lord ${prayer.full_name}, this is the Pastoral Care Ministry at Heavens Gates Sugutta Fellowship Church. Apostle Jeannette and our prayer intercessors have received your petition and are standing with you in faith.`
+      `Praise the Lord ${prayer.full_name}, this is the Pastoral Care Ministry at Sugutta Fellowship Church. Pastor Caesar and our prayer intercessors have received your petition and are standing with you in faith.`
     );
     return `https://wa.me/${formattedNum}?text=${message}`;
   };
 
   // Filtered prayers
   const filtered = prayers.filter((p) => {
-    // Only show actual prayer requests (not visit plans)
+    // Only show actual prayer requests (not visit plans or general inquiries)
     const isVisit = p.request.includes("[Visit Plan]");
-    if (isVisit) return false;
+    const isInquiry = p.request.includes("[Inquiry:");
+    if (isVisit || isInquiry) return false;
 
     if (activeFilter === "pending" && p.status !== "pending") return false;
     if (activeFilter === "prayed_for" && p.status !== "prayed_for") return false;
@@ -76,8 +77,11 @@ export function PrayerManagerView({ initialPrayers }: PrayerManagerViewProps) {
     return true;
   });
 
-  const pendingCount = prayers.filter((p) => !p.request.includes("[Visit Plan]") && p.status === "pending").length;
-  const answeredCount = prayers.filter((p) => !p.request.includes("[Visit Plan]") && p.status === "prayed_for").length;
+  const isPrayerOnly = (p: PrayerRequest) =>
+    !p.request.includes("[Visit Plan]") && !p.request.includes("[Inquiry:");
+
+  const pendingCount = prayers.filter((p) => isPrayerOnly(p) && p.status === "pending").length;
+  const answeredCount = prayers.filter((p) => isPrayerOnly(p) && p.status === "prayed_for").length;
 
   return (
     <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto">

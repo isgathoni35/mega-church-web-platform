@@ -1,7 +1,8 @@
 "use server";
 
-import { contactInquirySchema, ContactInquiryInput } from "@/lib/validations/community";
-import { createClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
+import { contactInquirySchema, visitPlanSchema } from "@/lib/validations/community";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { ActionResponse } from "@/types/actions";
 
 export async function submitContactInquiry(
@@ -22,15 +23,15 @@ export async function submitContactInquiry(
     const { fullName, email, phone, inquiryType, message } = parseResult.data;
 
     // Encapsulate inquiry type in message body
-    const formattedRequest = `[Inquiry: ${inquiryType}]\n\n${message}`;
+    const formattedRequest = `[Inquiry: ${inquiryType}]\n\n${message.trim()}`;
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: insertedData, error: dbError } = await supabase
       .from("prayer_requests")
       .insert({
-        full_name: fullName,
-        email,
+        full_name: fullName.trim(),
+        email: email.trim().toLowerCase(),
         phone: phone && phone.trim().length > 0 ? phone.trim() : null,
         request: formattedRequest,
         is_confidential: false,
@@ -43,9 +44,15 @@ export async function submitContactInquiry(
       console.error("[Contact Submission DB Error]:", dbError.message);
       return {
         success: false,
-        error: `Unable to submit inquiry: ${dbError.message}. Please reach out directly to our sanctuary office.`,
+        message: `Database submission error: ${dbError.message}. Please reach out directly to our sanctuary office.`,
+        error: dbError.message,
       };
     }
+
+    // Immediately revalidate admin dashboard & visitors/inquiries view
+    revalidatePath("/admin");
+    revalidatePath("/admin/visitors");
+    revalidatePath("/admin/prayers");
 
     return {
       success: true,
@@ -68,7 +75,6 @@ export async function submitVisitPlan(
   data: unknown
 ): Promise<ActionResponse<{ id?: string }>> {
   try {
-    const { visitPlanSchema } = await import("@/lib/validations/community");
     const parseResult = visitPlanSchema.safeParse(data);
 
     if (!parseResult.success) {
@@ -83,16 +89,16 @@ export async function submitVisitPlan(
     const { fullName, email, phone, expectedService, guestsCount, hasChildren, notes } = parseResult.data;
 
     // Encapsulate visit plan metadata
-    const formattedRequest = `[Visit Plan]\nService: ${expectedService}\nGuests: ${guestsCount}\nKids Attending: ${hasChildren ? "Yes (Kings Kids)" : "No"}\nNotes: ${notes || "None"}`;
+    const formattedRequest = `[Visit Plan]\nService: ${expectedService}\nGuests: ${guestsCount}\nKids Attending: ${hasChildren ? "Yes (Kings Kids)" : "No"}\nNotes: ${notes?.trim() || "None"}`;
 
-    const supabase = await createClient();
+    const supabase = createAdminClient();
 
     const { data: insertedData, error: dbError } = await supabase
       .from("prayer_requests")
       .insert({
-        full_name: fullName,
-        email,
-        phone,
+        full_name: fullName.trim(),
+        email: email.trim().toLowerCase(),
+        phone: phone && phone.trim().length > 0 ? phone.trim() : null,
         request: formattedRequest,
         is_confidential: false,
         status: "pending",
@@ -104,9 +110,14 @@ export async function submitVisitPlan(
       console.error("[Visit Submission DB Error]:", dbError.message);
       return {
         success: false,
-        error: `Unable to register visit: ${dbError.message}. Please reach out directly to our hospitality team.`,
+        message: `Database submission error: ${dbError.message}. Please reach out directly to our hospitality team.`,
+        error: dbError.message,
       };
     }
+
+    // Immediately revalidate admin dashboard & visitors view
+    revalidatePath("/admin");
+    revalidatePath("/admin/visitors");
 
     return {
       success: true,
@@ -124,4 +135,3 @@ export async function submitVisitPlan(
     };
   }
 }
-

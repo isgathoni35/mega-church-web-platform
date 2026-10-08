@@ -49,7 +49,7 @@ export function VolunteerCta() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3">
               <Button
                 size="lg"
-                className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/25 px-8 py-3.5 sm:py-6 text-sm sm:text-base rounded-full h-auto transition-all"
+                className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#e05626] text-white font-bold shadow-lg shadow-orange-500/25 px-6 sm:px-8 py-3.5 text-xs sm:text-sm rounded-full h-auto transition-all"
                 asChild
               >
                 <Link href="/orphanage/donate">
@@ -62,7 +62,7 @@ export function VolunteerCta() {
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 sm:py-6 text-sm sm:text-base rounded-full border border-white/20 h-auto transition-all"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold px-6 sm:px-8 py-3.5 text-xs sm:text-sm rounded-full border border-white/20 h-auto transition-all"
                 asChild
               >
                 <Link href="/contact?subject=orphanage_visit">
