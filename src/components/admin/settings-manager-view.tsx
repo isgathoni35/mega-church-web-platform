@@ -282,10 +282,10 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     val?: string
   ) => {
     const updated = [...settings.eventsJson];
-    if (typeof fieldOrUpdates === "string") {
-      updated[idx] = { ...updated[idx], [fieldOrUpdates]: val };
-    } else {
+    if (typeof fieldOrUpdates === "object" && fieldOrUpdates !== null) {
       updated[idx] = { ...updated[idx], ...fieldOrUpdates };
+    } else {
+      updated[idx] = { ...updated[idx], [fieldOrUpdates as keyof MinistryEventItem]: val };
     }
     setSettings({ ...settings, eventsJson: updated });
   };

@@ -10,20 +10,13 @@ import {
   Check,
   ArrowRight,
   MessageCircle,
+  Play,
+  X,
+  Maximize2,
+  Film,
 } from "lucide-react";
-import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
-
-interface MinistryEvent {
-  id: string;
-  badge: string;
-  title: string;
-  location: string;
-  dates: string;
-  format: string;
-  description: string;
-  imageUrl: string;
-  whatsappMessage: string;
-}
+import { SiteSettingsData, DEFAULT_SETTINGS, MinistryEventItem } from "@/types/settings";
+import { getYouTubeId, getYouTubeEmbedUrl } from "@/lib/utils/youtube";
 
 interface EventsViewProps {
   settings?: SiteSettingsData;
@@ -36,8 +29,10 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
   const cleanWaPhone = phone.replace(/[^0-9]/g, "");
 
   const [copied, setCopied] = React.useState(false);
+  const [activeVideoEvent, setActiveVideoEvent] = React.useState<MinistryEventItem | null>(null);
+  const [zoomedFlyerEvent, setZoomedFlyerEvent] = React.useState<MinistryEventItem | null>(null);
 
-  const EVENTS: MinistryEvent[] = settings.eventsJson || [];
+  const EVENTS: MinistryEventItem[] = settings.eventsJson || [];
 
   const handleShare = async () => {
     const shareData = {
@@ -115,30 +110,75 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
               {EVENTS.map((event) => {
                 const whatsappUrl = `https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
-                  event.whatsappMessage
+                  event.whatsappMessage || `Hello ${pastorName}, I would like to attend ${event.title}.`
                 )}`;
+
+                const hasVideo = Boolean(event.videoUrl && event.videoUrl.trim().length > 0);
 
                 return (
                   <div
                     key={event.id}
                     className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group"
                   >
-                    {/* Event Thumbnail */}
+                    {/* Event Thumbnail & Media Overlays */}
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
                       <Image
-                        src={event.imageUrl}
+                        src={event.imageUrl || "/images/hero-worship.jpg"}
                         alt={event.title}
                         fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+                        onClick={() => setZoomedFlyerEvent(event)}
                         sizes="(max-width: 768px) 100vw, 50vw"
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                      <div className="absolute top-4 left-4">
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
+
+                      {/* Event Badge */}
+                      <div className="absolute top-4 left-4 z-10">
                         <span className="inline-block px-3 py-1 rounded-full bg-[#ff6b35] text-white text-[11px] font-black tracking-wider uppercase shadow-md">
                           {event.badge}
                         </span>
                       </div>
+
+                      {/* Video Clip Play Badge */}
+                      {hasVideo && (
+                        <div className="absolute top-4 right-4 z-10">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setActiveVideoEvent(event);
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/80 hover:bg-[#ff6b35] text-white text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-md shadow-lg transition-all cursor-pointer group/vid"
+                          >
+                            <Play className="w-3 h-3 fill-white text-white group-hover/vid:scale-110 transition-transform" />
+                            <span>Watch Clip</span>
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Hover Center Play Overlay if video attached */}
+                      {hasVideo && (
+                        <div
+                          onClick={() => setActiveVideoEvent(event)}
+                          className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/45 transition-colors cursor-pointer group/center"
+                        >
+                          <div className="w-14 h-14 rounded-full bg-white/90 text-slate-950 group-hover/center:bg-[#ff6b35] group-hover/center:text-white flex items-center justify-center shadow-2xl transition-all transform group-hover/center:scale-110">
+                            <Play className="w-6 h-6 ml-1 fill-current" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Inspect Flyer Button */}
+                      <button
+                        type="button"
+                        onClick={() => setZoomedFlyerEvent(event)}
+                        className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/60 hover:bg-black/90 text-white text-[10px] font-bold backdrop-blur-sm transition-all flex items-center gap-1 cursor-pointer z-10"
+                        title="View high-resolution flyer"
+                      >
+                        <Maximize2 className="w-3 h-3" />
+                        <span>View Flyer</span>
+                      </button>
                     </div>
 
                     {/* Card Content */}
@@ -179,17 +219,30 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                         {event.description}
                       </p>
 
-                      {/* Action Button: Join WhatsApp Group */}
-                      <a
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full bg-[#0f172a] hover:bg-[#ff6b35] text-white text-xs sm:text-sm font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm group-hover:bg-[#ff6b35]"
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                        <span>Join WhatsApp Group</span>
-                        <ArrowRight className="w-4 h-4 ml-1" />
-                      </a>
+                      {/* Action Buttons Row */}
+                      <div className="space-y-2.5">
+                        {hasVideo && (
+                          <button
+                            type="button"
+                            onClick={() => setActiveVideoEvent(event)}
+                            className="w-full bg-orange-50 hover:bg-orange-100 border border-orange-200 text-[#ff6b35] text-xs sm:text-sm font-bold py-3 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                          >
+                            <Film className="w-4 h-4 text-[#ff6b35]" />
+                            <span>Watch Crusade / Event Video</span>
+                          </button>
+                        )}
+
+                        <a
+                          href={whatsappUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full bg-[#0f172a] hover:bg-[#ff6b35] text-white text-xs sm:text-sm font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-sm group-hover:bg-[#ff6b35]"
+                        >
+                          <MessageCircle className="w-4 h-4" />
+                          <span>Join WhatsApp Group</span>
+                          <ArrowRight className="w-4 h-4 ml-1" />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 );
@@ -291,6 +344,133 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
           </div>
         </div>
       </section>
+
+      {/* Video Modal Player */}
+      {activeVideoEvent && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setActiveVideoEvent(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setActiveVideoEvent(null)}
+              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/90 transition-colors cursor-pointer"
+              aria-label="Close video player"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Video Player Box */}
+            <div className="relative aspect-video w-full bg-black">
+              {getYouTubeId(activeVideoEvent.videoUrl || "") ? (
+                <iframe
+                  src={getYouTubeEmbedUrl(getYouTubeId(activeVideoEvent.videoUrl || "")!, true)}
+                  title={activeVideoEvent.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full border-0"
+                />
+              ) : (
+                <div className="relative w-full h-full bg-black flex items-center justify-center">
+                  <video
+                    src={activeVideoEvent.videoUrl}
+                    controls
+                    autoPlay
+                    playsInline
+                    poster={activeVideoEvent.imageUrl}
+                    className="w-full h-full object-contain"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Info Footer */}
+            <div className="p-5 sm:p-6 bg-slate-900 space-y-3 text-white">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#ff6b35] text-white text-[10px] font-black uppercase tracking-wider">
+                  {activeVideoEvent.badge}
+                </span>
+                <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <MapPin className="w-3.5 h-3.5 text-[#ff6b35]" />
+                  <span>{activeVideoEvent.location}</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                  <Calendar className="w-3.5 h-3.5 text-[#ff6b35]" />
+                  <span>{activeVideoEvent.dates}</span>
+                </div>
+              </div>
+
+              <h3 className="text-lg sm:text-xl font-bold">{activeVideoEvent.title}</h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                {activeVideoEvent.description}
+              </p>
+
+              <div className="pt-2 flex flex-wrap items-center gap-3">
+                <a
+                  href={`https://wa.me/${cleanWaPhone}?text=${encodeURIComponent(
+                    activeVideoEvent.whatsappMessage || `Hello ${pastorName}, I would like to attend ${activeVideoEvent.title}.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold py-2.5 px-5 rounded-full transition-all"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Join WhatsApp Group</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Flyer Image Zoom Modal */}
+      {zoomedFlyerEvent && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          onClick={() => setZoomedFlyerEvent(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-slate-950 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setZoomedFlyerEvent(null)}
+              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/90 transition-colors cursor-pointer"
+              aria-label="Close flyer zoom"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="relative aspect-video sm:aspect-16/10 w-full bg-black">
+              <Image
+                src={zoomedFlyerEvent.imageUrl || "/images/hero-worship.jpg"}
+                alt={zoomedFlyerEvent.title}
+                fill
+                className="object-contain"
+                unoptimized
+              />
+            </div>
+
+            <div className="p-5 sm:p-6 bg-slate-900 space-y-2 text-white">
+              <span className="text-[10px] font-black uppercase tracking-wider text-[#ff6b35] block">
+                {zoomedFlyerEvent.badge} &bull; {zoomedFlyerEvent.dates}
+              </span>
+              <h3 className="text-lg sm:text-xl font-bold">{zoomedFlyerEvent.title}</h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                {zoomedFlyerEvent.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

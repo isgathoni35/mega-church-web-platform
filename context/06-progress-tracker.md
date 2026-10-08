@@ -540,3 +540,15 @@ None.
      - Updated `handleAddPhoto`, `handleDeletePhoto`, `handleAddVideo`, and `handleDeleteVideo` in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) with optimistic UI updates and immediate persistence via `startTransition`.
      - Displays immediate green success feedback upon addition or removal.
   4. End-to-End Verification: Tested live round-trip insertion and verified that `http://localhost:3002/orphanage` immediately rendered both photo moments and video stories in HTML output (`true`). Cleared test items cleanly. Passed `npx tsc --noEmit` with 0 errors.
+
+- **[2026-10-08]:** Completed Feature 43 (Events & Crusade Video & Image Media Management):
+  1. Data Model Extension: Extended `MinistryEventItem` in [src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts) with `videoUrl?: string` and `videoSourceType?: "upload" | "youtube"`.
+  2. Direct Storage Authorization: Implemented `getEventVideoSignedUploadUrlAction` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts) targeting folder `events/videos/` in the `church-media` Supabase bucket. Enables direct browser uploads (MP4, WebM, MOV up to 50MB) that bypass 1MB local and 4.5MB Vercel serverless request body limits.
+  3. Reusable Video Upload Component: Created [src/components/admin/event-video-upload-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/event-video-upload-field.tsx) with dual source mode (Device Video Upload with progress spinner & success badge vs. YouTube URL input), instant video preview, and detachment control.
+  4. Admin Portal Events Manager Upgrade: Updated Tab 5 (*Mission Calendar & Events*) in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) with side-by-side Flyer Image Uploader and Crusade Promo Video Uploader, plus WhatsApp registration message customization.
+  5. Public Events Hub Video & Image Lightbox: Updated [src/components/events/events-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/events/events-view.tsx):
+     - Added "Watch Clip" badge overlay and center play button when a video is attached.
+     - Added "Watch Crusade / Event Video" action button alongside "Join WhatsApp Group".
+     - Implemented an interactive Video Lightbox Modal supporting YouTube embeds and HTML5 `<video controls autoPlay playsInline>` players.
+     - Implemented high-resolution Flyer Image Zoom modal with close and inspection controls.
+  6. Verification: 100% clean compilation (`npx tsc --noEmit` exited 0), HTTP 200 responses verified on port 3002 across `/events` and `/admin/settings`.
