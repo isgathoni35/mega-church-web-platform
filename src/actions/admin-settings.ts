@@ -75,6 +75,68 @@ export async function getOrphanageVideoSignedUploadUrlAction(
   }
 }
 
+/**
+ * Create a signed upload URL for direct client-to-Supabase storage video uploads for Events & Crusades.
+ * Bypasses server request body limits (1MB in Server Actions & 4.5MB on Vercel) in both local and live apps.
+ */
+export async function getEventVideoSignedUploadUrlAction(
+  fileName: string,
+  fileType: string,
+  fileSize: number
+): Promise<ActionResponse<{ signedUrl: string; token: string; path: string; publicUrl: string }>> {
+  try {
+    const MAX_SIZE = 50 * 1024 * 1024; // 50MB
+    if (fileSize > MAX_SIZE) {
+      return {
+        success: false,
+        error: "Video file exceeds 50MB. Please compress the file or link a YouTube URL instead.",
+      };
+    }
+
+    const fileExt = fileName.split(".").pop()?.toLowerCase() || "mp4";
+    const allowedExts = ["mp4", "webm", "mov", "m4v", "ogg", "mkv"];
+    if (!allowedExts.includes(fileExt) && !fileType.startsWith("video/")) {
+      return {
+        success: false,
+        error: "Please upload a valid video file (MP4, WebM, or MOV).",
+      };
+    }
+
+    const cleanFileName = `events/videos/event-video-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+    const supabase = createAdminClient();
+
+    const { data, error } = await supabase.storage
+      .from("church-media")
+      .createSignedUploadUrl(cleanFileName, { upsert: true });
+
+    if (error || !data) {
+      console.error("[Create Event Signed Upload URL Error]:", error);
+      return {
+        success: false,
+        error: `Failed to authorize video upload: ${error?.message || "Storage error"}.`,
+      };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("church-media")
+      .getPublicUrl(cleanFileName);
+
+    return {
+      success: true,
+      data: {
+        signedUrl: data.signedUrl,
+        token: data.token,
+        path: cleanFileName,
+        publicUrl: urlData.publicUrl,
+      },
+    };
+  } catch (err: unknown) {
+    console.error("[Get Event Signed Upload URL Action Error]:", err);
+    return { success: false, error: "Unexpected error preparing event video upload." };
+  }
+}
+
+
 export async function uploadChurchMediaAction(
   formData: FormData
 ): Promise<ActionResponse<{ url: string }>> {
@@ -129,6 +191,224 @@ export async function uploadChurchMediaAction(
       success: false,
       error: "Unexpected error uploading photo. Please try again.",
     };
+  }
+}
+
+/**
+ * Immediately persist a new Children's Home Photo Moment to Supabase site_settings and revalidate /orphanage
+ */
+export async function addOrphanagePhotoAction(
+  photo: OrphanagePhotoItem
+): Promise<ActionResponse<OrphanagePhotoItem[]>> {
+  try {
+    const supabase = createAdminClient();
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id, orphanage_photos_json")
+      .limit(1);
+
+    if (fetchErr) {
+      console.error("[Add Orphanage Photo Fetch Error]:", fetchErr);
+      return { success: false, error: "Database error fetching gallery settings." };
+    }
+
+    const currentPhotos: OrphanagePhotoItem[] =
+      existing && existing.length > 0 && Array.isArray(existing[0].orphanage_photos_json)
+        ? (existing[0].orphanage_photos_json as unknown as OrphanagePhotoItem[])
+        : [];
+
+    const updatedPhotos = [photo, ...currentPhotos];
+
+    if (existing && existing.length > 0) {
+      const { error: updateErr } = await supabase
+        .from("site_settings")
+        .update({
+          orphanage_photos_json: updatedPhotos as unknown as Json,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existing[0].id);
+
+      if (updateErr) {
+        return { success: false, error: `Failed to save photo: ${updateErr.message}` };
+      }
+    } else {
+      const { error: insertErr } = await supabase.from("site_settings").insert({
+        orphanage_photos_json: updatedPhotos as unknown as Json,
+      });
+      if (insertErr) {
+        return { success: false, error: `Failed to insert photo: ${insertErr.message}` };
+      }
+    }
+
+    revalidatePath("/orphanage");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Photo moment successfully published to Children's Home page!",
+      data: updatedPhotos,
+    };
+  } catch (err: unknown) {
+    console.error("[Add Orphanage Photo Exception]:", err);
+    return { success: false, error: "Unexpected error adding photo moment." };
+  }
+}
+
+/**
+ * Immediately delete a Children's Home Photo Moment from Supabase site_settings and revalidate /orphanage
+ */
+export async function deleteOrphanagePhotoAction(
+  photoId: string
+): Promise<ActionResponse<OrphanagePhotoItem[]>> {
+  try {
+    const supabase = createAdminClient();
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id, orphanage_photos_json")
+      .limit(1);
+
+    if (fetchErr || !existing || existing.length === 0) {
+      return { success: false, error: "Database error fetching gallery settings." };
+    }
+
+    const currentPhotos: OrphanagePhotoItem[] = Array.isArray(existing[0].orphanage_photos_json)
+      ? (existing[0].orphanage_photos_json as unknown as OrphanagePhotoItem[])
+      : [];
+
+    const updatedPhotos = currentPhotos.filter((p) => p.id !== photoId);
+
+    const { error: updateErr } = await supabase
+      .from("site_settings")
+      .update({
+        orphanage_photos_json: updatedPhotos as unknown as Json,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", existing[0].id);
+
+    if (updateErr) {
+      return { success: false, error: `Failed to remove photo: ${updateErr.message}` };
+    }
+
+    revalidatePath("/orphanage");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Photo moment removed from Children's Home gallery.",
+      data: updatedPhotos,
+    };
+  } catch (err: unknown) {
+    console.error("[Delete Orphanage Photo Exception]:", err);
+    return { success: false, error: "Unexpected error deleting photo moment." };
+  }
+}
+
+/**
+ * Immediately persist a new Children's Home Video Story to Supabase site_settings and revalidate /orphanage
+ */
+export async function addOrphanageVideoAction(
+  video: OrphanageVideoItem
+): Promise<ActionResponse<OrphanageVideoItem[]>> {
+  try {
+    const supabase = createAdminClient();
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id, orphanage_videos_json")
+      .limit(1);
+
+    if (fetchErr) {
+      console.error("[Add Orphanage Video Fetch Error]:", fetchErr);
+      return { success: false, error: "Database error fetching video settings." };
+    }
+
+    const currentVideos: OrphanageVideoItem[] =
+      existing && existing.length > 0 && Array.isArray(existing[0].orphanage_videos_json)
+        ? (existing[0].orphanage_videos_json as unknown as OrphanageVideoItem[])
+        : [];
+
+    const updatedVideos = [video, ...currentVideos];
+
+    if (existing && existing.length > 0) {
+      const { error: updateErr } = await supabase
+        .from("site_settings")
+        .update({
+          orphanage_videos_json: updatedVideos as unknown as Json,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existing[0].id);
+
+      if (updateErr) {
+        return { success: false, error: `Failed to save video: ${updateErr.message}` };
+      }
+    } else {
+      const { error: insertErr } = await supabase.from("site_settings").insert({
+        orphanage_videos_json: updatedVideos as unknown as Json,
+      });
+      if (insertErr) {
+        return { success: false, error: `Failed to insert video: ${insertErr.message}` };
+      }
+    }
+
+    revalidatePath("/orphanage");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Video story successfully published to Children's Home page!",
+      data: updatedVideos,
+    };
+  } catch (err: unknown) {
+    console.error("[Add Orphanage Video Exception]:", err);
+    return { success: false, error: "Unexpected error adding video story." };
+  }
+}
+
+/**
+ * Immediately delete a Children's Home Video Story from Supabase site_settings and revalidate /orphanage
+ */
+export async function deleteOrphanageVideoAction(
+  videoId: string
+): Promise<ActionResponse<OrphanageVideoItem[]>> {
+  try {
+    const supabase = createAdminClient();
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id, orphanage_videos_json")
+      .limit(1);
+
+    if (fetchErr || !existing || existing.length === 0) {
+      return { success: false, error: "Database error fetching video settings." };
+    }
+
+    const currentVideos: OrphanageVideoItem[] = Array.isArray(existing[0].orphanage_videos_json)
+      ? (existing[0].orphanage_videos_json as unknown as OrphanageVideoItem[])
+      : [];
+
+    const updatedVideos = currentVideos.filter((v) => v.id !== videoId);
+
+    const { error: updateErr } = await supabase
+      .from("site_settings")
+      .update({
+        orphanage_videos_json: updatedVideos as unknown as Json,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", existing[0].id);
+
+    if (updateErr) {
+      return { success: false, error: `Failed to remove video: ${updateErr.message}` };
+    }
+
+    revalidatePath("/orphanage");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Video story removed from Children's Home gallery.",
+      data: updatedVideos,
+    };
+  } catch (err: unknown) {
+    console.error("[Delete Orphanage Video Exception]:", err);
+    return { success: false, error: "Unexpected error deleting video story." };
   }
 }
 
@@ -241,6 +521,8 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
               description: ev.description ? ev.description.replace(/\bOsebe\b/gi, "O.") : "",
               whatsappMessage: ev.whatsappMessage ? ev.whatsappMessage.replace(/\bOsebe\b/gi, "O.") : "",
               imageUrl: extractCleanImageUrl(ev.imageUrl),
+              videoUrl: ev.videoUrl ? ev.videoUrl.trim() : undefined,
+              videoSourceType: ev.videoSourceType || undefined,
             }))
           : DEFAULT_SETTINGS.eventsJson,
 
@@ -372,6 +654,8 @@ export async function saveSiteSettingsAction(
       events_json: (settings.eventsJson || []).map((ev) => ({
         ...ev,
         imageUrl: extractCleanImageUrl(ev.imageUrl),
+        videoUrl: ev.videoUrl ? ev.videoUrl.trim() : undefined,
+        videoSourceType: ev.videoSourceType || undefined,
       })) as unknown as Json,
 
       // Children's Home Gallery (Photos & Videos)

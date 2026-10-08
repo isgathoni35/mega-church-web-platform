@@ -45,9 +45,14 @@ import {
   saveSiteSettingsAction,
   getOrphanageVideoSignedUploadUrlAction,
   uploadChurchMediaAction,
+  addOrphanagePhotoAction,
+  deleteOrphanagePhotoAction,
+  addOrphanageVideoAction,
+  deleteOrphanageVideoAction,
 } from "@/actions/admin-settings";
 import { createClient } from "@/lib/supabase/client";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
+import { EventVideoUploadField } from "@/components/admin/event-video-upload-field";
 import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -262,6 +267,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       description: "Anointed gathering for deliverance, salvation, and kingdom fellowship.",
       imageUrl: "/images/hero-worship.jpg",
       whatsappMessage: `Hello ${settings.pastorName}, I would like to inquire about the upcoming church mission.`,
+      videoUrl: "",
+      videoSourceType: "upload",
     };
     setSettings({
       ...settings,
@@ -269,9 +276,17 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     });
   };
 
-  const handleUpdateEvent = (idx: number, field: keyof MinistryEventItem, val: string) => {
+  const handleUpdateEvent = (
+    idx: number,
+    fieldOrUpdates: keyof MinistryEventItem | Partial<MinistryEventItem>,
+    val?: string
+  ) => {
     const updated = [...settings.eventsJson];
-    updated[idx] = { ...updated[idx], [field]: val };
+    if (typeof fieldOrUpdates === "string") {
+      updated[idx] = { ...updated[idx], [fieldOrUpdates]: val };
+    } else {
+      updated[idx] = { ...updated[idx], ...fieldOrUpdates };
+    }
     setSettings({ ...settings, eventsJson: updated });
   };
 
@@ -280,7 +295,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     setSettings({ ...settings, eventsJson: updated });
   };
 
-  // Children's Home Photo Helpers
+  // Children's Home Photo Helpers (Instant Auto-Persist)
   const handleAddPhoto = () => {
     if (!newPhotoUrl.trim() || !newPhotoTitle.trim()) {
       alert("Please provide at least a photo image and a title.");
@@ -294,19 +309,62 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       caption: newPhotoCaption.trim() || undefined,
       uploadedAt: new Date().toISOString().split("T")[0],
     };
-    setSettings({
-      ...settings,
-      orphanagePhotos: [newPhoto, ...settings.orphanagePhotos],
-    });
+
+    // Optimistically update local UI
+    setSettings((prev) => ({
+      ...prev,
+      orphanagePhotos: [newPhoto, ...prev.orphanagePhotos],
+    }));
     setNewPhotoTitle("");
     setNewPhotoCaption("");
     setNewPhotoUrl("");
+
+    // Instant auto-persist to Supabase and revalidate /orphanage
+    startTransition(async () => {
+      const res = await addOrphanagePhotoAction(newPhoto);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Photo moment successfully published to the live Children's Home page!",
+        });
+        if (res.data) {
+          setSettings((prev) => ({ ...prev, orphanagePhotos: res.data! }));
+        }
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to persist photo to database.",
+        });
+      }
+    });
   };
 
   const handleDeletePhoto = (id: string) => {
-    setSettings({
-      ...settings,
-      orphanagePhotos: settings.orphanagePhotos.filter((p) => p.id !== id),
+    if (!confirm("Are you sure you want to delete this photo moment?")) return;
+
+    // Optimistically update local UI
+    setSettings((prev) => ({
+      ...prev,
+      orphanagePhotos: prev.orphanagePhotos.filter((p) => p.id !== id),
+    }));
+
+    // Instant auto-delete from Supabase
+    startTransition(async () => {
+      const res = await deleteOrphanagePhotoAction(id);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Photo moment removed from Children's Home gallery.",
+        });
+        if (res.data) {
+          setSettings((prev) => ({ ...prev, orphanagePhotos: res.data! }));
+        }
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to delete photo from database.",
+        });
+      }
     });
   };
 
@@ -419,10 +477,11 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       publishedDate: new Date().toISOString().split("T")[0],
     };
 
-    setSettings({
-      ...settings,
-      orphanageVideos: [newVideo, ...settings.orphanageVideos],
-    });
+    // Optimistically update local UI
+    setSettings((prev) => ({
+      ...prev,
+      orphanageVideos: [newVideo, ...prev.orphanageVideos],
+    }));
 
     // Reset video form state
     setNewVideoTitle("");
@@ -432,12 +491,53 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     setUploadedThumbnailUrl("");
     setVideoFile(null);
     setVideoUploadSuccess(false);
+
+    // Instant auto-persist to Supabase and revalidate /orphanage
+    startTransition(async () => {
+      const res = await addOrphanageVideoAction(newVideo);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Video story successfully published to the live Children's Home page!",
+        });
+        if (res.data) {
+          setSettings((prev) => ({ ...prev, orphanageVideos: res.data! }));
+        }
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to persist video to database.",
+        });
+      }
+    });
   };
 
   const handleDeleteVideo = (id: string) => {
-    setSettings({
-      ...settings,
-      orphanageVideos: settings.orphanageVideos.filter((v) => v.id !== id),
+    if (!confirm("Are you sure you want to remove this video story?")) return;
+
+    // Optimistically update local UI
+    setSettings((prev) => ({
+      ...prev,
+      orphanageVideos: prev.orphanageVideos.filter((v) => v.id !== id),
+    }));
+
+    // Instant auto-delete from Supabase
+    startTransition(async () => {
+      const res = await deleteOrphanageVideoAction(id);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Video story removed from Children's Home gallery.",
+        });
+        if (res.data) {
+          setSettings((prev) => ({ ...prev, orphanageVideos: res.data! }));
+        }
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to delete video from database.",
+        });
+      }
     });
   };
 
@@ -1713,12 +1813,34 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                       />
                     </div>
 
-                    <ImageUploadField
-                      label="Event Flyer / Poster Image"
-                      value={event.imageUrl}
-                      onChange={(url) => handleUpdateEvent(idx, "imageUrl", url)}
-                      aspectRatio="video"
-                    />
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      <ImageUploadField
+                        label="Event Flyer / Poster Image"
+                        description="Displayed as the primary visual on event cards."
+                        value={event.imageUrl}
+                        onChange={(url) => handleUpdateEvent(idx, "imageUrl", url)}
+                        aspectRatio="video"
+                      />
+
+                      <EventVideoUploadField
+                        videoUrl={event.videoUrl}
+                        videoSourceType={event.videoSourceType}
+                        onChange={(url, type) =>
+                          handleUpdateEvent(idx, { videoUrl: url, videoSourceType: type })
+                        }
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">
+                        WhatsApp Registration / Inquiries Preset Message
+                      </label>
+                      <Input
+                        value={event.whatsappMessage || ""}
+                        placeholder="e.g. Hello Pastor Caesar, I would like to attend..."
+                        onChange={(e) => handleUpdateEvent(idx, "whatsappMessage", e.target.value)}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>

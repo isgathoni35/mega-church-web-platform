@@ -528,3 +528,15 @@ None.
      - Updated [src/components/orphanage/orphanage-media-showcase.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-media-showcase.tsx) to resolve `video.thumbnailUrl` with fallback to YouTube or hero preview.
      - Embedded a responsive HTML5 `<video controls autoPlay playsInline poster={...} />` player in the Lightbox modal for uploaded device videos, retaining YouTube iframe for YouTube links.
   5. Verification: Passed `npx tsc --noEmit` with 0 errors.
+
+- **[2026-10-08]:** Completed Feature 42 (Children's Home Instant Auto-Persist Pipeline for Photos & Videos):
+  1. Diagnosed Root Cause: In [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx), clicking "Add Photo Moment" or "Add Video Story" only updated local React component state without saving to Supabase until a separate "Save Changes" button was clicked. Navigating away or viewing `/orphanage` in another tab left the database with empty arrays (`[]`).
+  2. Implemented Instant Auto-Persist Server Actions in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts):
+     - `addOrphanagePhotoAction(photo)`: Immediately prepends photo to `orphanage_photos_json` in Supabase, triggers `revalidatePath('/orphanage')`, and returns updated list.
+     - `deleteOrphanagePhotoAction(photoId)`: Immediately removes photo from Supabase and revalidates.
+     - `addOrphanageVideoAction(video)`: Immediately prepends video to `orphanage_videos_json` in Supabase, triggers `revalidatePath('/orphanage')`, and returns updated list.
+     - `deleteOrphanageVideoAction(videoId)`: Immediately removes video from Supabase and revalidates.
+  3. Integrated Instant Feedback in Admin Portal:
+     - Updated `handleAddPhoto`, `handleDeletePhoto`, `handleAddVideo`, and `handleDeleteVideo` in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) with optimistic UI updates and immediate persistence via `startTransition`.
+     - Displays immediate green success feedback upon addition or removal.
+  4. End-to-End Verification: Tested live round-trip insertion and verified that `http://localhost:3002/orphanage` immediately rendered both photo moments and video stories in HTML output (`true`). Cleared test items cleanly. Passed `npx tsc --noEmit` with 0 errors.

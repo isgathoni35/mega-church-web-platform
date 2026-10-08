@@ -8,7 +8,9 @@ export interface MinistryEventItem {
   description: string;
   imageUrl: string;
   whatsappMessage: string;
-  [key: string]: string;
+  videoUrl?: string;
+  videoSourceType?: "upload" | "youtube";
+  [key: string]: string | undefined;
 }
 
 
