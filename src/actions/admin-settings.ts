@@ -14,6 +14,67 @@ import { Json } from "@/types/database.types";
 import { extractCleanImageUrl } from "@/lib/utils";
 
 
+/**
+ * Create a signed upload URL for direct client-to-Supabase storage video uploads for Orphanage media.
+ * Bypasses server request body limits (1MB in Server Actions & 4.5MB on Vercel) in both local and live apps.
+ */
+export async function getOrphanageVideoSignedUploadUrlAction(
+  fileName: string,
+  fileType: string,
+  fileSize: number
+): Promise<ActionResponse<{ signedUrl: string; token: string; path: string; publicUrl: string }>> {
+  try {
+    const MAX_SIZE = 50 * 1024 * 1024; // 50MB
+    if (fileSize > MAX_SIZE) {
+      return {
+        success: false,
+        error: "Video file exceeds 50MB. Please compress the file or link a YouTube URL instead.",
+      };
+    }
+
+    const fileExt = fileName.split(".").pop()?.toLowerCase() || "mp4";
+    const allowedExts = ["mp4", "webm", "mov", "m4v", "ogg", "mkv"];
+    if (!allowedExts.includes(fileExt) && !fileType.startsWith("video/")) {
+      return {
+        success: false,
+        error: "Please upload a valid video file (MP4, WebM, or MOV).",
+      };
+    }
+
+    const cleanFileName = `orphanage/videos/orphanage-video-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${fileExt}`;
+    const supabase = createAdminClient();
+
+    const { data, error } = await supabase.storage
+      .from("church-media")
+      .createSignedUploadUrl(cleanFileName, { upsert: true });
+
+    if (error || !data) {
+      console.error("[Create Orphanage Signed Upload URL Error]:", error);
+      return {
+        success: false,
+        error: `Failed to authorize video upload: ${error?.message || "Storage error"}.`,
+      };
+    }
+
+    const { data: urlData } = supabase.storage
+      .from("church-media")
+      .getPublicUrl(cleanFileName);
+
+    return {
+      success: true,
+      data: {
+        signedUrl: data.signedUrl,
+        token: data.token,
+        path: cleanFileName,
+        publicUrl: urlData.publicUrl,
+      },
+    };
+  } catch (err: unknown) {
+    console.error("[Get Orphanage Signed Upload URL Action Error]:", err);
+    return { success: false, error: "Unexpected error preparing video upload." };
+  }
+}
+
 export async function uploadChurchMediaAction(
   formData: FormData
 ): Promise<ActionResponse<{ url: string }>> {

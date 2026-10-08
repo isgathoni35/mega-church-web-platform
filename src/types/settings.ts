@@ -133,6 +133,8 @@ export interface OrphanageVideoItem {
   badge?: string;
   publishedDate?: string;
   youtubeUrl?: string;
+  thumbnailUrl?: string;
+  sourceType?: "upload" | "youtube";
 }
 
 export const DEFAULT_SETTINGS: SiteSettingsData = {

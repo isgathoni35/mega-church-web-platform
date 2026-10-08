@@ -24,11 +24,13 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
+import { createClient } from "@/lib/supabase/client";
 import {
   addSermonAction,
   toggleLiveSermonAction,
   toggleFeaturedSermonAction,
   deleteSermonAction,
+  getSermonVideoSignedUploadUrlAction,
   uploadSermonVideoAction,
   uploadSermonThumbnailAction,
 } from "@/actions/admin-sermons";
@@ -91,7 +93,7 @@ export function SermonManagerView({
   const videoId = getYouTubeId(youtubeUrl);
   const previewThumbnail = videoId ? getYouTubeThumbnail(videoId) : null;
 
-  // Handle Video File Selection & Automatic Upload
+  // Handle Video File Selection & Multi-strategy Upload (Direct signed upload + route handler fallback)
   const handleVideoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -106,20 +108,72 @@ export function SermonManagerView({
 
     setVideoFile(file);
     setIsUploadingVideo(true);
+    setVideoUploadSuccess(false);
     setMessage(null);
 
-    const formData = new FormData();
-    formData.append("file", file);
+    try {
+      // Strategy 1: Direct-to-Supabase Storage via Signed Upload URL
+      // This completely bypasses server payload limits (1MB in Server Actions & 4.5MB on Vercel)
+      const authRes = await getSermonVideoSignedUploadUrlAction(file.name, file.type, file.size);
 
-    const res = await uploadSermonVideoAction(formData);
-    setIsUploadingVideo(false);
+      if (authRes.success && authRes.data) {
+        const { token, path, publicUrl } = authRes.data;
+        const supabase = createClient();
 
-    if (res.success && res.data?.url) {
-      setUploadedVideoUrl(res.data.url);
-      setVideoUploadSuccess(true);
-      setMessage({ text: "Video file successfully uploaded and ready to publish!", type: "success" });
-    } else {
-      setMessage({ text: res.error || "Failed to upload video file.", type: "error" });
+        const { error: uploadError } = await supabase.storage
+          .from("church-media")
+          .uploadToSignedUrl(path, token, file);
+
+        if (!uploadError) {
+          setUploadedVideoUrl(publicUrl);
+          setVideoUploadSuccess(true);
+          setIsUploadingVideo(false);
+          setMessage({ text: "Video file successfully uploaded and ready to publish!", type: "success" });
+          return;
+        }
+
+        console.warn("[Direct Upload Warning]: Direct signed upload failed, attempting route fallback:", uploadError);
+      }
+
+      // Strategy 2: Dedicated streaming Route Handler fallback (/api/admin/sermons/upload)
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const apiRes = await fetch("/api/admin/sermons/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const apiData = await apiRes.json();
+      if (apiRes.ok && apiData.success && apiData.data?.url) {
+        setUploadedVideoUrl(apiData.data.url);
+        setVideoUploadSuccess(true);
+        setIsUploadingVideo(false);
+        setMessage({ text: "Video file successfully uploaded and ready to publish!", type: "success" });
+        return;
+      }
+
+      // Strategy 3: Server Action fallback
+      const actionRes = await uploadSermonVideoAction(formData);
+      setIsUploadingVideo(false);
+
+      if (actionRes.success && actionRes.data?.url) {
+        setUploadedVideoUrl(actionRes.data.url);
+        setVideoUploadSuccess(true);
+        setMessage({ text: "Video file successfully uploaded and ready to publish!", type: "success" });
+      } else {
+        setMessage({
+          text: apiData?.error || actionRes.error || "Failed to upload video file.",
+          type: "error",
+        });
+      }
+    } catch (err: unknown) {
+      console.error("[Video Upload Error]:", err);
+      setIsUploadingVideo(false);
+      setMessage({
+        text: "Network error during video upload. Please try again.",
+        type: "error",
+      });
     }
   };
 

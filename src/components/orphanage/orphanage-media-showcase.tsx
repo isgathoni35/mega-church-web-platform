@@ -100,7 +100,8 @@ export function OrphanageMediaShowcase({
             {/* Render Videos First if present in current filter */}
             {displayVideos.map((video) => {
               const ytId = getYouTubeId(video.videoUrl);
-              const thumbUrl = ytId ? getYouTubeThumbnail(ytId) : "/images/orphanage-hero.png";
+              const thumbUrl = video.thumbnailUrl || (ytId ? getYouTubeThumbnail(ytId) : "/images/orphanage-hero.png");
+              const isDirectVideo = video.sourceType === "upload" || !ytId;
 
               return (
                 <div
@@ -352,18 +353,17 @@ export function OrphanageMediaShowcase({
                   className="w-full h-full border-0"
                 />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 space-y-3">
-                  <Video className="w-12 h-12 text-[#ff6b35]" />
-                  <p className="text-white font-bold">{activeVideo.title}</p>
-                  <a
-                    href={activeVideo.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm text-[#ff6b35] hover:underline"
+                <div className="relative w-full h-full bg-black flex items-center justify-center">
+                  <video
+                    src={activeVideo.videoUrl}
+                    controls
+                    autoPlay
+                    playsInline
+                    poster={activeVideo.thumbnailUrl}
+                    className="w-full h-full object-contain"
                   >
-                    <span>Open External Video Link</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               )}
             </div>

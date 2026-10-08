@@ -503,3 +503,28 @@ None.
   2. TopBar Admin Controls in Tab 1: Added dedicated Top Bar & Live Broadcast controls into Tab 1 (Home & Header) of `/admin/settings` so administrators can immediately edit phone, email, live link, and announcement right from the primary landing view tab.
   3. Complete Branch Removal: Replaced the hardcoded `BRANCHES` label on the homepage hero 3-stat strip ([src/components/home/hero-section.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/hero-section.tsx)) with `OUTREACHES`. Updated input label in admin to `Stat 1: Outreaches (e.g. 50+)`. Updated database record to clear legacy placeholder and sync phone `+254112656123`.
   4. Verification: 100% clean compilation (`npx tsc --noEmit`), HTTP 200 responses on port 3002, verified `BRANCHES` is completely absent from HTML and `OUTREACHES` renders properly.
+
+- **[2026-10-08]:** Completed Feature 40 (Video Upload Body Limit Resolution & Live App Direct Storage Architecture):
+  1. Root Cause Analysis: Next.js Server Actions default to a strict 1MB body limit (`Error: Body exceeded 1 MB limit`, HTTP 413/500). Furthermore, live serverless hosts (such as Vercel) enforce a hard 4.5MB request payload limit that breaks server-proxied large video uploads regardless of configuration.
+  2. Direct-to-Supabase Storage Architecture (Live App Ready):
+     - Created `getSermonVideoSignedUploadUrlAction` in [src/actions/admin-sermons.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-sermons.ts): securely generates short-lived signed upload tokens using the admin client.
+     - Updated [src/components/admin/sermon-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/sermon-manager-view.tsx) with a multi-strategy upload pipeline:
+       - Strategy 1 (Primary): Direct browser upload via `supabase.storage.from('church-media').uploadToSignedUrl(...)`. Uploads stream directly to Supabase storage with 0 bytes traversing Next.js server actions, bypassing both local 1MB limits and Vercel 4.5MB serverless payload constraints.
+       - Strategy 2 (Fallback): Dedicated streaming API Route Handler `/api/admin/sermons/upload`.
+       - Strategy 3 (Fallback): Server Action `uploadSermonVideoAction`.
+  3. Storage Bucket Configuration: Created migration `supabase/migrations/20261008_video_storage_config.sql` expanding `church-media` bucket `file_size_limit` to 52,428,800 bytes (50MB) and whitelisting video MIME types (`video/mp4`, `video/webm`, `video/quicktime`, `video/x-m4v`, `video/ogg`).
+  4. Next.js Server Action Config: Configured `experimental.serverActions.bodySizeLimit: "50mb"` in [next.config.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/next.config.ts).
+  5. Verification: Verified end-to-end signed upload URL generation and token upload against live Supabase storage; verified clean compilation with `npx tsc --noEmit` and HTTP 400 validation on `/api/admin/sermons/upload`.
+
+- **[2026-10-08]:** Completed Feature 41 (Children's Home Direct Device Video Upload & HTML5 Media Playback):
+  1. Data Model Extension: Extended `OrphanageVideoItem` in [src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts) with `thumbnailUrl?: string` and `sourceType?: "upload" | "youtube"`.
+  2. Direct Storage Authorization: Created `getOrphanageVideoSignedUploadUrlAction` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts) for live-app-proof client streaming directly to Supabase storage (`church-media/orphanage/videos/`), bypassing server action payload constraints.
+  3. Admin Portal Dual-Mode Ingestion:
+     - Updated Tab 6 (*Outreach & Orphanage*) in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) with a dual-mode source toggle (Upload Video File vs YouTube URL).
+     - Added drag-and-drop / file selector with 50MB validation, upload progress spinner, and green success confirmation badge.
+     - Added optional custom thumbnail uploader via `uploadChurchMediaAction`.
+     - Added source badges (`Direct Video` vs `YouTube`) in the admin video cards.
+  4. Public Player & Card Playback:
+     - Updated [src/components/orphanage/orphanage-media-showcase.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-media-showcase.tsx) to resolve `video.thumbnailUrl` with fallback to YouTube or hero preview.
+     - Embedded a responsive HTML5 `<video controls autoPlay playsInline poster={...} />` player in the Lightbox modal for uploaded device videos, retaining YouTube iframe for YouTube links.
+  5. Verification: Passed `npx tsc --noEmit` with 0 errors.

@@ -28,6 +28,12 @@ import {
   Video,
   Play,
   Radio,
+  Upload,
+  Link as LinkIcon,
+  Loader2,
+  Film,
+  Check,
+  ExternalLink,
 } from "lucide-react";
 import {
   SiteSettingsData,
@@ -35,7 +41,12 @@ import {
   OrphanagePhotoItem,
   OrphanageVideoItem,
 } from "@/types/settings";
-import { saveSiteSettingsAction } from "@/actions/admin-settings";
+import {
+  saveSiteSettingsAction,
+  getOrphanageVideoSignedUploadUrlAction,
+  uploadChurchMediaAction,
+} from "@/actions/admin-settings";
+import { createClient } from "@/lib/supabase/client";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
 import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
 import { Button } from "@/components/ui/button";
@@ -73,6 +84,13 @@ export function SettingsManagerView({ initialSettings }: SettingsManagerViewProp
   const [newVideoDescription, setNewVideoDescription] = useState("");
   const [newVideoUrl, setNewVideoUrl] = useState("");
   const [newVideoBadge, setNewVideoBadge] = useState("Daily Life Story");
+  const [videoSourceType, setVideoSourceType] = useState<"upload" | "youtube">("upload");
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [uploadedVideoUrl, setUploadedVideoUrl] = useState<string>("");
+  const [uploadedThumbnailUrl, setUploadedThumbnailUrl] = useState<string>("");
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
+  const [videoUploadSuccess, setVideoUploadSuccess] = useState(false);
+  const [isUploadingThumb, setIsUploadingThumb] = useState(false);
 
   const sqlCode = `-- Sugutta Fellowship Church - Comprehensive CMS, Media & Channel Migration
 -- Run this in Supabase SQL Editor (SQL Editor -> New Query -> Run)
@@ -292,28 +310,128 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     });
   };
 
-  // Children's Home Video Helpers
-  const handleAddVideo = () => {
-    if (!newVideoUrl.trim() || !newVideoTitle.trim()) {
-      alert("Please provide at least a video URL and a title.");
+  // Children's Home Video Upload Handlers
+  const handleVideoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 50 * 1024 * 1024) {
+      alert(`File "${file.name}" is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Max limit is 50MB. For larger videos, please use the YouTube URL tab.`);
       return;
     }
+
+    setVideoFile(file);
+    setIsUploadingVideo(true);
+    setVideoUploadSuccess(false);
+
+    try {
+      // Strategy 1: Direct-to-Supabase Storage via Signed Upload URL (bypasses server body limits)
+      const authRes = await getOrphanageVideoSignedUploadUrlAction(file.name, file.type, file.size);
+
+      if (authRes.success && authRes.data) {
+        const { token, path, publicUrl } = authRes.data;
+        const supabase = createClient();
+
+        const { error: uploadError } = await supabase.storage
+          .from("church-media")
+          .uploadToSignedUrl(path, token, file);
+
+        if (!uploadError) {
+          setUploadedVideoUrl(publicUrl);
+          setVideoUploadSuccess(true);
+          setIsUploadingVideo(false);
+          return;
+        }
+
+        console.warn("[Orphanage Video Direct Upload Warning]:", uploadError);
+      }
+
+      // Strategy 2: Dedicated streaming Route Handler fallback
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const apiRes = await fetch("/api/admin/sermons/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const apiData = await apiRes.json();
+      if (apiRes.ok && apiData.success && apiData.data?.url) {
+        setUploadedVideoUrl(apiData.data.url);
+        setVideoUploadSuccess(true);
+      } else {
+        alert(apiData?.error || "Failed to upload video file.");
+      }
+    } catch (err: unknown) {
+      console.error("[Orphanage Video Upload Error]:", err);
+      alert("Network error during video upload. Please try again.");
+    } finally {
+      setIsUploadingVideo(false);
+    }
+  };
+
+  const handleThumbFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingThumb(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await uploadChurchMediaAction(formData);
+      if (res.success && res.data?.url) {
+        setUploadedThumbnailUrl(res.data.url);
+      } else {
+        alert(res.error || "Failed to upload thumbnail.");
+      }
+    } catch (err: unknown) {
+      console.error("[Orphanage Thumbnail Upload Error]:", err);
+      alert("Error uploading thumbnail.");
+    } finally {
+      setIsUploadingThumb(false);
+    }
+  };
+
+  const handleAddVideo = () => {
+    const effectiveVideoUrl = videoSourceType === "upload" ? uploadedVideoUrl : newVideoUrl.trim();
+    if (!effectiveVideoUrl) {
+      alert(
+        videoSourceType === "upload"
+          ? "Please select and upload a video file first."
+          : "Please enter a valid YouTube video URL."
+      );
+      return;
+    }
+    if (!newVideoTitle.trim()) {
+      alert("Please provide a title for this video story.");
+      return;
+    }
+
     const newVideo: OrphanageVideoItem = {
       id: `video-${Date.now()}`,
       title: newVideoTitle.trim(),
-      videoUrl: newVideoUrl.trim(),
-      youtubeUrl: newVideoUrl.trim(),
+      videoUrl: effectiveVideoUrl,
+      youtubeUrl: videoSourceType === "youtube" ? effectiveVideoUrl : undefined,
+      thumbnailUrl: uploadedThumbnailUrl || undefined,
+      sourceType: videoSourceType,
       badge: newVideoBadge.trim() || "Daily Life Story",
       description: newVideoDescription.trim() || undefined,
       publishedDate: new Date().toISOString().split("T")[0],
     };
+
     setSettings({
       ...settings,
       orphanageVideos: [newVideo, ...settings.orphanageVideos],
     });
+
+    // Reset video form state
     setNewVideoTitle("");
     setNewVideoDescription("");
     setNewVideoUrl("");
+    setUploadedVideoUrl("");
+    setUploadedThumbnailUrl("");
+    setVideoFile(null);
+    setVideoUploadSuccess(false);
   };
 
   const handleDeleteVideo = (id: string) => {
@@ -971,7 +1089,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                       Video Stories &amp; Testimonies ({settings.orphanageVideos.length} Videos)
                     </h3>
                     <p className="text-xs text-slate-500">
-                      YouTube video links with automatic high-res thumbnails and embedded play modal for supporters.
+                      Upload video files directly from your device (MP4, WebM up to 50MB) or link YouTube videos.
                     </p>
                   </div>
                 </div>
@@ -983,6 +1101,116 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                   <Plus className="w-4 h-4 text-rose-600" />
                   <span>Add New Children&apos;s Home Video</span>
                 </h4>
+
+                {/* Video Ingestion Source Selector */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Video Ingestion Source</label>
+                  <div className="grid grid-cols-2 gap-2 bg-white p-1 rounded-xl border border-slate-200">
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceType("upload")}
+                      className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        videoSourceType === "upload"
+                          ? "bg-rose-600 text-white shadow-sm"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                    >
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Upload Video File</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVideoSourceType("youtube")}
+                      className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                        videoSourceType === "youtube"
+                          ? "bg-rose-600 text-white shadow-sm"
+                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                      }`}
+                    >
+                      <LinkIcon className="w-3.5 h-3.5" />
+                      <span>YouTube URL</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Source Mode 1: Device File Upload */}
+                {videoSourceType === "upload" && (
+                  <div className="space-y-3 p-4 bg-white rounded-xl border border-rose-200/60">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                        <span>Select Video File (MP4, WebM, MOV)</span>
+                        <span className="text-[10px] text-slate-400 font-normal">Max size: 50MB</span>
+                      </label>
+                      <div className="relative border-2 border-dashed border-slate-200 hover:border-rose-400 rounded-xl p-4 text-center transition-colors">
+                        <input
+                          type="file"
+                          accept="video/mp4,video/webm,video/quicktime,video/x-m4v,video/*"
+                          onChange={handleVideoFileChange}
+                          disabled={isUploadingVideo}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                        />
+                        <div className="flex flex-col items-center justify-center gap-1.5 pointer-events-none">
+                          {isUploadingVideo ? (
+                            <>
+                              <Loader2 className="w-7 h-7 text-rose-600 animate-spin" />
+                              <p className="text-xs font-bold text-slate-700">Uploading video to storage...</p>
+                              <p className="text-[10px] text-slate-400">Streaming directly to cloud storage. Please wait...</p>
+                            </>
+                          ) : videoUploadSuccess ? (
+                            <>
+                              <CheckCircle2 className="w-7 h-7 text-emerald-600" />
+                              <p className="text-xs font-bold text-emerald-700">Video file uploaded successfully!</p>
+                              <p className="text-[10px] text-slate-500 truncate max-w-xs">{videoFile?.name}</p>
+                            </>
+                          ) : (
+                            <>
+                              <Film className="w-7 h-7 text-slate-400" />
+                              <p className="text-xs font-bold text-slate-700">Click or drag video file here</p>
+                              <p className="text-[10px] text-slate-400">Supports standard video formats up to 50MB</p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Optional Custom Thumbnail */}
+                    <div className="space-y-1 pt-2 border-t border-slate-100">
+                      <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                        <span>Custom Video Thumbnail (Optional)</span>
+                        {uploadedThumbnailUrl && (
+                          <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+                            <Check className="w-3 h-3" /> Thumbnail attached
+                          </span>
+                        )}
+                      </label>
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          onChange={handleThumbFileChange}
+                          disabled={isUploadingThumb}
+                          className="text-xs text-slate-500 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer"
+                        />
+                        {isUploadingThumb && <Loader2 className="w-4 h-4 text-rose-600 animate-spin" />}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Source Mode 2: YouTube URL */}
+                {videoSourceType === "youtube" && (
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">YouTube Video URL</label>
+                    <Input
+                      placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                      value={newVideoUrl}
+                      onChange={(e) => setNewVideoUrl(e.target.value)}
+                    />
+                    <span className="text-[10px] text-slate-500 block">
+                      Paste any standard YouTube watch link, share link, or short. The thumbnail is auto-fetched.
+                    </span>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
@@ -1004,18 +1232,6 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">YouTube Video URL</label>
-                  <Input
-                    placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
-                    value={newVideoUrl}
-                    onChange={(e) => setNewVideoUrl(e.target.value)}
-                  />
-                  <span className="text-[10px] text-slate-500 block">
-                    Paste any standard YouTube watch link, share link, or short. The thumbnail is auto-fetched.
-                  </span>
-                </div>
-
-                <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Description (Optional)</label>
                   <Textarea
                     rows={2}
@@ -1028,6 +1244,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 <Button
                   type="button"
                   onClick={handleAddVideo}
+                  disabled={isUploadingVideo || isUploadingThumb}
                   className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5"
                 >
                   <Plus className="w-4 h-4" />
@@ -1040,13 +1257,16 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 <div className="p-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
                   <Video className="w-8 h-8 mx-auto mb-2 text-slate-400" />
                   <p className="text-sm font-bold">No video stories added yet.</p>
-                  <p className="text-xs mt-1">Add YouTube videos using the form above.</p>
+                  <p className="text-xs mt-1">Add videos from your device or YouTube using the form above.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {settings.orphanageVideos.map((video) => {
                     const videoLink = video.videoUrl || video.youtubeUrl || "";
-                    const thumb = getYouTubeThumbnail(videoLink);
+                    const ytId = getYouTubeId(videoLink);
+                    const thumb = video.thumbnailUrl || (ytId ? getYouTubeThumbnail(ytId) : "/images/orphanage-hero.png");
+                    const isDeviceUpload = video.sourceType === "upload" || !ytId;
+
                     return (
                       <div
                         key={video.id}
@@ -1069,11 +1289,20 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                               <Play className="w-5 h-5 ml-0.5 fill-white" />
                             </div>
                           </div>
-                          {video.badge && (
-                            <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
-                              {video.badge}
+                          <div className="absolute top-2 left-2 flex flex-col gap-1">
+                            {video.badge && (
+                              <span className="bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                                {video.badge}
+                              </span>
+                            )}
+                            <span className={`text-[9px] font-extrabold px-1.5 py-0.5 rounded-md uppercase tracking-wider backdrop-blur-sm ${
+                              isDeviceUpload
+                                ? "bg-emerald-600/90 text-white"
+                                : "bg-red-600/90 text-white"
+                            }`}>
+                              {isDeviceUpload ? "Direct Video" : "YouTube"}
                             </span>
-                          )}
+                          </div>
                         </div>
                         <div className="p-3.5 flex-1 flex flex-col justify-between gap-3">
                           <div>
