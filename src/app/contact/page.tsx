@@ -30,7 +30,7 @@ export default async function ContactPage() {
   const email = settings.contactEmail;
 
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    "Sugutta Main Altar Complex, Jogoo Road Corridor, Nairobi, Kenya"
+    "Sugutta Main Sanctuary, Jogoo Getare, Kenya"
   )}`;
 
   return (
@@ -144,7 +144,7 @@ export default async function ContactPage() {
               <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-300">
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 text-[#ff6b35] shrink-0 mt-0.5" />
-                  <span>Sugutta Main Altar Complex, Jogoo Road Corridor, Nairobi, Kenya</span>
+                  <span>Sugutta Main Sanctuary, Jogoo Getare, Kenya</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-[#ff6b35] shrink-0" />

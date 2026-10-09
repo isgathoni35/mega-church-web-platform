@@ -34,12 +34,17 @@ import {
   Film,
   Check,
   ExternalLink,
+  Eye,
+  EyeOff,
+  Layers,
 } from "lucide-react";
 import {
   SiteSettingsData,
   MinistryEventItem,
+  MinistryProjectItem,
   OrphanagePhotoItem,
   OrphanageVideoItem,
+  DEFAULT_SETTINGS,
 } from "@/types/settings";
 import {
   saveSiteSettingsAction,
@@ -198,7 +203,8 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_2_lbl TEXT
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_3_val TEXT NOT NULL DEFAULT '1,000,000+';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_3_lbl TEXT NOT NULL DEFAULT 'Believers Impacted';
 
--- 10. Dynamic Events Data
+-- 10. Dynamic Projects & Events Data
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS projects_json JSONB NOT NULL DEFAULT '[]'::jsonb;
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS events_json JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 -- 11. Ensure at least one configuration row exists
@@ -254,6 +260,58 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [settings]);
 
+
+  // Project Helpers
+  const handleAddProject = () => {
+    const newProject: MinistryProjectItem = {
+      id: `proj-${Date.now()}`,
+      badge: "Community Mission",
+      title: "New Church Project / Mission",
+      subtitle: "Project objective or current focus",
+      narrative:
+        "Detailed explanation of the project, impact, and how people can support.",
+      imageUrl: "/images/church-construction.jpg",
+      videoUrl: "",
+      donateLink: "/give",
+      donateLabel: "Support this Project",
+      mpesaRef: "PROJECT",
+      color: "orange",
+      active: true,
+    };
+    const currentList = settings.projectsJson?.length
+      ? settings.projectsJson
+      : DEFAULT_SETTINGS.projectsJson;
+    setSettings({
+      ...settings,
+      projectsJson: [...currentList, newProject],
+    });
+  };
+
+  const handleUpdateProject = (
+    idx: number,
+    fieldOrUpdates: keyof MinistryProjectItem | Partial<MinistryProjectItem>,
+    val?: unknown
+  ) => {
+    const currentList = settings.projectsJson?.length
+      ? settings.projectsJson
+      : DEFAULT_SETTINGS.projectsJson;
+    const updated = [...currentList];
+    if (typeof fieldOrUpdates === "object" && fieldOrUpdates !== null) {
+      updated[idx] = { ...updated[idx], ...fieldOrUpdates };
+    } else {
+      updated[idx] = { ...updated[idx], [fieldOrUpdates as keyof MinistryProjectItem]: val };
+    }
+    setSettings({ ...settings, projectsJson: updated });
+  };
+
+  const handleDeleteProject = (idx: number) => {
+    if (!confirm("Are you sure you want to remove this project?")) return;
+    const currentList = settings.projectsJson?.length
+      ? settings.projectsJson
+      : DEFAULT_SETTINGS.projectsJson;
+    const updated = currentList.filter((_, i) => i !== idx);
+    setSettings({ ...settings, projectsJson: updated });
+  };
 
   // Event Helpers
   const handleAddEvent = () => {
@@ -660,7 +718,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           }`}
         >
           <Hammer className="w-4 h-4" />
-          <span>Twin Projects</span>
+          <span>Church Projects</span>
         </button>
 
         <button
@@ -928,110 +986,238 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         )}
 
 
-        {/* ================= TAB 2: TWIN ONGOING PROJECTS ================= */}
+        {/* ================= TAB 2: CHURCH PROJECTS & MISSIONS ================= */}
         {activeTab === "projects" && (
           <div className="space-y-6">
-            {/* Project 1: Sanctuary Construction */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
-              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-                <Hammer className="w-5 h-5 text-[#ff6b35]" />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50 via-white to-amber-50 rounded-2xl sm:rounded-3xl border border-orange-200/80 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff6b35] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <Hammer className="w-5 h-5" />
+                </div>
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                    Project 1: Church Sanctuary Construction
-                  </h3>
+                  <h2 className="text-base sm:text-lg font-black text-slate-900">
+                    Active Projects &amp; Capital Campaigns
+                  </h2>
                   <p className="text-xs text-slate-500">
-                    Controls the construction card on Section 6 of the homepage and giving portal.
+                    Add, edit, reorder, or toggle any church project displayed on the homepage Section 6.
                   </p>
                 </div>
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Project Title</label>
-                  <Input
-                    value={settings.constructionTitle}
-                    onChange={(e) => setSettings({ ...settings, constructionTitle: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Progress Highlights / Subtitle</label>
-                  <Input
-                    value={settings.constructionSubtitle}
-                    onChange={(e) => setSettings({ ...settings, constructionSubtitle: e.target.value })}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Construction Narrative</label>
-                <Textarea
-                  rows={3}
-                  value={settings.constructionNarrative}
-                  onChange={(e) => setSettings({ ...settings, constructionNarrative: e.target.value })}
-                />
-              </div>
-
-              {/* Construction Photo Upload */}
-              <ImageUploadField
-                label="Sanctuary Construction Photo"
-                description="Upload the latest building site photograph (foundation blocks, pillars, roofing) to keep well-wishers updated."
-                value={settings.constructionImageUrl}
-                onChange={(url) => setSettings({ ...settings, constructionImageUrl: url })}
-                aspectRatio="video"
-              />
+              <Button
+                type="button"
+                onClick={handleAddProject}
+                className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-bold text-xs rounded-full px-5 py-2.5 h-auto flex items-center gap-1.5 shadow-md shadow-orange-500/20 border-0 shrink-0"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add New Project</span>
+              </Button>
             </div>
 
-            {/* Project 2: Children's Home & Compassion */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
-              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-                <Baby className="w-5 h-5 text-rose-600" />
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
-                    Project 2: Children&apos;s Home &amp; Compassion Mission
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    Controls the children&apos;s home card on Section 6 of the homepage and giving portal.
-                  </p>
-                </div>
-              </div>
+            {/* List of Dynamic Projects */}
+            {((settings.projectsJson && settings.projectsJson.length > 0)
+              ? settings.projectsJson
+              : DEFAULT_SETTINGS.projectsJson
+            ).map((project, idx) => {
+              const colorOptions = [
+                { id: "orange", label: "Orange / Flame", bg: "bg-orange-50 border-orange-300 text-[#c2410c]" },
+                { id: "rose", label: "Rose / Children", bg: "bg-rose-50 border-rose-300 text-rose-700" },
+                { id: "blue", label: "Blue / Grace", bg: "bg-blue-50 border-blue-300 text-blue-700" },
+                { id: "green", label: "Emerald / Life", bg: "bg-emerald-50 border-emerald-300 text-emerald-700" },
+              ];
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Mission Title</label>
-                  <Input
-                    value={settings.orphanageTitle}
-                    onChange={(e) => setSettings({ ...settings, orphanageTitle: e.target.value })}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Care Highlights / Subtitle</label>
-                  <Input
-                    value={settings.orphanageSubtitle}
-                    onChange={(e) => setSettings({ ...settings, orphanageSubtitle: e.target.value })}
-                  />
-                </div>
-              </div>
+              return (
+                <div
+                  key={project.id || idx}
+                  className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6 relative overflow-hidden"
+                >
+                  {/* Top Bar for Project Card */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                    <div className="flex items-center gap-3">
+                      <span className="w-7 h-7 rounded-xl bg-slate-900 text-white font-black text-xs flex items-center justify-center shrink-0">
+                        #{idx + 1}
+                      </span>
+                      <div>
+                        <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                          {project.title || `Project #${idx + 1}`}
+                        </h3>
+                        <p className="text-[11px] text-slate-500">
+                          ID: <code className="font-mono text-slate-700">{project.id}</code>
+                        </p>
+                      </div>
+                    </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Children&apos;s Home Narrative</label>
-                <Textarea
-                  rows={3}
-                  value={settings.orphanageNarrative}
-                  onChange={(e) => setSettings({ ...settings, orphanageNarrative: e.target.value })}
-                />
-              </div>
+                    <div className="flex items-center gap-2 self-end sm:self-auto">
+                      {/* Active Toggle */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleUpdateProject(idx, "active", project.active === false ? true : false)
+                        }
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
+                          project.active !== false
+                            ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+                            : "bg-slate-100 border-slate-300 text-slate-500"
+                        }`}
+                      >
+                        {project.active !== false ? (
+                          <>
+                            <Eye className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>Active / Visible</span>
+                          </>
+                        ) : (
+                          <>
+                            <EyeOff className="w-3.5 h-3.5 text-slate-400" />
+                            <span>Hidden</span>
+                          </>
+                        )}
+                      </button>
 
-              {/* Children's Home Photo Upload */}
-              <ImageUploadField
-                label="Children's Home Campus Photo"
-                description="Featured photo of the home compound, children at study, or nutrition ministration."
-                value={settings.orphanageImageUrl}
-                onChange={(url) => setSettings({ ...settings, orphanageImageUrl: url })}
-                aspectRatio="video"
-              />
+                      {/* Delete Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteProject(idx)}
+                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                        title="Delete this project"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Core Information */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">Project Badge Label</label>
+                      <Input
+                        value={project.badge}
+                        onChange={(e) => handleUpdateProject(idx, "badge", e.target.value)}
+                        placeholder="e.g. Children's Home Mission"
+                      />
+                    </div>
+                    <div className="sm:col-span-2 space-y-1.5">
+                      <label className="text-xs font-bold text-slate-700">Project Title</label>
+                      <Input
+                        value={project.title}
+                        onChange={(e) => handleUpdateProject(idx, "title", e.target.value)}
+                        placeholder="e.g. Building a Permanent House of Prayer in Sugutta"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Progress Highlights / Subtitle</label>
+                    <Input
+                      value={project.subtitle}
+                      onChange={(e) => handleUpdateProject(idx, "subtitle", e.target.value)}
+                      placeholder="e.g. Concrete foundation blocks, steel pillar reinforcement & roof trussing."
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Project Narrative &amp; Mission Impact</label>
+                    <Textarea
+                      rows={3}
+                      value={project.narrative}
+                      onChange={(e) => handleUpdateProject(idx, "narrative", e.target.value)}
+                      placeholder="Describe the objective, biblical foundation, urgent needs, and impact..."
+                    />
+                  </div>
+
+                  {/* Theme Color Picker */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Card Color Accent</label>
+                    <div className="flex flex-wrap items-center gap-2">
+                      {colorOptions.map((opt) => (
+                        <button
+                          key={opt.id}
+                          type="button"
+                          onClick={() => handleUpdateProject(idx, "color", opt.id)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${opt.bg} ${
+                            (project.color || "orange") === opt.id
+                              ? "ring-2 ring-offset-1 ring-slate-900 shadow-sm"
+                              : "opacity-70 hover:opacity-100"
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Media: Photo & Video Upload */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <ImageUploadField
+                      label="Featured Project Photo"
+                      description="Featured banner photo for this project (landscape 16:9 recommended)."
+                      value={project.imageUrl}
+                      onChange={(url) => handleUpdateProject(idx, "imageUrl", url)}
+                      aspectRatio="video"
+                    />
+
+                    <EventVideoUploadField
+                      label="Project Video / Walkthrough (Optional)"
+                      description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to showcase project progress."
+                      videoUrl={project.videoUrl || ""}
+                      onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl)}
+                    />
+                  </div>
+
+                  {/* Giving Controls */}
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <CreditCard className="w-4 h-4 text-[#ff6b35]" />
+                      <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                        Giving &amp; Donation Call to Action
+                      </h4>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-slate-700">CTA Button Destination Link</label>
+                        <Input
+                          value={project.donateLink}
+                          onChange={(e) => handleUpdateProject(idx, "donateLink", e.target.value)}
+                          placeholder="/give or /orphanage/donate"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-slate-700">CTA Button Text</label>
+                        <Input
+                          value={project.donateLabel}
+                          onChange={(e) => handleUpdateProject(idx, "donateLabel", e.target.value)}
+                          placeholder="Give to the Building Fund"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-bold text-slate-700">M-Pesa Account Reference</label>
+                        <Input
+                          value={project.mpesaRef}
+                          onChange={(e) => handleUpdateProject(idx, "mpesaRef", e.target.value)}
+                          placeholder="e.g. BUILDING, ORPHANAGE"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Bottom Add Project Button */}
+            <div className="flex justify-center pt-2">
+              <Button
+                type="button"
+                onClick={handleAddProject}
+                variant="outline"
+                className="rounded-full font-bold text-xs px-6 py-2.5 h-auto flex items-center gap-2 border-dashed border-slate-300 hover:border-[#ff6b35] text-slate-700 hover:text-[#ff6b35]"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Another Church Project</span>
+              </Button>
             </div>
 
-            {renderSaveSectionBar("Ready to update Twin Projects?")}
+            {renderSaveSectionBar("Ready to update Church Projects?")}
           </div>
         )}
 

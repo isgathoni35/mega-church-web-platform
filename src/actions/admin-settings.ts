@@ -7,6 +7,7 @@ import {
   SiteSettingsData,
   DEFAULT_SETTINGS,
   MinistryEventItem,
+  MinistryProjectItem,
   OrphanagePhotoItem,
   OrphanageVideoItem,
 } from "@/types/settings";
@@ -513,6 +514,16 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         impactStat3Val: row.impact_stat_3_val || DEFAULT_SETTINGS.impactStat3Val,
         impactStat3Lbl: row.impact_stat_3_lbl || DEFAULT_SETTINGS.impactStat3Lbl,
 
+        // Dynamic Projects
+        projectsJson: Array.isArray(row.projects_json) && (row.projects_json as unknown as MinistryProjectItem[]).length > 0
+          ? (row.projects_json as unknown as MinistryProjectItem[]).map((p) => ({
+              ...p,
+              imageUrl: extractCleanImageUrl(p.imageUrl),
+              videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
+              active: p.active !== false, // default to true if missing
+            }))
+          : DEFAULT_SETTINGS.projectsJson,
+
         // Events Data
         eventsJson: Array.isArray(row.events_json)
           ? (row.events_json as unknown as MinistryEventItem[]).map((ev) => ({
@@ -651,6 +662,14 @@ export async function saveSiteSettingsAction(
       impact_stat_2_lbl: settings.impactStat2Lbl.trim(),
       impact_stat_3_val: settings.impactStat3Val.trim(),
       impact_stat_3_lbl: settings.impactStat3Lbl.trim(),
+
+      // Dynamic Projects
+      projects_json: (settings.projectsJson || DEFAULT_SETTINGS.projectsJson).map((p) => ({
+        ...p,
+        imageUrl: extractCleanImageUrl(p.imageUrl),
+        videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
+        active: p.active !== false,
+      })) as unknown as Json,
 
       // Events Data
       events_json: (settings.eventsJson || []).map((ev) => ({

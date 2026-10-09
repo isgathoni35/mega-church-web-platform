@@ -786,7 +786,7 @@ export function TabbedConnectHub() {
                     </label>
                     <Input
                       type="text"
-                      placeholder="e.g. John Kamau"
+                      placeholder="Your full name"
                       value={inquiryFullName}
                       onChange={(e) => setInquiryFullName(e.target.value)}
                       required

@@ -179,7 +179,7 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
                         required
                         value={formData.fullName}
                         onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                        placeholder="e.g. John Mwangi"
+                        placeholder="Your full name"
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff6b35] transition-all bg-slate-50/50 focus:bg-white"
                       />
                     </div>

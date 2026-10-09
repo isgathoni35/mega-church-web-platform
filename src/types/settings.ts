@@ -15,6 +15,21 @@ export interface MinistryEventItem {
   [key: string]: string | undefined;
 }
 
+export interface MinistryProjectItem {
+  id: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  narrative: string;
+  imageUrl: string;
+  videoUrl?: string;
+  donateLink: string;
+  donateLabel: string;
+  mpesaRef: string;
+  color: string; // "rose" | "orange" | "blue" | "green"
+  active: boolean;
+}
+
 
 export interface SiteSettingsData {
   // Pastoral Profile
@@ -87,6 +102,9 @@ export interface SiteSettingsData {
   impactStat2Lbl: string;
   impactStat3Val: string;
   impactStat3Lbl: string;
+
+  // Dynamic Projects
+  projectsJson: MinistryProjectItem[];
 
   // Events Data
   eventsJson: MinistryEventItem[];
@@ -226,6 +244,40 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   impactStat2Lbl: "Miracle Crusades",
   impactStat3Val: "1,000,000+",
   impactStat3Lbl: "Believers Impacted",
+
+  // Dynamic Projects
+  projectsJson: [
+    {
+      id: "proj-orphanage",
+      badge: "Children's Home Mission",
+      title: "Sheltering & Sponsoring 50+ Vulnerable Children",
+      subtitle: "Hot nutritious meals, quality education, medical care & parental love.",
+      narrative:
+        "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
+      imageUrl: "/images/orphanage-hero.png",
+      videoUrl: "",
+      donateLink: "/orphanage/donate",
+      donateLabel: "Support the Children's Home",
+      mpesaRef: "ORPHANAGE",
+      color: "rose",
+      active: true,
+    },
+    {
+      id: "proj-building",
+      badge: "Sanctuary Construction",
+      title: "Building a Permanent House of Prayer in Sugutta",
+      subtitle: "Concrete foundation blocks, steel pillar reinforcement & roof trussing.",
+      narrative:
+        "With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.",
+      imageUrl: "/images/church-construction.jpg",
+      videoUrl: "",
+      donateLink: "/give",
+      donateLabel: "Give to the Building Fund",
+      mpesaRef: "BUILDING",
+      color: "orange",
+      active: true,
+    },
+  ],
 
   // Events Data
   eventsJson: [],

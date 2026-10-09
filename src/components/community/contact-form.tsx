@@ -199,7 +199,7 @@ export function ContactForm() {
               </label>
               <Input
                 id="contact-fullname"
-                placeholder="e.g. John Kamau"
+                placeholder="Your full name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required

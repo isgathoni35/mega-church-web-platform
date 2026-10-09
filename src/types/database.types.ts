@@ -201,6 +201,7 @@ export interface Database {
           impact_stat_2_lbl?: string;
           impact_stat_3_val?: string;
           impact_stat_3_lbl?: string;
+          projects_json?: Json;
           events_json?: Json;
           mpesa_phone: string;
           contact_email: string;
@@ -277,6 +278,7 @@ export interface Database {
           impact_stat_2_lbl?: string;
           impact_stat_3_val?: string;
           impact_stat_3_lbl?: string;
+          projects_json?: Json;
           events_json?: Json;
           mpesa_phone?: string;
           contact_email?: string;
@@ -352,6 +354,7 @@ export interface Database {
           impact_stat_2_lbl?: string;
           impact_stat_3_val?: string;
           impact_stat_3_lbl?: string;
+          projects_json?: Json;
           events_json?: Json;
           mpesa_phone?: string;
           contact_email?: string;
