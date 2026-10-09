@@ -26,9 +26,22 @@ export function OrphanageTeaser({ settings: propSettings }: OrphanageTeaserProps
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-5 sm:gap-8">
             {/* Left Content */}
             <div className="space-y-2.5 sm:space-y-4 max-w-2xl text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-                <Heart className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-                <span>{settings.orphanageBadge || "Heavens Gates Compassion Wing"}</span>
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-[11px] sm:text-xs font-bold uppercase tracking-wider">
+                  <Heart className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
+                  <span>{settings.orphanageBadge || "Heavens Gates Compassion Wing"}</span>
+                </div>
+
+                <Link
+                  href="/orphanage/donate"
+                  className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-rose-50 border border-rose-300 text-rose-700 text-[11px] sm:text-xs font-black uppercase tracking-wider hover:bg-rose-100 transition-colors shadow-xs"
+                >
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600" />
+                  </span>
+                  <span>Give to Children</span>
+                </Link>
               </div>
 
               <div className="space-y-1">
@@ -53,14 +66,29 @@ export function OrphanageTeaser({ settings: propSettings }: OrphanageTeaserProps
             </div>
 
             {/* Right Action */}
-            <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+            <div className="shrink-0 flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+              {/* Blipping Urgent Donation Button */}
+              <Link
+                href="/orphanage/donate"
+                className="relative inline-flex items-center justify-center gap-2.5 px-6 py-3.5 sm:px-7 sm:py-4 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-rose-600/30 transition-all hover:scale-105 w-full sm:w-auto group text-center cursor-pointer"
+              >
+                <span className="relative flex h-3 w-3 shrink-0">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-200 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-white" />
+                </span>
+                <span>Sponsor a Child Today</span>
+                <Heart className="w-4 h-4 fill-current text-white animate-pulse" />
+              </Link>
+
+              {/* Visit Children's Home Button */}
               <Button
                 size="lg"
-                className="w-full sm:w-auto bg-[#ff6b35] hover:bg-[#f25c23] text-white border-0 font-bold shadow-lg shadow-orange-500/20 rounded-full px-6 py-3 sm:px-8 sm:py-6 text-sm sm:text-base h-auto"
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-slate-200 hover:border-[#ff6b35] text-slate-800 hover:text-[#ff6b35] font-bold rounded-full px-6 py-3.5 sm:px-7 sm:py-4 text-xs sm:text-sm h-auto transition-colors"
                 asChild
               >
                 <Link href="/orphanage">
-                  Visit Children&apos;s Home
+                  <span>Visit Children&apos;s Home</span>
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

@@ -613,3 +613,31 @@ None.
    6. Verification:
       - `npx tsc --noEmit` passed with 0 errors.
       - All routes (`/`, `/give`, `/orphanage/donate`, `/contact`, `/prayer-request`, `/admin/settings`) verified returning HTTP 200 on port 3002.
+
+- **[2026-10-09]:** Completed Feature 48 (Ministry Pillar Videos CMS & Lightbox, Children's Home Pulsing Donation Badge, Fully Editable Orphanage Media, WhatsApp Indicators, Plain Google Maps, Form Attendance Field Removal, Thank You Confirmations, and Standardized Visible Payment QR Codes):
+   1. Ministry Pillars Video Uploads & Interactive Public Lightbox:
+      - Extended `SiteSettingsData` in [src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts) and `site_settings` table schema in [src/types/database.types.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/database.types.ts) with `pillar1Video`, `pillar2Video`, `pillar3Video`, and `pillar4Video`.
+      - Integrated `EventVideoUploadField` (supporting both direct device video files up to 50MB and YouTube embeds) in Admin Settings Tab 4 for each of the 4 ministry pillars.
+      - Updated [src/components/home/ministry-pillars.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/ministry-pillars.tsx) to display "Watch Pillar Video" overlay play badges and an interactive video Lightbox modal supporting HTML5 `<video controls autoPlay>` and YouTube embeds.
+   2. Children's Home Pulsing "Blipping" Indicator & Direct Donation Links:
+      - Added an animated radar pulsing/blipping badge and button ("Sponsor a Child Today") to both the homepage Children's Home teaser ([src/components/home/orphanage-teaser.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/orphanage-teaser.tsx)) and the Orphanage hero ([src/components/orphanage/orphanage-hero.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-hero.tsx)).
+      - Configured all donation CTAs and blipping indicators across `/orphanage` to navigate directly to `/orphanage/donate`.
+   3. Children's Home 100% Media CMS Editability:
+      - Added `orphanageStoryImage` to `SiteSettingsData` and database schema.
+      - Added `ImageUploadField` in Admin Tab 6 for the Children's Home Story / Narrative Photo alongside the Hero Banner Photo.
+      - Bound [src/components/orphanage/orphanage-story.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-story.tsx) and [src/app/orphanage/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/orphanage/page.tsx) to dynamic settings.
+   4. WhatsApp Direct Altar Chat Indicators:
+      - Added green WhatsApp indicator badges and direct chat links (`https://wa.me/254112656123`) next to telephone numbers across TopBar ([src/components/layout/top-bar.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/top-bar.tsx)), Navbar Mobile Nav ([src/components/layout/mobile-nav.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/mobile-nav.tsx)), Footer ([src/components/layout/footer.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/footer.tsx)), Contact page ([src/app/contact/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/contact/page.tsx)), Prayer page ([src/app/prayer-request/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/prayer-request/page.tsx)), and Home Contact Module ([src/components/home/home-contact-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-contact-module.tsx)).
+   5. Plain Google Maps (No Location Pinning):
+      - Updated all external Google Maps buttons and links to navigate directly to plain Google Maps (`https://maps.google.com/`) without location search query markers.
+   6. Removal of "Which Service Will You Attend" & Warm "Thank You" Submissions:
+      - Removed "Which Service Will You Attend?" input and label from [src/components/community/tabbed-connect-hub.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/tabbed-connect-hub.tsx) and made `expectedService` optional with a graceful default in [src/lib/validations/community.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/lib/validations/community.ts).
+      - Enhanced inquiry, prayer petition, and visit registration success screens to headline with a warm "Thank You! [Your message / petition / visit registration has been received]".
+   7. Standardized Local Kenyan Payment Channels & Directly Visible Scannable QR Codes:
+      - Streamlined local Kenyan giving channels strictly to **Method 1: Lipa na M-Pesa Buy Goods (Till `8146952`, *Suggutta Fellowship Church*)** and **Method 2: M-Pesa Send Money (`0112656123`, *Pastor Caesar O. Nyandwaro*)**. Removed Paybill from Kenyan local giving options across [src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx), [src/components/home/home-giving-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-giving-module.tsx), [src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx), and [src/components/giving/campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx).
+      - Directly embedded scannable QR codes on both Till and Send Money cards without requiring users to click any "Scan QR" toggle buttons, optimizing immediate scanability and screenshot-taking on mobile devices.
+      - Preserved Sendwave and KCB Bank wire under the Diaspora/International tabs.
+   8. Media Integrity & Codebase Health:
+      - 100% preservation of all existing user-uploaded media moments and projects.
+      - 100% clean TypeScript check (`npx tsc --noEmit` exited with code 0).
+      - Verified all routes return HTTP 200 on port 3002.

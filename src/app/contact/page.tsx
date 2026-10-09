@@ -12,6 +12,7 @@ import {
   Sparkles,
   Navigation,
   ExternalLink,
+  MessageCircle,
   Loader2,
 } from "lucide-react";
 
@@ -29,9 +30,7 @@ export default async function ContactPage() {
   const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
   const email = settings.contactEmail;
 
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    "Sugutta Main Sanctuary, Jogoo Getare, Kenya"
-  )}`;
+  const mapsUrl = "https://maps.google.com/";
 
   return (
     <div className="min-h-screen bg-[#fbf8f3] text-slate-900 pb-10 sm:pb-20">
@@ -146,13 +145,22 @@ export default async function ContactPage() {
                   <MapPin className="h-4 w-4 text-[#ff6b35] shrink-0 mt-0.5" />
                   <span>Sugutta Main Sanctuary, Jogoo Getare, Kenya</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <Phone className="h-4 w-4 text-[#ff6b35] shrink-0" />
                   <a
                     href={`tel:${cleanPhone}`}
                     className="hover:text-[#ff6b35] font-semibold underline-offset-2 hover:underline"
                   >
                     {rawPhone}
+                  </a>
+                  <a
+                    href="https://wa.me/254112656123"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold hover:bg-emerald-500/30 transition-colors"
+                  >
+                    <MessageCircle className="w-3 h-3 text-[#25D366]" />
+                    <span>WhatsApp</span>
                   </a>
                 </div>
                 <div className="flex items-center gap-2">

@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   AlertCircle,
   MessageSquare,
+  MessageCircle,
   Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -111,8 +112,23 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-bold text-slate-900 block text-xs uppercase tracking-wider text-[#ff6b35]">Pastoral Hotline</span>
-                    <span>{rawPhone}</span>
+                    <span className="font-bold text-slate-900 block text-xs uppercase tracking-wider text-[#ff6b35]">
+                      Pastoral Hotline &amp; WhatsApp
+                    </span>
+                    <div className="flex flex-wrap items-center gap-2 mt-0.5">
+                      <a
+                        href="https://wa.me/254112656123"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-slate-800 hover:text-emerald-600 transition-colors flex items-center gap-1.5"
+                      >
+                        <span>{rawPhone}</span>
+                        <span className="inline-flex items-center gap-1 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
+                          <MessageCircle className="w-3 h-3 text-[#25D366]" />
+                          <span>WhatsApp</span>
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -150,7 +166,7 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
               {result?.success ? (
                 <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-3 text-center">
                   <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-                  <h4 className="font-extrabold text-lg text-emerald-950">Message Received</h4>
+                  <h4 className="font-extrabold text-lg text-emerald-950">Thank You! Message Received</h4>
                   <p className="text-xs sm:text-sm text-emerald-800 leading-relaxed">{result.message}</p>
                   <Button
                     onClick={() => setResult(null)}

@@ -71,6 +71,7 @@ export interface SiteSettingsData {
   orphanageSubtitle: string;
   orphanageNarrative: string;
   orphanageImageUrl: string;
+  orphanageStoryImage?: string;
   orphanageBadge: string;
 
   // Grassroots Community Outreach
@@ -82,18 +83,22 @@ export interface SiteSettingsData {
   pillar1Title: string;
   pillar1Desc: string;
   pillar1Image: string;
+  pillar1Video?: string;
 
   pillar2Title: string;
   pillar2Desc: string;
   pillar2Image: string;
+  pillar2Video?: string;
 
   pillar3Title: string;
   pillar3Desc: string;
   pillar3Image: string;
+  pillar3Video?: string;
 
   pillar4Title: string;
   pillar4Desc: string;
   pillar4Image: string;
+  pillar4Video?: string;
 
   // 3 Pillar Impact Counters
   impactStat1Val: string;
@@ -210,6 +215,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   orphanageNarrative:
     "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
   orphanageImageUrl: "/images/orphanage-hero.png",
+  orphanageStoryImage: "/images/community-outreach.jpg",
   orphanageBadge: "Children's Home Mission",
 
   // Grassroots Community Outreach
@@ -223,21 +229,25 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   pillar1Desc:
     "Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.",
   pillar1Image: "/images/ministry-healing.jpg",
+  pillar1Video: "",
 
   pillar2Title: "Global Crusades",
   pillar2Desc:
     "Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.",
   pillar2Image: "/images/hero-worship.jpg",
+  pillar2Video: "",
 
   pillar3Title: "Prophetic Word & Truth",
   pillar3Desc:
     "Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.",
   pillar3Image: "/images/ministry-healing.jpg",
+  pillar3Video: "",
 
   pillar4Title: "Compassion & Outreach",
   pillar4Desc:
     "Feeding the hungry, sheltering orphans, providing medical support, and clothing widows across underserved communities as an active demonstration of Christ's compassion.",
   pillar4Image: "/images/community-outreach.jpg",
+  pillar4Video: "",
 
   // 3 Pillar Impact Counters
   impactStat1Val: "1,200+",

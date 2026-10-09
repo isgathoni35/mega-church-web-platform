@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PrayerForm } from "@/components/community/prayer-form";
-import { Flame, Clock, Phone, ShieldCheck, HeartHandshake, Sparkles } from "lucide-react";
+import { Flame, Clock, Phone, ShieldCheck, HeartHandshake, Sparkles, MessageCircle } from "lucide-react";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
@@ -104,13 +104,22 @@ export default async function PrayerRequestPage() {
                 If you are undergoing an acute spiritual or physical crisis, our pastoral
                 intercessory line is open:
               </p>
-              <div className="pt-1 sm:pt-2">
+              <div className="pt-1 sm:pt-2 flex flex-col gap-2">
                 <a
                   href={`tel:${cleanPhone}`}
                   className="inline-flex items-center justify-center w-full py-2.5 sm:py-3 px-4 rounded-xl bg-[#ff6b35] text-white font-bold text-xs sm:text-sm hover:bg-[#e05626] transition-all shadow-lg shadow-orange-500/20"
                 >
                   <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-2" />
                   Call {rawPhone}
+                </a>
+                <a
+                  href="https://wa.me/254112656123?text=Shalom%20Pastor%20Caesar,%20I%20need%20urgent%20prayer%20support."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-full py-2.5 sm:py-3 px-4 rounded-xl bg-[#25D366] text-white font-bold text-xs sm:text-sm hover:bg-[#20bd5a] transition-all shadow-md"
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Chat on WhatsApp
                 </a>
               </div>
             </div>

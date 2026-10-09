@@ -109,7 +109,7 @@ export function ContactForm() {
               We Value You
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-              Message Received With Warmth
+              Thank You! Message Received With Warmth
             </h3>
             <p className="text-sm sm:text-base text-slate-600 max-w-lg mx-auto leading-relaxed">
               Thank you for reaching out to Heavens Gates Sugutta Fellowship Church. Our

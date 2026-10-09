@@ -1,10 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Sparkles, ShieldCheck, Users, ArrowRight, BookHeart } from "lucide-react";
+import { Heart, ArrowRight, BookHeart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SiteSettingsData } from "@/types/settings";
 
-export function OrphanageStory() {
+interface OrphanageStoryProps {
+  settings?: SiteSettingsData;
+}
+
+export function OrphanageStory({ settings }: OrphanageStoryProps = {}) {
+  const storyImage = settings?.orphanageStoryImage || "/images/community-outreach.jpg";
+
   return (
     <section className="py-12 sm:py-18 lg:py-24 bg-white text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-16">
@@ -31,11 +38,12 @@ export function OrphanageStory() {
           <div className="lg:col-span-5 relative">
             <div className="relative aspect-[4/3] sm:aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border-4 border-[#fffaf5] bg-slate-900">
               <Image
-                src="/images/community-outreach.jpg"
+                src={storyImage}
                 alt="Community Outreach & Children Support"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 40vw"
+                unoptimized
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
 

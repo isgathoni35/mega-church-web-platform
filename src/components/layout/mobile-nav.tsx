@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Heart, Radio, Calendar, ChevronRight } from "lucide-react";
+import { Menu, X, Heart, Radio, Calendar, ChevronRight, MessageCircle } from "lucide-react";
 
 interface NavItem {
   label: string;
@@ -171,12 +171,23 @@ export function MobileNav() {
                   {/* Direct Pastoral Assistance */}
                   <div className="mt-4 p-3 rounded-xl bg-orange-50/70 border border-orange-200/80 flex items-center justify-between gap-2 text-xs font-bold text-slate-800">
                     <span className="text-slate-500 font-semibold text-[11px]">Pastoral Altar:</span>
-                    <a
-                      href="tel:+254112656123"
-                      className="text-[#ff6b35] hover:underline font-mono"
-                    >
-                      +254 112 656 123
-                    </a>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="tel:+254112656123"
+                        className="text-[#ff6b35] hover:underline font-mono"
+                      >
+                        +254 112 656 123
+                      </a>
+                      <a
+                        href="https://wa.me/254112656123"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1 rounded-full bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition-colors"
+                        title="Chat on WhatsApp"
+                      >
+                        <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </nav>

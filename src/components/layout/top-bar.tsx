@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Phone, Mail, Radio, Sparkles } from "lucide-react";
+import { Phone, Mail, Radio, Sparkles, MessageCircle } from "lucide-react";
 import { SiteSettingsData, DEFAULT_SETTINGS } from "@/types/settings";
 
 interface TopBarProps {
@@ -25,15 +25,27 @@ export function TopBar({ settings: propSettings }: TopBarProps = {}) {
     <div className="w-full bg-white text-slate-600 border-b border-slate-200/90 text-xs py-1.5 sm:py-2 px-3 sm:px-6 lg:px-8 transition-colors select-none">
       {/* ================= MOBILE VIEW (sm:hidden) ================= */}
       <div className="flex sm:hidden items-center justify-between gap-2 max-w-7xl mx-auto w-full">
-        {/* Left: Phone Direct Call Button */}
-        <a
-          href={`tel:${cleanPhone}`}
-          className="flex items-center gap-1 text-slate-800 font-extrabold text-[11px] hover:text-[#ff6b35] transition-colors shrink-0"
-          title={`Call Church Line: ${rawPhone}`}
-        >
-          <Phone className="h-3 w-3 text-[#ff6b35] shrink-0" />
-          <span>{rawPhone}</span>
-        </a>
+        {/* Left: Phone Direct Call Button & WhatsApp */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          <a
+            href={`tel:${cleanPhone}`}
+            className="flex items-center gap-1 text-slate-800 font-extrabold text-[11px] hover:text-[#ff6b35] transition-colors"
+            title={`Call Church Line: ${rawPhone}`}
+          >
+            <Phone className="h-3 w-3 text-[#ff6b35] shrink-0" />
+            <span>{rawPhone}</span>
+          </a>
+          <a
+            href="https://wa.me/254112656123"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-0.5 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold"
+            title="Chat on WhatsApp"
+          >
+            <MessageCircle className="w-2.5 h-2.5 text-[#25D366]" />
+            <span>WA</span>
+          </a>
+        </div>
 
         {/* Right: Compact Live Stream & Prayer Request */}
         <div className="flex items-center gap-2 shrink-0 text-[10px]">
@@ -79,14 +91,26 @@ export function TopBar({ settings: propSettings }: TopBarProps = {}) {
       <div className="hidden sm:flex max-w-7xl mx-auto items-center justify-between gap-3">
         {/* Left Side: Contact Information */}
         <div className="flex items-center gap-4 md:gap-6 min-w-0">
-          <a
-            href={`tel:${cleanPhone}`}
-            className="flex items-center gap-1.5 text-slate-700 hover:text-[#ff6b35] transition-colors group shrink-0"
-            title={`Call: ${rawPhone}`}
-          >
-            <Phone className="h-3.5 w-3.5 text-[#ff6b35] group-hover:scale-110 transition-transform" />
-            <span className="font-semibold text-xs truncate">{rawPhone}</span>
-          </a>
+          <div className="flex items-center gap-2">
+            <a
+              href={`tel:${cleanPhone}`}
+              className="flex items-center gap-1.5 text-slate-700 hover:text-[#ff6b35] transition-colors group shrink-0"
+              title={`Call: ${rawPhone}`}
+            >
+              <Phone className="h-3.5 w-3.5 text-[#ff6b35] group-hover:scale-110 transition-transform" />
+              <span className="font-semibold text-xs truncate">{rawPhone}</span>
+            </a>
+            <a
+              href="https://wa.me/254112656123"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold hover:bg-emerald-100 transition-colors"
+              title="Chat on WhatsApp"
+            >
+              <MessageCircle className="w-3 h-3 text-[#25D366]" />
+              <span>WhatsApp</span>
+            </a>
+          </div>
 
           <a
             href={`mailto:${email}`}

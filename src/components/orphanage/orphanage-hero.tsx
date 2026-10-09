@@ -38,10 +38,23 @@ export function OrphanageHero({ settings }: OrphanageHeroProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Authoritative Message, Depth & Conviction */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-center lg:text-left">
-            {/* Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-wider shadow-sm">
-              <Heart className="h-3.5 w-3.5 fill-current" />
-              <span>{heroBadge}</span>
+            {/* Eyebrow Pill & Blipping Urgent Trigger */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2.5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-[#ff6b35] text-xs font-bold uppercase tracking-wider shadow-sm">
+                <Heart className="h-3.5 w-3.5 fill-current" />
+                <span>{heroBadge}</span>
+              </div>
+
+              <Link
+                href="/orphanage/donate"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-300 text-rose-700 text-xs font-black uppercase tracking-wider hover:bg-rose-100 transition-all shadow-sm hover:scale-105 cursor-pointer"
+              >
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-600" />
+                </span>
+                <span>Urgent: Donate for Children</span>
+              </Link>
             </div>
 
             {/* Headline */}

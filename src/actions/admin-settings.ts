@@ -482,6 +482,7 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         orphanageSubtitle: row.orphanage_subtitle || DEFAULT_SETTINGS.orphanageSubtitle,
         orphanageNarrative: row.orphanage_narrative || DEFAULT_SETTINGS.orphanageNarrative,
         orphanageImageUrl: extractCleanImageUrl(row.orphanage_image_url) || DEFAULT_SETTINGS.orphanageImageUrl,
+        orphanageStoryImage: extractCleanImageUrl(row.orphanage_story_image) || DEFAULT_SETTINGS.orphanageStoryImage,
         orphanageBadge: row.orphanage_badge || DEFAULT_SETTINGS.orphanageBadge,
 
         // Grassroots Community Outreach
@@ -493,18 +494,22 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         pillar1Title: row.pillar_1_title || DEFAULT_SETTINGS.pillar1Title,
         pillar1Desc: row.pillar_1_desc || DEFAULT_SETTINGS.pillar1Desc,
         pillar1Image: extractCleanImageUrl(row.pillar_1_image) || DEFAULT_SETTINGS.pillar1Image,
+        pillar1Video: (row.pillar_1_video || "").trim(),
 
         pillar2Title: row.pillar_2_title || DEFAULT_SETTINGS.pillar2Title,
         pillar2Desc: row.pillar_2_desc || DEFAULT_SETTINGS.pillar2Desc,
         pillar2Image: extractCleanImageUrl(row.pillar_2_image) || DEFAULT_SETTINGS.pillar2Image,
+        pillar2Video: (row.pillar_2_video || "").trim(),
 
         pillar3Title: row.pillar_3_title || DEFAULT_SETTINGS.pillar3Title,
         pillar3Desc: row.pillar_3_desc || DEFAULT_SETTINGS.pillar3Desc,
         pillar3Image: extractCleanImageUrl(row.pillar_3_image) || DEFAULT_SETTINGS.pillar3Image,
+        pillar3Video: (row.pillar_3_video || "").trim(),
 
         pillar4Title: row.pillar_4_title || DEFAULT_SETTINGS.pillar4Title,
         pillar4Desc: row.pillar_4_desc || DEFAULT_SETTINGS.pillar4Desc,
         pillar4Image: extractCleanImageUrl(row.pillar_4_image) || DEFAULT_SETTINGS.pillar4Image,
+        pillar4Video: (row.pillar_4_video || "").trim(),
 
         // 3 Pillar Impact Counters
         impactStat1Val: row.impact_stat_1_val || DEFAULT_SETTINGS.impactStat1Val,
@@ -633,6 +638,7 @@ export async function saveSiteSettingsAction(
       orphanage_subtitle: settings.orphanageSubtitle.trim(),
       orphanage_narrative: settings.orphanageNarrative.trim(),
       orphanage_image_url: extractCleanImageUrl(settings.orphanageImageUrl),
+      orphanage_story_image: extractCleanImageUrl(settings.orphanageStoryImage),
       orphanage_badge: settings.orphanageBadge.trim(),
 
       // Grassroots Community Outreach
@@ -644,18 +650,22 @@ export async function saveSiteSettingsAction(
       pillar_1_title: settings.pillar1Title.trim(),
       pillar_1_desc: settings.pillar1Desc.trim(),
       pillar_1_image: extractCleanImageUrl(settings.pillar1Image),
+      pillar_1_video: (settings.pillar1Video || "").trim(),
 
       pillar_2_title: settings.pillar2Title.trim(),
       pillar_2_desc: settings.pillar2Desc.trim(),
       pillar_2_image: extractCleanImageUrl(settings.pillar2Image),
+      pillar_2_video: (settings.pillar2Video || "").trim(),
 
       pillar_3_title: settings.pillar3Title.trim(),
       pillar_3_desc: settings.pillar3Desc.trim(),
       pillar_3_image: extractCleanImageUrl(settings.pillar3Image),
+      pillar_3_video: (settings.pillar3Video || "").trim(),
 
       pillar_4_title: settings.pillar4Title.trim(),
       pillar_4_desc: settings.pillar4Desc.trim(),
       pillar_4_image: extractCleanImageUrl(settings.pillar4Image),
+      pillar_4_video: (settings.pillar4Video || "").trim(),
 
       // 3 Pillar Impact Counters
       impact_stat_1_val: settings.impactStat1Val.trim(),

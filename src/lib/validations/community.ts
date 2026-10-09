@@ -105,10 +105,7 @@ export const visitPlanSchema = z.object({
     .string()
     .trim()
     .min(7, "Please provide a phone number so our hospitality hosts can welcome you"),
-  expectedService: z.string().refine(
-    (val): val is VisitService => VISIT_SERVICES.includes(val as VisitService),
-    { message: "Please select which service you plan to attend" }
-  ),
+  expectedService: z.string().optional().default("Sunday Main Service"),
   guestsCount: z.coerce.number().int().min(1).max(20).default(1),
   hasChildren: z.boolean().default(false),
   notes: z.string().trim().max(1000).optional().or(z.literal("")),

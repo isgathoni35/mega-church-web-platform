@@ -31,7 +31,7 @@ export default async function OrphanagePage() {
       <OrphanageHero settings={settings} />
 
       {/* 2. The Heart & Origin Story: Why We Opened Our Doors in Sugutta */}
-      <OrphanageStory />
+      <OrphanageStory settings={settings} />
 
       {/* 3. 4 Pillars of Comprehensive Care */}
       <CarePillars />

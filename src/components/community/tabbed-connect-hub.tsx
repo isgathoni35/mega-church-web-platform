@@ -345,11 +345,10 @@ export function TabbedConnectHub() {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                    Your Visit is Registered!
+                    Thank You! Your Visit is Registered!
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-[#ff6b35]">{visitFullName}</strong>. We have alerted our guest ministers that you are joining us for{" "}
-                    <strong className="text-slate-900">{visitService}</strong>.
+                    Thank you, <strong className="text-[#ff6b35]">{visitFullName}</strong>. We are thrilled to welcome you to our sanctuary. Our hospitality hosts look forward to greeting you with warmth!
                   </p>
                 </div>
 
@@ -448,24 +447,7 @@ export function TabbedConnectHub() {
                   </p>
                 </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
-                    Which Service Will You Attend? <span className="text-destructive">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={visitService}
-                      onChange={(e) => setVisitService(e.target.value as VisitService)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#ff6b35] shadow-sm"
-                    >
-                      {VISIT_SERVICES.map((srv) => (
-                        <option key={srv} value={srv}>
-                          {srv}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
@@ -563,10 +545,10 @@ export function TabbedConnectHub() {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                    Petition Received at the Altar
+                    Thank You! Your Petition Has Been Placed on the Altar
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-[#ff6b35]">{prayerFullName}</strong>. The God who answers by fire has heard your cry. Stand firm in faith.
+                    Thank you, <strong className="text-[#ff6b35]">{prayerFullName}</strong>. The God who answers by fire has heard your cry. Our pastoral team and intercessors are standing with you in prayer.
                   </p>
                 </div>
 
@@ -740,10 +722,10 @@ export function TabbedConnectHub() {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900">
-                    Inquiry Forwarded Successfully
+                    Thank You! Your Inquiry Has Been Received
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-                    Thank you, <strong className="text-[#ff6b35]">{inquiryFullName}</strong>. Your message has been routed directly to the{" "}
+                    Thank you, <strong className="text-[#ff6b35]">{inquiryFullName}</strong>. Your message has been received with warmth and routed directly to the{" "}
                     <strong className="text-slate-900">{inquiryType}</strong> pastoral coordinator.
                   </p>
                 </div>

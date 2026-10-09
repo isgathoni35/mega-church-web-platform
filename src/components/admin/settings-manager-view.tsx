@@ -174,6 +174,7 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_title TEXT N
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_subtitle TEXT NOT NULL DEFAULT 'Hot nutritious meals, quality education, medical care & parental love.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_narrative TEXT NOT NULL DEFAULT 'Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_image_url TEXT NOT NULL DEFAULT '/images/orphanage-hero.png';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_story_image TEXT NOT NULL DEFAULT '/images/community-outreach.jpg';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_badge TEXT NOT NULL DEFAULT 'Children''s Home Mission';
 
 -- 8. Grassroots Community
@@ -185,18 +186,22 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_image_url TE
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_title TEXT NOT NULL DEFAULT 'Deliverance & Healing';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_desc TEXT NOT NULL DEFAULT 'Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_image TEXT NOT NULL DEFAULT '/images/ministry-healing.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_title TEXT NOT NULL DEFAULT 'Global Crusades';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_desc TEXT NOT NULL DEFAULT 'Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_image TEXT NOT NULL DEFAULT '/images/hero-worship.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_title TEXT NOT NULL DEFAULT 'Prophetic Word & Truth';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_desc TEXT NOT NULL DEFAULT 'Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_image TEXT NOT NULL DEFAULT '/images/ministry-healing.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_4_title TEXT NOT NULL DEFAULT 'Compassion & Outreach';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_4_desc TEXT NOT NULL DEFAULT 'Feeding the hungry, sheltering orphans, providing medical support, and clothing widows across underserved communities as an active demonstration of Christ''s compassion.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_4_image TEXT NOT NULL DEFAULT '/images/community-outreach.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_4_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_1_val TEXT NOT NULL DEFAULT '1,200+';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS impact_stat_1_lbl TEXT NOT NULL DEFAULT 'Deliverance Sessions';
@@ -1356,6 +1361,39 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </div>
             </div>
 
+            {/* Primary Children's Home Page Photos */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              <div className="border-b border-slate-100 pb-4">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-600">
+                  Page Banners &amp; Highlights
+                </span>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900">
+                  Primary Children&apos;s Home Photos
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Editable banner photos featured on the public Children&apos;s Home page (/orphanage) and homepage teaser.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ImageUploadField
+                  label="Hero Banner Photo"
+                  description="Main hero image displayed at the top of /orphanage and homepage compassion teaser."
+                  value={settings.orphanageImageUrl}
+                  onChange={(url) => setSettings({ ...settings, orphanageImageUrl: url })}
+                  aspectRatio="video"
+                />
+
+                <ImageUploadField
+                  label="Mission &amp; Story Photo"
+                  description="Featured photo displayed in the 'Why We Opened Our Doors in Sugutta' narrative section."
+                  value={settings.orphanageStoryImage || "/images/community-outreach.jpg"}
+                  onChange={(url) => setSettings({ ...settings, orphanageStoryImage: url })}
+                  aspectRatio="video"
+                />
+              </div>
+            </div>
+
             {/* Photos Manager */}
             <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -1758,99 +1796,155 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
 
             <div className="space-y-6">
               {/* Pillar 1 */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                  Pillar 1: Deliverance &amp; Healing
-                </h3>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                    Pillar 1: Deliverance &amp; Healing
+                  </h3>
+                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                    Homepage Pillar
+                  </span>
+                </div>
                 <Input
                   value={settings.pillar1Title}
                   onChange={(e) => setSettings({ ...settings, pillar1Title: e.target.value })}
-                  placeholder="Title"
+                  placeholder="Pillar Title (e.g. Deliverance & Healing)"
                 />
                 <Textarea
                   rows={2}
                   value={settings.pillar1Desc}
                   onChange={(e) => setSettings({ ...settings, pillar1Desc: e.target.value })}
-                  placeholder="Description"
+                  placeholder="Pillar Description"
                 />
-                <ImageUploadField
-                  label="Pillar 1 Image"
-                  value={settings.pillar1Image}
-                  onChange={(url) => setSettings({ ...settings, pillar1Image: url })}
-                  aspectRatio="video"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                  <ImageUploadField
+                    label="Pillar 1 Featured Image"
+                    description="Featured photo plate (landscape 16:9 recommended)"
+                    value={settings.pillar1Image}
+                    onChange={(url) => setSettings({ ...settings, pillar1Image: url })}
+                    aspectRatio="video"
+                  />
+                  <EventVideoUploadField
+                    label="Pillar 1 Video (Optional)"
+                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                    videoUrl={settings.pillar1Video || ""}
+                    onChange={(videoUrl) => setSettings({ ...settings, pillar1Video: videoUrl })}
+                  />
+                </div>
               </div>
 
               {/* Pillar 2 */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                  Pillar 2: Global Crusades
-                </h3>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                    Pillar 2: Global Crusades
+                  </h3>
+                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                    Homepage Pillar
+                  </span>
+                </div>
                 <Input
                   value={settings.pillar2Title}
                   onChange={(e) => setSettings({ ...settings, pillar2Title: e.target.value })}
-                  placeholder="Title"
+                  placeholder="Pillar Title (e.g. Global Crusades)"
                 />
                 <Textarea
                   rows={2}
                   value={settings.pillar2Desc}
                   onChange={(e) => setSettings({ ...settings, pillar2Desc: e.target.value })}
-                  placeholder="Description"
+                  placeholder="Pillar Description"
                 />
-                <ImageUploadField
-                  label="Pillar 2 Image"
-                  value={settings.pillar2Image}
-                  onChange={(url) => setSettings({ ...settings, pillar2Image: url })}
-                  aspectRatio="video"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                  <ImageUploadField
+                    label="Pillar 2 Featured Image"
+                    description="Featured photo plate (landscape 16:9 recommended)"
+                    value={settings.pillar2Image}
+                    onChange={(url) => setSettings({ ...settings, pillar2Image: url })}
+                    aspectRatio="video"
+                  />
+                  <EventVideoUploadField
+                    label="Pillar 2 Video (Optional)"
+                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                    videoUrl={settings.pillar2Video || ""}
+                    onChange={(videoUrl) => setSettings({ ...settings, pillar2Video: videoUrl })}
+                  />
+                </div>
               </div>
 
               {/* Pillar 3 */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                  Pillar 3: Prophetic Word &amp; Truth
-                </h3>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                    Pillar 3: Prophetic Word &amp; Truth
+                  </h3>
+                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                    Homepage Pillar
+                  </span>
+                </div>
                 <Input
                   value={settings.pillar3Title}
                   onChange={(e) => setSettings({ ...settings, pillar3Title: e.target.value })}
-                  placeholder="Title"
+                  placeholder="Pillar Title (e.g. Prophetic Word & Truth)"
                 />
                 <Textarea
                   rows={2}
                   value={settings.pillar3Desc}
                   onChange={(e) => setSettings({ ...settings, pillar3Desc: e.target.value })}
-                  placeholder="Description"
+                  placeholder="Pillar Description"
                 />
-                <ImageUploadField
-                  label="Pillar 3 Image"
-                  value={settings.pillar3Image}
-                  onChange={(url) => setSettings({ ...settings, pillar3Image: url })}
-                  aspectRatio="video"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                  <ImageUploadField
+                    label="Pillar 3 Featured Image"
+                    description="Featured photo plate (landscape 16:9 recommended)"
+                    value={settings.pillar3Image}
+                    onChange={(url) => setSettings({ ...settings, pillar3Image: url })}
+                    aspectRatio="video"
+                  />
+                  <EventVideoUploadField
+                    label="Pillar 3 Video (Optional)"
+                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                    videoUrl={settings.pillar3Video || ""}
+                    onChange={(videoUrl) => setSettings({ ...settings, pillar3Video: videoUrl })}
+                  />
+                </div>
               </div>
 
               {/* Pillar 4 */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                  Pillar 4: Compassion &amp; Outreach
-                </h3>
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
+                    Pillar 4: Compassion &amp; Outreach
+                  </h3>
+                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                    Homepage Pillar
+                  </span>
+                </div>
                 <Input
                   value={settings.pillar4Title}
                   onChange={(e) => setSettings({ ...settings, pillar4Title: e.target.value })}
-                  placeholder="Title"
+                  placeholder="Pillar Title (e.g. Compassion & Outreach)"
                 />
                 <Textarea
                   rows={2}
                   value={settings.pillar4Desc}
                   onChange={(e) => setSettings({ ...settings, pillar4Desc: e.target.value })}
-                  placeholder="Description"
+                  placeholder="Pillar Description"
                 />
-                <ImageUploadField
-                  label="Pillar 4 Image"
-                  value={settings.pillar4Image}
-                  onChange={(url) => setSettings({ ...settings, pillar4Image: url })}
-                  aspectRatio="video"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                  <ImageUploadField
+                    label="Pillar 4 Featured Image"
+                    description="Featured photo plate (landscape 16:9 recommended)"
+                    value={settings.pillar4Image}
+                    onChange={(url) => setSettings({ ...settings, pillar4Image: url })}
+                    aspectRatio="video"
+                  />
+                  <EventVideoUploadField
+                    label="Pillar 4 Video (Optional)"
+                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                    videoUrl={settings.pillar4Video || ""}
+                    onChange={(videoUrl) => setSettings({ ...settings, pillar4Video: videoUrl })}
+                  />
+                </div>
               </div>
             </div>
 

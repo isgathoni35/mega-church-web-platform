@@ -107,7 +107,7 @@ export function PrayerForm() {
               The Prayer of Faith
             </span>
             <h3 className="text-xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-              Your Petition Has Been Placed on the Altar
+              Thank You! Your Petition Has Been Placed on the Altar
             </h3>
             <p className="text-xs sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
               Our Senior Apostolic Team and dedicated intercessors will hold your request
