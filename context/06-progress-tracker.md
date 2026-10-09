@@ -591,3 +591,25 @@ None.
    5. Admin Portal Church Projects Manager: Overhauled Tab 2 in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) into a full-featured projects manager with `handleAddProject`, `handleUpdateProject`, and `handleDeleteProject`. Provides controls for badge, title, subtitle, narrative, color palette, image uploader (`ImageUploadField`), video uploader/YouTube embed (`EventVideoUploadField`), giving destination link, button text, M-Pesa account ref, and visibility toggle (`active`). Preserves bidirectional sync for legacy single-row fields.
    6. Media Preservation: Preserved 100% of user-uploaded orphanage photos, videos, and media untouched.
    7. Verification: 100% clean compilation (`npx tsc --noEmit` exited 0).
+
+- **[2026-10-09]:** Completed Feature 47 (Form Dummy Placeholder Removal, Admin Editable Impact Counters & Comprehensive Giving Channels with QR Code Posters):
+   1. Form Placeholder Cleanup:
+      - Removed all dummy name and dummy email placeholders (`Bro. David Mwangi`, `Sister Grace Wanjiku`, `david@example.com`, `grace@example.com`, `john@example.com`, `Bro. David W.`) across all form inputs in [src/components/community/tabbed-connect-hub.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/tabbed-connect-hub.tsx), [src/components/community/prayer-form.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/prayer-form.tsx), [src/components/community/contact-form.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/contact-form.tsx), [src/components/home/home-contact-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-contact-module.tsx), and [src/components/giving/mpesa-form.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/mpesa-form.tsx).
+      - Replaced with neutral, production placeholders: `"Your full name"` and `"your.email@example.com"`.
+   2. Homepage 3 Impact Counters CMS Integration:
+      - Added **Homepage Section 3: Impact Counters (Below Ministry Pillars)** to Tab 1 (*Home & Hero*) in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx).
+      - Displays live card preview for `impactStat1Val` / `impactStat1Lbl` (1,200+ Deliverance Sessions), `impactStat2Val` / `impactStat2Lbl` (50+ Miracle Crusades), and `impactStat3Val` / `impactStat3Lbl` (1,000,000+ Believers Impacted), kept in sync across Tab 1 and Tab 4.
+   3. QR Code Poster Uploads & Display Engine:
+      - Extended `SiteSettingsData` in [src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts) and [src/types/database.types.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/database.types.ts) with `mpesaTillQrImage` and `mpesaPaybillQrImage`.
+      - Updated `getSiteSettingsAction` and `saveSiteSettingsAction` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts) with serialization and sanitization.
+      - Added dedicated `ImageUploadField`s in Tab 7 (*Banking & Contacts*) for uploading official Safaricom Till QR posters and Paybill QR posters, and updated SQL migration statements.
+      - Updated [src/components/giving/payment-qr-code.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/payment-qr-code.tsx) to support `paybill` type and `customQrImage` rendering with fallback to crisp auto-generated vector QR codes.
+   4. Comprehensive Payment Channels & Interactive Paybill Integration:
+      - Restored Lipa na M-Pesa Paybill `174379` across all giving touchpoints: [src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx), [src/components/home/home-giving-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-giving-module.tsx), and [src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx).
+      - Added interactive 1-click copyable Fund Account chips (`OFFERING`, `TITHE`, `ORPHANAGE`, `SEED`, `BUILDING`) with dynamic account selection, step walkthroughs, and verified business names.
+      - Connected `customQrImage` to display uploaded official Safaricom QR posters for Till (`8146952`) and Paybill (`174379`).
+   5. Media Integrity:
+      - User-uploaded Children's Home media and projects are 100% preserved.
+   6. Verification:
+      - `npx tsc --noEmit` passed with 0 errors.
+      - All routes (`/`, `/give`, `/orphanage/donate`, `/contact`, `/prayer-request`, `/admin/settings`) verified returning HTTP 200 on port 3002.

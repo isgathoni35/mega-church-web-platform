@@ -387,7 +387,7 @@ export function MpesaGivingForm() {
               </label>
               <Input
                 type="text"
-                placeholder="e.g. Bro. David W."
+                placeholder="Your full name"
                 value={donorName}
                 onChange={(e) => setDonorName(e.target.value)}
                 className="text-sm"

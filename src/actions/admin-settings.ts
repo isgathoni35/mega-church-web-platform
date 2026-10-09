@@ -576,6 +576,8 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         mpesaPaybill: row.mpesa_paybill || DEFAULT_SETTINGS.mpesaPaybill,
         mpesaTillNumber: row.mpesa_till_number || DEFAULT_SETTINGS.mpesaTillNumber,
         mpesaTillName: row.mpesa_till_name || DEFAULT_SETTINGS.mpesaTillName,
+        mpesaTillQrImage: extractCleanImageUrl(row.mpesa_till_qr_image) || DEFAULT_SETTINGS.mpesaTillQrImage,
+        mpesaPaybillQrImage: extractCleanImageUrl(row.mpesa_paybill_qr_image) || DEFAULT_SETTINGS.mpesaPaybillQrImage,
         westernUnionRecipient: cleanWesternUnion,
       };
     }
@@ -711,6 +713,8 @@ export async function saveSiteSettingsAction(
       mpesa_paybill: settings.mpesaPaybill.trim(),
       mpesa_till_number: settings.mpesaTillNumber.trim(),
       mpesa_till_name: settings.mpesaTillName.trim(),
+      mpesa_till_qr_image: extractCleanImageUrl(settings.mpesaTillQrImage || ""),
+      mpesa_paybill_qr_image: extractCleanImageUrl(settings.mpesaPaybillQrImage || ""),
       western_union_recipient: settings.westernUnionRecipient.trim(),
       updated_at: new Date().toISOString(),
     };

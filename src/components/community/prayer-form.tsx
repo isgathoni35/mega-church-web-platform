@@ -228,7 +228,7 @@ export function PrayerForm() {
               </label>
               <Input
                 id="prayer-fullname"
-                placeholder="e.g. Sister Grace Wanjiku"
+                placeholder="Your full name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
@@ -247,7 +247,7 @@ export function PrayerForm() {
               <Input
                 id="prayer-email"
                 type="email"
-                placeholder="e.g. grace@example.com"
+                placeholder="your.email@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

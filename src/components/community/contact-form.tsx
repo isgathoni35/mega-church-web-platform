@@ -218,7 +218,7 @@ export function ContactForm() {
               <Input
                 id="contact-email"
                 type="email"
-                placeholder="e.g. john@example.com"
+                placeholder="your.email@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

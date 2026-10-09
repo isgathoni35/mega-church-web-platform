@@ -145,6 +145,8 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_branch TEXT NOT NU
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_swift TEXT NOT NULL DEFAULT 'KCBLKENX';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '522522';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar O. Nyandwaro';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_qr_image TEXT;
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill_qr_image TEXT;
 
 -- 5. Hero & Branding
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_1 TEXT NOT NULL DEFAULT 'Sugutta';
@@ -981,6 +983,118 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </div>
             </div>
 
+            {/* Homepage Section 3: Impact Counters (Below Ministry Pillars) */}
+            <div className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 space-y-4">
+              <div className="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35] block">
+                    Homepage Section 3 &bull; Ministry Pillars
+                  </span>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    3 Impact Statistics (Strip Below Pillars)
+                  </h3>
+                </div>
+                <span className="text-[10px] text-slate-500 font-medium">
+                  Editable here and under Ministry Pillars tab
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-600">
+                These 3 large impact cards are displayed prominently on the homepage right below the 4 Ministry Pillars.
+              </p>
+
+              {/* Live Preview Strip */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded-2xl bg-white border border-slate-200 shadow-inner">
+                <div className="bg-[#fbf8f3] p-3 rounded-xl border border-slate-200 text-center">
+                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
+                    {settings.impactStat1Val || "1,200+"}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
+                    {settings.impactStat1Lbl || "Deliverance Sessions"}
+                  </span>
+                </div>
+                <div className="bg-[#fbf8f3] p-3 rounded-xl border border-slate-200 text-center">
+                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
+                    {settings.impactStat2Val || "50+"}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
+                    {settings.impactStat2Lbl || "Miracle Crusades"}
+                  </span>
+                </div>
+                <div className="bg-[#fbf8f3] p-3 rounded-xl border border-slate-200 text-center">
+                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
+                    {settings.impactStat3Val || "1,000,000+"}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
+                    {settings.impactStat3Lbl || "Believers Impacted"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
+                <div className="space-y-1.5 p-3 rounded-xl bg-white border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700 block">Stat 1</label>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
+                    <Input
+                      value={settings.impactStat1Val}
+                      onChange={(e) => setSettings({ ...settings, impactStat1Val: e.target.value })}
+                      placeholder="1,200+"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
+                    <Input
+                      value={settings.impactStat1Lbl}
+                      onChange={(e) => setSettings({ ...settings, impactStat1Lbl: e.target.value })}
+                      placeholder="Deliverance Sessions"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 p-3 rounded-xl bg-white border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700 block">Stat 2</label>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
+                    <Input
+                      value={settings.impactStat2Val}
+                      onChange={(e) => setSettings({ ...settings, impactStat2Val: e.target.value })}
+                      placeholder="50+"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
+                    <Input
+                      value={settings.impactStat2Lbl}
+                      onChange={(e) => setSettings({ ...settings, impactStat2Lbl: e.target.value })}
+                      placeholder="Miracle Crusades"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-1.5 p-3 rounded-xl bg-white border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700 block">Stat 3</label>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
+                    <Input
+                      value={settings.impactStat3Val}
+                      onChange={(e) => setSettings({ ...settings, impactStat3Val: e.target.value })}
+                      placeholder="1,000,000+"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
+                    <Input
+                      value={settings.impactStat3Lbl}
+                      onChange={(e) => setSettings({ ...settings, impactStat3Lbl: e.target.value })}
+                      placeholder="Believers Impacted"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {renderSaveSectionBar("Ready to update Homepage & Header?")}
           </div>
         )}
@@ -1741,46 +1855,105 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
             </div>
 
             {/* 3 Pillar Impact Counters */}
-            <div className="pt-4 border-t border-slate-100 space-y-3">
-              <h3 className="text-xs font-extrabold text-slate-700 uppercase tracking-wider">
-                Impact Counters (Below Pillars)
-              </h3>
+            <div className="pt-4 border-t border-slate-100 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <div>
+                  <h3 className="text-xs sm:text-sm font-extrabold text-slate-800 uppercase tracking-wider">
+                    Impact Counters (Below Pillars)
+                  </h3>
+                  <p className="text-[11px] text-slate-500">
+                    Displayed directly beneath the 4 ministry pillars on the homepage.
+                  </p>
+                </div>
+              </div>
+
+              {/* Live Preview Strip */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-inner">
+                <div className="bg-white p-3 rounded-xl border border-slate-200 text-center">
+                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
+                    {settings.impactStat1Val || "1,200+"}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
+                    {settings.impactStat1Lbl || "Deliverance Sessions"}
+                  </span>
+                </div>
+                <div className="bg-white p-3 rounded-xl border border-slate-200 text-center">
+                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
+                    {settings.impactStat2Val || "50+"}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
+                    {settings.impactStat2Lbl || "Miracle Crusades"}
+                  </span>
+                </div>
+                <div className="bg-white p-3 rounded-xl border border-slate-200 text-center">
+                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
+                    {settings.impactStat3Val || "1,000,000+"}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
+                    {settings.impactStat3Lbl || "Believers Impacted"}
+                  </span>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 1 Value &amp; Label</label>
-                  <Input
-                    value={settings.impactStat1Val}
-                    onChange={(e) => setSettings({ ...settings, impactStat1Val: e.target.value })}
-                    className="mb-1"
-                  />
-                  <Input
-                    value={settings.impactStat1Lbl}
-                    onChange={(e) => setSettings({ ...settings, impactStat1Lbl: e.target.value })}
-                  />
+                <div className="space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700 block">Stat 1</label>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
+                    <Input
+                      value={settings.impactStat1Val}
+                      onChange={(e) => setSettings({ ...settings, impactStat1Val: e.target.value })}
+                      placeholder="1,200+"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
+                    <Input
+                      value={settings.impactStat1Lbl}
+                      onChange={(e) => setSettings({ ...settings, impactStat1Lbl: e.target.value })}
+                      placeholder="Deliverance Sessions"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 2 Value &amp; Label</label>
-                  <Input
-                    value={settings.impactStat2Val}
-                    onChange={(e) => setSettings({ ...settings, impactStat2Val: e.target.value })}
-                    className="mb-1"
-                  />
-                  <Input
-                    value={settings.impactStat2Lbl}
-                    onChange={(e) => setSettings({ ...settings, impactStat2Lbl: e.target.value })}
-                  />
+
+                <div className="space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700 block">Stat 2</label>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
+                    <Input
+                      value={settings.impactStat2Val}
+                      onChange={(e) => setSettings({ ...settings, impactStat2Val: e.target.value })}
+                      placeholder="50+"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
+                    <Input
+                      value={settings.impactStat2Lbl}
+                      onChange={(e) => setSettings({ ...settings, impactStat2Lbl: e.target.value })}
+                      placeholder="Miracle Crusades"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-600">Stat 3 Value &amp; Label</label>
-                  <Input
-                    value={settings.impactStat3Val}
-                    onChange={(e) => setSettings({ ...settings, impactStat3Val: e.target.value })}
-                    className="mb-1"
-                  />
-                  <Input
-                    value={settings.impactStat3Lbl}
-                    onChange={(e) => setSettings({ ...settings, impactStat3Lbl: e.target.value })}
-                  />
+
+                <div className="space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700 block">Stat 3</label>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
+                    <Input
+                      value={settings.impactStat3Val}
+                      onChange={(e) => setSettings({ ...settings, impactStat3Val: e.target.value })}
+                      placeholder="1,000,000+"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
+                    <Input
+                      value={settings.impactStat3Lbl}
+                      onChange={(e) => setSettings({ ...settings, impactStat3Lbl: e.target.value })}
+                      placeholder="Believers Impacted"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -2224,6 +2397,36 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                   <span className="text-[10px] text-slate-500 block">
                     KCB Paybill number (522522) for M-Pesa account deposits.
                   </span>
+                </div>
+
+                {/* Official QR Codes / Posters Upload Fields */}
+                <div className="col-span-1 md:col-span-2 pt-4 border-t border-slate-100 space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                    <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 uppercase tracking-wider">
+                      Official M-Pesa QR Code Posters (Optional)
+                    </h3>
+                    <span className="text-[10px] text-slate-500 font-medium">
+                      If left blank, clean auto-generated QR codes are displayed automatically
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <ImageUploadField
+                      label="Official M-Pesa Buy Goods Till QR Poster"
+                      description="Upload official Safaricom green till poster or QR image. Displayed when donors click 'Scan QR' on the Till card."
+                      value={settings.mpesaTillQrImage || ""}
+                      onChange={(url) => setSettings({ ...settings, mpesaTillQrImage: url })}
+                      aspectRatio="square"
+                    />
+
+                    <ImageUploadField
+                      label="Official M-Pesa Paybill QR Poster"
+                      description="Upload official Safaricom Paybill poster image for Business No. 174379. Displayed when donors scan or view Paybill."
+                      value={settings.mpesaPaybillQrImage || ""}
+                      onChange={(url) => setSettings({ ...settings, mpesaPaybillQrImage: url })}
+                      aspectRatio="square"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

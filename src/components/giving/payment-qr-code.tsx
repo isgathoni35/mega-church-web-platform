@@ -4,10 +4,11 @@ import React, { useState, useEffect } from "react";
 import QRCode from "qrcode";
 import { QrCode, Copy, Check, Smartphone, ShieldCheck } from "lucide-react";
 
-export type PaymentQrType = "till" | "send_money" | "kcb_bank" | "sendwave";
+export type PaymentQrType = "till" | "paybill" | "send_money" | "kcb_bank" | "sendwave";
 
 interface PaymentQrCodeProps {
   type: PaymentQrType;
+  customQrImage?: string;
   tillNumber?: string;
   tillName?: string;
   phone?: string;
@@ -16,11 +17,13 @@ interface PaymentQrCodeProps {
   accountNumber?: string;
   accountName?: string;
   paybillNumber?: string;
+  accountRef?: string;
   className?: string;
 }
 
 export function PaymentQrCode({
   type,
+  customQrImage,
   tillNumber = "8146952",
   tillName = "Suggutta Fellowship Church",
   phone = "0112656123",
@@ -28,7 +31,8 @@ export function PaymentQrCode({
   bankName = "KCB Bank Kenya",
   accountNumber = "1356891853",
   accountName = "Sugutta Fellowship church",
-  paybillNumber = "522522",
+  paybillNumber = "174379",
+  accountRef = "OFFERING",
   className = "",
 }: PaymentQrCodeProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -42,6 +46,8 @@ export function PaymentQrCode({
     let payload = "";
     if (type === "till") {
       payload = tillNumber || "8146952";
+    } else if (type === "paybill") {
+      payload = `Safaricom Paybill\nBusiness No: ${paybillNumber || "174379"}\nAccount: ${accountRef || "OFFERING"}`;
     } else if (type === "send_money") {
       payload = phone || "0112656123";
     } else if (type === "kcb_bank") {
@@ -75,7 +81,7 @@ export function PaymentQrCode({
     return () => {
       active = false;
     };
-  }, [type, tillNumber, phone, accountNumber, accountName, paybillNumber]);
+  }, [type, tillNumber, phone, accountNumber, accountName, paybillNumber, accountRef]);
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);
@@ -95,6 +101,18 @@ export function PaymentQrCode({
       primaryCopyKey: "till",
       verifiedName: tillName,
       footerInstruction: "Open M-Pesa App → Tap 'Scan QR' → Enter Amount & PIN",
+    },
+    paybill: {
+      badgeText: "M-PESA PAYBILL QR",
+      badgeColor: "bg-emerald-500/10 border-emerald-500/20 text-emerald-700",
+      accentColor: "#00A859",
+      title: "Lipa na M-Pesa Paybill",
+      subtitle: `Business No. ${paybillNumber || "174379"}${accountRef ? ` — Account: ${accountRef}` : " — Enter Fund Account (e.g. OFFERING, TITHE)"}`,
+      primaryLabel: "Paybill Business No",
+      primaryValue: paybillNumber || "174379",
+      primaryCopyKey: "paybill",
+      verifiedName: tillName,
+      footerInstruction: `M-Pesa → Paybill ${paybillNumber || "174379"} → Acc: ${accountRef || "OFFERING"} → PIN`,
     },
     send_money: {
       badgeText: "M-PESA SEND MONEY QR",
@@ -158,8 +176,14 @@ export function PaymentQrCode({
 
       {/* Authentic High-Definition Scannable QR Code */}
       <div className="relative p-2.5 sm:p-3 rounded-2xl bg-white border-2 border-slate-200 shadow-md">
-        <div className="w-40 h-40 sm:w-44 sm:h-44 mx-auto flex items-center justify-center">
-          {qrDataUrl ? (
+        <div className="w-40 h-40 sm:w-44 sm:h-44 mx-auto flex items-center justify-center overflow-hidden">
+          {customQrImage ? (
+            <img
+              src={customQrImage}
+              alt={`${config.title} Official QR Poster`}
+              className="w-full h-full object-contain rounded-xl select-none"
+            />
+          ) : qrDataUrl ? (
             <img
               src={qrDataUrl}
               alt={`${config.title} QR Code`}

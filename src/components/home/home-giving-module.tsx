@@ -46,8 +46,10 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
 
   const [activeTab, setActiveTab] = useState<"kenya" | "international">("kenya");
   const [showQrTill, setShowQrTill] = useState<boolean>(false);
+  const [showQrPaybill, setShowQrPaybill] = useState<boolean>(false);
   const [showQrSendMoney, setShowQrSendMoney] = useState<boolean>(false);
   const [showQrBank, setShowQrBank] = useState<boolean>(false);
+  const [selectedFund, setSelectedFund] = useState<string>("OFFERING");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const handleCopy = (key: string, text: string) => {
@@ -131,6 +133,7 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
                   <div className="py-2">
                     <PaymentQrCode
                       type="till"
+                      customQrImage={settings.mpesaTillQrImage}
                       tillNumber={tillNumber}
                       tillName={tillName}
                     />
@@ -169,7 +172,93 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
                 )}
               </div>
 
-              {/* Method 2: Send Money Direct */}
+              {/* Method 2: Lipa na M-Pesa Paybill */}
+              <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border-2 border-emerald-300 shadow-md hover:shadow-xl transition-all duration-300 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                    Designated Accounts &bull; Paybill
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowQrPaybill(!showQrPaybill)}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200 transition-colors"
+                  >
+                    <QrCode className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>{showQrPaybill ? "View Details" : "Scan QR"}</span>
+                  </button>
+                </div>
+
+                {showQrPaybill ? (
+                  <div className="py-2">
+                    <PaymentQrCode
+                      type="paybill"
+                      customQrImage={settings.mpesaPaybillQrImage}
+                      paybillNumber="174379"
+                      accountRef={selectedFund}
+                      tillName={tillName}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <span className="text-xs text-slate-500 uppercase font-bold tracking-wider block">
+                        Paybill Business Number
+                      </span>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-2xl sm:text-3xl font-mono font-black text-slate-950 tracking-wider">
+                          174379
+                        </span>
+                        <Button
+                          size="sm"
+                          onClick={() => handleCopy("paybill_business", "174379")}
+                          className="rounded-full text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white"
+                        >
+                          {copiedKey === "paybill_business" ? <Check className="w-3.5 h-3.5 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                          <span>{copiedKey === "paybill_business" ? "Copied" : "Copy"}</span>
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Interactive Fund Selection Chips */}
+                    <div className="space-y-1.5 pt-1">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600 block">
+                        Account Codes (Click to Copy):
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {GIVING_FUNDS.map((fund) => {
+                          const isSelected = selectedFund === fund.code;
+                          return (
+                            <button
+                              key={fund.code}
+                              type="button"
+                              onClick={() => {
+                                setSelectedFund(fund.code);
+                                handleCopy(`acc_${fund.code}`, fund.code);
+                              }}
+                              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+                                isSelected
+                                  ? "bg-emerald-600 text-white shadow-sm"
+                                  : "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200"
+                              }`}
+                            >
+                              <span>{fund.code}</span>
+                              {copiedKey === `acc_${fund.code}` ? (
+                                <Check className="h-3 w-3 text-emerald-200" />
+                              ) : null}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-emerald-50/60 border border-emerald-100 text-[11px] text-slate-600">
+                      Active Account: <strong className="text-emerald-800 font-mono">{selectedFund}</strong> &bull; Business Name: <strong>{tillName}</strong>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Method 3: Send Money Direct */}
               <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">
@@ -224,53 +313,63 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
                   </>
                 )}
               </div>
+
+              {/* Method 4: KCB Bank Strip in Grid */}
+              <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md hover:shadow-xl transition-all duration-300 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#005A9C] bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                    KCB Bank Kenya
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowQrBank(!showQrBank)}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-[#005A9C] bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-full border border-blue-200 transition-colors"
+                  >
+                    <QrCode className="w-3.5 h-3.5" />
+                    <span>{showQrBank ? "View Details" : "Bank QR"}</span>
+                  </button>
+                </div>
+
+                {showQrBank ? (
+                  <div className="py-2">
+                    <PaymentQrCode
+                      type="kcb_bank"
+                      accountNumber={kcbAccount}
+                      accountName={kcbName}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <span className="text-xs text-slate-500 uppercase font-bold tracking-wider block">
+                        KCB Account Number
+                      </span>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-2xl sm:text-3xl font-mono font-black text-slate-950 tracking-wider">
+                          {kcbAccount}
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleCopy("bank_acc", kcbAccount)}
+                          className="rounded-full text-xs font-bold border-blue-200 text-[#005A9C] hover:bg-blue-50"
+                        >
+                          {copiedKey === "bank_acc" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                          <span>{copiedKey === "bank_acc" ? "Copied" : "Copy"}</span>
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-100 text-xs text-slate-700 space-y-1">
+                      <div className="font-bold text-slate-900">Account Name: {kcbName}</div>
+                      <div className="text-[11px] text-slate-500">
+                        M-Pesa to KCB: Paybill <strong>522522</strong> &bull; Acc: <strong>{kcbAccount}</strong>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-
-            {/* Method 3: KCB Bank Strip */}
-            <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-[#005A9C]" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#005A9C]">Method 3: KCB Bank Kenya</span>
-                </div>
-                <div className="text-base font-extrabold text-slate-900">
-                  Kenya Commercial Bank &bull; Acc: <span className="font-mono text-[#005A9C]">{kcbAccount}</span>
-                </div>
-                <div className="text-xs text-slate-600">
-                  Name: <strong>{kcbName}</strong> &bull; M-Pesa to KCB: Paybill <strong>522522</strong> / Acc: <strong>{kcbAccount}</strong>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowQrBank(!showQrBank)}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-blue-50 border border-blue-200 text-[#005A9C] text-xs font-bold hover:bg-blue-100 transition-colors"
-                >
-                  <QrCode className="w-3.5 h-3.5" />
-                  <span>{showQrBank ? "Hide QR" : "Bank QR"}</span>
-                </button>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleCopy("bank_acc", kcbAccount)}
-                  className="rounded-xl text-xs font-bold border-blue-200 text-[#005A9C] hover:bg-blue-50"
-                >
-                  {copiedKey === "bank_acc" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
-                  <span>{copiedKey === "bank_acc" ? "Copied" : "Copy Account"}</span>
-                </Button>
-              </div>
-            </div>
-
-            {showQrBank && (
-              <div className="max-w-md mx-auto p-4 bg-white rounded-2xl border border-blue-200 shadow-sm">
-                <PaymentQrCode
-                  type="kcb_bank"
-                  accountNumber={kcbAccount}
-                  accountName={kcbName}
-                />
-              </div>
-            )}
           </div>
         )}
 

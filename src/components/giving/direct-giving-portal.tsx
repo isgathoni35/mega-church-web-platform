@@ -59,8 +59,10 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<"kenya" | "international">("kenya");
   const [showQrTill, setShowQrTill] = useState<boolean>(false);
+  const [showQrPaybill, setShowQrPaybill] = useState<boolean>(false);
   const [showQrSendMoney, setShowQrSendMoney] = useState<boolean>(false);
   const [showQrBank, setShowQrBank] = useState<boolean>(false);
+  const [selectedFund, setSelectedFund] = useState<string>("OFFERING");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [highlightOrphanage, setHighlightOrphanage] = useState<boolean>(false);
 
@@ -68,6 +70,7 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
     const fundParam = searchParams.get("fund");
     if (fundParam === "orphanage") {
       setHighlightOrphanage(true);
+      setSelectedFund("ORPHANAGE");
     }
     const tabParam = searchParams.get("tab");
     if (tabParam === "international") {
@@ -162,6 +165,7 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
                 {showQrTill ? (
                   <PaymentQrCode
                     type="till"
+                    customQrImage={settings.mpesaTillQrImage}
                     tillNumber={tillNumber}
                     tillName={tillName}
                   />
@@ -241,7 +245,154 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
               </div>
             </div>
 
-            {/* METHOD 2: SEND MONEY (PASTOR CAESAR LINE) */}
+            {/* METHOD 2: M-PESA PAYBILL (BUSINESS NO 174379) */}
+            <div className="border border-emerald-200/90 shadow-lg rounded-2xl sm:rounded-3xl overflow-hidden bg-white">
+              <div className="bg-emerald-50/80 border-b border-emerald-100 p-3.5 sm:p-6 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-emerald-600/20">
+                    <Smartphone className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700 block">
+                      Designated Accounts &bull; Paybill
+                    </span>
+                    <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">
+                      Lipa na M-Pesa (Paybill)
+                    </h3>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowQrPaybill(!showQrPaybill)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-emerald-300 text-emerald-800 text-[11px] font-bold hover:bg-emerald-100 transition-colors shadow-sm"
+                >
+                  <QrCode className="h-3.5 w-3.5 text-emerald-600" />
+                  <span>{showQrPaybill ? "View Steps" : "Scan QR"}</span>
+                </button>
+              </div>
+
+              <div className="p-4 sm:p-8 space-y-4 sm:space-y-6">
+                {showQrPaybill ? (
+                  <PaymentQrCode
+                    type="paybill"
+                    customQrImage={settings.mpesaPaybillQrImage}
+                    paybillNumber="174379"
+                    accountRef={selectedFund}
+                    tillName={tillName}
+                  />
+                ) : (
+                  <>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      Use Business Number <strong className="font-mono text-slate-900">174379</strong> and designate your giving by choosing one of our fund accounts:
+                    </p>
+
+                    {/* Paybill Details Box */}
+                    <div className="p-4 sm:p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200/90 space-y-3">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                          Paybill Business Number
+                        </span>
+                        <div className="flex items-center justify-between mt-1">
+                          <span className="font-mono text-2xl sm:text-4xl font-black text-slate-950 tracking-wider">
+                            174379
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("paybill_business", "174379")}
+                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-all"
+                          >
+                            {copiedKey === "paybill_business" ? (
+                              <>
+                                <Check className="h-4 w-4" />
+                                <span>Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="h-4 w-4" />
+                                <span>Copy Paybill</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-emerald-200/80 flex items-center justify-between text-xs">
+                        <span className="text-slate-500">Business Name:</span>
+                        <div className="flex items-center gap-1 text-emerald-800 font-bold">
+                          <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                          <span>{tillName}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Interactive Account Selection Chips */}
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                          Select Account Code to Copy:
+                        </span>
+                        <span className="text-[10px] text-slate-500">Tap to select &amp; copy</span>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                        {GIVING_FUNDS.map((fund) => {
+                          const isSelected = selectedFund === fund.code;
+                          return (
+                            <button
+                              key={fund.code}
+                              type="button"
+                              onClick={() => {
+                                setSelectedFund(fund.code);
+                                handleCopy(`acc_${fund.code}`, fund.code);
+                              }}
+                              className={`p-2.5 rounded-xl border text-left transition-all flex flex-col justify-between ${
+                                isSelected
+                                  ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
+                                  : "bg-slate-50 hover:bg-emerald-50/50 border-slate-200 text-slate-800"
+                              }`}
+                            >
+                              <div className="flex items-center justify-between w-full">
+                                <span className="font-mono font-black text-xs">{fund.code}</span>
+                                {copiedKey === `acc_${fund.code}` ? (
+                                  <Check className={`h-3 w-3 ${isSelected ? "text-white" : "text-emerald-600"}`} />
+                                ) : (
+                                  <Copy className={`h-3 w-3 ${isSelected ? "text-emerald-100" : "text-slate-400"}`} />
+                                )}
+                              </div>
+                              <span className={`text-[10px] mt-1 font-medium truncate ${isSelected ? "text-emerald-100" : "text-slate-500"}`}>
+                                {fund.name}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <ol className="space-y-2 text-xs sm:text-sm text-slate-700 pt-1">
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
+                        <span>Open <strong>M-Pesa</strong> &rarr; Select <strong>Paybill</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
+                        <span>Business No: <strong className="font-mono text-slate-900">174379</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
+                        <span>Account No: <strong className="font-mono text-emerald-800">{selectedFund}</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">4</span>
+                        <span>Enter amount &amp; PIN &rarr; Confirm <strong>{tillName}</strong>.</span>
+                      </li>
+                    </ol>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 items-start">
+            {/* METHOD 3: SEND MONEY (PASTOR CAESAR LINE) */}
             <div className="border border-slate-200/80 shadow-lg rounded-2xl sm:rounded-3xl overflow-hidden bg-white">
               <div className="bg-slate-50 border-b border-slate-100 p-3.5 sm:p-6 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 sm:gap-4">
@@ -340,34 +491,33 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
                 )}
               </div>
             </div>
-          </div>
 
-          {/* METHOD 3: KCB BANK KENYA (ACCOUNT 1356891853) */}
-          <div className="border border-slate-200/80 rounded-2xl sm:rounded-3xl bg-white shadow-md p-4 sm:p-8 space-y-4 sm:space-y-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3 sm:pb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-500/10 flex items-center justify-center text-[#005A9C] shrink-0 font-bold">
-                  <Building2 className="h-5 w-5 sm:h-6 sm:w-6" />
+            {/* METHOD 4: KCB BANK KENYA (ACCOUNT 1356891853) */}
+            <div className="border border-slate-200/80 rounded-2xl sm:rounded-3xl bg-white shadow-md p-4 sm:p-8 space-y-4 sm:space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3 sm:pb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-500/10 flex items-center justify-center text-[#005A9C] shrink-0 font-bold">
+                    <Building2 className="h-5 w-5 sm:h-6 sm:w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-extrabold text-base sm:text-xl text-slate-900">
+                      Method 4: KCB Bank Account (1356891853)
+                    </h4>
+                    <p className="text-xs text-slate-500">
+                      Direct wire, cheque deposit, or M-Pesa to KCB Bank transfer.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-extrabold text-base sm:text-xl text-slate-900">
-                    Method 3: KCB Bank Account (1356891853)
-                  </h4>
-                  <p className="text-xs text-slate-500">
-                    Direct wire, cheque deposit, or M-Pesa to KCB Bank transfer.
-                  </p>
-                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowQrBank(!showQrBank)}
+                  className="self-start md:self-auto inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#005A9C] text-xs font-bold hover:bg-blue-100 transition-colors shadow-sm"
+                >
+                  <QrCode className="h-3.5 w-3.5 text-[#005A9C]" />
+                  <span>{showQrBank ? "View Credentials" : "Show Bank QR"}</span>
+                </button>
               </div>
-
-              <button
-                type="button"
-                onClick={() => setShowQrBank(!showQrBank)}
-                className="self-start md:self-auto inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#005A9C] text-xs font-bold hover:bg-blue-100 transition-colors shadow-sm"
-              >
-                <QrCode className="h-3.5 w-3.5 text-[#005A9C]" />
-                <span>{showQrBank ? "View Credentials" : "Show Bank QR"}</span>
-              </button>
-            </div>
 
             {showQrBank ? (
               <div className="max-w-md mx-auto">
@@ -434,6 +584,7 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
             )}
           </div>
         </div>
+      </div>
       )}
 
       {/* ========================================================================= */}

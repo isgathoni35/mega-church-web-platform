@@ -408,7 +408,7 @@ export function TabbedConnectHub() {
                     </label>
                     <Input
                       type="text"
-                      placeholder="e.g. Bro. David Mwangi"
+                      placeholder="Your full name"
                       value={visitFullName}
                       onChange={(e) => setVisitFullName(e.target.value)}
                       required
@@ -437,7 +437,7 @@ export function TabbedConnectHub() {
                   </label>
                   <Input
                     type="email"
-                    placeholder="david@example.com"
+                    placeholder="your.email@example.com"
                     value={visitEmail}
                     onChange={(e) => setVisitEmail(e.target.value)}
                     required
@@ -607,7 +607,7 @@ export function TabbedConnectHub() {
                     </label>
                     <Input
                       type="text"
-                      placeholder="e.g. Sister Grace Wanjiku"
+                      placeholder="Your full name"
                       value={prayerFullName}
                       onChange={(e) => setPrayerFullName(e.target.value)}
                       required
@@ -621,7 +621,7 @@ export function TabbedConnectHub() {
                     </label>
                     <Input
                       type="email"
-                      placeholder="grace@example.com"
+                      placeholder="your.email@example.com"
                       value={prayerEmail}
                       onChange={(e) => setPrayerEmail(e.target.value)}
                       required
@@ -800,7 +800,7 @@ export function TabbedConnectHub() {
                     </label>
                     <Input
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="your.email@example.com"
                       value={inquiryEmail}
                       onChange={(e) => setInquiryEmail(e.target.value)}
                       required

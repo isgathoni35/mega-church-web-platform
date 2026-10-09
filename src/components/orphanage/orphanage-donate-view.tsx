@@ -50,6 +50,7 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
 
   const [activeTab, setActiveTab] = useState<PaymentTab>("kenya");
   const [showQrTill, setShowQrTill] = useState<boolean>(false);
+  const [showQrPaybill, setShowQrPaybill] = useState<boolean>(false);
   const [showQrSendMoney, setShowQrSendMoney] = useState<boolean>(false);
   const [showQrBank, setShowQrBank] = useState<boolean>(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -234,6 +235,7 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                   <div className="max-w-md mx-auto py-2">
                     <PaymentQrCode
                       type="till"
+                      customQrImage={settings.mpesaTillQrImage}
                       tillNumber={tillNumber}
                       tillName={tillName}
                     />
@@ -299,16 +301,141 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                 )}
               </div>
 
-              {/* METHOD 2 & METHOD 3 STRIP */}
+              {/* METHOD 2: M-PESA PAYBILL (BUSINESS NO 174379, ACC: ORPHANAGE) */}
+              <div className="bg-white rounded-3xl p-5 sm:p-8 border-2 border-emerald-300 shadow-md space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-emerald-600/20">
+                      <Smartphone className="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                          Direct Child Sponsorship &bull; Paybill
+                        </span>
+                      </div>
+                      <h3 className="font-extrabold text-lg sm:text-2xl text-slate-900 tracking-tight mt-0.5">
+                        Method 2: Lipa na M-Pesa Paybill
+                      </h3>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowQrPaybill(!showQrPaybill)}
+                    className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold hover:bg-emerald-100 transition-colors shadow-sm"
+                  >
+                    <QrCode className="h-3.5 w-3.5 text-emerald-600" />
+                    <span>{showQrPaybill ? "View Steps" : "Scan QR Code"}</span>
+                  </button>
+                </div>
+
+                {showQrPaybill ? (
+                  <div className="max-w-md mx-auto py-2">
+                    <PaymentQrCode
+                      type="paybill"
+                      customQrImage={settings.mpesaPaybillQrImage}
+                      paybillNumber="174379"
+                      accountRef="ORPHANAGE"
+                      tillName={tillName}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      Send your donation directly to the Children&apos;s Home account using Safaricom Paybill:
+                    </p>
+
+                    <div className="p-4 sm:p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200/90 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="flex flex-col justify-between">
+                        <div>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                            Business Number (Paybill)
+                          </span>
+                          <span className="font-mono text-2xl sm:text-3xl font-black text-slate-950 tracking-wider">
+                            174379
+                          </span>
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={() => copyToClipboard("174379", "paybill_num")}
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold h-9 px-3 rounded-xl shadow-sm mt-2 self-start"
+                        >
+                          {copiedKey === "paybill_num" ? (
+                            <>
+                              <Check className="h-3.5 w-3.5 mr-1 text-white" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-3.5 w-3.5 mr-1" />
+                              <span>Copy 174379</span>
+                            </>
+                          )}
+                        </Button>
+                      </div>
+
+                      <div className="flex flex-col justify-between border-t sm:border-t-0 sm:border-l border-emerald-200/80 pt-3 sm:pt-0 sm:pl-4">
+                        <div>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                            Account Number (Designation)
+                          </span>
+                          <span className="font-mono text-2xl sm:text-3xl font-black text-emerald-800 tracking-wider">
+                            ORPHANAGE
+                          </span>
+                        </div>
+                        <Button
+                          size="sm"
+                          onClick={() => copyToClipboard("ORPHANAGE", "orphanage_acc")}
+                          className="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold h-9 px-3 rounded-xl shadow-sm mt-2 self-start"
+                        >
+                          {copiedKey === "orphanage_acc" ? (
+                            <>
+                              <Check className="h-3.5 w-3.5 mr-1 text-white" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="h-3.5 w-3.5 mr-1" />
+                              <span>Copy ORPHANAGE</span>
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+
+                    <ol className="space-y-2 text-xs sm:text-sm text-slate-700 pt-1">
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
+                        <span>Open <strong>M-Pesa</strong> &rarr; Select <strong>Lipa na M-Pesa</strong> &rarr; <strong>Paybill</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
+                        <span>Business No: <strong className="font-mono text-slate-900">174379</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
+                        <span>Account No: <strong className="font-mono text-emerald-800">ORPHANAGE</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">4</span>
+                        <span>Enter donation amount &amp; PIN &rarr; Confirm <strong>{tillName}</strong>.</span>
+                      </li>
+                    </ol>
+                  </>
+                )}
+              </div>
+
+              {/* METHOD 3 & METHOD 4 STRIP */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Method 2: Send Money Direct */}
+                {/* Method 3: Send Money Direct */}
                 <div className="bg-white rounded-3xl p-5 sm:p-6 border border-orange-200/90 shadow-sm space-y-3 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-orange-100 pb-3">
                       <div className="flex items-center gap-2">
                         <Smartphone className="w-5 h-5 text-[#ff6b35]" />
                         <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                          Method 2: M-Pesa Send Money
+                          Method 3: M-Pesa Send Money
                         </h4>
                       </div>
                       <button
@@ -366,7 +493,7 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                       <div className="flex items-center gap-2">
                         <Building className="w-5 h-5 text-[#005A9C]" />
                         <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                          Method 3: KCB Bank Account
+                          Method 4: KCB Bank Account
                         </h4>
                       </div>
                       <button

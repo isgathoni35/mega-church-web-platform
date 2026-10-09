@@ -193,7 +193,7 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="john@example.com"
+                        placeholder="your.email@example.com"
                         className="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff6b35] transition-all bg-slate-50/50 focus:bg-white"
                       />
                     </div>

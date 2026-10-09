@@ -135,6 +135,8 @@ export interface SiteSettingsData {
   mpesaPaybill: string;
   mpesaTillNumber: string;
   mpesaTillName: string;
+  mpesaTillQrImage: string;
+  mpesaPaybillQrImage: string;
   westernUnionRecipient: string;
 }
 
@@ -307,5 +309,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   mpesaPaybill: "174379",
   mpesaTillNumber: "8146952",
   mpesaTillName: "Suggutta Fellowship Church",
+  mpesaTillQrImage: "",
+  mpesaPaybillQrImage: "",
   westernUnionRecipient: "Caesar O. Nyandwaro",
 };

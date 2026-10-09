@@ -216,6 +216,8 @@ export interface Database {
           mpesa_paybill: string;
           mpesa_till_number?: string;
           mpesa_till_name?: string;
+          mpesa_till_qr_image?: string;
+          mpesa_paybill_qr_image?: string;
           western_union_recipient: string;
           orphanage_photos_json?: Json;
           orphanage_videos_json?: Json;
@@ -292,6 +294,8 @@ export interface Database {
           mpesa_paybill?: string;
           mpesa_till_number?: string;
           mpesa_till_name?: string;
+          mpesa_till_qr_image?: string;
+          mpesa_paybill_qr_image?: string;
           western_union_recipient?: string;
           orphanage_photos_json?: Json;
           orphanage_videos_json?: Json;
@@ -368,6 +372,8 @@ export interface Database {
           mpesa_paybill?: string;
           mpesa_till_number?: string;
           mpesa_till_name?: string;
+          mpesa_till_qr_image?: string;
+          mpesa_paybill_qr_image?: string;
           western_union_recipient?: string;
           orphanage_photos_json?: Json;
           orphanage_videos_json?: Json;
