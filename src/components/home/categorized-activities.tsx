@@ -132,6 +132,7 @@ function ProjectCard({
               ? [project.imageUrl]
               : ["/images/church-construction.jpg"]
           }
+          videoUrl={project.videoUrl}
           title={project.title}
           subtitle={project.subtitle}
         />

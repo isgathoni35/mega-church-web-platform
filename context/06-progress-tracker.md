@@ -658,7 +658,21 @@ None.
       - Created client-side observer engine [src/components/ui/scroll-reveal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/ui/scroll-reveal.tsx) using native `IntersectionObserver` with instant above-the-fold detection (zero blank flash or layout shift) and `MutationObserver` for dynamic content.
       - Mounted `<ScrollObserverInit />` globally in [src/app/layout.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/layout.tsx).
       - Tagged all core section containers across public pages: [src/app/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/page.tsx), [src/app/orphanage/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/orphanage/page.tsx), [src/app/give/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/give/page.tsx), [src/app/about/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/about/page.tsx), [src/app/events/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/events/page.tsx), [src/app/contact/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/contact/page.tsx), [src/app/prayer-request/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/prayer-request/page.tsx), and [src/app/sermons/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/sermons/page.tsx).
+- **[2026-10-10]:** Completed Feature 51 (Projects Multi-Photo & Video Persistence, Instant Auto-Save, and Interactive Carousel Navigation):
+   1. Instant Server Action & Persistence Engine:
+      - Implemented `saveProjectsAction` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts) to sanitize, validate, and persist the dynamic projects array directly to Supabase `site_settings.projects_json` with immediate revalidation of `/` and `/admin/settings`.
+   2. Admin Portal Auto-Save & Dedicated Action Controls:
+      - Enhanced [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) with functional state updates (`setSettings(prev => ...)`) to eliminate race conditions and stale closure issues.
+      - Connected auto-persistence so that uploading, selecting presets, reordering, or deleting photos immediately persists to Supabase and pushes to the live site.
+      - Added dedicated "Save & Publish Projects" action bars at the top header strip and bottom of Tab 2 with live status feedback alerts.
+   3. Unified Photo & Video Carousel on Homepage:
+      - Upgraded [src/components/home/project-image-carousel.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/project-image-carousel.tsx) to seamlessly handle both photo collections (up to 5 photos) and project video walkthroughs (`videoUrl`).
+      - Implemented swift auto-play transitions (3.5s interval) across photos, automatically pausing when hovered or when viewing a video.
+      - Added unified navigation: mobile touch swipe, desktop hover chevrons, and bottom indicators (photo dots and an active glowing `▶ Video` pill button).
+      - Built an interactive Lightbox video player supporting direct HTML5 MP4 video uploads and responsive YouTube embeds.
+      - Updated [src/components/home/categorized-activities.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/categorized-activities.tsx) to pass `videoUrl` into the project carousel.
+   4. Supabase Database Synchronization:
+      - Synchronized `projects_json` in the live Supabase database with multi-photo collections and video walkthrough links.
    5. Verification:
-      - `npx tsc --noEmit` exited with code 0 (zero errors).
-      - All routes verified operational on port 3002.
-      - 100% preservation of existing media assets and projects.
+      - `npx tsc --noEmit` passed with 0 errors.
+      - All routes verified returning HTTP 200 on port 3002.

@@ -48,6 +48,7 @@ import {
 } from "@/types/settings";
 import {
   saveSiteSettingsAction,
+  saveProjectsAction,
   getOrphanageVideoSignedUploadUrlAction,
   uploadChurchMediaAction,
   addOrphanagePhotoAction,
@@ -269,6 +270,42 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
   }, [settings]);
 
 
+  // Dedicated Project Persistence Helpers
+  const [isSavingProjects, setIsSavingProjects] = useState(false);
+  const [projectsFeedback, setProjectsFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
+  const handleSaveProjects = async (projectsToSave?: MinistryProjectItem[]) => {
+    setIsSavingProjects(true);
+    setProjectsFeedback(null);
+
+    const list = projectsToSave || (settings.projectsJson?.length ? settings.projectsJson : DEFAULT_SETTINGS.projectsJson);
+
+    try {
+      const res = await saveProjectsAction(list);
+      if (res.success && res.data) {
+        setSettings((prev) => ({ ...prev, projectsJson: res.data! }));
+        setProjectsFeedback({
+          type: "success",
+          text: "Projects, photo galleries & video links published to homepage!",
+        });
+        setTimeout(() => setProjectsFeedback(null), 4500);
+      } else {
+        setProjectsFeedback({
+          type: "error",
+          text: res.error || "Failed to persist projects to database.",
+        });
+      }
+    } catch (err) {
+      console.error("Save projects error:", err);
+      setProjectsFeedback({
+        type: "error",
+        text: "Network error saving projects.",
+      });
+    } finally {
+      setIsSavingProjects(false);
+    }
+  };
+
   // Project Helpers
   const handleAddProject = () => {
     const newProject: MinistryProjectItem = {
@@ -279,6 +316,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       narrative:
         "Detailed explanation of the project, impact, and how people can support.",
       imageUrl: "/images/church-construction.jpg",
+      images: ["/images/church-construction.jpg"],
       videoUrl: "",
       donateLink: "/give",
       donateLabel: "Support this Project",
@@ -286,39 +324,50 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       color: "orange",
       active: true,
     };
-    const currentList = settings.projectsJson?.length
-      ? settings.projectsJson
-      : DEFAULT_SETTINGS.projectsJson;
-    setSettings({
-      ...settings,
-      projectsJson: [...currentList, newProject],
+
+    setSettings((prev) => {
+      const currentList = prev.projectsJson?.length
+        ? prev.projectsJson
+        : DEFAULT_SETTINGS.projectsJson;
+      const updated = [...currentList, newProject];
+      handleSaveProjects(updated);
+      return { ...prev, projectsJson: updated };
     });
   };
 
   const handleUpdateProject = (
     idx: number,
     fieldOrUpdates: keyof MinistryProjectItem | Partial<MinistryProjectItem>,
-    val?: unknown
+    val?: unknown,
+    autoSave = false
   ) => {
-    const currentList = settings.projectsJson?.length
-      ? settings.projectsJson
-      : DEFAULT_SETTINGS.projectsJson;
-    const updated = [...currentList];
-    if (typeof fieldOrUpdates === "object" && fieldOrUpdates !== null) {
-      updated[idx] = { ...updated[idx], ...fieldOrUpdates };
-    } else {
-      updated[idx] = { ...updated[idx], [fieldOrUpdates as keyof MinistryProjectItem]: val };
-    }
-    setSettings({ ...settings, projectsJson: updated });
+    setSettings((prev) => {
+      const currentList = prev.projectsJson?.length
+        ? prev.projectsJson
+        : DEFAULT_SETTINGS.projectsJson;
+      const updated = [...currentList];
+      if (typeof fieldOrUpdates === "object" && fieldOrUpdates !== null) {
+        updated[idx] = { ...updated[idx], ...fieldOrUpdates };
+      } else {
+        updated[idx] = { ...updated[idx], [fieldOrUpdates as keyof MinistryProjectItem]: val };
+      }
+      if (autoSave) {
+        handleSaveProjects(updated);
+      }
+      return { ...prev, projectsJson: updated };
+    });
   };
 
   const handleDeleteProject = (idx: number) => {
     if (!confirm("Are you sure you want to remove this project?")) return;
-    const currentList = settings.projectsJson?.length
-      ? settings.projectsJson
-      : DEFAULT_SETTINGS.projectsJson;
-    const updated = currentList.filter((_, i) => i !== idx);
-    setSettings({ ...settings, projectsJson: updated });
+    setSettings((prev) => {
+      const currentList = prev.projectsJson?.length
+        ? prev.projectsJson
+        : DEFAULT_SETTINGS.projectsJson;
+      const updated = currentList.filter((_, i) => i !== idx);
+      handleSaveProjects(updated);
+      return { ...prev, projectsJson: updated };
+    });
   };
 
   // Event Helpers
@@ -1119,19 +1168,57 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     Active Projects &amp; Capital Campaigns
                   </h2>
                   <p className="text-xs text-slate-500">
-                    Add, edit, reorder, or toggle any church project displayed on the homepage Section 6.
+                    Add, edit, upload photos (up to 5), video walkthroughs, and publish instantly to homepage Section 6.
                   </p>
                 </div>
               </div>
-              <Button
-                type="button"
-                onClick={handleAddProject}
-                className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-bold text-xs rounded-full px-5 py-2.5 h-auto flex items-center gap-1.5 shadow-md shadow-orange-500/20 border-0 shrink-0"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add New Project</span>
-              </Button>
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <Button
+                  type="button"
+                  onClick={handleAddProject}
+                  variant="outline"
+                  className="bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-full px-4 py-2.5 h-auto flex items-center gap-1.5 border-slate-300 shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add Project</span>
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => handleSaveProjects()}
+                  disabled={isSavingProjects}
+                  className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-bold text-xs rounded-full px-5 py-2.5 h-auto flex items-center gap-1.5 shadow-md shadow-orange-500/20 border-0 shrink-0"
+                >
+                  {isSavingProjects ? (
+                    <>
+                      <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-3.5 h-3.5" />
+                      <span>Save &amp; Publish</span>
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
+
+            {projectsFeedback && (
+              <div
+                className={`p-3.5 rounded-2xl text-xs flex items-center gap-2 border font-bold ${
+                  projectsFeedback.type === "success"
+                    ? "bg-emerald-50 border-emerald-300 text-emerald-800"
+                    : "bg-rose-50 border-rose-300 text-rose-800"
+                }`}
+              >
+                {projectsFeedback.type === "success" ? (
+                  <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                )}
+                <span>{projectsFeedback.text}</span>
+              </div>
+            )}
 
             {/* List of Dynamic Projects */}
             {((settings.projectsJson && settings.projectsJson.length > 0)
@@ -1277,10 +1364,15 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                           : []
                       }
                       onChange={(newImages) => {
-                        handleUpdateProject(idx, {
-                          images: newImages,
-                          imageUrl: newImages[0] || "",
-                        });
+                        handleUpdateProject(
+                          idx,
+                          {
+                            images: newImages,
+                            imageUrl: newImages[0] || "",
+                          },
+                          undefined,
+                          true
+                        );
                       }}
                       maxImages={5}
                     />
@@ -1290,7 +1382,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                         label="Project Video / Walkthrough (Optional)"
                         description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to showcase project progress."
                         videoUrl={project.videoUrl || ""}
-                        onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl)}
+                        onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl, true)}
                       />
                     </div>
                   </div>
@@ -1350,7 +1442,40 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </Button>
             </div>
 
-            {renderSaveSectionBar("Ready to update Church Projects?")}
+            {/* Dedicated Project Save Bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50/90 via-white to-amber-50/90 rounded-2xl sm:rounded-3xl border border-orange-200/90 shadow-sm mt-6">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff6b35] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <Save className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="font-extrabold text-slate-900 text-sm sm:text-base">
+                    Save &amp; Publish Church Projects to Homepage
+                  </p>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Click to instantly update all projects, photo galleries, and video links on the homepage.
+                  </p>
+                </div>
+              </div>
+              <Button
+                type="button"
+                onClick={() => handleSaveProjects()}
+                disabled={isSavingProjects}
+                className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-black px-7 py-3 rounded-full shadow-lg shadow-orange-500/25 text-xs sm:text-sm h-auto flex items-center justify-center gap-2 border-0 shrink-0"
+              >
+                {isSavingProjects ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Saving Projects...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-4 h-4" />
+                    <span>Save &amp; Publish Projects</span>
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         )}
 

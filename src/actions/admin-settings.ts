@@ -413,6 +413,89 @@ export async function deleteOrphanageVideoAction(
   }
 }
 
+/**
+ * Directly saves and persists the dynamic church projects array to Supabase site_settings.projects_json
+ * and immediately revalidates homepage and admin caches.
+ */
+export async function saveProjectsAction(
+  projects: MinistryProjectItem[]
+): Promise<{ success: boolean; message?: string; error?: string; data?: MinistryProjectItem[] }> {
+  try {
+    const supabase = createAdminClient();
+
+    // Sanitize and normalize projects array
+    const cleanProjects: MinistryProjectItem[] = (projects || []).map((p) => {
+      const cleanImg = extractCleanImageUrl(p.imageUrl);
+      const cleanImages = Array.isArray(p.images)
+        ? p.images.map(extractCleanImageUrl).filter(Boolean).slice(0, 5)
+        : cleanImg
+        ? [cleanImg]
+        : [];
+
+      return {
+        ...p,
+        title: (p.title || "").trim(),
+        subtitle: (p.subtitle || "").trim(),
+        badge: (p.badge || "Mission").trim(),
+        narrative: (p.narrative || "").trim(),
+        imageUrl: cleanImages[0] || cleanImg,
+        images: cleanImages.length > 0 ? cleanImages : (cleanImg ? [cleanImg] : []),
+        videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
+        donateLink: (p.donateLink || "/give").trim(),
+        donateLabel: (p.donateLabel || "Give Now").trim(),
+        mpesaRef: (p.mpesaRef || "").trim(),
+        color: p.color || "orange",
+        active: p.active !== false,
+      };
+    });
+
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id")
+      .limit(1);
+
+    if (fetchErr) {
+      return { success: false, error: `Database error: ${fetchErr.message}` };
+    }
+
+    if (existing && existing.length > 0) {
+      const { error: updateErr } = await supabase
+        .from("site_settings")
+        .update({
+          projects_json: cleanProjects as unknown as Json,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existing[0].id);
+
+      if (updateErr) {
+        return { success: false, error: `Failed to update projects: ${updateErr.message}` };
+      }
+    } else {
+      const { error: insertErr } = await supabase.from("site_settings").insert({
+        projects_json: cleanProjects as unknown as Json,
+        updated_at: new Date().toISOString(),
+      });
+
+      if (insertErr) {
+        return { success: false, error: `Failed to save projects: ${insertErr.message}` };
+      }
+    }
+
+    revalidatePath("/", "layout");
+    revalidatePath("/");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Church projects and media galleries updated and published successfully!",
+      data: cleanProjects,
+    };
+  } catch (err: unknown) {
+    console.error("[Save Projects Exception]:", err);
+    return { success: false, error: "Unexpected error saving projects." };
+  }
+}
+
 export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
   try {
     const supabase = createAdminClient();
