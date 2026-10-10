@@ -6,9 +6,10 @@ export const PRAYER_CATEGORIES = [
   "Family & Marriage Peace",
   "Spiritual Growth & Guidance",
   "General Thanksgiving & Petitions",
+  "Other",
 ] as const;
 
-export type PrayerCategory = (typeof PRAYER_CATEGORIES)[number];
+export type PrayerCategory = (typeof PRAYER_CATEGORIES)[number] | (string & {});
 
 export const prayerRequestSchema = z.object({
   fullName: z
@@ -25,11 +26,11 @@ export const prayerRequestSchema = z.object({
     .trim()
     .optional()
     .or(z.literal("")),
-  category: z.string().refine(
-    (val): val is PrayerCategory =>
-      PRAYER_CATEGORIES.includes(val as PrayerCategory),
-    { message: "Please select a valid prayer category" }
-  ),
+  category: z
+    .string()
+    .trim()
+    .min(2, "Please select or specify a prayer category")
+    .max(120, "Prayer category cannot exceed 120 characters"),
   request: z
     .string()
     .trim()
@@ -50,9 +51,10 @@ export const INQUIRY_TYPES = [
   "Prayer Mountain Retreat Booking",
   "Pastoral Counsel & Deliverance",
   "Media & Broadcast",
+  "Other",
 ] as const;
 
-export type InquiryType = (typeof INQUIRY_TYPES)[number];
+export type InquiryType = (typeof INQUIRY_TYPES)[number] | (string & {});
 
 export const contactInquirySchema = z.object({
   fullName: z
@@ -69,10 +71,11 @@ export const contactInquirySchema = z.object({
     .trim()
     .optional()
     .or(z.literal("")),
-  inquiryType: z.string().refine(
-    (val): val is InquiryType => INQUIRY_TYPES.includes(val as InquiryType),
-    { message: "Please select an inquiry category" }
-  ),
+  inquiryType: z
+    .string()
+    .trim()
+    .min(2, "Please select or specify an inquiry category")
+    .max(120, "Inquiry category cannot exceed 120 characters"),
   message: z
     .string()
     .trim()

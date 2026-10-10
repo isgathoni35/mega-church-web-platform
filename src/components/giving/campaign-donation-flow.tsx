@@ -101,6 +101,21 @@ export const GIVING_FUNDS: GivingFund[] = [
       { amountUsd: 100, amountKes: 10000, text: "Apostolic deliverance seed ministered under Pastor Caesar O. Nyandwaro." },
     ],
   },
+  {
+    code: "OTHER",
+    name: "Other (Specify Custom Kingdom Cause)",
+    shortName: "Other Kingdom Cause",
+    icon: "✨",
+    description: "Support any designated ministry initiative, specific benevolence project, youth camp, choir, or special kingdom assignment.",
+    scripture: "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
+    scriptureRef: "2 Corinthians 9:7",
+    image: "/images/hero-worship.jpg",
+    impacts: [
+      { amountUsd: 25, amountKes: 2500, text: "Directly funds your designated specific need or community ministry initiative." },
+      { amountUsd: 50, amountKes: 5000, text: "Empowers targeted local kingdom mission work and benevolent support." },
+      { amountUsd: 100, amountKes: 10000, text: "Underwrites dedicated ministry equipment, transport, or special project costs." },
+    ],
+  },
 ];
 
 const PRESETS_USD = [25, 50, 100, 250, 500, 1000];
@@ -125,6 +140,7 @@ export function CampaignDonationFlow({
 
   // Form State
   const [selectedFundCode, setSelectedFundCode] = useState<string>(initialFund);
+  const [customFundName, setCustomFundName] = useState<string>("");
   const [isFundDropdownOpen, setIsFundDropdownOpen] = useState<boolean>(false);
   const [frequency, setFrequency] = useState<"One-Time" | "Weekly" | "Monthly">("One-Time");
   const [currency, setCurrency] = useState<"USD" | "KES">("USD");
@@ -207,9 +223,14 @@ export function CampaignDonationFlow({
 
   // Complete Gift & Show Thank You
   const handleCompleteGift = () => {
+    const effectiveFundName =
+      selectedFundCode === "OTHER" && customFundName.trim()
+        ? `Other: ${customFundName.trim()}`
+        : selectedFund.name;
+
     setReceiptData({
       reference: `SUG-${selectedFund.code}-${Math.floor(100000 + Math.random() * 900000)}`,
-      fundName: selectedFund.name,
+      fundName: effectiveFundName,
       fundCode: selectedFund.code,
       amount: selectedAmount,
       currency,
@@ -486,6 +507,22 @@ export function CampaignDonationFlow({
                 </div>
               )}
             </div>
+
+            {/* Custom Fund Cause Write-In Field */}
+            {selectedFundCode === "OTHER" && (
+              <div className="space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                <label className="text-xs font-bold text-[#ff6b35] block">
+                  Specify Custom Kingdom Cause / Project Name:
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Youth Camp, Choir Uniforms, Hospital Outreach, Sound Equipment..."
+                  value={customFundName}
+                  onChange={(e) => setCustomFundName(e.target.value)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-orange-300 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ff6b35] transition-all bg-white text-slate-800"
+                />
+              </div>
+            )}
 
             {/* 2. FREQUENCY SELECTOR matching Image 2 */}
             <div className="space-y-1.5">

@@ -144,6 +144,7 @@ export function TabbedConnectHub() {
   const [prayerEmail, setPrayerEmail] = useState("");
   const [prayerPhone, setPrayerPhone] = useState("");
   const [prayerCategory, setPrayerCategory] = useState<PrayerCategory>(PRAYER_CATEGORIES[0]);
+  const [prayerCustomCategory, setPrayerCustomCategory] = useState("");
   const [prayerRequestText, setPrayerRequestText] = useState("");
   const [prayerIsConfidential, setPrayerIsConfidential] = useState(true);
 
@@ -155,11 +156,21 @@ export function TabbedConnectHub() {
     e.preventDefault();
     setPrayerError(null);
 
+    if (prayerCategory === "Other" && !prayerCustomCategory.trim()) {
+      setPrayerError("Please specify your custom petition category in the text field provided.");
+      return;
+    }
+
+    const effectiveCategory =
+      prayerCategory === "Other"
+        ? (prayerCustomCategory.trim() ? `Other: ${prayerCustomCategory.trim()}` : "Other")
+        : prayerCategory;
+
     const payload = {
       fullName: prayerFullName,
       email: prayerEmail,
       phone: prayerPhone,
-      category: prayerCategory,
+      category: effectiveCategory,
       request: prayerRequestText,
       isConfidential: prayerIsConfidential,
     };
@@ -190,6 +201,7 @@ export function TabbedConnectHub() {
     setPrayerEmail("");
     setPrayerPhone("");
     setPrayerCategory(PRAYER_CATEGORIES[0]);
+    setPrayerCustomCategory("");
     setPrayerRequestText("");
     setPrayerIsConfidential(true);
     setPrayerSuccess(false);
@@ -203,6 +215,7 @@ export function TabbedConnectHub() {
   const [inquiryEmail, setInquiryEmail] = useState("");
   const [inquiryPhone, setInquiryPhone] = useState("");
   const [inquiryType, setInquiryType] = useState<InquiryType>(INQUIRY_TYPES[0]);
+  const [inquiryCustomType, setInquiryCustomType] = useState("");
   const [inquiryMessage, setInquiryMessage] = useState("");
 
   const [inquirySubmitting, setInquirySubmitting] = useState(false);
@@ -231,11 +244,21 @@ export function TabbedConnectHub() {
     e.preventDefault();
     setInquiryError(null);
 
+    if (inquiryType === "Other" && !inquiryCustomType.trim()) {
+      setInquiryError("Please specify your custom ministry or inquiry purpose in the text field provided.");
+      return;
+    }
+
+    const effectiveInquiryType =
+      inquiryType === "Other"
+        ? (inquiryCustomType.trim() ? `Other: ${inquiryCustomType.trim()}` : "Other")
+        : inquiryType;
+
     const payload = {
       fullName: inquiryFullName,
       email: inquiryEmail,
       phone: inquiryPhone,
-      inquiryType,
+      inquiryType: effectiveInquiryType,
       message: inquiryMessage,
     };
 
@@ -265,6 +288,7 @@ export function TabbedConnectHub() {
     setInquiryEmail("");
     setInquiryPhone("");
     setInquiryType(INQUIRY_TYPES[0]);
+    setInquiryCustomType("");
     setInquiryMessage("");
     setInquirySuccess(false);
     setInquiryError(null);
@@ -637,12 +661,30 @@ export function TabbedConnectHub() {
                     >
                       {PRAYER_CATEGORIES.map((cat) => (
                         <option key={cat} value={cat}>
-                          {cat}
+                          {cat === "Other" ? "Other (Specify Custom Petition)" : cat}
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
+
+                {/* Custom Petition Category Write-In */}
+                {prayerCategory === "Other" && (
+                  <div className="space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] flex items-center gap-1.5">
+                      <span>Specify Custom Petition Category</span>
+                      <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder="e.g. Visa Approval, Court Case Victory, Career Breakthrough..."
+                      value={prayerCustomCategory}
+                      onChange={(e) => setPrayerCustomCategory(e.target.value)}
+                      required
+                      className="bg-white border-orange-300 focus:ring-[#ff6b35] focus:border-[#ff6b35]"
+                    />
+                  </div>
+                )}
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-600">
@@ -816,12 +858,30 @@ export function TabbedConnectHub() {
                     >
                       {INQUIRY_TYPES.map((type) => (
                         <option key={type} value={type}>
-                          {type}
+                          {type === "Other" ? "Other (Specify Custom Ministry / Purpose)" : type}
                         </option>
                       ))}
                     </select>
                   </div>
                 </div>
+
+                {/* Custom Ministry / Department Write-In */}
+                {inquiryType === "Other" && (
+                  <div className="space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] flex items-center gap-1.5">
+                      <span>Specify Custom Ministry or Inquiry Department</span>
+                      <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder="e.g. Choir Auditions, Missions Partnership, Sanctuary Dedication..."
+                      value={inquiryCustomType}
+                      onChange={(e) => setInquiryCustomType(e.target.value)}
+                      required
+                      className="bg-white border-orange-300 focus:ring-[#ff6b35] focus:border-[#ff6b35]"
+                    />
+                  </div>
+                )}
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-600">

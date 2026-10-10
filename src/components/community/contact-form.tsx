@@ -30,6 +30,7 @@ export function ContactForm() {
   const [selectedInquiryType, setSelectedInquiryType] = useState<InquiryType>(
     INQUIRY_TYPES[0]
   );
+  const [customInquiryType, setCustomInquiryType] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -47,11 +48,21 @@ export function ContactForm() {
     e.preventDefault();
     setErrorMessage(null);
 
+    if (selectedInquiryType === "Other" && !customInquiryType.trim()) {
+      setErrorMessage("Please specify your custom inquiry topic in the field provided.");
+      return;
+    }
+
+    const effectiveInquiryType =
+      selectedInquiryType === "Other"
+        ? (customInquiryType.trim() ? `Other: ${customInquiryType.trim()}` : "Other")
+        : selectedInquiryType;
+
     const payload = {
       fullName,
       email,
       phone,
-      inquiryType: selectedInquiryType,
+      inquiryType: effectiveInquiryType,
       message,
     };
 
@@ -90,6 +101,7 @@ export function ContactForm() {
     setEmail("");
     setPhone("");
     setSelectedInquiryType(INQUIRY_TYPES[0]);
+    setCustomInquiryType("");
     setMessage("");
     setIsSuccess(false);
     setErrorMessage(null);
@@ -178,7 +190,7 @@ export function ContactForm() {
                         : "border-slate-200 hover:border-orange-300 bg-white text-slate-700 hover:bg-slate-50"
                     )}
                   >
-                    <span>{type}</span>
+                    <span>{type === "Other" ? "Other (Specify Custom Topic)" : type}</span>
                     {isSelected && (
                       <span className="h-2 w-2 rounded-full bg-[#ff6b35] ml-2 shrink-0" />
                     )}
@@ -186,6 +198,28 @@ export function ContactForm() {
                 );
               })}
             </div>
+
+            {/* Custom Inquiry Write-In Field */}
+            {selectedInquiryType === "Other" && (
+              <div className="pt-2 animate-in fade-in slide-in-from-top-1 duration-200 space-y-1.5">
+                <label
+                  htmlFor="contact-custom-inquiry"
+                  className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] flex items-center gap-1.5"
+                >
+                  <span>Specify Your Inquiry Topic / Department</span>
+                  <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  id="contact-custom-inquiry"
+                  type="text"
+                  placeholder="e.g. Choir Auditions, Missions Partnership, Sanctuary Dedication..."
+                  value={customInquiryType}
+                  onChange={(e) => setCustomInquiryType(e.target.value)}
+                  required
+                  className="bg-white border-orange-300 focus:ring-[#ff6b35] focus:border-[#ff6b35] text-xs sm:text-sm"
+                />
+              </div>
+            )}
           </div>
 
           {/* Personal Info Grid */}

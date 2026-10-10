@@ -19,7 +19,7 @@ const navLinks: NavItem[] = [
   { label: "Children's Home", href: "/orphanage" },
   { label: "Sermons & Media", href: "/sermons" },
   { label: "Prayer Altar", href: "/prayer-request" },
-  { label: "Connect", href: "/contact" },
+  { label: "Connect With Us", href: "/contact" },
 ];
 
 export function MobileNav() {

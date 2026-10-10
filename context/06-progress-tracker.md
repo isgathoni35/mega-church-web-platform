@@ -676,3 +676,22 @@ None.
    5. Verification:
       - `npx tsc --noEmit` passed with 0 errors.
       - All routes verified returning HTTP 200 on port 3002.
+- **[2026-10-10]:** Completed Feature 52 (Navigation "Connect With Us" Harmonization & Universal "Other" Custom Option Engine):
+   1. Navigation Label Harmonization:
+      - Updated main navigation item from `"Connect"` to `"Connect With Us"` across desktop navbar ([src/components/layout/navbar.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/navbar.tsx)), mobile drawer ([src/components/layout/mobile-nav.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/mobile-nav.tsx)), and footer quick links ([src/components/layout/footer.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/footer.tsx)).
+   2. Universal Validation & Zod Schema Upgrades:
+      - Updated [src/lib/validations/community.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/lib/validations/community.ts): added `"Other"` to `PRAYER_CATEGORIES` and `INQUIRY_TYPES`.
+      - Updated `prayerRequestSchema` and `contactInquirySchema` to accept sanitized custom string write-ins (`min 2, max 120`), ensuring seamless end-to-end database persistence when custom categories or departments are submitted.
+   3. Prayer Request Custom Category Write-In:
+      - Enhanced dedicated prayer form [src/components/community/prayer-form.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/prayer-form.tsx) and Connect Hub Tab 2 [src/components/community/tabbed-connect-hub.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/tabbed-connect-hub.tsx) with `"Other (Specify Custom Focus)"`.
+      - Built animated custom write-in text input that conditionally renders when "Other" is chosen, requiring a non-empty custom petition before submission.
+   4. Contact & Ministry Inquiry Custom Option Write-In:
+      - Enhanced contact page [src/components/community/contact-form.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/contact-form.tsx), Connect Hub Tab 3 [src/components/community/tabbed-connect-hub.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/community/tabbed-connect-hub.tsx), and homepage contact module [src/components/home/home-contact-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-contact-module.tsx).
+      - Added `"Other (Specify Custom Topic / Ministry)"` with clean conditional write-in text inputs and validation.
+   5. Giving & Kingdom Funds Custom Project Designation:
+      - In [src/components/giving/campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx), added `"OTHER"` (*Other Kingdom Cause*) to `GIVING_FUNDS`.
+      - Conditionally renders a custom cause/project input when chosen, printing the custom designation onto the confirmation receipt.
+   6. Verification:
+      - `npx tsc --noEmit` exited 0 (zero errors).
+      - Verified SSR and client rendering across all routes on port 3002.
+

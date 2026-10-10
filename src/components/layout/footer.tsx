@@ -167,7 +167,7 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
                   href="/contact"
                   className="hover:text-[#ff6b35] transition-colors flex items-center gap-1.5"
                 >
-                  <span className="text-[#ff6b35] text-xs">›</span> Connect
+                  <span className="text-[#ff6b35] text-xs">›</span> Connect With Us
                 </Link>
               </li>
             </ul>

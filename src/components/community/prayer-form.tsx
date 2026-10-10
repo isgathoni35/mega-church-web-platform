@@ -31,6 +31,7 @@ export function PrayerForm() {
   const [selectedCategory, setSelectedCategory] = useState<PrayerCategory>(
     PRAYER_CATEGORIES[0]
   );
+  const [customCategory, setCustomCategory] = useState("");
   const [requestText, setRequestText] = useState("");
   const [isConfidential, setIsConfidential] = useState(true);
 
@@ -42,12 +43,22 @@ export function PrayerForm() {
     e.preventDefault();
     setErrorMessage(null);
 
+    if (selectedCategory === "Other" && !customCategory.trim()) {
+      setErrorMessage("Please specify your custom prayer category in the text field provided.");
+      return;
+    }
+
+    const effectiveCategory =
+      selectedCategory === "Other"
+        ? (customCategory.trim() ? `Other: ${customCategory.trim()}` : "Other")
+        : selectedCategory;
+
     // Client-side validation using Zod
     const payload = {
       fullName,
       email,
       phone,
-      category: selectedCategory,
+      category: effectiveCategory,
       request: requestText,
       isConfidential,
     };
@@ -87,6 +98,7 @@ export function PrayerForm() {
     setEmail("");
     setPhone("");
     setSelectedCategory(PRAYER_CATEGORIES[0]);
+    setCustomCategory("");
     setRequestText("");
     setIsConfidential(true);
     setIsSuccess(false);
@@ -207,7 +219,7 @@ export function PrayerForm() {
                         : "border-slate-200 hover:border-orange-300 bg-white text-slate-700 hover:bg-slate-50"
                     )}
                   >
-                    <span>{cat}</span>
+                    <span>{cat === "Other" ? "Other (Specify Custom Focus)" : cat}</span>
                     {isSelected && (
                       <span className="h-2 w-2 rounded-full bg-[#ff6b35] ml-2 shrink-0" />
                     )}
@@ -215,6 +227,28 @@ export function PrayerForm() {
                 );
               })}
             </div>
+
+            {/* Custom Category Write-In Field */}
+            {selectedCategory === "Other" && (
+              <div className="pt-2 animate-in fade-in slide-in-from-top-1 duration-200 space-y-1.5">
+                <label
+                  htmlFor="prayer-custom-category"
+                  className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] flex items-center gap-1.5"
+                >
+                  <span>Specify Your Prayer Focus / Petition Topic</span>
+                  <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  id="prayer-custom-category"
+                  type="text"
+                  placeholder="e.g. Academic Breakthrough, Visa & Immigration, Court Case Victory..."
+                  value={customCategory}
+                  onChange={(e) => setCustomCategory(e.target.value)}
+                  required
+                  className="bg-white border-orange-300 focus:ring-[#ff6b35] focus:border-[#ff6b35] text-xs sm:text-sm"
+                />
+              </div>
+            )}
           </div>
 
           {/* Personal Info Grid */}

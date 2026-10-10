@@ -35,16 +35,31 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
     message: "",
   });
 
+  const [customInquiry, setCustomInquiry] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [result, setResult] = useState<{ success: boolean; message: string } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (formData.inquiryType === "Other" && !customInquiry.trim()) {
+      setResult({ success: false, message: "Please specify your custom inquiry category." });
+      return;
+    }
+
     setIsSubmitting(true);
     setResult(null);
 
+    const effectiveInquiryType =
+      formData.inquiryType === "Other"
+        ? (customInquiry.trim() ? `Other: ${customInquiry.trim()}` : "Other")
+        : formData.inquiryType;
+
     try {
-      const response = await submitContactInquiry(formData);
+      const response = await submitContactInquiry({
+        ...formData,
+        inquiryType: effectiveInquiryType,
+      });
       if (response.success) {
         setResult({ success: true, message: response.message || "Thank you for reaching out. We will get back to you promptly." });
         setFormData({
@@ -54,6 +69,7 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
           inquiryType: "General Inquiry",
           message: "",
         });
+        setCustomInquiry("");
       } else {
         setResult({ success: false, message: response.message || response.error || "Unable to send your inquiry. Please try again." });
       }
@@ -243,9 +259,27 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
                         <option value="First-Time Visit">First-Time Visit Planning</option>
                         <option value="Children's Home Support">Children&apos;s Home / Orphanage</option>
                         <option value="Prayer Mountain Retreat">Prayer Mountain Booking</option>
+                        <option value="Other">Other (Specify Custom Topic)</option>
                       </select>
                     </div>
                   </div>
+
+                  {/* Custom Inquiry Topic Write-In */}
+                  {formData.inquiryType === "Other" && (
+                    <div className="space-y-1.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <label className="block text-xs font-bold text-[#ff6b35] uppercase tracking-wider mb-1.5">
+                        Specify Custom Inquiry Topic *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={customInquiry}
+                        onChange={(e) => setCustomInquiry(e.target.value)}
+                        placeholder="e.g. Wedding Officiating, Music Department, Dedicated Prayer..."
+                        className="w-full px-4 py-2.5 rounded-xl border border-orange-300 text-sm focus:outline-none focus:ring-2 focus:ring-[#ff6b35] transition-all bg-white text-slate-800"
+                      />
+                    </div>
+                  )}
 
                   <div>
                     <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
