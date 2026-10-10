@@ -22,6 +22,7 @@ export interface MinistryProjectItem {
   subtitle: string;
   narrative: string;
   imageUrl: string;
+  images?: string[];
   videoUrl?: string;
   donateLink: string;
   donateLabel: string;
@@ -267,6 +268,11 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       narrative:
         "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
       imageUrl: "/images/orphanage-hero.png",
+      images: [
+        "/images/orphanage-hero.png",
+        "/images/community-outreach.jpg",
+        "/images/hero-worship.jpg",
+      ],
       videoUrl: "",
       donateLink: "/orphanage/donate",
       donateLabel: "Support the Children's Home",
@@ -282,6 +288,10 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       narrative:
         "With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.",
       imageUrl: "/images/church-construction.jpg",
+      images: [
+        "/images/church-construction.jpg",
+        "/images/community-outreach.jpg",
+      ],
       videoUrl: "",
       donateLink: "/give",
       donateLabel: "Give to the Building Fund",

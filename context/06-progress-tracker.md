@@ -637,7 +637,28 @@ None.
       - Streamlined local Kenyan giving channels strictly to **Method 1: Lipa na M-Pesa Buy Goods (Till `8146952`, *Suggutta Fellowship Church*)** and **Method 2: M-Pesa Send Money (`0112656123`, *Pastor Caesar O. Nyandwaro*)**. Removed Paybill from Kenyan local giving options across [src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx), [src/components/home/home-giving-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-giving-module.tsx), [src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx), and [src/components/giving/campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx).
       - Directly embedded scannable QR codes on both Till and Send Money cards without requiring users to click any "Scan QR" toggle buttons, optimizing immediate scanability and screenshot-taking on mobile devices.
       - Preserved Sendwave and KCB Bank wire under the Diaspora/International tabs.
-   8. Media Integrity & Codebase Health:
-      - 100% preservation of all existing user-uploaded media moments and projects.
-      - 100% clean TypeScript check (`npx tsc --noEmit` exited with code 0).
-      - Verified all routes return HTTP 200 on port 3002.
+- **[2026-10-10]:** Completed Feature 49 & 50 (Projects Multi-Photo Swipeable Carousel & Global Scroll Reveal Engine across All Pages):
+   1. Projects Multi-Photo Data Schema & Sync:
+      - Extended `MinistryProjectItem` in [src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts) with `images?: string[]`.
+      - Updated `DEFAULT_SETTINGS` with multi-photo sample sets for seamless out-of-the-box preview.
+      - Updated `getSiteSettingsAction` and `saveSiteSettingsAction` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts) to sanitize and serialize up to 5 photos per project, maintaining bidirectional fallback synchronization with `imageUrl = images[0]`.
+   2. Admin CMS Multi-Photo Gallery Manager:
+      - Created [src/components/admin/project-multi-image-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/project-multi-image-field.tsx) supporting up to 5 photos per project.
+      - Features include numbered thumbnail slots, primary cover badge (`★ Cover`), reordering arrows (move earlier / later), delete button, batch image upload directly to Supabase storage, church library preset selector, and manual URL input.
+      - Integrated into Tab 2 (*Church Projects & Missions*) in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx).
+   3. Homepage Smoothly Transitioning & Swipeable Carousel:
+      - Built [src/components/home/project-image-carousel.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/project-image-carousel.tsx) retaining the exact 16:9 container slot on the project card.
+      - Implemented smooth auto-play transition every 4.5s (pausing on hover or touch hold).
+      - Added mobile touch swipe gesture handling (`onTouchStart` and `onTouchEnd` with horizontal threshold detection).
+      - Added desktop previous/next hover chevron controls, interactive slide indicator dots, and sleek photo counter badges (`e.g. 1 / 3`).
+      - Anchored title, subtitle, and bottom gradient overlay seamlessly above transitioning photo layers.
+      - Integrated into [src/components/home/categorized-activities.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/categorized-activities.tsx).
+   4. Senior Developer Global Scroll Reveal Engine:
+      - Implemented ultra-performant CSS GPU-accelerated entrance animations in [src/app/globals.css](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/globals.css) (`.scroll-reveal`, `.scroll-reveal-left`, `.scroll-reveal-right`, `.scroll-reveal-scale`, and stagger classes `.stagger-1` through `.stagger-5`) with silky smooth `cubic-bezier(0.16, 1, 0.3, 1)` easing and `@media (prefers-reduced-motion: reduce)` accessibility override.
+      - Created client-side observer engine [src/components/ui/scroll-reveal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/ui/scroll-reveal.tsx) using native `IntersectionObserver` with instant above-the-fold detection (zero blank flash or layout shift) and `MutationObserver` for dynamic content.
+      - Mounted `<ScrollObserverInit />` globally in [src/app/layout.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/layout.tsx).
+      - Tagged all core section containers across public pages: [src/app/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/page.tsx), [src/app/orphanage/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/orphanage/page.tsx), [src/app/give/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/give/page.tsx), [src/app/about/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/about/page.tsx), [src/app/events/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/events/page.tsx), [src/app/contact/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/contact/page.tsx), [src/app/prayer-request/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/prayer-request/page.tsx), and [src/app/sermons/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/sermons/page.tsx).
+   5. Verification:
+      - `npx tsc --noEmit` exited with code 0 (zero errors).
+      - All routes verified operational on port 3002.
+      - 100% preservation of existing media assets and projects.

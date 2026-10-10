@@ -44,7 +44,7 @@ export default async function GivePage({ searchParams }: GivePageProps) {
       </section>
 
       {/* ================= 3-STATE RESPONSIVE DONATION FLOW ================= */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl py-6 sm:py-10 relative z-10">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl py-6 sm:py-10 relative z-10 scroll-reveal">
         <Suspense
           fallback={
             <div className="p-8 sm:p-12 text-center text-sm text-slate-500 flex items-center justify-center gap-2">
@@ -61,7 +61,7 @@ export default async function GivePage({ searchParams }: GivePageProps) {
         </Suspense>
 
         {/* ================= TRUST & STEWARDSHIP FOOTER ================= */}
-        <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6 text-center">
+        <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-6 text-center scroll-reveal">
           <div className="p-4 sm:p-6 rounded-2xl border border-slate-200/80 bg-white shadow-sm space-y-2 sm:space-y-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-orange-500/10 flex items-center justify-center mx-auto text-[#ff6b35]">
               <Lock className="w-5 h-5 sm:w-6 sm:h-6" />

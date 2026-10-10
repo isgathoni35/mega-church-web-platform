@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteSettingsData, DEFAULT_SETTINGS, MinistryProjectItem } from "@/types/settings";
+import { ProjectImageCarousel } from "@/components/home/project-image-carousel";
 
 interface CategorizedActivitiesProps {
   settings?: SiteSettingsData;
@@ -123,22 +124,17 @@ function ProjectCard({
           )}
         </div>
 
-        <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-slate-900">
-          <Image
-            src={project.imageUrl || "/images/church-construction.jpg"}
-            alt={project.title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            unoptimized
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-          <div className="absolute bottom-3 left-4 right-4 text-white">
-            <p className="font-extrabold text-sm sm:text-base leading-tight">{project.title}</p>
-            {project.subtitle && (
-              <p className="text-[11px] text-slate-200">{project.subtitle}</p>
-            )}
-          </div>
-        </div>
+        <ProjectImageCarousel
+          images={
+            project.images && project.images.length > 0
+              ? project.images
+              : project.imageUrl
+              ? [project.imageUrl]
+              : ["/images/church-construction.jpg"]
+          }
+          title={project.title}
+          subtitle={project.subtitle}
+        />
 
         <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{project.narrative}</p>
 

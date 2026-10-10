@@ -119,7 +119,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
       </section>
 
       {/* 2. Filter Tabs & Events Grid */}
-      <section className="py-4 sm:py-8 px-4 sm:px-8">
+      <section className="py-4 sm:py-8 px-4 sm:px-8 scroll-reveal">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Filter Tab Bar */}
           <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-slate-200/70 backdrop-blur-md rounded-2xl max-w-xl mx-auto border border-slate-300/60 shadow-inner">

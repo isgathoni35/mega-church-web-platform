@@ -521,12 +521,19 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
 
         // Dynamic Projects
         projectsJson: Array.isArray(row.projects_json) && (row.projects_json as unknown as MinistryProjectItem[]).length > 0
-          ? (row.projects_json as unknown as MinistryProjectItem[]).map((p) => ({
-              ...p,
-              imageUrl: extractCleanImageUrl(p.imageUrl),
-              videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
-              active: p.active !== false, // default to true if missing
-            }))
+          ? (row.projects_json as unknown as MinistryProjectItem[]).map((p) => {
+              const cleanImg = extractCleanImageUrl(p.imageUrl);
+              const cleanImages = Array.isArray(p.images)
+                ? p.images.map(extractCleanImageUrl).filter(Boolean).slice(0, 5)
+                : cleanImg ? [cleanImg] : [];
+              return {
+                ...p,
+                imageUrl: cleanImages[0] || cleanImg,
+                images: cleanImages.length > 0 ? cleanImages : (cleanImg ? [cleanImg] : []),
+                videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
+                active: p.active !== false, // default to true if missing
+              };
+            })
           : DEFAULT_SETTINGS.projectsJson,
 
         // Events Data
@@ -676,12 +683,19 @@ export async function saveSiteSettingsAction(
       impact_stat_3_lbl: settings.impactStat3Lbl.trim(),
 
       // Dynamic Projects
-      projects_json: (settings.projectsJson || DEFAULT_SETTINGS.projectsJson).map((p) => ({
-        ...p,
-        imageUrl: extractCleanImageUrl(p.imageUrl),
-        videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
-        active: p.active !== false,
-      })) as unknown as Json,
+      projects_json: (settings.projectsJson || DEFAULT_SETTINGS.projectsJson).map((p) => {
+        const cleanImg = extractCleanImageUrl(p.imageUrl);
+        const cleanImages = Array.isArray(p.images)
+          ? p.images.map(extractCleanImageUrl).filter(Boolean).slice(0, 5)
+          : cleanImg ? [cleanImg] : [];
+        return {
+          ...p,
+          imageUrl: cleanImages[0] || cleanImg,
+          images: cleanImages,
+          videoUrl: p.videoUrl ? p.videoUrl.trim() : undefined,
+          active: p.active !== false,
+        };
+      }) as unknown as Json,
 
       // Events Data
       events_json: (settings.eventsJson || []).map((ev) => ({

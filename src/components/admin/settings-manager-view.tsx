@@ -57,6 +57,7 @@ import {
 } from "@/actions/admin-settings";
 import { createClient } from "@/lib/supabase/client";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
+import { ProjectMultiImageField } from "@/components/admin/project-multi-image-field";
 import { EventVideoUploadField } from "@/components/admin/event-video-upload-field";
 import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
 import { Button } from "@/components/ui/button";
@@ -1263,22 +1264,35 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     </div>
                   </div>
 
-                  {/* Media: Photo & Video Upload */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                    <ImageUploadField
-                      label="Featured Project Photo"
-                      description="Featured banner photo for this project (landscape 16:9 recommended)."
-                      value={project.imageUrl}
-                      onChange={(url) => handleUpdateProject(idx, "imageUrl", url)}
-                      aspectRatio="video"
+                  {/* Media: Multi-Photo Gallery (Up to 5) & Optional Video */}
+                  <div className="space-y-4 pt-2">
+                    <ProjectMultiImageField
+                      label="Project Photo Gallery (Up to 5 Photos)"
+                      description="Upload up to 5 photos. These will smoothly transition on the homepage card and visitors can swipe through them."
+                      images={
+                        project.images && project.images.length > 0
+                          ? project.images
+                          : project.imageUrl
+                          ? [project.imageUrl]
+                          : []
+                      }
+                      onChange={(newImages) => {
+                        handleUpdateProject(idx, {
+                          images: newImages,
+                          imageUrl: newImages[0] || "",
+                        });
+                      }}
+                      maxImages={5}
                     />
 
-                    <EventVideoUploadField
-                      label="Project Video / Walkthrough (Optional)"
-                      description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to showcase project progress."
-                      videoUrl={project.videoUrl || ""}
-                      onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl)}
-                    />
+                    <div className="max-w-xl">
+                      <EventVideoUploadField
+                        label="Project Video / Walkthrough (Optional)"
+                        description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to showcase project progress."
+                        videoUrl={project.videoUrl || ""}
+                        onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl)}
+                      />
+                    </div>
                   </div>
 
                   {/* Giving Controls */}

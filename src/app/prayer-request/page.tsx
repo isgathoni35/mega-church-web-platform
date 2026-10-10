@@ -47,7 +47,7 @@ export default async function PrayerRequestPage() {
       </section>
 
       {/* Main Content Layout */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-8 mt-4 sm:mt-8 lg:mt-10 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-8 mt-4 sm:mt-8 lg:mt-10 relative z-10 scroll-reveal">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start">
           {/* Main Form (8 Columns) */}
           <div className="lg:col-span-8">

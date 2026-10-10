@@ -30,29 +30,43 @@ export default async function OrphanagePage() {
       {/* 1. Hero Banner with Scripture Mandate & 3-Stat Impact Bar */}
       <OrphanageHero settings={settings} />
 
-      {/* 2. The Heart & Origin Story: Why We Opened Our Doors in Sugutta */}
-      <OrphanageStory settings={settings} />
+      {/* 2. The Heart & Origin Story */}
+      <div className="scroll-reveal">
+        <OrphanageStory settings={settings} />
+      </div>
 
       {/* 3. 4 Pillars of Comprehensive Care */}
-      <CarePillars />
+      <div className="scroll-reveal">
+        <CarePillars />
+      </div>
 
       {/* 4. Dynamic Photos & Video Stories Showcase */}
-      <OrphanageMediaShowcase
-        photos={settings.orphanagePhotos}
-        videos={settings.orphanageVideos}
-      />
+      <div className="scroll-reveal">
+        <OrphanageMediaShowcase
+          photos={settings.orphanagePhotos}
+          videos={settings.orphanageVideos}
+        />
+      </div>
 
       {/* 5. Tangible Financial Sponsorship & Living Impact */}
-      <SupportNeeds />
+      <div className="scroll-reveal">
+        <SupportNeeds />
+      </div>
 
       {/* 6. Physical In-Kind Food & Supplies Drop-off Guide */}
-      <InKindDonations />
+      <div className="scroll-reveal">
+        <InKindDonations />
+      </div>
 
       {/* 7. Donor Transparency & Frequently Asked Questions */}
-      <OrphanageFaq />
+      <div className="scroll-reveal">
+        <OrphanageFaq />
+      </div>
 
       {/* 8. Volunteer & Weekend Fellowship Visits CTA */}
-      <VolunteerCta />
+      <div className="scroll-reveal">
+        <VolunteerCta />
+      </div>
     </div>
   );
 }

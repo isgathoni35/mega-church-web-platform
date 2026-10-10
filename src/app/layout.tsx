@@ -53,6 +53,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 import { getSiteSettingsAction } from "@/actions/admin-settings";
+import { ScrollObserverInit } from "@/components/ui/scroll-reveal";
 
 export default async function RootLayout({
   children,
@@ -67,6 +68,7 @@ export default async function RootLayout({
       className={`${montserrat.variable} ${greatVibes.variable} h-full antialiased overflow-x-clip`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-accent selection:text-accent-foreground overflow-x-clip w-full max-w-full">
+        <ScrollObserverInit />
         <SiteHeader settings={settings} />
         <main className="flex-1 flex flex-col w-full max-w-full overflow-x-clip">{children}</main>
         <Footer settings={settings} />

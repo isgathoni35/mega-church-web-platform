@@ -36,35 +36,53 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col w-full">
-      {/* 1. Hero Section + 3-Item Stats Bar */}
+      {/* 1. Hero Section + 3-Item Stats Bar (Above the Fold) */}
       <HeroSection settings={settings} />
 
-      {/* 2. Section 2: Founder Spotlight & Testimony ("A Testimony of God's Grace & Power") */}
-      <FounderSpotlight settings={settings} />
+      {/* 2. Section 2: Founder Spotlight & Testimony */}
+      <div className="scroll-reveal">
+        <FounderSpotlight settings={settings} />
+      </div>
 
       {/* 3. Section 3: Our Ministry Pillars + 3-Item Impact Counter */}
-      <MinistryPillars settings={settings} />
+      <div className="scroll-reveal">
+        <MinistryPillars settings={settings} />
+      </div>
 
       {/* 4. Section 4: Church Service Programme (Sunday 5 Sessions & Midweek) */}
-      <ServiceSchedule settings={settings} />
+      <div className="scroll-reveal">
+        <ServiceSchedule settings={settings} />
+      </div>
 
       {/* 5. Section 5: Latest Services & Sermons */}
-      <RecentSermons sermons={sermons} />
+      <div className="scroll-reveal">
+        <RecentSermons sermons={sermons} />
+      </div>
 
-      {/* 6. Section 6: Categorized Activities & Departments */}
-      <CategorizedActivities settings={settings} />
+      {/* 6. Section 6: Categorized Activities & Dynamic Projects */}
+      <div className="scroll-reveal">
+        <CategorizedActivities settings={settings} />
+      </div>
 
       {/* 7. Section 7: Sacred Prayer Mountain (Mai Mahiu Fasting & Vigils) */}
-      <HomePrayerMountain />
+      <div className="scroll-reveal">
+        <HomePrayerMountain />
+      </div>
 
       {/* 8. Section 8: Children's Home & Compassion Mission Teaser */}
-      <OrphanageTeaser settings={settings} />
+      <div className="scroll-reveal">
+        <OrphanageTeaser settings={settings} />
+      </div>
 
-      {/* 9. Section 9: Give & Support the Ministry (Embedded M-Pesa & Sendwave Hub) */}
-      <HomeGivingModule settings={settings} />
+      {/* 9. Section 9: Give & Support the Ministry */}
+      <div className="scroll-reveal">
+        <HomeGivingModule settings={settings} />
+      </div>
 
-      {/* 10. Section 10: Get In Touch (Sanctuary Details & Message Form) */}
-      <HomeContactModule settings={settings} />
+      {/* 10. Section 10: Get In Touch */}
+      <div className="scroll-reveal">
+        <HomeContactModule settings={settings} />
+      </div>
     </div>
   );
 }

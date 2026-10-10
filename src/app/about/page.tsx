@@ -30,19 +30,29 @@ export default async function AboutPage() {
       <AboutHero settings={settings} />
 
       {/* 2. Pastor's Testimony, Calling & Vision */}
-      <FounderStory settings={settings} />
+      <div className="scroll-reveal">
+        <FounderStory settings={settings} />
+      </div>
 
       {/* 3. Authentic Grassroots Community & Village Outreach */}
-      <CommunityFellowship settings={settings} />
+      <div className="scroll-reveal">
+        <CommunityFellowship settings={settings} />
+      </div>
 
       {/* 4. Statement of Faith (What We Believe) */}
-      <StatementOfFaith />
+      <div className="scroll-reveal">
+        <StatementOfFaith />
+      </div>
 
       {/* 5. Pastoral Governance & Council */}
-      <LeadershipTeam settings={settings} />
+      <div className="scroll-reveal">
+        <LeadershipTeam settings={settings} />
+      </div>
 
       {/* 6. Prayer Mountain & Sacred Retreat Spotlight */}
-      <PrayerMountain />
+      <div className="scroll-reveal">
+        <PrayerMountain />
+      </div>
     </div>
   );
 }

@@ -163,7 +163,7 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
       </section>
 
       {/* 3. Direct Donation Portal (Kenya & International) */}
-      <section className="py-4 sm:py-8 px-4 sm:px-8">
+      <section className="py-4 sm:py-8 px-4 sm:px-8 scroll-reveal">
         <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
           {/* Tab Switcher */}
           <div className="flex justify-center w-full">

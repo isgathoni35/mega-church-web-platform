@@ -40,7 +40,9 @@ export default async function SermonsPage() {
         featuredSermon={featuredSermon}
         youtubeChannelUrl={settings.youtubeChannelUrl}
       />
-      <SermonArchive initialSermons={sermons} />
+      <div className="scroll-reveal">
+        <SermonArchive initialSermons={sermons} />
+      </div>
     </div>
   );
 }

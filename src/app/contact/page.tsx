@@ -59,7 +59,7 @@ export default async function ContactPage() {
       </section>
 
       {/* Main 2-Column Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 relative z-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 relative z-10 scroll-reveal">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8 items-start">
           {/* Column 1: Logistics & First-Time Visitor Guide (5 Columns) */}
           <div className="lg:col-span-5 space-y-4 sm:space-y-6">
