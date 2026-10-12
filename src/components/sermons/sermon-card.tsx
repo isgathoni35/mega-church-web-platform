@@ -58,7 +58,14 @@ export function SermonCard({ sermon, onPlay }: SermonCardProps) {
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center">
-            <span className="text-white/40 text-4xl font-serif">✝</span>
+            <svg
+              className="w-10 h-10 text-white/30"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M10 2h4v6h6v4h-6v10h-4v-10h-6v-4h6z" />
+            </svg>
           </div>
         )}
 

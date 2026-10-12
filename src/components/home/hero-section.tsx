@@ -26,7 +26,7 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
           <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
             {/* Top Star Eyebrow Pill Badge matching Neno */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#ffedd5]/70 border border-orange-200/80 text-[#c2410c] text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-5 sm:mb-6 shadow-sm max-w-full truncate">
-              <span className="text-xs sm:text-sm shrink-0">★</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#ea580c] shrink-0" />
               <span className="truncate">{settings.churchMotto || "INTERNATIONAL DELIVERANCE MINISTRY"}</span>
             </div>
 

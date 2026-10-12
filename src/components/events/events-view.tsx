@@ -231,7 +231,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                               : "bg-[#ff6b35] text-white"
                           }`}
                         >
-                          {isPast ? "🎬 Past Crusade & Media" : event.badge || "Upcoming Mission"}
+                          {isPast ? "Past Crusade & Media" : event.badge || "Upcoming Mission"}
                         </span>
                       </div>
 

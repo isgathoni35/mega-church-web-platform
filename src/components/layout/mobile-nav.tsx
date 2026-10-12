@@ -98,15 +98,15 @@ export function MobileNav() {
                       className="object-contain p-0.5"
                     />
                   </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="font-extrabold text-sm tracking-tight text-[#0A2240] uppercase truncate">
-                      Heavens Gates Sugutta
+                  <div className="flex flex-col min-w-0 leading-tight">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-700 leading-none truncate">
+                      Heavens Gate
                     </span>
-                    <span className="font-sans text-[10px] font-bold tracking-wider text-[#C59B27] uppercase truncate">
-                      Fellowship Church
+                    <span className="font-black text-sm tracking-tight text-[#ff6b35] leading-tight truncate">
+                      Sugutta Fellowship
                     </span>
-                    <span className="text-[9px] text-slate-500 italic truncate">
-                      Growing Together in Christ
+                    <span className="text-[9px] font-semibold text-slate-500 tracking-wide truncate">
+                      International Ministry
                     </span>
                   </div>
                 </div>

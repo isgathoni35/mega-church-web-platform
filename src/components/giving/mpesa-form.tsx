@@ -446,10 +446,10 @@ export function MpesaGivingForm() {
                     Business No / Paybill
                   </span>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="font-mono font-bold text-base text-foreground">174379</span>
+                    <span className="font-mono font-bold text-base text-foreground">522533</span>
                     <button
                       type="button"
-                      onClick={() => handleCopy("174379", "paybill")}
+                      onClick={() => handleCopy("522533", "paybill")}
                       className="text-muted-foreground hover:text-accent p-1"
                     >
                       {copiedField === "paybill" ? (
@@ -466,10 +466,10 @@ export function MpesaGivingForm() {
                     Account No
                   </span>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="font-mono font-bold text-base text-foreground">OFFERING</span>
+                    <span className="font-mono font-bold text-base text-foreground">8146952</span>
                     <button
                       type="button"
-                      onClick={() => handleCopy("OFFERING", "account")}
+                      onClick={() => handleCopy("8146952", "account")}
                       className="text-muted-foreground hover:text-accent p-1"
                     >
                       {copiedField === "account" ? (
@@ -484,8 +484,8 @@ export function MpesaGivingForm() {
 
               <ol className="list-decimal pl-4 space-y-1 text-muted-foreground text-[11px]">
                 <li>Go to M-Pesa on your phone &rarr; Lipa na M-Pesa &rarr; Pay Bill.</li>
-                <li>Enter Business Number <strong>174379</strong>.</li>
-                <li>Enter Account Number <strong>OFFERING</strong> or your name.</li>
+                <li>Enter Business Number <strong>522533</strong>.</li>
+                <li>Enter Account Number <strong>8146952</strong>.</li>
                 <li>Enter the amount you wish to give and your M-Pesa PIN.</li>
               </ol>
             </div>

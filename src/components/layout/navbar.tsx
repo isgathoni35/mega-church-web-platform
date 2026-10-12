@@ -26,27 +26,30 @@ export function Navbar() {
   return (
     <nav className="w-full bg-white/95 backdrop-blur-md text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8">
-        {/* Brand / Logo (Sugutta Fellowship Official Circular Emblem) */}
+        {/* Brand / Logo (Heavens Gate Sugutta Fellowship Official Circular Emblem) */}
         <Link
           href="/"
           className="flex items-center gap-2.5 sm:gap-3 group min-w-0"
-          aria-label="Sugutta Fellowship Church International - Home"
+          aria-label="Heavens Gate Sugutta Fellowship Church International - Home"
         >
           <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-full overflow-hidden ring-2 ring-orange-500/30 group-hover:ring-[#ff6b35] shadow-sm group-hover:scale-105 transition-all shrink-0 bg-white">
             <Image
               src="/images/sugutta-logo.png"
-              alt="Sugutta Fellowship Church Logo"
+              alt="Heavens Gate Sugutta Fellowship Church Logo"
               fill
               sizes="(max-width: 640px) 44px, 48px"
               className="object-contain p-0.5"
               priority
             />
           </div>
-          <div className="flex flex-col min-w-0">
-            <span className="font-extrabold text-base sm:text-lg lg:text-xl tracking-tight text-[#ff6b35] leading-tight truncate">
+          <div className="flex flex-col min-w-0 leading-tight">
+            <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-slate-700 leading-none truncate">
+              Heavens Gate
+            </span>
+            <span className="font-black text-sm sm:text-base lg:text-xl tracking-tight text-[#ff6b35] leading-tight truncate">
               Sugutta Fellowship
             </span>
-            <span className="font-sans text-[10px] sm:text-xs font-medium text-slate-500 tracking-wide truncate">
+            <span className="hidden xs:block text-[9px] sm:text-[10px] lg:text-[11px] font-semibold text-slate-500 tracking-wide truncate">
               International Ministry
             </span>
           </div>

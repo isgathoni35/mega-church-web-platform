@@ -299,7 +299,7 @@ export function ProjectMultiImageField({
                     : "bg-black/60 text-white"
                 }`}
               >
-                {index === 0 ? "★ Cover" : `#${index + 1}`}
+                {index === 0 ? "Cover Photo" : `#${index + 1}`}
               </span>
 
               {/* Remove button */}
@@ -381,8 +381,9 @@ export function ProjectMultiImageField({
         )}
       </div>
 
-      <p className="text-[10px] text-slate-400">
-        💡 The first photo (★ Cover) is used as the default preview and fallback across the site. Reorder photos with the arrows.
+      <p className="text-[10px] text-slate-500 flex items-center gap-1.5">
+        <Sparkles className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+        <span>The first photo (Cover Photo) is used as the default preview and fallback across the site. Reorder photos with the arrows.</span>
       </p>
     </div>
   );

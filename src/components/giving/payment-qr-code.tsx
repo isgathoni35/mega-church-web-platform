@@ -31,8 +31,8 @@ export function PaymentQrCode({
   bankName = "KCB Bank Kenya",
   accountNumber = "1356891853",
   accountName = "Sugutta Fellowship church",
-  paybillNumber = "174379",
-  accountRef = "OFFERING",
+  paybillNumber = "522533",
+  accountRef = "8146952",
   className = "",
 }: PaymentQrCodeProps) {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export function PaymentQrCode({
     if (type === "till") {
       payload = tillNumber || "8146952";
     } else if (type === "paybill") {
-      payload = `Safaricom Paybill\nBusiness No: ${paybillNumber || "174379"}\nAccount: ${accountRef || "OFFERING"}`;
+      payload = `KCB Paybill\nBusiness No: ${paybillNumber || "522533"}\nAccount: ${accountRef || "8146952"}`;
     } else if (type === "send_money") {
       payload = phone || "0112656123";
     } else if (type === "kcb_bank") {
@@ -104,15 +104,15 @@ export function PaymentQrCode({
     },
     paybill: {
       badgeText: "M-PESA PAYBILL QR",
-      badgeColor: "bg-emerald-500/10 border-emerald-500/20 text-emerald-700",
-      accentColor: "#00A859",
+      badgeColor: "bg-blue-500/10 border-blue-500/20 text-blue-700",
+      accentColor: "#005A9C",
       title: "Lipa na M-Pesa Paybill",
-      subtitle: `Business No. ${paybillNumber || "174379"}${accountRef ? ` — Account: ${accountRef}` : " — Enter Fund Account (e.g. OFFERING, TITHE)"}`,
+      subtitle: `Business No. ${paybillNumber || "522533"}${accountRef ? ` — Account: ${accountRef}` : " — Account: 8146952"}`,
       primaryLabel: "Paybill Business No",
-      primaryValue: paybillNumber || "174379",
+      primaryValue: paybillNumber || "522533",
       primaryCopyKey: "paybill",
-      verifiedName: tillName,
-      footerInstruction: `M-Pesa → Paybill ${paybillNumber || "174379"} → Acc: ${accountRef || "OFFERING"} → PIN`,
+      verifiedName: "SUGGUTTA FELLOWSHIP CHURCH",
+      footerInstruction: `M-Pesa → Paybill ${paybillNumber || "522533"} → Acc: ${accountRef || "8146952"} → PIN`,
     },
     send_money: {
       badgeText: "M-PESA SEND MONEY QR",

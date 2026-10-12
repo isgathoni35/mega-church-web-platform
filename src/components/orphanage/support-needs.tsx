@@ -198,9 +198,9 @@ export function SupportNeeds() {
               100% Direct Allocation
             </span>
             <span>&bull;</span>
-            <span>M-Pesa Till 8146952 &amp; Paybill 174379</span>
+            <span>M-Pesa Till 8146952 &amp; Paybill 522533</span>
             <span>&bull;</span>
-            <span>International Sendwave &amp; KCB Wire</span>
+            <span>International Sendwave (Mobile &amp; Bank)</span>
           </div>
         </div>
       </div>

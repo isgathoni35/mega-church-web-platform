@@ -7,6 +7,7 @@ import { SupportNeeds } from "@/components/orphanage/support-needs";
 import { InKindDonations } from "@/components/orphanage/in-kind-donations";
 import { OrphanageFaq } from "@/components/orphanage/orphanage-faq";
 import { VolunteerCta } from "@/components/orphanage/volunteer-cta";
+import { OrphanageFloatingUrgentBeacon } from "@/components/orphanage/orphanage-floating-urgent-beacon";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
@@ -67,6 +68,9 @@ export default async function OrphanagePage() {
       <div className="scroll-reveal">
         <VolunteerCta />
       </div>
+
+      {/* 9. Floating Persistent Urgent Donation Beacon on Scroll */}
+      <OrphanageFloatingUrgentBeacon />
     </div>
   );
 }

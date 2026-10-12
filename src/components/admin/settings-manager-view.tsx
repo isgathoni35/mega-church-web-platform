@@ -2383,18 +2383,20 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                           }`}
                         >
-                          🟢 Upcoming Event / Mission
+                          <span className="inline-block w-2 h-2 rounded-full bg-emerald-300 mr-1.5" />
+                          Upcoming Event / Mission
                         </button>
                         <button
                           type="button"
                           onClick={() => handleUpdateEvent(idx, { status: "past" })}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                             event.status === "past"
                               ? "bg-[#0f172a] text-white shadow-sm"
                               : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                           }`}
                         >
-                          🏛️ Past Crusade / Media Archive
+                          <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                          <span>Past Crusade / Media Archive</span>
                         </button>
                       </div>
                       <p className="text-[10px] text-slate-400">
@@ -2621,14 +2623,36 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">M-Pesa to KCB Deposit Paybill (Optional)</label>
+                  <label className="text-xs font-bold text-slate-700">M-Pesa &amp; KCB Bank Paybill Number</label>
                   <Input
-                    value={settings.mpesaPaybill}
+                    value={settings.mpesaPaybill || ""}
                     onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
-                    placeholder="522522"
+                    placeholder="522533"
                   />
                   <span className="text-[10px] text-slate-500 block">
-                    KCB Paybill number (522522) for M-Pesa account deposits.
+                    Universal Paybill / Business number (e.g. 522533) accepted across M-Pesa, Vooma, Airtel Money, and T-kash.
+                  </span>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Paybill Account Number</label>
+                  <Input
+                    value={settings.mpesaPaybillAccount || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaybillAccount: e.target.value })}
+                    placeholder="8146952"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Account number donors enter when paying via Paybill (e.g. 8146952).
+                  </span>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Paybill Registered Business Name</label>
+                  <Input
+                    value={settings.mpesaPaybillName || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaybillName: e.target.value })}
+                    placeholder="SUGGUTTA FELLOWSHIP CHURCH"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Official business name displayed on client phone upon Paybill confirmation.
                   </span>
                 </div>
 
@@ -2654,7 +2678,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
 
                     <ImageUploadField
                       label="Official M-Pesa Paybill QR Poster"
-                      description="Upload official Safaricom Paybill poster image for Business No. 174379. Displayed when donors scan or view Paybill."
+                      description="Upload official Safaricom / KCB Paybill poster image for Business No. 522533. Displayed when donors scan or view Paybill."
                       value={settings.mpesaPaybillQrImage || ""}
                       onChange={(url) => setSettings({ ...settings, mpesaPaybillQrImage: url })}
                       aspectRatio="square"

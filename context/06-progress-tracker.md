@@ -695,3 +695,48 @@ None.
       - `npx tsc --noEmit` exited 0 (zero errors).
       - Verified SSR and client rendering across all routes on port 3002.
 
+- [x] `feature-specs/53-streamlined-payments-and-childrens-home-floating-beacon.md`: Streamlined Local (Till & KCB Paybill) & International (Sendwave) Remittances, and Children's Home Floating Blinking Beacon on Scroll.
+   1. Local Payments Streamlined to Buy Goods Till & KCB Paybill:
+      - Strictly isolated local Kenyan payments to Method 1: Lipa na M-Pesa Buy Goods Till (`8146952`, Sugutta Fellowship Church) and Method 2: Paybill (`522533`, Account `8146952`, Name `SUGGUTTA FELLOWSHIP CHURCH`).
+      - Completely purged "Send Money" (pastoral personal line) from local giving channels across all giving portals.
+      - Integrated verified multi-channel support strip on Paybill cards: Safaricom M-PESA (`522533`), KCB Vooma App / `*844#`, Airtel Money Paybill (`522533`), and T-kash by Telkom `*334#`.
+      - Built scannable Paybill QR generator and quick-copy buttons for Business No and Account No.
+   2. International Remittances Streamlined to Sendwave (Mobile & Bank):
+      - Streamlined Diaspora Giving exclusively to Sendwave (0% transaction fees and instant transfer).
+      - Presented 2 dedicated remittance routes: Option A (Sendwave to Mobile: `+254 112 656 123` / Pastor Caesar O. Nyandwaro) and Option B (Sendwave to Bank Account: KCB Bank Kenya, Account `1356891853`, Name `Sugutta Fellowship church`).
+      - Updated across giving portal ([src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx)), homepage giving module ([src/components/home/home-giving-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-giving-module.tsx)), donation modal ([src/components/giving/campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx)), and children's home donation view ([src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx)).
+   3. Admin CMS Settings Integration:
+      - Extended `SiteSettingsData` in [src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts) with `mpesaPaybillAccount` and `mpesaPaybillName`.
+      - Added dynamic CMS edit inputs in [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx) for Paybill Number, Account Number, and Business Name.
+   4. Persistent Children's Home Floating Blinking Beacon:
+      - Built client component [src/components/orphanage/orphanage-floating-urgent-beacon.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-floating-urgent-beacon.tsx).
+      - Tracks user scroll (`scrollY > 220`) and smoothly slides in an urgent appeal floating card.
+      - Features a high-visibility blinking beacon dot (`animate-ping` outer pulse + `animate-pulse` core dot) and heart icon.
+      - Tailored specifically for mobile viewports (`fixed bottom-3 left-3 right-3 sm:bottom-6 sm:right-6 sm:left-auto z-40`), incorporates `env(safe-area-inset-bottom)`, and provides a collapsible mini-pill state with an expand toggle so it never obstructs reading.
+      - Mounted in [src/app/orphanage/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/orphanage/page.tsx) with direct one-click CTA navigation to `/orphanage/donate`.
+   5. Verification & Validation:
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+      - Verified HTTP 200 on port 3002 across `/`, `/give`, `/orphanage`, and `/orphanage/donate`.
+      - End-to-end browser subagent automated testing verified both desktop and mobile viewports (390x844), confirmed scroll activation of the floating beacon, and validated navigation to donation channels.
+
+- [x] `feature-specs/54-heavens-gate-brand-lockup-and-emoji-removal.md`: Header Brand Lockup with "Heavens Gate" and Sitewide Removal of Emojis.
+   1. "Heavens Gate" Brand Lockup Architecture:
+      - Transformed the top site navbar ([src/components/layout/navbar.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/navbar.tsx)) to feature a responsive 3-tier brand lockup: Tier 1 Eyebrow `HEAVENS GATE` in bold uppercase slate, Tier 2 Headline `Sugutta Fellowship` in signature radiant orange (`#ff6b35`), and Tier 3 Subtitle `International Ministry`.
+      - Engineered for mobile responsiveness: occupies ~180px width on compact phone screens next to the emblem, preventing line collisions or clipping with the hamburger drawer button.
+      - Synchronized across the mobile navigation drawer ([src/components/layout/mobile-nav.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/mobile-nav.tsx)) and global footer ([src/components/layout/footer.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/footer.tsx)).
+   2. Comprehensive Sitewide Removal of Emojis:
+      - In [src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx), purged `🇰🇪` and `🌍` flag emojis in favor of Lucide `Smartphone` and `Globe2` SVG icons.
+      - In [src/components/giving/campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx), replaced fund emojis (`👶`, `🏗️`, `🌾`, `🔥`, `✨`) with dedicated Lucide SVG icons (`Heart`, `Building2`, `BookOpen`, `Sparkles`, `Gift`) rendered through `getFundIcon`.
+      - In [src/components/events/events-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/events/events-view.tsx), removed `🎬` from `"Past Crusade & Media"`.
+      - In [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx), replaced `🟢` with an emerald status dot and `🏛️` with `Building2`.
+      - In [src/components/admin/image-upload-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/image-upload-field.tsx), replaced `⚠️` with Lucide `AlertCircle`.
+      - In [src/components/admin/project-multi-image-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/project-multi-image-field.tsx), replaced `★ Cover` with `"Cover Photo"` and `💡` with Lucide `Sparkles`.
+      - In [src/components/home/hero-section.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/hero-section.tsx), replaced text star `★` with Lucide `Sparkles`.
+      - In [src/components/sermons/sermon-card.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/sermons/sermon-card.tsx), replaced unicode cross `✝` with clean vector SVG.
+   3. Verification & Validation:
+      - Re-ran Node Unicode emoji scanner across all `src/` files: 0 emojis found.
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+      - Browser subagent verified desktop and mobile viewports (390×844px) confirming visual balance, unclipped brand typography, and emoji-free donation tabs.
+
+
+

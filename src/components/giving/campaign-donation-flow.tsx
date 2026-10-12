@@ -21,6 +21,8 @@ import {
   Hammer,
   Sparkles,
   QrCode,
+  BookOpen,
+  Gift,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PaymentQrCode } from "@/components/giving/payment-qr-code";
@@ -32,7 +34,6 @@ export interface GivingFund {
   code: string;
   name: string;
   shortName: string;
-  icon: string;
   description: string;
   scripture: string;
   scriptureRef: string;
@@ -40,12 +41,27 @@ export interface GivingFund {
   impacts: { amountUsd: number; amountKes: number; text: string }[];
 }
 
+export function getFundIcon(code: string) {
+  switch (code) {
+    case "ORPHANAGE":
+      return <Heart className="w-4 h-4 text-rose-500 shrink-0" />;
+    case "BUILDING":
+      return <Building2 className="w-4 h-4 text-amber-600 shrink-0" />;
+    case "TITHE":
+      return <BookOpen className="w-4 h-4 text-emerald-600 shrink-0" />;
+    case "SEED":
+      return <Sparkles className="w-4 h-4 text-orange-500 shrink-0" />;
+    case "OTHER":
+    default:
+      return <Gift className="w-4 h-4 text-blue-500 shrink-0" />;
+  }
+}
+
 export const GIVING_FUNDS: GivingFund[] = [
   {
     code: "ORPHANAGE",
     name: "Sugutta Children's Home & Orphanage",
     shortName: "Children's Home",
-    icon: "👶",
     description: "Daily nutrition, primary & secondary schooling, healthcare, and warm shelter for 50+ vulnerable children.",
     scripture: "Religion that God our Father accepts as pure and faultless is this: to look after orphans and widows in their distress.",
     scriptureRef: "James 1:27",
@@ -60,7 +76,6 @@ export const GIVING_FUNDS: GivingFund[] = [
     code: "BUILDING",
     name: "Youth & Sanctuary Building Fund",
     shortName: "Building Fund",
-    icon: "🏗️",
     description: "Sanctuary construction, permanent roofing, pillar casting, and community youth hall expansion.",
     scripture: "The God of heaven will make us prosper, and we his servants will arise and build.",
     scriptureRef: "Nehemiah 2:20",
@@ -75,7 +90,6 @@ export const GIVING_FUNDS: GivingFund[] = [
     code: "TITHE",
     name: "General Tithe & Worship Offering",
     shortName: "Tithes & Offering",
-    icon: "🌾",
     description: "10% covenant tithe of obedience, Sunday worship ministry, and weekly evangelism operations.",
     scripture: "Bring all the tithes into the storehouse, that there may be food in My house, and try Me now in this.",
     scriptureRef: "Malachi 3:10",
@@ -90,7 +104,6 @@ export const GIVING_FUNDS: GivingFund[] = [
     code: "SEED",
     name: "Prophetic Deliverance Seed",
     shortName: "Prophetic Seed",
-    icon: "🔥",
     description: "Altars of breakthrough, deliverance prayers, healing intercession, and family covenant alignment.",
     scripture: "Honor the Lord with your wealth, with the firstfruits of all your crops; then your barns will be filled to overflowing.",
     scriptureRef: "Proverbs 3:9-10",
@@ -105,7 +118,6 @@ export const GIVING_FUNDS: GivingFund[] = [
     code: "OTHER",
     name: "Other (Specify Custom Kingdom Cause)",
     shortName: "Other Kingdom Cause",
-    icon: "✨",
     description: "Support any designated ministry initiative, specific benevolence project, youth camp, choir, or special kingdom assignment.",
     scripture: "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
     scriptureRef: "2 Corinthians 9:7",
@@ -465,7 +477,7 @@ export function CampaignDonationFlow({
                 className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-xs sm:text-sm font-medium text-slate-800 flex items-center justify-between shadow-sm hover:border-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0f172a]/10"
               >
                 <span className="truncate flex items-center gap-2">
-                  <span>{selectedFund.icon}</span>
+                  {getFundIcon(selectedFund.code)}
                   <span>{selectedFund.name}</span>
                 </span>
                 <ChevronDown
@@ -497,7 +509,7 @@ export function CampaignDonationFlow({
                         )}
                       >
                         <span className="flex items-center gap-2 truncate">
-                          <span>{fund.icon}</span>
+                          {getFundIcon(fund.code)}
                           <span>{fund.name}</span>
                         </span>
                         {isSelected && <Check className="w-4 h-4 text-white shrink-0 ml-2" />}
@@ -737,58 +749,73 @@ export function CampaignDonationFlow({
                     </div>
                   </div>
 
-                  {/* 2. M-Pesa Send Money (Pastor Caesar Line) */}
-                  <div className="p-3.5 sm:p-4 rounded-2xl bg-[#fffaf5] border-2 border-orange-300 space-y-3">
+                  {/* 2. M-Pesa & KCB Bank Paybill */}
+                  <div className="p-3.5 sm:p-4 rounded-2xl bg-blue-50/50 border-2 border-blue-300 space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="font-extrabold text-slate-900 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
-                        <span>Method 2: M-Pesa Send Money (Direct Line)</span>
+                        <Building2 className="w-3.5 h-3.5 text-blue-700" />
+                        <span>Method 2: Paybill</span>
                       </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-800 bg-orange-100 px-2 py-0.5 rounded-full">
-                        <Smartphone className="w-3 h-3 text-[#ff6b35]" />
-                        <span>Pastoral Altar</span>
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded-full">
+                        <span>Universal Paybill</span>
                       </span>
                     </div>
 
-                    {/* Scannable Send Money QR directly visible */}
+                    {/* Scannable Paybill QR directly visible */}
                     <PaymentQrCode
-                      type="send_money"
-                      phone={settings.mpesaPhone || "0112656123"}
-                      recipientName={settings.pastorName || "Pastor Caesar O. Nyandwaro"}
+                      type="paybill"
+                      customQrImage={settings.mpesaPaybillQrImage}
+                      paybillNumber={settings.mpesaPaybill || "522533"}
+                      accountRef={settings.mpesaPaybillAccount || "8146952"}
                     />
 
                     <div className="space-y-2">
-                      <div className="p-2.5 rounded-lg bg-white border border-slate-200 flex items-center justify-between">
-                        <div>
-                          <span className="text-[9px] text-slate-400 font-bold uppercase block">
-                            Mobile Number:
-                          </span>
-                          <span className="font-mono font-black text-slate-950 text-base">
-                            {settings.mpesaPhone || "+254112656123"}
-                          </span>
-                          <span className="text-[10px] text-slate-500 block">
-                            {settings.pastorName || "Pastor Caesar O. Nyandwaro"}
-                          </span>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="p-2.5 rounded-lg bg-white border border-slate-200 flex flex-col justify-between">
+                          <div>
+                            <span className="text-[9px] text-slate-400 font-bold uppercase block">
+                              Paybill No:
+                            </span>
+                            <span className="font-mono font-black text-slate-950 text-base">
+                              {settings.mpesaPaybill || "522533"}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("pb_num", settings.mpesaPaybill || "522533")}
+                            className="mt-1 px-2 py-1 rounded bg-slate-50 hover:bg-blue-50 border border-slate-200 text-[11px] font-bold text-blue-700 flex items-center justify-center gap-1 transition-colors"
+                          >
+                            {copiedKey === "pb_num" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                            <span>{copiedKey === "pb_num" ? "Copied" : "Copy"}</span>
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy("phone", settings.mpesaPhone || "+254112656123")}
-                          className="px-2.5 py-1.5 rounded-lg bg-slate-50 hover:bg-orange-50 border border-slate-200 text-xs font-bold text-[#ff6b35] flex items-center gap-1 transition-colors"
-                        >
-                          {copiedKey === "phone" ? (
-                            <Check className="w-3 h-3 text-emerald-600" />
-                          ) : (
-                            <Copy className="w-3 h-3" />
-                          )}
-                          <span>{copiedKey === "phone" ? "Copied" : "Copy"}</span>
-                        </button>
+
+                        <div className="p-2.5 rounded-lg bg-blue-50/80 border border-blue-200 flex flex-col justify-between">
+                          <div>
+                            <span className="text-[9px] text-blue-700 font-bold uppercase block">
+                              Account No:
+                            </span>
+                            <span className="font-mono font-black text-slate-950 text-base">
+                              {settings.mpesaPaybillAccount || "8146952"}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("pb_acc", settings.mpesaPaybillAccount || "8146952")}
+                            className="mt-1 px-2 py-1 rounded bg-blue-700 hover:bg-blue-800 text-[11px] font-bold text-white flex items-center justify-center gap-1 transition-colors"
+                          >
+                            {copiedKey === "pb_acc" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                            <span>{copiedKey === "pb_acc" ? "Copied" : "Copy"}</span>
+                          </button>
+                        </div>
                       </div>
 
-                      <ol className="list-decimal pl-4 text-[11px] text-slate-600 space-y-0.5 pt-0.5">
-                        <li>Go to <strong>M-Pesa</strong> &rarr; <strong>Send Money</strong>.</li>
-                        <li>Enter Phone: <strong>0112656123</strong>.</li>
-                        <li>Enter Amount &amp; PIN &rarr; Confirm name: <strong>CAESAR O. NYANDWARO</strong>.</li>
-                      </ol>
+                      <div className="p-2 rounded bg-white border border-slate-200 text-[11px] text-slate-600">
+                        <span className="block font-bold text-slate-800">Business Name: {settings.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH"}</span>
+                        <div className="flex flex-wrap gap-1 text-[10px] pt-1 text-slate-500">
+                          <span>M-Pesa Paybill &bull; Vooma (*844#) &bull; Airtel Money &bull; T-kash (*334#)</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -802,7 +829,7 @@ export function CampaignDonationFlow({
                 </div>
               )}
 
-              {/* TAB B: INTERNATIONAL (SENDWAVE & KCB BANK WIRE) */}
+              {/* TAB B: INTERNATIONAL (SENDWAVE - MOBILE & BANK) */}
               {paymentTab === "international" && (
                 <div className="space-y-3 pt-1 text-xs">
                   {/* 1. Sendwave */}
@@ -810,36 +837,63 @@ export function CampaignDonationFlow({
                     <div className="flex items-center justify-between">
                       <span className="font-extrabold text-slate-900 flex items-center gap-1.5">
                         <span className="w-2 h-2 rounded-full bg-teal-600" />
-                        <span>Method 1: Sendwave (Direct to M-Pesa)</span>
+                        <span>Sendwave Diaspora (USA, UK, Europe, Canada)</span>
                       </span>
                       <span className="text-[10px] font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded-full">
                         0% Fees &bull; Instant
                       </span>
                     </div>
 
-                    <div className="space-y-1.5 text-[11px] text-slate-700">
-                      <div className="p-2 rounded bg-white border border-slate-200 flex items-center justify-between">
-                        <div>
-                          <span className="text-[9px] text-slate-400 font-bold uppercase block">Recipient Mobile:</span>
-                          <span className="font-mono font-black text-slate-900 text-xs sm:text-sm">
-                            {settings.mpesaPhone || "+254112656123"}
+                    <p className="text-[11px] text-slate-600 leading-relaxed">
+                      Send zero-fee gifts directly to our registered mobile phone or our bank account through Sendwave.
+                    </p>
+
+                    <div className="space-y-2 pt-1 text-[11px] text-slate-700">
+                      {/* Destination 1: Mobile */}
+                      <div className="p-2.5 rounded bg-white border border-slate-200 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-slate-800 flex items-center gap-1">
+                            <Smartphone className="w-3 h-3 text-[#ff6b35]" />
+                            <span>Destination 1: Sendwave to Mobile</span>
                           </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("sw_phone", settings.mpesaPhone || "+254112656123")}
+                            className="text-xs text-teal-700 font-bold flex items-center gap-1"
+                          >
+                            {copiedKey === "sw_phone" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                            <span>{copiedKey === "sw_phone" ? "Copied" : "Copy"}</span>
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy("sw_phone", settings.mpesaPhone || "+254112656123")}
-                          className="text-xs text-teal-700 font-bold flex items-center gap-1"
-                        >
-                          {copiedKey === "sw_phone" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                          <span>{copiedKey === "sw_phone" ? "Copied" : "Copy"}</span>
-                        </button>
+                        <span className="font-mono font-black text-slate-900 text-sm block">
+                          {settings.mpesaPhone || "+254112656123"}
+                        </span>
+                        <span className="text-[10px] text-slate-500 block">Recipient: {settings.pastorName || "Pastor Caesar O. Nyandwaro"}</span>
                       </div>
 
-                      <div className="p-2 rounded bg-white border border-slate-200">
-                        <span className="text-[9px] text-slate-400 font-bold uppercase block">Recipient Name:</span>
-                        <span className="font-extrabold text-slate-900">
-                          {settings.westernUnionRecipient || "Pastor Caesar O. Nyandwaro"}
+                      {/* Destination 2: Bank */}
+                      <div className="p-2.5 rounded bg-white border border-slate-200 space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-slate-800 flex items-center gap-1">
+                            <Building2 className="w-3 h-3 text-[#005A9C]" />
+                            <span>Destination 2: Sendwave to Bank Account</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("sw_bank", settings.kcbAccountNumber || "1356891853")}
+                            className="text-xs text-teal-700 font-bold flex items-center gap-1"
+                          >
+                            {copiedKey === "sw_bank" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                            <span>{copiedKey === "sw_bank" ? "Copied" : "Copy"}</span>
+                          </button>
+                        </div>
+                        <span className="font-mono font-black text-slate-900 text-sm block">
+                          {settings.kcbAccountNumber || "1356891853"}
                         </span>
+                        <div className="text-[10px] text-slate-600 flex flex-wrap justify-between gap-1">
+                          <span>Bank: <strong>KCB Bank Kenya</strong></span>
+                          <span>Account Name: <strong>{settings.kcbAccountName || "Sugutta Fellowship church"}</strong></span>
+                        </div>
                       </div>
                     </div>
 
@@ -847,58 +901,16 @@ export function CampaignDonationFlow({
                       <PaymentQrCode
                         type="sendwave"
                         phone={settings.mpesaPhone || "+254112656123"}
-                        recipientName={settings.westernUnionRecipient || "Pastor Caesar O. Nyandwaro"}
+                        recipientName={settings.pastorName || "Pastor Caesar O. Nyandwaro"}
                       />
-                    </div>
-                  </div>
-
-                  {/* 2. Bank Account (KCB Bank Direct Wire) */}
-                  <div className="p-3.5 rounded-xl border border-slate-200 bg-white space-y-2 text-[11px]">
-                    <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-slate-900 flex items-center gap-1.5">
-                        <Building2 className="w-3.5 h-3.5 text-[#005A9C]" />
-                        <span>Method 2: Bank Account (KCB Wire / TT)</span>
-                      </span>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">
-                        International Wire
-                      </span>
-                    </div>
-
-                    <div className="space-y-1.5 text-slate-700">
-                      <div className="p-2 rounded bg-slate-50 border border-slate-200 flex items-center justify-between">
-                        <div>
-                          <span className="text-[9px] text-slate-400 font-bold uppercase block">Account Number:</span>
-                          <span className="font-mono font-black text-slate-900 text-xs sm:text-sm">
-                            {settings.kcbAccountNumber || "1356891853"}
-                          </span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy("bank_acc", settings.kcbAccountNumber || "1356891853")}
-                          className="text-xs text-[#005A9C] font-bold flex items-center gap-1"
-                        >
-                          {copiedKey === "bank_acc" ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
-                          <span>{copiedKey === "bank_acc" ? "Copied" : "Copy"}</span>
-                        </button>
-                      </div>
-
-                      <p className="text-slate-600 px-1">
-                        Bank: <strong>KCB Bank Kenya</strong> &bull; Branch: <strong>{settings.kcbBranch || "Nairobi Central Branch"}</strong>
-                      </p>
-                      <p className="text-slate-600 px-1">
-                        Account Name: <strong>{settings.kcbAccountName || "Sugutta Fellowship church"}</strong>
-                      </p>
-                      <p className="text-slate-600 px-1">
-                        SWIFT Code: <strong>{settings.kcbSwift || "KCBLKENX"}</strong>
-                      </p>
                     </div>
 
                     <button
                       type="button"
                       onClick={handleCompleteGift}
-                      className="w-full py-2 px-3 rounded-lg border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-colors mt-1"
+                      className="w-full py-2.5 px-3 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-extrabold text-xs shadow-sm transition-all mt-2"
                     >
-                      I Have Completed Bank Transfer &rarr; View Receipt
+                      I Have Completed Sendwave Gift &rarr; View Receipt
                     </button>
                   </div>
                 </div>

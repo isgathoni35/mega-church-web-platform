@@ -42,6 +42,9 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
   const waPhone = cleanPhone.replace(/^\+/, "");
   const tillNumber = settings.mpesaTillNumber || DEFAULT_SETTINGS.mpesaTillNumber || "8146952";
   const tillName = settings.mpesaTillName || DEFAULT_SETTINGS.mpesaTillName || "Suggutta Fellowship Church";
+  const paybillNumber = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill || "522533";
+  const paybillAccount = settings.mpesaPaybillAccount || DEFAULT_SETTINGS.mpesaPaybillAccount || "8146952";
+  const paybillName = settings.mpesaPaybillName || DEFAULT_SETTINGS.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH";
   const kcbAccount = settings.kcbAccountNumber || DEFAULT_SETTINGS.kcbAccountNumber || "1356891853";
   const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName || "Sugutta Fellowship church";
   const kcbBranch = settings.kcbBranch || DEFAULT_SETTINGS.kcbBranch;
@@ -177,7 +180,7 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                     : "text-slate-700 hover:text-slate-900"
                 }`}
               >
-                <span>🇰🇪</span>
+                <Smartphone className="w-4 h-4" />
                 <span>M-Pesa (Kenya)</span>
               </button>
 
@@ -190,7 +193,7 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                     : "text-slate-700 hover:text-slate-900"
                 }`}
               >
-                <span>🌍</span>
+                <Globe2 className="w-4 h-4" />
                 <span>Diaspora (Sendwave)</span>
               </button>
             </div>
@@ -290,83 +293,136 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                   </div>
                 </div>
 
-                {/* METHOD 2: M-PESA SEND MONEY (PASTOR CAESAR LINE) */}
-                <div className="bg-white rounded-3xl p-5 sm:p-8 border-2 border-orange-300 shadow-md flex flex-col justify-between space-y-4">
+                {/* METHOD 2: M-PESA & KCB BANK PAYBILL */}
+                <div className="bg-white rounded-3xl p-5 sm:p-8 border-2 border-blue-300 shadow-md flex flex-col justify-between space-y-4">
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b border-orange-100 pb-4">
+                    <div className="flex items-center justify-between border-b border-blue-100 pb-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-orange-500/10 text-[#ff6b35] flex items-center justify-center font-bold text-lg shrink-0">
-                          <Smartphone className="w-5 h-5" />
+                        <div className="w-10 h-10 rounded-2xl bg-[#005A9C] text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-md shadow-blue-600/20">
+                          <Building className="w-5 h-5" />
                         </div>
                         <div>
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#ff6b35] block">
-                            Direct Pastoral Altar Line
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#005A9C] block">
+                            KCB Bank &bull; Multi-Network Paybill
                           </span>
                           <h3 className="font-extrabold text-base sm:text-xl text-slate-900">
-                            Method 2: M-Pesa Send Money
+                            Method 2: M-Pesa Paybill
                           </h3>
                         </div>
                       </div>
 
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-100 text-[#ff6b35] text-[11px] font-bold">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">
                         <ShieldCheck className="h-3.5 w-3.5" />
-                        <span>M-Pesa Direct</span>
+                        <span>Official Paybill</span>
                       </span>
                     </div>
 
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                      Send directly to {settings.pastorName} for immediate food, medicine, and emergency provisions for the children:
+                      Give directly to the children&apos;s welfare via our registered church Paybill across M-Pesa, Airtel Money, Vooma, or T-kash:
                     </p>
 
-                    {/* Scannable Send Money QR directly visible */}
+                    {/* Scannable Paybill QR */}
                     <PaymentQrCode
-                      type="send_money"
-                      phone={localCleanPhone}
-                      recipientName={settings.pastorName}
+                      type="paybill"
+                      paybillNumber={paybillNumber}
+                      accountRef={paybillAccount}
                     />
 
-                    <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/70 border border-orange-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                      <div>
-                        <span className="text-[10px] text-slate-500 uppercase font-bold block">Pastor Line:</span>
-                        <span className="font-mono text-2xl sm:text-3xl font-black text-slate-900 tracking-wider">
-                          {localCleanPhone}
-                        </span>
-                        <div className="text-xs text-slate-700 font-bold mt-1">
-                          Recipient: <span className="text-slate-900">{settings.pastorName}</span>
+                    {/* Paybill & Account Grid */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                            Paybill / Business No
+                          </span>
+                          <div className="flex items-center justify-between mt-1">
+                            <span className="font-mono text-2xl sm:text-3xl font-black text-slate-950 tracking-wider">
+                              {paybillNumber}
+                            </span>
+                            <Button
+                              size="sm"
+                              onClick={() => copyToClipboard(paybillNumber, "paybill_no")}
+                              className="bg-[#005A9C] hover:bg-[#00487c] text-white text-xs font-bold h-9 px-3 rounded-xl shadow-xs"
+                            >
+                              {copiedKey === "paybill_no" ? (
+                                <>
+                                  <Check className="h-3.5 w-3.5 mr-1" />
+                                  <span>Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="h-3.5 w-3.5 mr-1" />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div>
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                            Account Number
+                          </span>
+                          <div className="flex items-center justify-between mt-1">
+                            <span className="font-mono text-2xl sm:text-3xl font-black text-slate-950 tracking-wider">
+                              {paybillAccount}
+                            </span>
+                            <Button
+                              size="sm"
+                              onClick={() => copyToClipboard(paybillAccount, "paybill_acc")}
+                              className="bg-[#005A9C] hover:bg-[#00487c] text-white text-xs font-bold h-9 px-3 rounded-xl shadow-xs"
+                            >
+                              {copiedKey === "paybill_acc" ? (
+                                <>
+                                  <Check className="h-3.5 w-3.5 mr-1" />
+                                  <span>Copied</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="h-3.5 w-3.5 mr-1" />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </Button>
+                          </div>
                         </div>
                       </div>
 
-                      <Button
-                        size="sm"
-                        onClick={() => copyToClipboard(localCleanPhone, "phone")}
-                        className="bg-[#ff6b35] hover:bg-[#f25c23] text-white text-xs font-bold h-10 px-4 rounded-xl shadow-sm"
-                      >
-                        {copiedKey === "phone" ? (
-                          <>
-                            <Check className="h-4 w-4 mr-1 text-white" />
-                            <span>Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-4 w-4 mr-1" />
-                            <span>Copy Line</span>
-                          </>
-                        )}
-                      </Button>
+                      <div className="pt-2 border-t border-blue-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+                        <span className="text-slate-500">Business / Account Name:</span>
+                        <span className="font-bold text-slate-900">{paybillName}</span>
+                      </div>
+
+                      <div className="pt-2 border-t border-blue-200/80 flex flex-wrap items-center gap-1.5">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Also Supports:</span>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                          Airtel Money ({paybillNumber})
+                        </span>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                          Vooma (*844#)
+                        </span>
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
+                          T-kash (*334#)
+                        </span>
+                      </div>
                     </div>
 
                     <ol className="space-y-2 text-xs sm:text-sm text-slate-700 pt-1">
                       <li className="flex items-start gap-2.5">
-                        <span className="w-5 h-5 rounded-full bg-orange-100 text-[#ff6b35] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
-                        <span>Open <strong>M-Pesa</strong> &rarr; Select <strong>Send Money</strong>.</span>
+                        <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
+                        <span>Open <strong>M-Pesa</strong> &rarr; Select <strong>Lipa na M-Pesa</strong> &rarr; <strong>Paybill</strong>.</span>
                       </li>
                       <li className="flex items-start gap-2.5">
-                        <span className="w-5 h-5 rounded-full bg-orange-100 text-[#ff6b35] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
-                        <span>Enter Mobile Number: <strong className="font-mono text-slate-900">{localCleanPhone}</strong>.</span>
+                        <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
+                        <span>Enter Business Number: <strong className="font-mono text-slate-900">{paybillNumber}</strong>.</span>
                       </li>
                       <li className="flex items-start gap-2.5">
-                        <span className="w-5 h-5 rounded-full bg-orange-100 text-[#ff6b35] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
-                        <span>Enter amount &amp; PIN &rarr; Confirm recipient is <strong>{settings.pastorName}</strong>.</span>
+                        <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
+                        <span>Enter Account Number: <strong className="font-mono text-slate-900">{paybillAccount}</strong>.</span>
+                      </li>
+                      <li className="flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">4</span>
+                        <span>Enter amount &amp; PIN &rarr; Confirm recipient is <strong>{paybillName}</strong>.</span>
                       </li>
                     </ol>
                   </div>
@@ -375,10 +431,10 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
             </div>
           )}
 
-          {/* TAB 2: INTERNATIONAL DONATIONS (SENDWAVE & KCB WIRE) */}
+          {/* TAB 2: INTERNATIONAL DONATIONS (SENDWAVE - MOBILE & BANK) */}
           {activeTab === "international" && (
             <div className="space-y-6">
-              {/* Method 1: Sendwave */}
+              {/* Sendwave Diaspora Hub */}
               <div className="bg-white rounded-3xl p-5 sm:p-8 border-2 border-orange-200/90 shadow-md space-y-6">
                 <div className="text-center max-w-xl mx-auto space-y-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider">
@@ -386,39 +442,75 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                     <span>Sendwave International Remittance</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-extrabold text-[#0f172a]">
-                    Method 1: Donate via Sendwave (Zero Transfer Fees)
+                    Donate via Sendwave (Zero Transfer Fees)
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600">
-                    Sendwave transfers love gifts directly from debit cards in the USA, UK, Canada &amp; Europe straight into our pastor&apos;s verified M-Pesa line or KCB bank account with <strong className="text-slate-900">0% transfer fees</strong>.
+                    Sendwave transfers support gifts directly from debit cards in the USA, UK, Canada &amp; Europe into our verified mobile line or bank account with <strong className="text-slate-900">0% transfer fees &amp; instant delivery</strong>.
                   </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-2">
                   <div className="space-y-3.5">
-                    <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
-                      <span className="w-7 h-7 rounded-full bg-[#ff6b35] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">1</span>
-                      <div className="text-xs space-y-0.5">
-                        <p className="font-bold text-slate-900">Open Sendwave App</p>
-                        <p className="text-slate-500">Available free on App Store and Google Play.</p>
+                    {/* Destination 1: Mobile */}
+                    <div className="p-4 rounded-2xl bg-orange-50/80 border border-orange-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-orange-950 flex items-center gap-1.5">
+                          <Smartphone className="w-3.5 h-3.5 text-[#ff6b35]" />
+                          <span>Option A: Sendwave to Mobile</span>
+                        </span>
+                        <span className="text-[10px] font-bold text-[#ff6b35] bg-orange-100 px-2 py-0.5 rounded-full uppercase">
+                          Instant
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-orange-100">
+                        <div>
+                          <span className="text-[10px] text-slate-400 font-bold uppercase block">Recipient Mobile:</span>
+                          <span className="font-mono font-black text-slate-900 text-sm sm:text-base">{rawPhone}</span>
+                          <span className="text-[10px] text-slate-500 block">Name: {settings.pastorName}</span>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => copyToClipboard(rawPhone, "sw_phone")}
+                          className="text-xs font-bold text-[#ff6b35] border-orange-200 hover:bg-orange-50 h-8"
+                        >
+                          {copiedKey === "sw_phone" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                          <span>{copiedKey === "sw_phone" ? "Copied" : "Copy"}</span>
+                        </Button>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-orange-50 border border-orange-200">
-                      <span className="w-7 h-7 rounded-full bg-[#ff6b35] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2</span>
-                      <div className="text-xs space-y-1">
-                        <p className="font-bold text-slate-900">Select Kenya &rarr; Enter Pastor Mobile Line</p>
-                        <p className="text-slate-600">Country: <strong>Kenya 🇰🇪</strong></p>
-                        <div className="flex items-center justify-between pt-1">
-                          <span className="font-mono font-bold text-slate-900">{rawPhone}</span>
-                          <button
-                            type="button"
-                            onClick={() => copyToClipboard(rawPhone, "sw_phone")}
-                            className="text-[#ff6b35] font-bold text-[11px] hover:underline"
+                    {/* Destination 2: Bank Account */}
+                    <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-blue-950 flex items-center gap-1.5">
+                          <Building className="w-3.5 h-3.5 text-[#005A9C]" />
+                          <span>Option B: Sendwave to Bank Account</span>
+                        </span>
+                        <span className="text-[10px] font-bold text-[#005A9C] bg-blue-100 px-2 py-0.5 rounded-full uppercase">
+                          Direct Deposit
+                        </span>
+                      </div>
+                      <div className="bg-white p-2.5 rounded-xl border border-blue-100 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] text-slate-400 font-bold uppercase block">Account Number:</span>
+                            <span className="font-mono font-black text-slate-900 text-sm sm:text-base">{kcbAccount}</span>
+                          </div>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => copyToClipboard(kcbAccount, "intl_orph_acc")}
+                            className="text-xs font-bold text-[#005A9C] border-blue-200 hover:bg-blue-50 h-8"
                           >
-                            {copiedKey === "sw_phone" ? "Copied" : "Copy"}
-                          </button>
+                            {copiedKey === "intl_orph_acc" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
+                            <span>{copiedKey === "intl_orph_acc" ? "Copied" : "Copy"}</span>
+                          </Button>
                         </div>
-                        <p className="text-[11px] text-slate-600">Recipient: <strong>{settings.pastorName}</strong></p>
+                        <div className="text-[11px] text-slate-600 pt-1 border-t border-slate-100 flex flex-wrap justify-between gap-1">
+                          <span>Bank: <strong>KCB Bank Kenya</strong></span>
+                          <span>Account: <strong>{kcbName}</strong></span>
+                        </div>
                       </div>
                     </div>
 
@@ -439,60 +531,6 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                       phone={rawPhone}
                       recipientName={settings.pastorName}
                     />
-                  </div>
-                </div>
-              </div>
-
-              {/* Method 2: KCB Bank Direct International Wire */}
-              <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200 shadow-sm space-y-4">
-                <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
-                  <div className="w-8 h-8 rounded-xl bg-blue-50 text-[#005A9C] flex items-center justify-center font-bold">
-                    <Building className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                      Method 2: KCB Bank Direct International Wire (TT / SWIFT)
-                    </h4>
-                    <p className="text-xs text-slate-500">For direct international bank wire transfers and foundations.</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block">Bank Name</span>
-                    <span className="font-bold text-slate-900 block mt-0.5">Kenya Commercial Bank (KCB)</span>
-                    <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">SWIFT: {kcbSwift}</span>
-                  </div>
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block">Branch</span>
-                    <span className="font-bold text-slate-900 block mt-0.5">{kcbBranch}</span>
-                    <span className="text-[10px] text-slate-500 block mt-0.5">Kenya</span>
-                  </div>
-                  <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Account Name</span>
-                      <span className="font-bold text-slate-900 block mt-0.5 truncate">{kcbName}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => copyToClipboard(kcbName, "intl_orph_name")}
-                      className="text-[11px] text-[#005A9C] font-bold"
-                    >
-                      {copiedKey === "intl_orph_name" ? "Copied" : "Copy"}
-                    </button>
-                  </div>
-                  <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-bold text-blue-700 uppercase block">Account Number</span>
-                      <span className="font-mono font-black text-slate-950 block mt-0.5">{kcbAccount}</span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => copyToClipboard(kcbAccount, "intl_orph_acc")}
-                      className="text-[11px] text-[#005A9C] font-bold"
-                    >
-                      {copiedKey === "intl_orph_acc" ? "Copied" : "Copy"}
-                    </button>
                   </div>
                 </div>
               </div>

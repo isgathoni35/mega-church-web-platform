@@ -34,6 +34,9 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
   const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName || "Sugutta Fellowship church";
   const kcbBranch = settings.kcbBranch || DEFAULT_SETTINGS.kcbBranch;
   const kcbSwift = settings.kcbSwift || DEFAULT_SETTINGS.kcbSwift;
+  const paybillNumber = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill || "522533";
+  const paybillAccount = settings.mpesaPaybillAccount || DEFAULT_SETTINGS.mpesaPaybillAccount || "8146952";
+  const paybillName = settings.mpesaPaybillName || DEFAULT_SETTINGS.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH";
 
   const [activeTab, setActiveTab] = useState<"kenya" | "international">("kenya");
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
@@ -151,50 +154,87 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
                 </div>
               </div>
 
-              {/* Method 2: Send Money Direct (Pastor Line) */}
-              <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border-2 border-orange-300 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-4">
+              {/* Method 2: Universal Paybill (M-Pesa, Vooma, Airtel Money, T-Kash) */}
+              <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border-2 border-blue-300 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-4">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-[#ff6b35] bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">
-                      Direct Pastoral Altar Line
+                    <span className="text-xs font-bold uppercase tracking-wider text-blue-800 bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+                      Method 2: Paybill
                     </span>
-                    <span className="text-[11px] font-bold text-[#ff6b35] flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>M-Pesa Direct</span>
+                    <span className="text-[11px] font-bold text-blue-700 flex items-center gap-1">
+                      <Building2 className="w-3.5 h-3.5" />
+                      <span>Universal Paybill</span>
                     </span>
                   </div>
 
-                  {/* Scannable Send Money QR directly visible */}
+                  {/* Scannable Paybill QR directly visible */}
                   <PaymentQrCode
-                    type="send_money"
-                    phone={localCleanPhone}
-                    recipientName={pastorName}
+                    type="paybill"
+                    customQrImage={settings.mpesaPaybillQrImage}
+                    paybillNumber={paybillNumber}
+                    accountRef={paybillAccount}
                   />
 
-                  <div>
-                    <span className="text-xs text-slate-500 uppercase font-bold tracking-wider block">
-                      Send Money / Pastoral Line
-                    </span>
-                    <div className="flex items-center justify-between mt-1">
-                      <span className="text-2xl sm:text-3xl font-mono font-black text-slate-950 tracking-wider">
-                        {localCleanPhone}
-                      </span>
+                  {/* Business & Account Numbers */}
+                  <div className="grid grid-cols-2 gap-3 pt-1">
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                      <div>
+                        <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider block">
+                          Paybill / Business No
+                        </span>
+                        <span className="text-xl sm:text-2xl font-mono font-black text-slate-950 block mt-0.5">
+                          {paybillNumber}
+                        </span>
+                      </div>
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleCopy("phone", localCleanPhone)}
-                        className="rounded-full text-xs font-bold border-orange-200 hover:bg-orange-50 text-[#ff6b35]"
+                        onClick={() => handleCopy("pb_num", paybillNumber)}
+                        className="rounded-full text-xs font-bold mt-2 border-blue-200 hover:bg-blue-50 text-blue-700 w-full"
                       >
-                        {copiedKey === "phone" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
-                        <span>{copiedKey === "phone" ? "Copied" : "Copy"}</span>
+                        {copiedKey === "pb_num" ? <Check className="w-3 h-3 text-emerald-600 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
+                        <span>{copiedKey === "pb_num" ? "Copied" : "Copy Paybill"}</span>
+                      </Button>
+                    </div>
+
+                    <div className="p-3 rounded-xl bg-blue-50/80 border border-blue-200 flex flex-col justify-between">
+                      <div>
+                        <span className="text-[10px] text-blue-700 uppercase font-bold tracking-wider block">
+                          Account Number
+                        </span>
+                        <span className="text-xl sm:text-2xl font-mono font-black text-slate-950 block mt-0.5">
+                          {paybillAccount}
+                        </span>
+                      </div>
+                      <Button
+                        size="sm"
+                        onClick={() => handleCopy("pb_acc", paybillAccount)}
+                        className="rounded-full text-xs font-bold mt-2 bg-blue-700 hover:bg-blue-800 text-white w-full"
+                      >
+                        {copiedKey === "pb_acc" ? <Check className="w-3 h-3 text-emerald-600 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
+                        <span>{copiedKey === "pb_acc" ? "Copied" : "Copy Account"}</span>
                       </Button>
                     </div>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-orange-50/60 border border-orange-100 text-xs text-slate-700 space-y-1">
-                    <div className="font-bold text-slate-900">Registered Recipient: {pastorName}</div>
-                    <div className="text-[11px] text-slate-500">
-                      Direct offering seeds and prayer confirmation line.
+                  {/* Multi-channel compatibility strip */}
+                  <div className="p-3 rounded-xl bg-blue-50/60 border border-blue-100 text-xs text-slate-700 space-y-1.5">
+                    <div className="font-bold text-slate-900 flex items-center justify-between">
+                      <span>Business Name: {paybillName}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 text-[10px] pt-0.5">
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-100/80 text-emerald-800 font-bold">
+                        M-PESA: {paybillNumber}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-purple-100/80 text-purple-800 font-bold">
+                        Vooma / *844#
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-red-100/80 text-red-800 font-bold">
+                        Airtel: {paybillNumber}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-sky-100/80 text-sky-800 font-bold">
+                        T-kash: *334#
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -203,7 +243,7 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
           </div>
         )}
 
-        {/* Tab 2: International (Sendwave & KCB Wire) */}
+        {/* Tab 2: International (Sendwave - Mobile & Bank) */}
         {activeTab === "international" && (
           <div className="space-y-6">
             <div className="bg-white p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md space-y-6">
@@ -214,26 +254,72 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
                     <span>0% Transfer Fees &bull; Instant Delivery</span>
                   </span>
                   <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-                    Method 1: Sendwave (USA, UK, Europe &amp; Canada)
+                    Sendwave Diaspora Giving (USA, UK, Europe &amp; Canada)
                   </h3>
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Sendwave allows diaspora partners to send tithes, offerings, and orphan support directly to our pastor&apos;s verified M-Pesa line or KCB bank account with zero fees.
+                    Sendwave is the recommended international transfer method for partners worldwide. Zero transaction fees with direct delivery to our verified mobile line or bank account.
                   </p>
 
-                  <div className="space-y-2 pt-2 text-xs">
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
-                      <span className="text-slate-500 font-medium block">Sendwave Recipient Mobile:</span>
+                  <div className="space-y-3 pt-2 text-xs">
+                    {/* Destination 1: Sendwave to Mobile */}
+                    <div className="p-3.5 rounded-xl bg-orange-50/70 border border-orange-200 space-y-2">
                       <div className="flex items-center justify-between">
-                        <span className="font-mono font-bold text-slate-900 text-sm">{rawPhone}</span>
+                        <span className="text-orange-950 font-bold flex items-center gap-1.5">
+                          <Smartphone className="w-3.5 h-3.5 text-[#ff6b35]" />
+                          <span>Destination 1: Sendwave to Mobile</span>
+                        </span>
+                        <span className="text-[10px] uppercase font-bold text-[#ff6b35] bg-orange-100 px-2 py-0.5 rounded-full">
+                          Instant
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between bg-white p-2.5 rounded-lg border border-orange-100">
+                        <div>
+                          <span className="text-[10px] text-slate-400 uppercase font-bold block">Mobile Phone:</span>
+                          <span className="font-mono font-bold text-slate-900 text-sm sm:text-base">{rawPhone}</span>
+                          <span className="text-[10px] text-slate-500 block">Recipient: {pastorName}</span>
+                        </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("sw_phone", rawPhone)}
-                          className="text-[#ff6b35] hover:underline font-bold text-[11px]"
+                          className="px-2.5 py-1.5 rounded-lg bg-orange-50 hover:bg-orange-100 text-[#ff6b35] font-bold text-xs flex items-center gap-1 transition-colors"
                         >
-                          {copiedKey === "sw_phone" ? "Copied" : "Copy"}
+                          {copiedKey === "sw_phone" ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                          <span>{copiedKey === "sw_phone" ? "Copied" : "Copy"}</span>
                         </button>
                       </div>
-                      <span className="text-[11px] text-slate-500 block">Recipient: {pastorName}</span>
+                    </div>
+
+                    {/* Destination 2: Sendwave to Bank Account */}
+                    <div className="p-3.5 rounded-xl bg-blue-50/70 border border-blue-200 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-blue-950 font-bold flex items-center gap-1.5">
+                          <Building2 className="w-3.5 h-3.5 text-[#005A9C]" />
+                          <span>Destination 2: Sendwave to Bank Account</span>
+                        </span>
+                        <span className="text-[10px] uppercase font-bold text-[#005A9C] bg-blue-100 px-2 py-0.5 rounded-full">
+                          Direct Deposit
+                        </span>
+                      </div>
+                      <div className="space-y-1.5 bg-white p-2.5 rounded-lg border border-blue-100">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="text-[10px] text-slate-400 uppercase font-bold block">Bank &bull; Account Number:</span>
+                            <span className="font-mono font-black text-slate-900 text-sm sm:text-base">{kcbAccount}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("sw_bank", kcbAccount)}
+                            className="px-2.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#005A9C] font-bold text-xs flex items-center gap-1 transition-colors"
+                          >
+                            {copiedKey === "sw_bank" ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                            <span>{copiedKey === "sw_bank" ? "Copied" : "Copy"}</span>
+                          </button>
+                        </div>
+                        <div className="text-[11px] text-slate-600 pt-1 border-t border-slate-100 flex flex-wrap justify-between gap-1">
+                          <span>Bank: <strong>KCB Bank Kenya</strong></span>
+                          <span>Account Name: <strong>{kcbName}</strong></span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -244,43 +330,6 @@ export function HomeGivingModule({ settings: propSettings }: HomeGivingModulePro
                     phone={rawPhone}
                     recipientName={pastorName}
                   />
-                </div>
-              </div>
-            </div>
-
-            {/* Method 2: KCB Bank International Wire */}
-            <div className="bg-white p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md space-y-3">
-              <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-[#005A9C]" />
-                <h4 className="font-bold text-sm sm:text-base text-slate-900">
-                  Method 2: KCB Bank Direct International Wire (TT / SWIFT)
-                </h4>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-slate-500 text-[10px] uppercase font-bold block">Bank &bull; SWIFT</span>
-                  <span className="font-bold text-slate-900 block mt-0.5">Kenya Commercial Bank</span>
-                  <span className="font-mono text-slate-600 block text-[11px]">SWIFT: {kcbSwift}</span>
-                </div>
-                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
-                  <span className="text-slate-500 text-[10px] uppercase font-bold block">Account Name</span>
-                  <span className="font-bold text-slate-900 block mt-0.5 truncate">{kcbName}</span>
-                  <span className="text-slate-500 block text-[11px]">{kcbBranch}</span>
-                </div>
-                <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
-                  <div>
-                    <span className="text-blue-700 text-[10px] uppercase font-bold block">Account Number</span>
-                    <span className="font-mono font-black text-slate-950 block mt-0.5">{kcbAccount}</span>
-                  </div>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleCopy("intl_kcb", kcbAccount)}
-                    className="h-8 text-xs font-bold text-[#005A9C]"
-                  >
-                    {copiedKey === "intl_kcb" ? <Check className="w-3.5 h-3.5 text-emerald-600 mr-1" /> : <Copy className="w-3.5 h-3.5 mr-1" />}
-                    <span>{copiedKey === "intl_kcb" ? "Copied" : "Copy"}</span>
-                  </Button>
                 </div>
               </div>
             </div>

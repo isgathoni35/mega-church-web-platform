@@ -37,6 +37,9 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
   const localCleanPhone = cleanPhone.startsWith("+254") ? "0" + cleanPhone.slice(4) : cleanPhone;
   const tillNumber = settings.mpesaTillNumber || DEFAULT_SETTINGS.mpesaTillNumber || "8146952";
   const tillName = settings.mpesaTillName || DEFAULT_SETTINGS.mpesaTillName || "Suggutta Fellowship Church";
+  const paybillNumber = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill || "522533";
+  const paybillAccount = settings.mpesaPaybillAccount || DEFAULT_SETTINGS.mpesaPaybillAccount || "8146952";
+  const paybillName = settings.mpesaPaybillName || DEFAULT_SETTINGS.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH";
   const kcbAccount = settings.kcbAccountNumber || DEFAULT_SETTINGS.kcbAccountNumber || "1356891853";
   const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName || "Sugutta Fellowship church";
   const kcbBranch = settings.kcbBranch || DEFAULT_SETTINGS.kcbBranch;
@@ -84,7 +87,7 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
             )}
           >
             <Smartphone className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-            <span>M-Pesa (Kenya)</span>
+            <span>Local (Till &amp; Paybill)</span>
           </button>
 
           <button
@@ -108,7 +111,7 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
         <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-orange-500/10 border border-orange-500/20 text-slate-900 flex items-center gap-2.5 sm:gap-3 animate-in fade-in duration-300">
           <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-[#ff6b35] shrink-0 fill-current" />
           <div className="text-xs sm:text-sm">
-            <strong>Sponsoring our Children&apos;s Home:</strong> You can give directly via Buy Goods Till <span className="font-mono font-bold text-white px-2 py-0.5 rounded-full bg-[#ff6b35] text-xs">{tillNumber}</span> or Send Money to the Pastor Line <span className="font-mono font-bold text-white px-2 py-0.5 rounded-full bg-emerald-600 text-xs">{localCleanPhone}</span>.
+            <strong>Sponsoring our Children&apos;s Home:</strong> You can give directly via Buy Goods Till <span className="font-mono font-bold text-white px-2 py-0.5 rounded-full bg-[#ff6b35] text-xs">{tillNumber}</span> or Paybill <span className="font-mono font-bold text-white px-2 py-0.5 rounded-full bg-[#005A9C] text-xs">{paybillNumber}</span> (Account: <span className="font-mono font-bold text-white px-2 py-0.5 rounded-full bg-[#0f172a] text-xs">{paybillAccount}</span>).
           </div>
         </div>
       )}
@@ -224,95 +227,145 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
               </div>
             </div>
 
-            {/* METHOD 2: M-PESA SEND MONEY (PASTOR CAESAR LINE) */}
-            <div className="border-2 border-orange-300 shadow-lg rounded-2xl sm:rounded-3xl overflow-hidden bg-white flex flex-col justify-between">
+            {/* METHOD 2: M-PESA & KCB BANK PAYBILL */}
+            <div className="border-2 border-blue-300 shadow-lg rounded-2xl sm:rounded-3xl overflow-hidden bg-white flex flex-col justify-between">
               <div>
-                <div className="bg-[#fffaf5] border-b border-orange-100 p-4 sm:p-6 flex items-center justify-between gap-3">
+                <div className="bg-[#f0f7ff] border-b border-blue-100 p-4 sm:p-6 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-orange-500/10 flex items-center justify-center text-[#ff6b35] font-bold shrink-0">
-                      <Smartphone className="h-5 w-5 sm:h-6 sm:w-6" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#005A9C] text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-blue-600/20">
+                      <Building2 className="h-5 w-5 sm:h-6 sm:w-6" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#ff6b35] block">
-                        Direct Pastoral Altar Line
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#005A9C] block">
+                        KCB Bank &bull; Multi-Network Paybill
                       </span>
                       <h3 className="font-extrabold text-lg sm:text-xl text-slate-900">
-                        Method 2: M-Pesa Send Money
+                        Method 2: M-Pesa Paybill
                       </h3>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-100 text-[#ff6b35] text-[11px] font-bold">
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">
                     <ShieldCheck className="h-3.5 w-3.5" />
-                    <span>Pastoral Altar</span>
+                    <span>Official Paybill</span>
                   </span>
                 </div>
 
                 <div className="p-4 sm:p-6 space-y-5">
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Send offering seeds directly to the resident pastor line, or call for prayer and immediate pastoral confirmation:
+                    Pay via Safaricom M-Pesa, Vooma, Airtel Money, or T-kash using our registered KCB church paybill credentials:
                   </p>
 
-                  {/* Scannable Send Money QR Code directly visible */}
+                  {/* Scannable Paybill QR Code */}
                   <PaymentQrCode
-                    type="send_money"
-                    phone={localCleanPhone}
-                    recipientName={pastorName}
+                    type="paybill"
+                    paybillNumber={paybillNumber}
+                    accountRef={paybillAccount}
                   />
 
-                  {/* Phone Details Box */}
-                  <div className="p-4 sm:p-5 rounded-2xl bg-[#fffaf5] border border-orange-200 space-y-3">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
-                        Mobile Telephone Number
-                      </span>
-                      <div className="flex items-center justify-between mt-1">
-                        <span className="font-mono text-2xl sm:text-4xl font-black text-slate-950 tracking-wider">
-                          {localCleanPhone}
+                  {/* Paybill & Account Grid */}
+                  <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/70 border border-blue-200 space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                          Paybill / Business No
                         </span>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy("phone_local", localCleanPhone)}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#ff6b35] hover:bg-[#f25c23] text-white text-xs font-bold shadow-sm transition-all"
-                        >
-                          {copiedKey === "phone_local" ? (
-                            <>
-                              <Check className="h-4 w-4" />
-                              <span>Copied!</span>
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="h-4 w-4" />
-                              <span>Copy Line</span>
-                            </>
-                          )}
-                        </button>
+                        <div className="flex items-center justify-between mt-1">
+                          <span className="font-mono text-2xl sm:text-3xl font-black text-slate-950 tracking-wider">
+                            {paybillNumber}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("paybill_no", paybillNumber)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#005A9C] hover:bg-[#00487c] text-white text-xs font-bold shadow-xs transition-all"
+                          >
+                            {copiedKey === "paybill_no" ? (
+                              <>
+                                <Check className="h-3.5 w-3.5" />
+                                <span>Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="h-3.5 w-3.5" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">
+                          Account Number
+                        </span>
+                        <div className="flex items-center justify-between mt-1">
+                          <span className="font-mono text-2xl sm:text-3xl font-black text-slate-950 tracking-wider">
+                            {paybillAccount}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("paybill_acc", paybillAccount)}
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#005A9C] hover:bg-[#00487c] text-white text-xs font-bold shadow-xs transition-all"
+                          >
+                            {copiedKey === "paybill_acc" ? (
+                              <>
+                                <Check className="h-3.5 w-3.5" />
+                                <span>Copied</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="h-3.5 w-3.5" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-orange-100 flex items-center justify-between text-xs">
-                      <span className="text-slate-500">Recipient Name:</span>
-                      <span className="font-bold text-slate-900">{pastorName}</span>
+                    <div className="pt-2 border-t border-blue-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
+                      <span className="text-slate-500">Business / Account Name:</span>
+                      <span className="font-bold text-slate-900">{paybillName}</span>
+                    </div>
+
+                    {/* Multi-Channel Badges Matching Physical Slip */}
+                    <div className="pt-2 border-t border-blue-200/80 flex flex-wrap items-center gap-1.5">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Also Supports:</span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">
+                        Airtel Money ({paybillNumber})
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800">
+                        Vooma (*844#)
+                      </span>
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-900">
+                        T-kash (*334#)
+                      </span>
                     </div>
                   </div>
 
                   <ol className="space-y-2.5 text-xs sm:text-sm text-slate-700">
                     <li className="flex items-start gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-orange-100 text-[#ff6b35] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
                         1
                       </span>
-                      <span>Open <strong>M-Pesa</strong> &rarr; Select <strong>Send Money</strong>.</span>
+                      <span>Open <strong>M-Pesa</strong> &rarr; Select <strong>Lipa na M-Pesa</strong> &rarr; <strong>Paybill</strong>.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-orange-100 text-[#ff6b35] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
                         2
                       </span>
-                      <span>Enter Mobile Number: <strong className="font-mono text-slate-900">{localCleanPhone}</strong>.</span>
+                      <span>Enter Business Number: <strong className="font-mono text-slate-900">{paybillNumber}</strong>.</span>
                     </li>
                     <li className="flex items-start gap-2.5">
-                      <span className="w-6 h-6 rounded-full bg-orange-100 text-[#ff6b35] font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
                         3
                       </span>
-                      <span>Enter amount &amp; PIN &rarr; Confirm recipient is <strong>{pastorName}</strong>.</span>
+                      <span>Enter Account Number: <strong className="font-mono text-slate-900">{paybillAccount}</strong>.</span>
+                    </li>
+                    <li className="flex items-start gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-800 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">
+                        4
+                      </span>
+                      <span>Enter amount &amp; PIN &rarr; Confirm recipient is <strong>{paybillName}</strong>.</span>
                     </li>
                   </ol>
                 </div>
@@ -332,21 +385,21 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
               <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-[#ff6b35] mx-auto">
                 <Globe2 className="h-5 w-5 sm:h-7 sm:w-7" />
               </div>
-              <h3 className="font-extrabold text-xl sm:text-3xl text-white">International Diaspora Giving</h3>
+              <h3 className="font-extrabold text-xl sm:text-3xl text-white">International Diaspora Giving (Sendwave)</h3>
               <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto">
-                Send your tithes, offerings, or kingdom seeds directly from foreign cards or bank accounts via Sendwave or KCB International Wire Transfer.
+                Send your tithes, offerings, or kingdom seeds directly from foreign cards or bank accounts via Sendwave to our verified Kenyan M-Pesa line or KCB Bank account with 0% transfer fees.
               </p>
             </div>
 
             <div className="p-4 sm:p-8 space-y-6 sm:space-y-8">
-              {/* Option 1: Sendwave */}
+              {/* Option 1: Sendwave to Mobile Number */}
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-500/10 text-emerald-700 font-bold flex items-center justify-center text-xs">
                     1
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Method 1: Sendwave (0% Transfer Fees Direct to M-Pesa)
+                    Method 1: Sendwave to Mobile Number (Direct to M-Pesa)
                   </h4>
                 </div>
 
@@ -355,19 +408,19 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
                     <div className="space-y-2.5">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="font-black text-xl sm:text-2xl text-slate-900 tracking-tight">
-                          Sendwave App
+                          Sendwave &rarr; M-Pesa Mobile
                         </span>
                         <span className="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 border border-emerald-500/30">
                           Zero Fees &bull; Instant Delivery
                         </span>
                       </div>
                       <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                        Download Sendwave on iPhone or Android. Send directly to our pastor&apos;s verified M-Pesa line in Kenya:
+                        Download Sendwave on iPhone or Android. In the app, select Kenya &rarr; Mobile Money (M-Pesa) and enter our pastor&apos;s verified credentials:
                       </p>
 
                       <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 text-xs text-slate-700 space-y-1.5">
                         <span className="font-bold text-emerald-800 block text-[11px] uppercase tracking-wider">
-                          Sendwave Recipient Details:
+                          Sendwave Mobile Recipient Details:
                         </span>
                         <div className="flex items-center justify-between">
                           <div>
@@ -413,20 +466,20 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
                 </div>
               </div>
 
-              {/* Option 2: KCB Bank International Wire Transfer */}
+              {/* Option 2: Sendwave to Bank Account */}
               <div className="space-y-3 pt-4 border-t border-slate-100">
                 <div className="flex items-center gap-2">
                   <span className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-blue-500/10 text-[#005A9C] font-bold flex items-center justify-center text-xs">
                     2
                   </span>
                   <h4 className="font-extrabold text-sm sm:text-base text-slate-900">
-                    Method 2: KCB Bank Direct International Wire (TT / SWIFT)
+                    Method 2: Sendwave to Bank Account (KCB Bank Direct)
                   </h4>
                 </div>
 
                 <div className="p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200 bg-slate-50/50 shadow-sm space-y-4">
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    For diaspora wire transfers and international bank-to-bank settlements, provide your local bank with the following church credentials:
+                    In Sendwave, you can also select <strong>Bank Transfer (Kenya)</strong> &rarr; <strong>KCB Bank</strong> to deposit funds directly into our church account:
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">

@@ -10,6 +10,7 @@ import {
   FolderOpen,
   Link as LinkIcon,
   X,
+  AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -274,8 +275,9 @@ export function ImageUploadField({
           </p>
 
           {uploadError && (
-            <p className="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2">
-              ⚠️ {uploadError}
+            <p className="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2 flex items-center gap-1.5">
+              <AlertCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+              <span>{uploadError}</span>
             </p>
           )}
         </div>

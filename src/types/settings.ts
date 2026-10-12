@@ -139,6 +139,8 @@ export interface SiteSettingsData {
   kcbBranch: string;
   kcbSwift: string;
   mpesaPaybill: string;
+  mpesaPaybillAccount?: string;
+  mpesaPaybillName?: string;
   mpesaTillNumber: string;
   mpesaTillName: string;
   mpesaTillQrImage: string;
@@ -326,7 +328,9 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   kcbAccountName: "Sugutta Fellowship church",
   kcbBranch: "Nairobi Central Branch",
   kcbSwift: "KCBLKENX",
-  mpesaPaybill: "174379",
+  mpesaPaybill: "522533",
+  mpesaPaybillAccount: "8146952",
+  mpesaPaybillName: "SUGGUTTA FELLOWSHIP CHURCH",
   mpesaTillNumber: "8146952",
   mpesaTillName: "Suggutta Fellowship Church",
   mpesaTillQrImage: "",
