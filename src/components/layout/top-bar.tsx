@@ -39,11 +39,11 @@ export function TopBar({ settings: propSettings }: TopBarProps = {}) {
             href="https://wa.me/254112656123"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-0.5 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold"
-            title="Chat on WhatsApp"
+            className="inline-flex items-center gap-1 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold hover:bg-emerald-200 transition-colors"
+            title="WhatsApp: +254 112 656 123"
           >
             <MessageCircle className="w-2.5 h-2.5 text-[#25D366]" />
-            <span>WA</span>
+            <span>WA: 0112 656 123</span>
           </a>
         </div>
 
@@ -104,11 +104,11 @@ export function TopBar({ settings: propSettings }: TopBarProps = {}) {
               href="https://wa.me/254112656123"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold hover:bg-emerald-100 transition-colors"
-              title="Chat on WhatsApp"
+              className="inline-flex items-center gap-1.5 text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold hover:bg-emerald-100 transition-colors"
+              title="WhatsApp Church Line: +254 112 656 123"
             >
               <MessageCircle className="w-3 h-3 text-[#25D366]" />
-              <span>WhatsApp</span>
+              <span>WhatsApp: +254 112 656 123</span>
             </a>
           </div>
 

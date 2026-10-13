@@ -139,9 +139,9 @@ export function HomeContactModule({ settings: propSettings }: HomeContactModuleP
                         className="font-semibold text-slate-800 hover:text-emerald-600 transition-colors flex items-center gap-1.5"
                       >
                         <span>{rawPhone}</span>
-                        <span className="inline-flex items-center gap-1 text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
+                        <span className="inline-flex items-center gap-1.5 text-[10px] bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">
                           <MessageCircle className="w-3 h-3 text-[#25D366]" />
-                          <span>WhatsApp</span>
+                          <span>WhatsApp: +254 112 656 123</span>
                         </span>
                       </a>
                     </div>

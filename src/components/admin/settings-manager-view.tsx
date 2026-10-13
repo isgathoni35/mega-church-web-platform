@@ -693,7 +693,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
   );
 
   return (
-    <form onSubmit={handleSave} className="space-y-6 max-w-6xl mx-auto pb-32">
+    <div className="space-y-6 max-w-6xl mx-auto pb-32">
       {/* Header and Save Action Strip */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm">
         <div>
@@ -2882,6 +2882,6 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           </Button>
         </div>
       </div>
-    </form>
+    </div>
   );
 }

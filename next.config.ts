@@ -18,6 +18,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/children",
+        destination: "/orphanage",
+        permanent: true,
+      },
+      {
+        source: "/childrens-home",
+        destination: "/orphanage",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

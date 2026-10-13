@@ -321,6 +321,18 @@
       - Updated `SermonCard` (`sermon-card.tsx`) with fallback poster thumbnails.
    5. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 OK across `/sermons`, `/admin/sermons`, and `/` on port 3002. No browser opened.
 
+- [x] `feature-specs/41-qa-audit-and-client-refinements.md`: Comprehensive QA Audit, WhatsApp Phone Visibility & Route Aliases:
+   1. End-to-End QA Testing Suite: Completed systematic multi-phase QA audit across all 10 public pages, form validations, data pipelines, link integrity, and admin authentication/CMS on port 3002.
+   2. WhatsApp Phone Number Visibility Across Touchpoints:
+      - TopBar (`top-bar.tsx`): Updated desktop pill to display `WhatsApp: +254 112 656 123` and mobile pill to `WA: 0112 656 123`.
+      - Mobile Nav Drawer (`mobile-nav.tsx`): Upgraded pastoral contact section with dedicated full-width `WhatsApp: +254 112 656 123` action button.
+      - Global Footer (`footer.tsx`): Updated WhatsApp pill to display `WhatsApp: +254 112 656 123`.
+      - Contact Page (`contact/page.tsx`) & Home Contact Module (`home-contact-module.tsx`): Standardized WhatsApp badges to display `WhatsApp: +254 112 656 123`.
+      - Community Post-Submission Cards (`prayer-form.tsx` & `tabbed-connect-hub.tsx`): Explicitly branded WhatsApp follow-up actions with `+254 112 656 123`.
+   3. Children's Page Redirect Aliases: Added permanent Next.js redirects from `/children` and `/childrens-home` to `/orphanage` in `next.config.ts`.
+   4. Admin Settings Form Nesting Resolution: Fixed invalid nested `<form>` tag in `settings-manager-view.tsx` to eliminate React hydration mismatch.
+   5. Verification: 100% clean compilation, zero TypeScript errors (`npx tsc --noEmit`), all routes verified HTTP 200 OK on port 3002.
+
 ## 🚧 In Progress
 
 None.

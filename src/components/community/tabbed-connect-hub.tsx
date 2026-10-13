@@ -403,7 +403,7 @@ export function TabbedConnectHub() {
                     className="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold px-6 py-3 text-xs sm:text-sm rounded-full shadow-md transition-all w-full sm:w-auto"
                   >
                     <MessageCircle className="w-4 h-4" />
-                    <span>Chat With Welcoming Team</span>
+                    <span>WhatsApp Welcoming Team: +254 112 656 123</span>
                   </a>
 
                   <Button

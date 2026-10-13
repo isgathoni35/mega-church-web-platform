@@ -169,25 +169,26 @@ export function MobileNav() {
                     Wednesdays: 6:00 PM (Bible Study)
                   </p>
                   {/* Direct Pastoral Assistance */}
-                  <div className="mt-4 p-3 rounded-xl bg-orange-50/70 border border-orange-200/80 flex items-center justify-between gap-2 text-xs font-bold text-slate-800">
-                    <span className="text-slate-500 font-semibold text-[11px]">Pastoral Altar:</span>
-                    <div className="flex items-center gap-2">
+                  <div className="mt-4 p-3.5 rounded-2xl bg-orange-50/80 border border-orange-200/90 space-y-2 text-xs font-bold text-slate-800">
+                    <div className="flex items-center justify-between text-slate-600">
+                      <span className="font-bold text-[11px] uppercase tracking-wider text-[#ff6b35]">Pastoral Line:</span>
                       <a
                         href="tel:+254112656123"
-                        className="text-[#ff6b35] hover:underline font-mono"
+                        className="text-slate-900 hover:text-[#ff6b35] hover:underline font-mono font-black"
                       >
                         +254 112 656 123
                       </a>
-                      <a
-                        href="https://wa.me/254112656123"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1 rounded-full bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition-colors"
-                        title="Chat on WhatsApp"
-                      >
-                        <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
-                      </a>
                     </div>
+                    <a
+                      href="https://wa.me/254112656123"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors"
+                      title="Chat on WhatsApp: +254 112 656 123"
+                    >
+                      <MessageCircle className="w-4 h-4 text-white" />
+                      <span>WhatsApp: +254 112 656 123</span>
+                    </a>
                   </div>
                 </div>
               </nav>

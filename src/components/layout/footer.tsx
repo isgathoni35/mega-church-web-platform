@@ -254,11 +254,11 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
                   href="https://wa.me/254112656123"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold hover:bg-emerald-500/30 transition-colors"
-                  title="WhatsApp Church Line"
+                  className="inline-flex items-center gap-1.5 text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold hover:bg-emerald-500/30 transition-colors"
+                  title="WhatsApp Church Line: +254 112 656 123"
                 >
                   <MessageCircle className="w-3 h-3 text-[#25D366]" />
-                  <span>WhatsApp</span>
+                  <span>WhatsApp: +254 112 656 123</span>
                 </a>
               </div>
               <div className="flex items-center gap-2">
