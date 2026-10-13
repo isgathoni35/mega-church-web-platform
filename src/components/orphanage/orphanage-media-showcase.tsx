@@ -51,7 +51,7 @@ export function OrphanageMediaShowcase({
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
-            See the tangible difference your partnership makes. From morning devotions and hot nutritious meals to formal school education and songs of praise, experience the smiling faces at Sugutta.
+            See the tangible difference your partnership makes. From morning devotions and hot nutritious meals to formal school education and songs of praise, experience the smiling faces at Suggutta.
           </p>
 
           {/* Filter Pills */}
@@ -263,7 +263,7 @@ export function OrphanageMediaShowcase({
               <span>Fulfill James 1:27 in Tangible Love</span>
             </span>
             <h3 className="text-xl sm:text-2xl font-black text-slate-900">
-              Partner with Sugutta Children&apos;s Home
+              Partner with Suggutta Children&apos;s Home
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               Every coin goes directly to nutritious meals, school fees, warm clothing, and safe shelter for vulnerable children in Kenya.

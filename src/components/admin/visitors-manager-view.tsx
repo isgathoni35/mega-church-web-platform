@@ -51,8 +51,8 @@ export function VisitorsManagerView({ initialSubmissions }: VisitorsManagerViewP
 
     const isVisit = item.request.includes("[Visit Plan]");
     const text = isVisit
-      ? `Shalom ${item.full_name}, this is the Hospitality Ministry at Sugutta Fellowship Church. We are thrilled you plan to worship with us! Please let us know if you need directions to our Sanctuary.`
-      : `Shalom ${item.full_name}, thank you for contacting Sugutta Fellowship Church. We have received your inquiry and our pastoral team is ready to assist you.`;
+      ? `Shalom ${item.full_name}, this is the Hospitality Ministry at Suggutta Fellowship Church. We are thrilled you plan to worship with us! Please let us know if you need directions to our Sanctuary.`
+      : `Shalom ${item.full_name}, thank you for contacting Suggutta Fellowship Church. We have received your inquiry and our pastoral team is ready to assist you.`;
 
     return `https://wa.me/${formattedNum}?text=${encodeURIComponent(text)}`;
   };

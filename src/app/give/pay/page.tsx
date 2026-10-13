@@ -5,7 +5,7 @@ import { getSiteSettingsAction } from "@/actions/admin-settings";
 import { Loader2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Instant Giving Portal | Heavens Gates Sugutta Fellowship Church",
+  title: "Instant Giving Portal | Heavens Gates Suggutta Fellowship Church",
   description:
     "Direct and secure digital giving portal for M-Pesa Buy Goods Till, KCB Paybill, Sendwave, and bank wire. Zero intermediary fees.",
 };

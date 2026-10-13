@@ -76,7 +76,7 @@ const MIDWEEK_SERVICES = [
     day: "Wednesday",
     time: "7:00 PM – 8:30 PM",
     title: "Prophetic Bible Study",
-    location: "Sugutta Sanctuary & Live Broadcast",
+    location: "Suggutta Sanctuary & Live Broadcast",
     desc: "Systematic verse-by-verse scripture exposition, spiritual warfare mastery, and corporate intercession breaking strongholds.",
   },
 ];
@@ -103,7 +103,7 @@ export function ServiceSchedule({ settings: propSettings }: ServiceScheduleProps
             {settings.churchSlogan ? (
               <span className="font-semibold text-slate-800">&ldquo;{settings.churchSlogan}&rdquo;</span>
             ) : null}{" "}
-            Gather with us at {settings.physicalLocation || "Sugutta Sanctuary"} under the leadership of{" "}
+            Gather with us at {settings.physicalLocation || "Suggutta Sanctuary"} under the leadership of{" "}
             <span className="font-bold text-[#ff6b35]">{settings.pastorName}</span>.
           </p>
         </div>
@@ -202,7 +202,7 @@ export function ServiceSchedule({ settings: propSettings }: ServiceScheduleProps
                       ) : (
                         <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
                           <MapPin className="w-3.5 h-3.5 text-[#ff6b35]" />
-                          <span>{settings.physicalLocation || "Sugutta Sanctuary"}</span>
+                          <span>{settings.physicalLocation || "Suggutta Sanctuary"}</span>
                         </div>
                       )}
                     </div>

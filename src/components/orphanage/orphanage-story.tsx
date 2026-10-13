@@ -23,7 +23,7 @@ export function OrphanageStory({ settings }: OrphanageStoryProps = {}) {
           </div>
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Why We Opened Our Doors in Sugutta
+            Why We Opened Our Doors in Suggutta
           </h2>
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
@@ -71,7 +71,7 @@ export function OrphanageStory({ settings }: OrphanageStoryProps = {}) {
                   Rescuing the Most Vulnerable
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Many of the boys and girls living at Sugutta arrived after the tragic loss of both parents, extreme rural hardship, or abandonment. Rather than allowing them to wander without hope, our church opened safe dormitories to shelter and protect them.
+                  Many of the boys and girls living at Suggutta arrived after the tragic loss of both parents, extreme rural hardship, or abandonment. Rather than allowing them to wander without hope, our church opened safe dormitories to shelter and protect them.
                 </p>
               </div>
             </div>

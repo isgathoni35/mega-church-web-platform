@@ -69,7 +69,7 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
               <div className="relative h-12 w-12 sm:h-14 sm:w-14 rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-lg shrink-0 bg-white">
                 <Image
                   src="/images/sugutta-logo.png"
-                  alt="Sugutta Fellowship Church Logo"
+                  alt="Suggutta Fellowship Church Logo"
                   fill
                   sizes="56px"
                   className="object-contain p-0.5"
@@ -77,7 +77,7 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
               </div>
               <div className="flex flex-col">
                 <span className="font-extrabold text-base sm:text-lg tracking-tight text-white uppercase leading-snug">
-                  Heavens Gates Sugutta
+                  Heavens Gates Suggutta
                 </span>
                 <span className="font-sans text-[11px] sm:text-xs font-semibold tracking-wider text-[#C59B27] uppercase">
                   Fellowship Church International
@@ -245,7 +245,7 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
             <div className="pt-2 text-xs text-slate-400 space-y-1.5 border-t border-slate-800">
               <div className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
-                <span>{settings.physicalLocation || "Sugutta Sanctuary, Kenya"}</span>
+                <span>{settings.physicalLocation || "Suggutta Sanctuary, Kenya"}</span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <Phone className="h-3.5 w-3.5 text-[#ff6b35] shrink-0" />
@@ -286,7 +286,7 @@ export function Footer({ settings: propSettings }: FooterProps = {}) {
       {/* Bottom Copyright Bar */}
       <div className="border-t border-slate-800 bg-[#0a0f1d] py-3 sm:py-4 px-4 sm:px-8 text-center text-xs text-slate-400">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>&copy; 2026 Sugutta Fellowship Church. All Rights Reserved.</span>
+          <span>&copy; 2026 Suggutta Fellowship Church. All Rights Reserved.</span>
           <div className="flex items-center gap-4 text-slate-500 text-[11px]">
             <Link href="#privacy" className="hover:text-white transition-colors">
               Privacy Policy

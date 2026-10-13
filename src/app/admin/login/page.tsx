@@ -133,7 +133,7 @@ export default function AdminLoginPage() {
           <div className="relative h-20 w-20 rounded-full overflow-hidden ring-4 ring-[#C59B27] shadow-xl shrink-0 bg-white mx-auto">
             <Image
               src="/images/sugutta-logo.png"
-              alt="Sugutta Fellowship Church Logo"
+              alt="Suggutta Fellowship Church Logo"
               fill
               sizes="80px"
               className="object-contain p-1"
@@ -146,7 +146,7 @@ export default function AdminLoginPage() {
               Church Management Portal
             </h1>
             <p className="text-xs text-[#C59B27] font-bold uppercase tracking-wider">
-              Heavens Gates Sugutta Fellowship
+              Heavens Gates Suggutta Fellowship
             </p>
           </div>
 

@@ -25,12 +25,12 @@ export function PaymentQrCode({
   type,
   customQrImage,
   tillNumber = "8146952",
-  tillName = "Suggutta Fellowship Church",
+  tillName = "SUGGUTTA FELLOWSHIP CHURCH",
   phone = "0112656123",
   recipientName = "Pastor Caesar O. Nyandwaro",
   bankName = "KCB Bank Kenya",
   accountNumber = "1356891853",
-  accountName = "Sugutta Fellowship church",
+  accountName = "SUGGUTTA FELLOWSHIP CHURCH",
   paybillNumber = "522533",
   accountRef = "8146952",
   className = "",
@@ -46,19 +46,20 @@ export function PaymentQrCode({
     const origin =
       typeof window !== "undefined" && window.location.origin
         ? window.location.origin
-        : "https://suguttafellowshipchurch.org";
+        : "https://sugguttafellowshipchurch.org";
 
     let payload = "";
     if (type === "till") {
-      payload = `${origin}/give/pay?channel=till&till=${encodeURIComponent(tillNumber || "8146952")}&name=${encodeURIComponent(tillName || "Suggutta Fellowship Church")}`;
+      payload = `${origin}/give/pay?channel=till&till=${encodeURIComponent(tillNumber || "8146952")}&name=${encodeURIComponent(tillName || "SUGGUTTA FELLOWSHIP CHURCH")}`;
     } else if (type === "paybill") {
       payload = `${origin}/give/pay?channel=paybill&paybill=${encodeURIComponent(paybillNumber || "522533")}&acc=${encodeURIComponent(accountRef || "8146952")}&name=${encodeURIComponent(accountName || "SUGGUTTA FELLOWSHIP CHURCH")}`;
     } else if (type === "send_money") {
       payload = `${origin}/give/pay?channel=send_money&phone=${encodeURIComponent(phone || "0112656123")}&name=${encodeURIComponent(recipientName || "Pastor Caesar O. Nyandwaro")}`;
     } else if (type === "kcb_bank") {
-      payload = `${origin}/give/pay?channel=kcb_bank&paybill=${encodeURIComponent(paybillNumber || "522533")}&acc=${encodeURIComponent(accountNumber || "1356891853")}&name=${encodeURIComponent(accountName || "Sugutta Fellowship church")}`;
+      payload = `${origin}/give/pay?channel=kcb_bank&paybill=${encodeURIComponent(paybillNumber || "522533")}&acc=${encodeURIComponent(accountNumber || "1356891853")}&name=${encodeURIComponent(accountName || "SUGGUTTA FELLOWSHIP CHURCH")}`;
     } else if (type === "sendwave") {
-      payload = `${origin}/give/pay?channel=sendwave&phone=${encodeURIComponent(phone || "+254112656123")}&name=${encodeURIComponent(recipientName || "Pastor Caesar O. Nyandwaro")}`;
+      // Direct launch to Sendwave app / website as requested: donor already views verified church credentials on-page
+      payload = "https://www.sendwave.com";
     }
 
     QRCode.toDataURL(payload, {
@@ -132,28 +133,28 @@ export function PaymentQrCode({
       footerInstruction: "M-Pesa → Send Money → Enter 0112656123 → Confirm Name",
     },
     kcb_bank: {
-      badgeText: "KCB BANK M-PESA QR",
+      badgeText: "KCB BANK WIRE & M-PESA QR",
       badgeColor: "bg-blue-500/10 border-blue-500/20 text-blue-700",
       accentColor: "#005A9C",
       title: "KCB Bank Direct Deposit",
-      subtitle: "Scan to deposit directly to church KCB account via M-Pesa (Paybill 522522)",
+      subtitle: "Scan to deposit directly to church KCB account via M-Pesa (Paybill 522533) or Wire",
       primaryLabel: "KCB Account Number",
       primaryValue: accountNumber,
       primaryCopyKey: "kcb_acc",
-      verifiedName: accountName,
-      footerInstruction: "M-Pesa Paybill 522522 → Acc 1356891853 → Sugutta Fellowship",
+      verifiedName: "SUGGUTTA FELLOWSHIP CHURCH",
+      footerInstruction: `KCB Bank → Acc ${accountNumber} → SUGGUTTA FELLOWSHIP CHURCH`,
     },
     sendwave: {
       badgeText: "SENDWAVE INTERNATIONAL QR",
       badgeColor: "bg-teal-500/10 border-teal-500/20 text-teal-700",
       accentColor: "#00C48C",
       title: "Sendwave Remittance",
-      subtitle: "Scan with your smartphone to launch Sendwave with zero transfer fees",
+      subtitle: "Scan with your phone camera to launch Sendwave directly with 0% fee",
       primaryLabel: "Recipient Line",
       primaryValue: phone.startsWith("+") ? phone : `+254 ${phone.replace(/^0/, "")}`,
       primaryCopyKey: "sendwave_phone",
       verifiedName: recipientName,
-      footerInstruction: "Sendwave App → Kenya (M-Pesa) → +254 112 656 123",
+      footerInstruction: "Scan to open Sendwave → Select Kenya → Send with 0% fee",
     },
   }[type];
 

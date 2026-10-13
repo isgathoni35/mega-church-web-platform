@@ -27,7 +27,7 @@ export function CommunityFellowship({ settings: propSettings }: CommunityFellows
                 <div className="relative aspect-[4/3] w-full">
                   <Image
                     src={settings.communityImageUrl || "/images/community-outreach.jpg"}
-                    alt={settings.communityTitle || "Sugutta Fellowship Church grassroots village outreach"}
+                    alt={settings.communityTitle || "Suggutta Fellowship Church grassroots village outreach"}
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -41,7 +41,7 @@ export function CommunityFellowship({ settings: propSettings }: CommunityFellows
                       Grassroots Village Outreach &amp; Elder Fellowship
                     </p>
                     <p className="text-[11px] sm:text-xs text-slate-200 mt-0.5">
-                      Sitting with community elders, mothers, and children right under the trees in Sugutta.
+                      Sitting with community elders, mothers, and children right under the trees in Suggutta.
                     </p>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ export function CommunityFellowship({ settings: propSettings }: CommunityFellows
 
             <p className="text-xs sm:text-base text-slate-600 leading-relaxed">
               {settings.communityNarrative ||
-                "True Christian ministry is never confined to sanctuary walls. In Sugutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads."}
+                "True Christian ministry is never confined to sanctuary walls. In Suggutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads."}
             </p>
 
             {/* 3 Pillars of Grassroots Care */}

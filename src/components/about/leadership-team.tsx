@@ -24,7 +24,7 @@ export function LeadershipTeam({ settings: propSettings }: LeadershipTeamProps =
       focus: "Apostolic Vision, Deliverance Altar & Community Transformation",
       description:
         settings.pastorBio ||
-        "Providing visionary leadership, apostolic impartation, and pastoral oversight across Sugutta sanctuary, discipleship ministries, and mission operations.",
+        "Providing visionary leadership, apostolic impartation, and pastoral oversight across Suggutta sanctuary, discipleship ministries, and mission operations.",
       icon: Crown,
     },
     {

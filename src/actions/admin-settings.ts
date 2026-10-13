@@ -565,6 +565,7 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         orphanageSubtitle: row.orphanage_subtitle || DEFAULT_SETTINGS.orphanageSubtitle,
         orphanageNarrative: row.orphanage_narrative || DEFAULT_SETTINGS.orphanageNarrative,
         orphanageImageUrl: extractCleanImageUrl(row.orphanage_image_url) || DEFAULT_SETTINGS.orphanageImageUrl,
+        orphanageDonateImageUrl: extractCleanImageUrl(row.orphanage_donate_image_url) || extractCleanImageUrl(row.orphanage_image_url) || DEFAULT_SETTINGS.orphanageDonateImageUrl,
         orphanageStoryImage: extractCleanImageUrl(row.orphanage_story_image) || DEFAULT_SETTINGS.orphanageStoryImage,
         orphanageBadge: row.orphanage_badge || DEFAULT_SETTINGS.orphanageBadge,
 
@@ -669,10 +670,13 @@ export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
         kcbBranch: row.kcb_branch || DEFAULT_SETTINGS.kcbBranch,
         kcbSwift: row.kcb_swift || DEFAULT_SETTINGS.kcbSwift,
         mpesaPaybill: row.mpesa_paybill || DEFAULT_SETTINGS.mpesaPaybill,
+        mpesaPaybillAccount: row.mpesa_paybill_account || DEFAULT_SETTINGS.mpesaPaybillAccount,
+        mpesaPaybillName: row.mpesa_paybill_name || DEFAULT_SETTINGS.mpesaPaybillName,
         mpesaTillNumber: row.mpesa_till_number || DEFAULT_SETTINGS.mpesaTillNumber,
         mpesaTillName: row.mpesa_till_name || DEFAULT_SETTINGS.mpesaTillName,
         mpesaTillQrImage: extractCleanImageUrl(row.mpesa_till_qr_image) || DEFAULT_SETTINGS.mpesaTillQrImage,
         mpesaPaybillQrImage: extractCleanImageUrl(row.mpesa_paybill_qr_image) || DEFAULT_SETTINGS.mpesaPaybillQrImage,
+        kcbBankQrImage: extractCleanImageUrl(row.kcb_bank_qr_image) || DEFAULT_SETTINGS.kcbBankQrImage || "",
         westernUnionRecipient: cleanWesternUnion,
       };
     }
@@ -728,6 +732,7 @@ export async function saveSiteSettingsAction(
       orphanage_subtitle: settings.orphanageSubtitle.trim(),
       orphanage_narrative: settings.orphanageNarrative.trim(),
       orphanage_image_url: extractCleanImageUrl(settings.orphanageImageUrl),
+      orphanage_donate_image_url: extractCleanImageUrl(settings.orphanageDonateImageUrl || settings.orphanageImageUrl),
       orphanage_story_image: extractCleanImageUrl(settings.orphanageStoryImage),
       orphanage_badge: settings.orphanageBadge.trim(),
 
@@ -818,10 +823,13 @@ export async function saveSiteSettingsAction(
       kcb_branch: settings.kcbBranch.trim(),
       kcb_swift: settings.kcbSwift.trim(),
       mpesa_paybill: settings.mpesaPaybill.trim(),
+      mpesa_paybill_account: (settings.mpesaPaybillAccount || DEFAULT_SETTINGS.mpesaPaybillAccount || "8146952").trim(),
+      mpesa_paybill_name: (settings.mpesaPaybillName || DEFAULT_SETTINGS.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH").trim(),
       mpesa_till_number: settings.mpesaTillNumber.trim(),
       mpesa_till_name: settings.mpesaTillName.trim(),
       mpesa_till_qr_image: extractCleanImageUrl(settings.mpesaTillQrImage || ""),
       mpesa_paybill_qr_image: extractCleanImageUrl(settings.mpesaPaybillQrImage || ""),
+      kcb_bank_qr_image: extractCleanImageUrl(settings.kcbBankQrImage || ""),
       western_union_recipient: settings.westernUnionRecipient.trim(),
       updated_at: new Date().toISOString(),
     };

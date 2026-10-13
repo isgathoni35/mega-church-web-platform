@@ -111,10 +111,10 @@ export function FounderStory({ settings: propSettings }: FounderStoryProps = {})
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-orange-500/10 flex items-center justify-center text-[#ff6b35] shrink-0">
                     <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <span>Sugutta Fellowship Church: Impacting Our World</span>
+                  <span>Suggutta Fellowship Church: Impacting Our World</span>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed sm:pl-13">
-                  Today, the sanctuary at {settings.physicalLocation || "Sugutta"} stands as an apostolic beacon of worship, spiritual nurture, and practical love. Worshippers gather weekly from across the region to experience the life-changing power of God through prayer, Sunday school, high-praise worship, and anointed fellowship.
+                  Today, the sanctuary at {settings.physicalLocation || "Suggutta"} stands as an apostolic beacon of worship, spiritual nurture, and practical love. Worshippers gather weekly from across the region to experience the life-changing power of God through prayer, Sunday school, high-praise worship, and anointed fellowship.
                 </p>
               </div>
             </div>

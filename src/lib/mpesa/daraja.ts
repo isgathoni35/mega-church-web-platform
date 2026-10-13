@@ -1,6 +1,6 @@
 /**
  * Safaricom Daraja M-Pesa Helpers & Utilities
- * Heavens Gates Sugutta Fellowship Church International
+ * Heavens Gates Suggutta Fellowship Church International
  */
 
 export interface DarajaTokenResponse {

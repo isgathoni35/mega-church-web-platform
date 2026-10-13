@@ -5,9 +5,9 @@ import { ShieldCheck, Heart, Sparkles, BookOpen, Lock, Loader2 } from "lucide-re
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
-  title: "Give & Support the Ministry | Sugutta Fellowship Church International",
+  title: "Give & Support the Ministry | Suggutta Fellowship Church International",
   description:
-    "Partner with Sugutta Fellowship Church. Contribute towards the Sanctuary Construction, Children's Home, Tithes, and Kingdom Seeds securely via M-Pesa Till 8146952, Send Money 0112656123, Sendwave, or KCB Bank wire.",
+    "Partner with Suggutta Fellowship Church. Contribute towards the Sanctuary Construction, Children's Home, Tithes, and Kingdom Seeds securely via M-Pesa Till 8146952, Send Money 0112656123, Sendwave, or KCB Bank wire.",
 };
 
 interface GivePageProps {

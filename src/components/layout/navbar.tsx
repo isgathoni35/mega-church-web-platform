@@ -26,16 +26,16 @@ export function Navbar() {
   return (
     <nav className="w-full bg-white/95 backdrop-blur-md text-slate-900 border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto flex items-center justify-between h-16 sm:h-20 px-4 sm:px-8">
-        {/* Brand / Logo (Heavens Gate Sugutta Fellowship Official Circular Emblem) */}
+        {/* Brand / Logo (Heavens Gate Suggutta Fellowship Official Circular Emblem) */}
         <Link
           href="/"
           className="flex items-center gap-2.5 sm:gap-3 group min-w-0"
-          aria-label="Heavens Gate Sugutta Fellowship Church International - Home"
+          aria-label="Heavens Gate Suggutta Fellowship Church International - Home"
         >
           <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-full overflow-hidden ring-2 ring-orange-500/30 group-hover:ring-[#ff6b35] shadow-sm group-hover:scale-105 transition-all shrink-0 bg-white">
             <Image
               src="/images/sugutta-logo.png"
-              alt="Heavens Gate Sugutta Fellowship Church Logo"
+              alt="Heavens Gate Suggutta Fellowship Church Logo"
               fill
               sizes="(max-width: 640px) 44px, 48px"
               className="object-contain p-0.5"
@@ -47,7 +47,7 @@ export function Navbar() {
               Heavens Gate
             </span>
             <span className="font-black text-sm sm:text-base lg:text-xl tracking-tight text-[#ff6b35] leading-tight truncate">
-              Sugutta Fellowship
+              Suggutta Fellowship
             </span>
             <span className="hidden xs:block text-[9px] sm:text-[10px] lg:text-[11px] font-semibold text-slate-500 tracking-wide truncate">
               International Ministry

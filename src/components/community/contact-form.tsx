@@ -124,7 +124,7 @@ export function ContactForm() {
               Thank You! Message Received With Warmth
             </h3>
             <p className="text-sm sm:text-base text-slate-600 max-w-lg mx-auto leading-relaxed">
-              Thank you for reaching out to Heavens Gates Sugutta Fellowship Church. Our
+              Thank you for reaching out to Heavens Gates Suggutta Fellowship Church. Our
               pastoral team or sanctuary administration will follow up with you promptly.
             </p>
           </div>

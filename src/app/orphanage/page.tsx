@@ -11,11 +11,11 @@ import { OrphanageFloatingUrgentBeacon } from "@/components/orphanage/orphanage-
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
-  title: "Sugutta Children's Home & Compassion Ministry | Sugutta Fellowship Church",
+  title: "Suggutta Children's Home & Compassion Ministry | Suggutta Fellowship Church",
   description:
-    "Sheltering, educating, and loving 60+ orphaned and vulnerable children in Sugutta, Kenya. 100% direct allocation for food, tuition, healthcare, and safe Christian dormitories.",
+    "Sheltering, educating, and loving 60+ orphaned and vulnerable children in Suggutta, Kenya. 100% direct allocation for food, tuition, healthcare, and safe Christian dormitories.",
   openGraph: {
-    title: "Sugutta Children's Home - Compassion & Care Ministry",
+    title: "Suggutta Children's Home - Compassion & Care Ministry",
     description:
       "A Haven of Hope & Family Love: Empowering orphaned children through shelter, formal education, and Christ's love.",
   },

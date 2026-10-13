@@ -52,7 +52,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
 
   const handleShare = async () => {
     const shareData = {
-      title: `Events - ${settings.churchMotto || "Sugutta Fellowship Church"}`,
+      title: `Events - ${settings.churchMotto || "Suggutta Fellowship Church"}`,
       text: `Join ${pastorName} for apostolic crusades, revival gatherings, and media archives.`,
       url: typeof window !== "undefined" ? window.location.href : "",
     };

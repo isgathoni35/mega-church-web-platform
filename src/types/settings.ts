@@ -72,6 +72,7 @@ export interface SiteSettingsData {
   orphanageSubtitle: string;
   orphanageNarrative: string;
   orphanageImageUrl: string;
+  orphanageDonateImageUrl?: string;
   orphanageStoryImage?: string;
   orphanageBadge: string;
 
@@ -145,6 +146,7 @@ export interface SiteSettingsData {
   mpesaTillName: string;
   mpesaTillQrImage: string;
   mpesaPaybillQrImage: string;
+  kcbBankQrImage?: string;
   westernUnionRecipient: string;
 }
 
@@ -175,17 +177,17 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   pastorTitle: "Resident Pastor & Visionary",
   pastorImageUrl: "/images/pastor-caesar-hero.jpg",
   pastorBio:
-    "Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact.",
+    "Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Suggutta Fellowship Church into dynamic community transformation and global impact.",
   pastorNationalId: "39966005",
 
   // Church Identity & Location
   churchMotto: "REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD",
   churchSlogan: "Come. Connect. Grow. Go.",
   postalAddress: "P.O BOX 405-40211, SUGGUTTA",
-  physicalLocation: "Sugutta Sanctuary, Kenya",
+  physicalLocation: "Suggutta Sanctuary, Kenya",
 
   // Hero Section
-  heroHeadline1: "Sugutta",
+  heroHeadline1: "Suggutta",
   heroHeadline2: "Fellowship",
   heroHeadline3: "Church",
   heroSubtitle:
@@ -204,7 +206,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
     "To be an apostolic beacon of worship and spiritual awakening across Kenya and the nations, demonstrating Christ's compassion, planting praying families, and advancing the Kingdom of God.",
 
   // Twin Ongoing Projects
-  constructionTitle: "Building a Permanent House of Prayer in Sugutta",
+  constructionTitle: "Building a Permanent House of Prayer in Suggutta",
   constructionSubtitle:
     "Concrete foundation blocks, steel pillar reinforcement & roof trussing.",
   constructionNarrative:
@@ -216,15 +218,16 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   orphanageSubtitle:
     "Hot nutritious meals, quality education, medical care & parental love.",
   orphanageNarrative:
-    "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
+    "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Suggutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
   orphanageImageUrl: "/images/orphanage-hero.png",
+  orphanageDonateImageUrl: "/images/orphanage-hero.png",
   orphanageStoryImage: "/images/community-outreach.jpg",
   orphanageBadge: "Children's Home Mission",
 
   // Grassroots Community Outreach
   communityTitle: "Rooted in Our Community, Walking Alongside Families",
   communityNarrative:
-    "True Christian ministry is never confined to sanctuary walls. In Sugutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads.",
+    "True Christian ministry is never confined to sanctuary walls. In Suggutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads.",
   communityImageUrl: "/images/community-outreach.jpg",
 
   // 4 Ministry Pillars
@@ -268,7 +271,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       title: "Sheltering & Sponsoring 50+ Vulnerable Children",
       subtitle: "Hot nutritious meals, quality education, medical care & parental love.",
       narrative:
-        "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
+        "Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Suggutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.",
       imageUrl: "/images/orphanage-hero.png",
       images: [
         "/images/orphanage-hero.png",
@@ -285,7 +288,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
     {
       id: "proj-building",
       badge: "Sanctuary Construction",
-      title: "Building a Permanent House of Prayer in Sugutta",
+      title: "Building a Permanent House of Prayer in Suggutta",
       subtitle: "Concrete foundation blocks, steel pillar reinforcement & roof trussing.",
       narrative:
         "With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.",
@@ -325,15 +328,16 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
 
   // Remittance & Banking
   kcbAccountNumber: "1356891853",
-  kcbAccountName: "Sugutta Fellowship church",
+  kcbAccountName: "SUGGUTTA FELLOWSHIP CHURCH",
   kcbBranch: "Nairobi Central Branch",
   kcbSwift: "KCBLKENX",
   mpesaPaybill: "522533",
   mpesaPaybillAccount: "8146952",
   mpesaPaybillName: "SUGGUTTA FELLOWSHIP CHURCH",
   mpesaTillNumber: "8146952",
-  mpesaTillName: "Suggutta Fellowship Church",
+  mpesaTillName: "SUGGUTTA FELLOWSHIP CHURCH",
   mpesaTillQrImage: "",
   mpesaPaybillQrImage: "",
+  kcbBankQrImage: "",
   westernUnionRecipient: "Caesar O. Nyandwaro",
 };

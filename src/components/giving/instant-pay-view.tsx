@@ -47,12 +47,12 @@ export function InstantPayView({ settings: propSettings }: InstantPayViewProps =
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const tillNumber = searchParams.get("till") || settings.mpesaTillNumber || "8146952";
-  const tillName = searchParams.get("name") || settings.mpesaTillName || "Suggutta Fellowship Church";
+  const tillName = searchParams.get("name") || settings.mpesaTillName || "SUGGUTTA FELLOWSHIP CHURCH";
   const paybillNumber = searchParams.get("paybill") || settings.mpesaPaybill || "522533";
   const paybillAccount = searchParams.get("acc") || settings.mpesaPaybillAccount || "8146952";
   const paybillName = settings.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH";
   const kcbAccount = searchParams.get("acc") || settings.kcbAccountNumber || "1356891853";
-  const kcbName = settings.kcbAccountName || "Sugutta Fellowship church";
+  const kcbName = settings.kcbAccountName || "SUGGUTTA FELLOWSHIP CHURCH";
   const kcbBranch = settings.kcbBranch || "Nairobi Central Branch";
   const kcbSwift = settings.kcbSwift || "KCBLKENX";
   const rawPhone = settings.mpesaPhone || "+254112656123";
@@ -77,7 +77,7 @@ export function InstantPayView({ settings: propSettings }: InstantPayViewProps =
           <div className="relative h-14 w-14 sm:h-16 sm:w-16 mx-auto rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-xl bg-white p-1">
             <Image
               src="/images/sugutta-logo.png"
-              alt="Sugutta Fellowship Church Seal"
+              alt="Suggutta Fellowship Church Seal"
               fill
               sizes="64px"
               priority
@@ -87,7 +87,7 @@ export function InstantPayView({ settings: propSettings }: InstantPayViewProps =
 
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-[#ff6b35] block">
-              Heavens Gate &bull; Sugutta Fellowship
+              Heavens Gate &bull; Suggutta Fellowship
             </span>
             <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight mt-0.5">
               Instant Giving Portal

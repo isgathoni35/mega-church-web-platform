@@ -57,7 +57,7 @@ export async function submitContactInquiry(
     return {
       success: true,
       message:
-        "Thank you for contacting Heavens Gates Sugutta Fellowship Church. Our pastoral administration will respond promptly.",
+        "Thank you for contacting Heavens Gates Suggutta Fellowship Church. Our pastoral administration will respond promptly.",
       data: { id: insertedData?.id },
     };
   } catch (err: unknown) {

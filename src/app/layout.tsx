@@ -28,11 +28,11 @@ const appUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   title: {
-    default: "Sugutta Fellowship Church — Growing Together in Christ",
-    template: "%s | Sugutta Fellowship Church",
+    default: "Suggutta Fellowship Church — Growing Together in Christ",
+    template: "%s | Suggutta Fellowship Church",
   },
   description:
-    "Official platform for Heavens Gates Sugutta Fellowship Church International. Growing Together in Christ (Matthew 18:20). Experience divine deliverance, live worship, apostolic teachings, and digital giving.",
+    "Official platform for Heavens Gates Suggutta Fellowship Church International. Growing Together in Christ (Matthew 18:20). Experience divine deliverance, live worship, apostolic teachings, and digital giving.",
   icons: {
     icon: [
       { url: "/favicon.ico?v=2", sizes: "any" },
@@ -43,9 +43,9 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico?v=2",
   },
   openGraph: {
-    title: "Sugutta Fellowship Church — Growing Together in Christ",
+    title: "Suggutta Fellowship Church — Growing Together in Christ",
     description:
-      "Official platform for Heavens Gates Sugutta Fellowship Church International. Growing Together in Christ (Matthew 18:20).",
+      "Official platform for Heavens Gates Suggutta Fellowship Church International. Growing Together in Christ (Matthew 18:20).",
     images: [{ url: "/images/sugutta-logo.png" }],
   },
 };

@@ -17,7 +17,7 @@ interface SendwaveQRProps {
 export function SendwaveQR({
   phone = "0112656123",
   recipientName = "Pastor Caesar O. Nyandwaro",
-  accountName = "Sugutta Fellowship church",
+  accountName = "SUGGUTTA FELLOWSHIP CHURCH",
   bankName = "KCB Bank Kenya",
   accountNumber = "1356891853",
   swiftCode = "KCBLKENX",
@@ -29,11 +29,7 @@ export function SendwaveQR({
 
   useEffect(() => {
     let active = true;
-    const origin =
-      typeof window !== "undefined" && window.location.origin
-        ? window.location.origin
-        : "https://suguttafellowshipchurch.org";
-    const payload = `${origin}/give/pay?channel=sendwave&phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(recipientName)}&acc=${encodeURIComponent(accountNumber)}`;
+    const payload = "https://www.sendwave.com";
 
     QRCode.toDataURL(payload, {
       errorCorrectionLevel: "H",
@@ -56,7 +52,7 @@ export function SendwaveQR({
     return () => {
       active = false;
     };
-  }, []);
+  }, [phone, recipientName, accountNumber]);
 
   const handleCopy = (text: string, key: string) => {
     navigator.clipboard.writeText(text);

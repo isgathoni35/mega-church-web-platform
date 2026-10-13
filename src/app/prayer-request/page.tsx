@@ -4,7 +4,7 @@ import { Flame, Clock, Phone, ShieldCheck, HeartHandshake, Sparkles, MessageCirc
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
-  title: "Submit Prayer Request | Heavens Gates Sugutta Fellowship Church International",
+  title: "Submit Prayer Request | Heavens Gates Suggutta Fellowship Church International",
   description:
     "Place your prayer petition before the altar of God. Our Senior Apostolic Team and intercessory warriors pray over every request with strict pastoral confidentiality.",
 };
@@ -63,7 +63,7 @@ export default async function PrayerRequestPage() {
                 Our Pastoral Prayer Covenant
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                At Heavens Gates Sugutta Fellowship Church International, prayer is not an
+                At Heavens Gates Suggutta Fellowship Church International, prayer is not an
                 afterthought—it is the foundation of everything we do.
               </p>
               <ul className="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-slate-700">

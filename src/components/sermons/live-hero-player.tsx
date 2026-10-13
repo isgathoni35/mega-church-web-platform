@@ -25,7 +25,7 @@ export function LiveHeroPlayer({
         <div className="relative max-w-5xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wider shadow-sm">
             <Radio className="h-3.5 w-3.5 animate-pulse" />
-            <span>Sugutta Live Broadcast Hub</span>
+            <span>Suggutta Live Broadcast Hub</span>
           </div>
           <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
             Anointed Messages &amp; Live Altar Broadcasts

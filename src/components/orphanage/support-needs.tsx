@@ -99,7 +99,7 @@ export function SupportNeeds() {
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-xs sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Every shilling and dollar given to Sugutta Children&apos;s Home goes straight to essential living needs. Here is exactly what your compassion achieves.
+            Every shilling and dollar given to Suggutta Children&apos;s Home goes straight to essential living needs. Here is exactly what your compassion achieves.
           </p>
         </div>
 

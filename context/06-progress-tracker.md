@@ -347,7 +347,7 @@
 
 ## 🚧 In Progress
 
-None.
+- [ ] `feature-specs/55-kcb-paybill-reconciliation-and-suggutta-standardization.md`: Physical KCB Paybill Slip Alignment (522533 / 8146952 / 1356891853), Direct Sendwave QR Launch, Independent International QR Codes, Admin Portal Children's Home Image Controls & Universal "Suggutta" (Double G, Double T) Standardization.
 
 
 ## 🏗️ Architectural Decisions Log
@@ -762,5 +762,25 @@ None.
       - `npx tsc --noEmit` exited code 0 (zero compiler errors).
       - Browser subagent verified desktop and mobile viewports (390×844px) confirming visual balance, unclipped brand typography, and emoji-free donation tabs.
 
-
-
+- [x] `feature-specs/55-reconcile-payment-credentials-sendwave-qr-orphanage-cms-and-suggutta-spelling.md`: Payment Credentials Reconciliation, Direct Sendwave QR Launch, Independent International Cards, Admin Orphanage Hero CMS Controls, and Sitewide "Suggutta" Spelling Standardization.
+   1. Payment Credentials Reconciliation (From KCB Paybill Card & Audio Note 1):
+      - Reconciled Universal Paybill: Business No `522533`, Account No `8146952`, Account Name `SUGGUTTA FELLOWSHIP CHURCH`.
+      - Reconciled Lipa na M-Pesa Buy Goods: Till No `8146952`, Store Name `SUGGUTTA FELLOWSHIP CHURCH`.
+      - Reconciled Church Bank Account: Kenya Commercial Bank (KCB), Account No `1356891853`, Account Name `SUGGUTTA FELLOWSHIP CHURCH`, Branch `Nairobi Central Branch`, SWIFT `KCBLKENX`.
+   2. Direct Sendwave QR Launch (Audio Note 3):
+      - Configured Sendwave QR codes to point directly to `https://www.sendwave.com` so smartphone camera scanners immediately open or prompt installation of the Sendwave mobile app without intermediate redirects.
+   3. Independent Matching QR Codes for International Giving (Audio Note 2):
+      - Upgraded Diaspora Giving across all giving portals ([src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx), [src/components/giving/direct-giving-portal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/direct-giving-portal.tsx), [src/components/home/home-giving-module.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/home-giving-module.tsx)) into an independent 2-column layout:
+        - Option A: Sendwave to Mobile (`+254 112 656 123` / Pastor Caesar O. Nyandwaro) with direct Sendwave QR code.
+        - Option B: Sendwave to Bank Account (KCB Bank Kenya, Account `1356891853`, Name `SUGGUTTA FELLOWSHIP CHURCH`) with dedicated KCB bank remittance QR code.
+   4. Admin Portal CMS Controls for Children's Home Head & Donation Page Images:
+      - Extended Supabase types ([src/types/database.types.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/database.types.ts)) and site settings schema ([src/types/settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/types/settings.ts)) with `orphanageDonateImageUrl` and `kcbBankQrImage`.
+      - Extended server actions [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts) (`getSiteSettingsAction`, `saveSiteSettingsAction`) to fetch and save both image fields.
+      - Upgraded Admin Portal [src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx):
+        - Children's Home Tab: 3-column media uploader grid for Hero Banner (`orphanageImageUrl`), Donation Page Header (`orphanageDonateImageUrl`), and Story Photo (`orphanageStoryImage`).
+        - Remittance Tab: 3-column QR uploader grid for Till QR, Paybill QR, and KCB Bank Remittance QR poster (`kcbBankQrImage`).
+   5. Sitewide Church Name Spelling Standardization (Audio Note 3):
+      - Standardized all user-facing occurrences, titles, hero copy, metadata, and labels across the entire platform to **"Suggutta"** with double 'g' and double 't' (`Suggutta Fellowship Church`, `SUGGUTTA FELLOWSHIP CHURCH`, `Suggutta Children's Home`, `Suggutta Sanctuary, Kenya`).
+   6. Verification:
+      - `npx tsc --noEmit` passed with 0 compiler errors.
+      - Preserved email handle and static assets without broken links.

@@ -30,7 +30,7 @@ const INTERNATIONAL_CHANNELS: GivingChannel[] = [
   {
     id: "cashapp",
     name: "Cash App",
-    handle: "$HGSugutta",
+    handle: "$HGSuggutta",
     instructions: "Send directly to ministry Cashtag. Tap to copy tag.",
     badge: "USA & UK",
     badgeColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
@@ -40,8 +40,8 @@ const INTERNATIONAL_CHANNELS: GivingChannel[] = [
   {
     id: "paypal",
     name: "PayPal",
-    handle: "@hgsugutta",
-    link: "https://paypal.me/hgsugutta",
+    handle: "@hgsuggutta",
+    link: "https://paypal.me/hgsuggutta",
     instructions: "Instant international giving via debit/credit card or PayPal balance.",
     badge: "Worldwide",
     badgeColor: "bg-sky-500/20 text-sky-400 border-sky-500/30",
@@ -51,7 +51,7 @@ const INTERNATIONAL_CHANNELS: GivingChannel[] = [
   {
     id: "venmo",
     name: "Venmo",
-    handle: "@hgsugutta",
+    handle: "@hgsuggutta",
     instructions: "Give seamlessly via your Venmo mobile app.",
     badge: "USA",
     badgeColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
@@ -61,9 +61,9 @@ const INTERNATIONAL_CHANNELS: GivingChannel[] = [
   {
     id: "givelify",
     name: "Givelify",
-    handle: "Heavens Gates Sugutta Fellowship Church",
+    handle: "Heavens Gates Suggutta Fellowship Church",
     link: "https://www.givelify.com",
-    instructions: "Search for 'Heavens Gates Sugutta' on the Givelify App.",
+    instructions: "Search for 'Heavens Gates Suggutta' on the Givelify App.",
     badge: "Churches Worldwide",
     badgeColor: "bg-amber-500/20 text-amber-400 border-amber-500/30",
     iconText: "G",

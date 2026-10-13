@@ -36,7 +36,7 @@ export function AdminHeader({
               {title}
             </h1>
             <span className="text-[10px] text-slate-500 hidden sm:inline">
-              Heavens Gates Sugutta Fellowship Church International
+              Heavens Gates Suggutta Fellowship Church International
             </span>
           </div>
         </div>

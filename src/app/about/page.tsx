@@ -8,11 +8,11 @@ import { PrayerMountain } from "@/components/about/prayer-mountain";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
-  title: "About Ministry & Pastoral Journey | Sugutta Fellowship Church",
+  title: "About Ministry & Pastoral Journey | Suggutta Fellowship Church",
   description:
     "Discover the spiritual calling of Pastor Caesar O. Nyandwaro, our biblical pillars of faith, pastoral leadership, and dynamic church programmes.",
   openGraph: {
-    title: "About Sugutta Fellowship Church",
+    title: "About Suggutta Fellowship Church",
     description:
       "Reaching out, growing together, and impacting our world for Jesus Christ.",
     images: ["/images/pastor-caesar.jpg"],

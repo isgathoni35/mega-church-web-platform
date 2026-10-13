@@ -36,12 +36,12 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
   const cleanPhone = rawPhone.replace(/[\s\-]/g, "");
   const localCleanPhone = cleanPhone.startsWith("+254") ? "0" + cleanPhone.slice(4) : cleanPhone;
   const tillNumber = settings.mpesaTillNumber || DEFAULT_SETTINGS.mpesaTillNumber || "8146952";
-  const tillName = settings.mpesaTillName || DEFAULT_SETTINGS.mpesaTillName || "Suggutta Fellowship Church";
+  const tillName = settings.mpesaTillName || DEFAULT_SETTINGS.mpesaTillName || "SUGGUTTA FELLOWSHIP CHURCH";
   const paybillNumber = settings.mpesaPaybill || DEFAULT_SETTINGS.mpesaPaybill || "522533";
   const paybillAccount = settings.mpesaPaybillAccount || DEFAULT_SETTINGS.mpesaPaybillAccount || "8146952";
   const paybillName = settings.mpesaPaybillName || DEFAULT_SETTINGS.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH";
   const kcbAccount = settings.kcbAccountNumber || DEFAULT_SETTINGS.kcbAccountNumber || "1356891853";
-  const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName || "Sugutta Fellowship church";
+  const kcbName = settings.kcbAccountName || DEFAULT_SETTINGS.kcbAccountName || "SUGGUTTA FELLOWSHIP CHURCH";
   const kcbBranch = settings.kcbBranch || DEFAULT_SETTINGS.kcbBranch;
   const kcbSwift = settings.kcbSwift || DEFAULT_SETTINGS.kcbSwift;
   const email = settings.contactEmail || DEFAULT_SETTINGS.contactEmail;
@@ -477,53 +477,86 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
                   </h4>
                 </div>
 
-                <div className="p-5 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200 bg-slate-50/50 shadow-sm space-y-4">
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    In Sendwave, you can also select <strong>Bank Transfer (Kenya)</strong> &rarr; <strong>KCB Bank</strong> to deposit funds directly into our church account:
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                    <div className="p-3.5 rounded-xl bg-white border border-slate-200">
-                      <span className="text-slate-500 block text-[10px] uppercase font-bold">Beneficiary Bank</span>
-                      <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">Kenya Commercial Bank (KCB)</span>
-                      <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">SWIFT: {kcbSwift}</span>
-                    </div>
-
-                    <div className="p-3.5 rounded-xl bg-white border border-slate-200">
-                      <span className="text-slate-500 block text-[10px] uppercase font-bold">Branch</span>
-                      <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">{kcbBranch}</span>
-                      <span className="text-[10px] text-slate-500 mt-0.5 block">Kenya</span>
-                    </div>
-
-                    <div className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
-                      <div className="min-w-0 pr-2">
-                        <span className="text-slate-500 block text-[10px] uppercase font-bold">Account Name</span>
-                        <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block truncate">{kcbName}</span>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-6 items-stretch">
+                  <div className="lg:col-span-7 p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 border-blue-500/30 bg-gradient-to-br from-blue-500/5 to-white flex flex-col justify-between space-y-4">
+                    <div className="space-y-2.5">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-black text-xl sm:text-2xl text-slate-900 tracking-tight">
+                          Sendwave &rarr; KCB Bank Account
+                        </span>
+                        <span className="text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/15 text-[#005A9C] border border-blue-500/30">
+                          Direct Bank Deposit &bull; SWIFT Wire
+                        </span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => handleCopy("intl_name", kcbName)}
-                        className="p-1.5 rounded-lg hover:bg-slate-100 text-[#005A9C]"
-                        title="Copy Name"
-                      >
-                        {copiedKey === "intl_name" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                      </button>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                        In Sendwave, select <strong>Bank Transfer (Kenya)</strong> &rarr; <strong>Kenya Commercial Bank (KCB)</strong> to deposit funds directly into our church account:
+                      </p>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+                        <div className="p-3 rounded-xl bg-white border border-slate-200">
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold">Beneficiary Bank</span>
+                          <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">Kenya Commercial Bank (KCB)</span>
+                          <span className="text-[10px] text-slate-500 font-mono mt-0.5 block">SWIFT: {kcbSwift}</span>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-white border border-slate-200">
+                          <span className="text-slate-500 block text-[10px] uppercase font-bold">Branch</span>
+                          <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block">{kcbBranch}</span>
+                          <span className="text-[10px] text-slate-500 mt-0.5 block">Kenya</span>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
+                          <div className="min-w-0 pr-2">
+                            <span className="text-slate-500 block text-[10px] uppercase font-bold">Account Name</span>
+                            <span className="font-bold text-slate-900 text-xs sm:text-sm mt-0.5 block truncate">{kcbName}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("intl_name", kcbName)}
+                            className="p-1.5 rounded-lg hover:bg-slate-100 text-[#005A9C]"
+                            title="Copy Name"
+                          >
+                            {copiedKey === "intl_name" ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                          </button>
+                        </div>
+
+                        <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+                          <div>
+                            <span className="text-blue-700 block text-[10px] uppercase font-bold">Account Number</span>
+                            <span className="font-mono font-black text-slate-950 text-sm sm:text-base mt-0.5 block">{kcbAccount}</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopy("intl_acc", kcbAccount)}
+                            className="p-1.5 rounded-lg bg-white hover:bg-slate-100 text-[#005A9C] border border-blue-200"
+                            title="Copy Account Number"
+                          >
+                            {copiedKey === "intl_acc" ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+                          </button>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between">
-                      <div>
-                        <span className="text-blue-700 block text-[10px] uppercase font-bold">Account Number</span>
-                        <span className="font-mono font-black text-slate-950 text-sm sm:text-base mt-0.5 block">{kcbAccount}</span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleCopy("intl_acc", kcbAccount)}
-                        className="p-1.5 rounded-lg bg-white hover:bg-slate-100 text-[#005A9C] border border-blue-200"
-                        title="Copy Account Number"
+                    <div className="pt-2">
+                      <a
+                        href="https://www.sendwave.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-full bg-[#005A9C] hover:bg-[#00487c] text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-blue-600/20"
                       >
-                        {copiedKey === "intl_acc" ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
-                      </button>
+                        <span>Open Sendwave for Bank Transfer</span>
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
                     </div>
+                  </div>
+
+                  <div className="lg:col-span-5 flex flex-col">
+                    <PaymentQrCode
+                      type="kcb_bank"
+                      accountNumber={kcbAccount}
+                      accountName={kcbName}
+                      paybillNumber={paybillNumber}
+                    />
                   </div>
                 </div>
               </div>
@@ -539,7 +572,7 @@ export function DirectGivingPortal({ settings: propSettings }: DirectGivingPorta
             <div className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-lg shrink-0 bg-white hidden sm:block">
               <Image
                 src="/images/sugutta-logo.png"
-                alt="Sugutta Fellowship Church Seal"
+                alt="Suggutta Fellowship Church Seal"
                 fill
                 sizes="64px"
                 className="object-contain p-0.5"

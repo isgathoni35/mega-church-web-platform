@@ -200,7 +200,7 @@ export function CategorizedActivities({ settings: propSettings }: CategorizedAct
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-sm sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Sugutta Fellowship Church is dedicated to transforming lives through practical compassion
+            Suggutta Fellowship Church is dedicated to transforming lives through practical compassion
             and establishing an altar of worship. We invite local partners and international friends
             to stand with us in these urgent ongoing efforts.
           </p>

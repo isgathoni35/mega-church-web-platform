@@ -64,7 +64,7 @@ export function AdminSidebar({ onCloseMobile }: AdminSidebarProps) {
           <div className="relative h-11 w-11 rounded-full overflow-hidden ring-2 ring-[#C59B27] shadow-md shrink-0 bg-white">
             <Image
               src="/images/sugutta-logo.png"
-              alt="Sugutta Fellowship Church Logo"
+              alt="Suggutta Fellowship Church Logo"
               fill
               sizes="44px"
               className="object-contain p-0.5"
@@ -73,7 +73,7 @@ export function AdminSidebar({ onCloseMobile }: AdminSidebarProps) {
 
           <div className="min-w-0">
             <h2 className="font-extrabold text-sm text-white truncate tracking-tight">
-              Sugutta Admin
+              Suggutta Admin
             </h2>
             <span className="text-[10px] text-[#C59B27] font-bold uppercase tracking-wider block truncate">
               Pastoral Altar

@@ -7,7 +7,7 @@ import { Sermon } from "@/types/database.types";
 
 export const metadata: Metadata = {
   title:
-    "Sermons & Live Broadcasts | Heavens Gates Sugutta Fellowship Church International",
+    "Sermons & Live Broadcasts | Heavens Gates Suggutta Fellowship Church International",
   description:
     "Watch live broadcasts, explore anointed sermon archives, and experience apostolic teachings and divine deliverance.",
 };

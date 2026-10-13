@@ -104,7 +104,7 @@ export function SettingsManagerView({ initialSettings }: SettingsManagerViewProp
   const [videoUploadSuccess, setVideoUploadSuccess] = useState(false);
   const [isUploadingThumb, setIsUploadingThumb] = useState(false);
 
-  const sqlCode = `-- Sugutta Fellowship Church - Comprehensive CMS, Media & Channel Migration
+  const sqlCode = `-- Suggutta Fellowship Church - Comprehensive CMS, Media & Channel Migration
 -- Run this in Supabase SQL Editor (SQL Editor -> New Query -> Run)
 
 -- 1. Ensure table exists with UUID primary key
@@ -118,12 +118,12 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_name TEXT NOT NULL DEFAULT 'Pastor Caesar O. Nyandwaro';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_title TEXT NOT NULL DEFAULT 'Resident Pastor & Visionary';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_image_url TEXT NOT NULL DEFAULT '/images/pastor-caesar.jpg';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_bio TEXT NOT NULL DEFAULT 'Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact.';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_bio TEXT NOT NULL DEFAULT 'Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Suggutta Fellowship Church into dynamic community transformation and global impact.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pastor_national_id TEXT NOT NULL DEFAULT '39966005';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS church_motto TEXT NOT NULL DEFAULT 'REACHING OUT | GROWING TOGETHER | IMPACTING OUR WORLD';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS church_slogan TEXT NOT NULL DEFAULT 'Come. Connect. Grow. Go.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS postal_address TEXT NOT NULL DEFAULT 'P.O BOX 405-40211, SUGGUTTA';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS physical_location TEXT NOT NULL DEFAULT 'Sugutta Sanctuary, Kenya';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS physical_location TEXT NOT NULL DEFAULT 'Suggutta Sanctuary, Kenya';
 
 -- 3. Communication, Socials, YouTube & TopBar
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_phone TEXT NOT NULL DEFAULT '+254112656123';
@@ -140,18 +140,21 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_videos_json 
 
 -- 4. Banking & Remittance
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_number TEXT NOT NULL DEFAULT '8146952';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_name TEXT NOT NULL DEFAULT 'Suggutta Fellowship Church';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_name TEXT NOT NULL DEFAULT 'SUGGUTTA FELLOWSHIP CHURCH';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_number TEXT NOT NULL DEFAULT '1356891853';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'Sugutta Fellowship church';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_account_name TEXT NOT NULL DEFAULT 'SUGGUTTA FELLOWSHIP CHURCH';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_branch TEXT NOT NULL DEFAULT 'Nairobi Central Branch';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_swift TEXT NOT NULL DEFAULT 'KCBLKENX';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '522522';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill TEXT NOT NULL DEFAULT '522533';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill_account TEXT NOT NULL DEFAULT '8146952';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill_name TEXT NOT NULL DEFAULT 'SUGGUTTA FELLOWSHIP CHURCH';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS western_union_recipient TEXT NOT NULL DEFAULT 'Caesar O. Nyandwaro';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_till_qr_image TEXT;
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mpesa_paybill_qr_image TEXT;
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS kcb_bank_qr_image TEXT;
 
 -- 5. Hero & Branding
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_1 TEXT NOT NULL DEFAULT 'Sugutta';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_1 TEXT NOT NULL DEFAULT 'Suggutta';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_2 TEXT NOT NULL DEFAULT 'Fellowship';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_headline_3 TEXT NOT NULL DEFAULT 'Church';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_subtitle TEXT NOT NULL DEFAULT 'We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully and carry His Gospel into everyday life.';
@@ -165,23 +168,24 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS hero_stat_years TEXT N
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS mission_statement TEXT NOT NULL DEFAULT 'To win souls to Christ, disciple believers in sound biblical doctrine, break spiritual bondages through the power of the Holy Spirit, and raise an empowered community walking in holiness and divine covenant purpose.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS vision_statement TEXT NOT NULL DEFAULT 'To be an apostolic beacon of worship and spiritual awakening across Kenya and the nations, demonstrating Christ''s compassion, planting praying families, and advancing the Kingdom of God.';
 
--- 7. Twin Ongoing Projects
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_title TEXT NOT NULL DEFAULT 'Building a Permanent House of Prayer in Sugutta';
+-- 7. Ongoing Projects & Children's Home
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_title TEXT NOT NULL DEFAULT 'Building a Permanent House of Prayer in Suggutta';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_subtitle TEXT NOT NULL DEFAULT 'Concrete foundation blocks, steel pillar reinforcement & roof trussing.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_narrative TEXT NOT NULL DEFAULT 'With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_image_url TEXT NOT NULL DEFAULT '/images/church-construction.jpg';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_badge TEXT NOT NULL DEFAULT 'Sanctuary Construction';
 
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_title TEXT NOT NULL DEFAULT 'Sheltering & Sponsoring 50+ Vulnerable Children';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_title TEXT NOT NULL DEFAULT 'Sheltering & Sponsoring 60+ Vulnerable Children';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_subtitle TEXT NOT NULL DEFAULT 'Hot nutritious meals, quality education, medical care & parental love.';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_narrative TEXT NOT NULL DEFAULT 'Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Sugutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_narrative TEXT NOT NULL DEFAULT 'Putting faith into tangible action. Every day, our home feeds, clothes, and educates orphaned boys and girls in Suggutta. Sponsoring a child or sending food donations preserves a destiny and fulfills James 1:27.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_image_url TEXT NOT NULL DEFAULT '/images/orphanage-hero.png';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_donate_image_url TEXT NOT NULL DEFAULT '/images/orphanage-hero.png';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_story_image TEXT NOT NULL DEFAULT '/images/community-outreach.jpg';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_badge TEXT NOT NULL DEFAULT 'Children''s Home Mission';
 
 -- 8. Grassroots Community
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_title TEXT NOT NULL DEFAULT 'Rooted in Our Community, Walking Alongside Families';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_narrative TEXT NOT NULL DEFAULT 'True Christian ministry is never confined to sanctuary walls. In Sugutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads.';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_narrative TEXT NOT NULL DEFAULT 'True Christian ministry is never confined to sanctuary walls. In Suggutta and neighboring villages, our pastoral team and church workers meet regularly with village elders, struggling families, and young children in their homesteads.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_image_url TEXT NOT NULL DEFAULT '/images/community-outreach.jpg';
 
 -- 9. 4 Ministry Pillars & Impact Counters
@@ -217,17 +221,20 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS projects_json JSONB NO
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS events_json JSONB NOT NULL DEFAULT '[]'::jsonb;
 
 -- 11. Ensure at least one configuration row exists
-INSERT INTO public.site_settings (id, youtube_channel_url, mpesa_till_number, mpesa_till_name, kcb_account_number, kcb_account_name)
-SELECT gen_random_uuid(), 'https://www.youtube.com/@Brianmbera', '8146952', 'Suggutta Fellowship Church', '1356891853', 'Sugutta Fellowship church'
+INSERT INTO public.site_settings (id, youtube_channel_url, mpesa_till_number, mpesa_till_name, kcb_account_number, kcb_account_name, mpesa_paybill, mpesa_paybill_account, mpesa_paybill_name)
+SELECT gen_random_uuid(), 'https://www.youtube.com/@Brianmbera', '8146952', 'SUGGUTTA FELLOWSHIP CHURCH', '1356891853', 'SUGGUTTA FELLOWSHIP CHURCH', '522533', '8146952', 'SUGGUTTA FELLOWSHIP CHURCH'
 WHERE NOT EXISTS (SELECT 1 FROM public.site_settings);
 
 -- 12. Update existing rows with accurate payment channels and YouTube
 UPDATE public.site_settings
 SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     mpesa_till_number = COALESCE(mpesa_till_number, '8146952'),
-    mpesa_till_name = COALESCE(mpesa_till_name, 'Suggutta Fellowship Church'),
+    mpesa_till_name = COALESCE(mpesa_till_name, 'SUGGUTTA FELLOWSHIP CHURCH'),
     kcb_account_number = '1356891853',
-    kcb_account_name = 'Sugutta Fellowship church';`;
+    kcb_account_name = 'SUGGUTTA FELLOWSHIP CHURCH',
+    mpesa_paybill = '522533',
+    mpesa_paybill_account = COALESCE(mpesa_paybill_account, '8146952'),
+    mpesa_paybill_name = COALESCE(mpesa_paybill_name, 'SUGGUTTA FELLOWSHIP CHURCH');`;
 
 
 
@@ -376,7 +383,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       id: `event-${Date.now()}`,
       badge: "MISSION 2026",
       title: "New Miracle Crusade & Deliverance Mission",
-      location: settings.physicalLocation || "Sugutta Sanctuary, Kenya",
+      location: settings.physicalLocation || "Suggutta Sanctuary, Kenya",
       dates: "Upcoming 2026",
       format: "In-Person & Live Broadcast",
       description: "Anointed gathering for deliverance, salvation, and kingdom fellowship.",
@@ -863,7 +870,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 <Input
                   value={settings.heroHeadline1}
                   onChange={(e) => setSettings({ ...settings, heroHeadline1: e.target.value })}
-                  placeholder="Sugutta"
+                  placeholder="Suggutta"
                 />
               </div>
 
@@ -1306,7 +1313,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                       <Input
                         value={project.title}
                         onChange={(e) => handleUpdateProject(idx, "title", e.target.value)}
-                        placeholder="e.g. Building a Permanent House of Prayer in Sugutta"
+                        placeholder="e.g. Building a Permanent House of Prayer in Suggutta"
                       />
                     </div>
                   </div>
@@ -1514,18 +1521,26 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <ImageUploadField
-                  label="Hero Banner Photo"
-                  description="Main hero image displayed at the top of /orphanage and homepage compassion teaser."
+                  label="Hero Banner Photo (Head Image for /orphanage)"
+                  description="Main head image displayed prominently at the top of the Children's Home page and homepage compassion teaser."
                   value={settings.orphanageImageUrl}
                   onChange={(url) => setSettings({ ...settings, orphanageImageUrl: url })}
                   aspectRatio="video"
                 />
 
                 <ImageUploadField
+                  label="Donation Page Head Photo (/orphanage/donate Banner)"
+                  description="Hero image showcased on the official Stand-in-the-Gap giving page alongside James 1:27."
+                  value={settings.orphanageDonateImageUrl || "/images/orphanage-hero.png"}
+                  onChange={(url) => setSettings({ ...settings, orphanageDonateImageUrl: url })}
+                  aspectRatio="video"
+                />
+
+                <ImageUploadField
                   label="Mission &amp; Story Photo"
-                  description="Featured photo displayed in the 'Why We Opened Our Doors in Sugutta' narrative section."
+                  description="Featured photo displayed in the 'Why We Opened Our Doors in Suggutta' narrative section."
                   value={settings.orphanageStoryImage || "/images/community-outreach.jpg"}
                   onChange={(url) => setSettings({ ...settings, orphanageStoryImage: url })}
                   aspectRatio="video"
@@ -2603,7 +2618,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                   <Input
                     value={settings.kcbAccountName}
                     onChange={(e) => setSettings({ ...settings, kcbAccountName: e.target.value })}
-                    placeholder="Sugutta Fellowship church"
+                    placeholder="SUGGUTTA FELLOWSHIP CHURCH"
                   />
                 </div>
                 <div className="space-y-1.5">
@@ -2660,27 +2675,35 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 <div className="col-span-1 md:col-span-2 pt-4 border-t border-slate-100 space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                     <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-                      Official M-Pesa QR Code Posters (Optional)
+                      Official Payment Channel QR Code Posters (Optional)
                     </h3>
                     <span className="text-[10px] text-slate-500 font-medium">
                       If left blank, clean auto-generated QR codes are displayed automatically
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <ImageUploadField
-                      label="Official M-Pesa Buy Goods Till QR Poster"
-                      description="Upload official Safaricom green till poster or QR image. Displayed when donors click 'Scan QR' on the Till card."
+                      label="M-Pesa Buy Goods Till Poster"
+                      description="Upload official Safaricom green till poster or QR image for Till 8146952."
                       value={settings.mpesaTillQrImage || ""}
                       onChange={(url) => setSettings({ ...settings, mpesaTillQrImage: url })}
                       aspectRatio="square"
                     />
 
                     <ImageUploadField
-                      label="Official M-Pesa Paybill QR Poster"
-                      description="Upload official Safaricom / KCB Paybill poster image for Business No. 522533. Displayed when donors scan or view Paybill."
+                      label="M-Pesa Paybill QR Poster"
+                      description="Upload official Paybill poster image for Business No. 522533."
                       value={settings.mpesaPaybillQrImage || ""}
                       onChange={(url) => setSettings({ ...settings, mpesaPaybillQrImage: url })}
+                      aspectRatio="square"
+                    />
+
+                    <ImageUploadField
+                      label="KCB Bank Account Poster"
+                      description="Upload official KCB deposit slip or scannable poster for Acc 1356891853."
+                      value={settings.kcbBankQrImage || ""}
+                      onChange={(url) => setSettings({ ...settings, kcbBankQrImage: url })}
                       aspectRatio="square"
                     />
                   </div>

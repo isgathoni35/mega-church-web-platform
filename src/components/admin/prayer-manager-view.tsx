@@ -52,7 +52,7 @@ export function PrayerManagerView({ initialPrayers }: PrayerManagerViewProps) {
       : cleanDigits;
 
     const message = encodeURIComponent(
-      `Praise the Lord ${prayer.full_name}, this is the Pastoral Care Ministry at Sugutta Fellowship Church. Pastor Caesar and our prayer intercessors have received your petition and are standing with you in faith.`
+      `Praise the Lord ${prayer.full_name}, this is the Pastoral Care Ministry at Suggutta Fellowship Church. Pastor Caesar and our prayer intercessors have received your petition and are standing with you in faith.`
     );
     return `https://wa.me/${formattedNum}?text=${message}`;
   };

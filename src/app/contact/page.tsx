@@ -19,9 +19,9 @@ import {
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
 export const metadata: Metadata = {
-  title: "Connect With Us | Heavens Gates Sugutta Fellowship Church International",
+  title: "Connect With Us | Heavens Gates Suggutta Fellowship Church International",
   description:
-    "Connect with Heavens Gates Sugutta Fellowship Church International. Plan your visit, discover what to expect, explore our children's church, or reach our pastoral administration.",
+    "Connect with Heavens Gates Suggutta Fellowship Church International. Plan your visit, discover what to expect, explore our children's church, or reach our pastoral administration.",
 };
 
 export default async function ContactPage() {
@@ -53,7 +53,7 @@ export default async function ContactPage() {
           <div className="w-14 sm:w-16 h-1 bg-[#ff6b35] mx-auto rounded-full" />
 
           <p className="text-xs sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Whether you are visiting for the first time, seeking prayer, or looking for a loving church family to call home, our doors and hearts in Sugutta are wide open.
+            Whether you are visiting for the first time, seeking prayer, or looking for a loving church family to call home, our doors and hearts in Suggutta are wide open.
           </p>
         </div>
       </section>
@@ -136,14 +136,14 @@ export default async function ContactPage() {
                   Mother Church &amp; Headquarters
                 </span>
                 <h4 className="text-lg sm:text-xl font-extrabold text-white">
-                  Sugutta Main Sanctuary
+                  Suggutta Main Sanctuary
                 </h4>
               </div>
 
               <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm text-slate-300">
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 text-[#ff6b35] shrink-0 mt-0.5" />
-                  <span>Sugutta Main Sanctuary, Jogoo Getare, Kenya</span>
+                  <span>Suggutta Main Sanctuary, Jogoo Getare, Kenya</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Phone className="h-4 w-4 text-[#ff6b35] shrink-0" />

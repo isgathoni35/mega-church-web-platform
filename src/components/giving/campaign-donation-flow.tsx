@@ -60,7 +60,7 @@ export function getFundIcon(code: string) {
 export const GIVING_FUNDS: GivingFund[] = [
   {
     code: "ORPHANAGE",
-    name: "Sugutta Children's Home & Orphanage",
+    name: "Suggutta Children's Home & Orphanage",
     shortName: "Children's Home",
     description: "Daily nutrition, primary & secondary schooling, healthcare, and warm shelter for 50+ vulnerable children.",
     scripture: "Religion that God our Father accepts as pure and faultless is this: to look after orphans and widows in their distress.",
@@ -302,7 +302,7 @@ export function CampaignDonationFlow({
                   Why We Need Your Partnership
                 </h3>
                 <p>
-                  At Sugutta Fellowship Church, our apostolic mandate is twofold: <strong>caring for the vulnerable</strong> and <strong>building an enduring house for God&apos;s presence</strong>.
+                  At Suggutta Fellowship Church, our apostolic mandate is twofold: <strong>caring for the vulnerable</strong> and <strong>building an enduring house for God&apos;s presence</strong>.
                 </p>
                 <p>
                   Our Children&apos;s Home shelters, feeds, and educates orphaned boys and girls, while our expanding congregation of over 1,000 worshippers is constructing a permanent sanctuary to shelter services from the rains and provide a dedicated youth learning center.
@@ -330,7 +330,7 @@ export function CampaignDonationFlow({
                   <div className="flex items-center justify-between">
                     <span className="font-extrabold text-slate-900 flex items-center gap-1.5 text-xs sm:text-sm">
                       <Baby className="w-4 h-4 text-rose-500" />
-                      <span>1. Sugutta Children&apos;s Home</span>
+                      <span>1. Suggutta Children&apos;s Home</span>
                     </span>
                     <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 uppercase">
                       50+ Orphans
@@ -892,7 +892,7 @@ export function CampaignDonationFlow({
                         </span>
                         <div className="text-[10px] text-slate-600 flex flex-wrap justify-between gap-1">
                           <span>Bank: <strong>KCB Bank Kenya</strong></span>
-                          <span>Account Name: <strong>{settings.kcbAccountName || "Sugutta Fellowship church"}</strong></span>
+                          <span>Account Name: <strong>{settings.kcbAccountName || "SUGGUTTA FELLOWSHIP CHURCH"}</strong></span>
                         </div>
                       </div>
                     </div>
@@ -924,7 +924,7 @@ export function CampaignDonationFlow({
                 <span>256-bit SSL Secure Encryption</span>
               </div>
               <p className="text-[10px] text-slate-400 max-w-xs mx-auto leading-tight">
-                Sugutta Fellowship Church is a registered 501(c)(3) ministry. Your gift is tax-deductible and stewarded with apostolic transparency.
+                Suggutta Fellowship Church is a registered 501(c)(3) ministry. Your gift is tax-deductible and stewarded with apostolic transparency.
               </p>
             </div>
           </div>

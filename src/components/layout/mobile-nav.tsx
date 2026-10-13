@@ -86,13 +86,13 @@ export function MobileNav() {
               aria-modal="true"
               aria-label="Mobile Navigation Menu"
             >
-              {/* Drawer Header with Sugutta Logo */}
+              {/* Drawer Header with Suggutta Logo */}
               <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-200 shrink-0">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="relative h-11 w-11 rounded-full overflow-hidden ring-2 ring-[#C59B27]/50 shadow-sm shrink-0 bg-white">
                     <Image
                       src="/images/sugutta-logo.png"
-                      alt="Sugutta Fellowship Church Logo"
+                      alt="Suggutta Fellowship Church Logo"
                       fill
                       sizes="44px"
                       className="object-contain p-0.5"
@@ -103,7 +103,7 @@ export function MobileNav() {
                       Heavens Gate
                     </span>
                     <span className="font-black text-sm tracking-tight text-[#ff6b35] leading-tight truncate">
-                      Sugutta Fellowship
+                      Suggutta Fellowship
                     </span>
                     <span className="text-[9px] font-semibold text-slate-500 tracking-wide truncate">
                       International Ministry

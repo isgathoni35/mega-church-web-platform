@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       phone: formattedPhone,
       amount,
       donorName,
-      accountReference: "HG SUGUTTA GIVING",
+      accountReference: "HG SUGGUTTA GIVING",
       transactionDesc: "Kingdom Tithe & Offering",
     });
 

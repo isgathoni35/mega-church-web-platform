@@ -37,7 +37,7 @@ export function FounderSpotlight({ settings: propSettings }: FounderSpotlightPro
           <div className="w-16 h-1 bg-[#ff6b35] mx-auto rounded-full mb-3 sm:mb-6" />
           <p className="text-sm sm:text-base lg:text-lg text-slate-600 leading-relaxed">
             {settings.pastorBio ||
-              "Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Sugutta Fellowship Church into dynamic community transformation and global impact."}
+              "Called by God with an apostolic passion to set the captives free, build disciples through sound Biblical exposition, and lead Suggutta Fellowship Church into dynamic community transformation and global impact."}
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export function FounderSpotlight({ settings: propSettings }: FounderSpotlightPro
                   Reaching Out
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  Evangelism and community outreaches in Sugutta and beyond, proclaiming the love and salvation of Jesus Christ.
+                  Evangelism and community outreaches in Suggutta and beyond, proclaiming the love and salvation of Jesus Christ.
                 </p>
               </div>
 

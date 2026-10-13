@@ -25,7 +25,7 @@ export function OrphanageHero({ settings }: OrphanageHeroProps) {
 
   const heroImage = currentSettings.orphanageImageUrl || "/images/orphanage-hero.png";
   const heroTitle = currentSettings.orphanageTitle || "Sheltering & Sponsoring 50+ Vulnerable Children";
-  const heroBadge = currentSettings.orphanageBadge || "Sugutta Children's Home";
+  const heroBadge = currentSettings.orphanageBadge || "Suggutta Children's Home";
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#fffaf5] to-[#fbf8f3] border-b border-slate-200/80 py-8 sm:py-14 lg:py-20 px-4 sm:px-6 lg:px-8">
@@ -65,7 +65,7 @@ export function OrphanageHero({ settings }: OrphanageHeroProps) {
             {/* Enriched Multi-Sentence Narrative */}
             <div className="space-y-2.5 text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
               <p>
-                Putting faith into tangible action. In Sugutta, Kenya, our Children&apos;s Home provides a safe Christian family, warm beds, and unconditional love to over 60 orphaned and vulnerable boys and girls.
+                Putting faith into tangible action. In Suggutta, Kenya, our Children&apos;s Home provides a safe Christian family, warm beds, and unconditional love to over 60 orphaned and vulnerable boys and girls.
               </p>
               <p className="hidden sm:block text-slate-600">
                 Rescued from extreme rural hardship and loss, every child is embraced with 3 hot nutritious meals daily, 100% formal educational sponsorship from nursery to college, pediatric medical care, and maternal guidance from devoted resident house mothers.

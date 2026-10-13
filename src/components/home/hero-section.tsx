@@ -32,7 +32,7 @@ export function HeroSection({ settings: propSettings }: HeroSectionProps) {
 
             {/* Signature 3-Line Headline matching Neno */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#0f172a] leading-[1.08] mb-5 sm:mb-6">
-              {settings.heroHeadline1 || "Sugutta"}
+              {settings.heroHeadline1 || "Suggutta"}
               <br />
               <span className="relative inline-block text-[#ff6b35]">
                 {settings.heroHeadline2 || "Fellowship"}
