@@ -333,6 +333,18 @@
    4. Admin Settings Form Nesting Resolution: Fixed invalid nested `<form>` tag in `settings-manager-view.tsx` to eliminate React hydration mismatch.
    5. Verification: 100% clean compilation, zero TypeScript errors (`npx tsc --noEmit`), all routes verified HTTP 200 OK on port 3002.
 
+- [x] `feature-specs/42-smart-payment-qr-codes-and-mobile-action-pass.md`: Smart Mobile-First Payment QR Codes & Instant-Pay Action Pass (`/give/pay`):
+   1. Root Cause Resolution: Replaced plain text payloads in QR codes (e.g. raw 7-digit `"8146952"`) that triggered external Google search results with universal mobile URLs (`${origin}/give/pay?channel=...`).
+   2. Dedicated Mobile Instant-Pay Action Pass (`/give/pay`):
+      - Created lightweight, mobile-first payment landing pass for smartphone cameras and Google Lens.
+      - Dynamic channel support for `till` (Buy Goods), `paybill` (KCB Church Paybill), `sendwave` (Diaspora), `send_money` (M-Pesa line), and `kcb_bank` (Direct Wire).
+      - Prominently displays verified church credentials, 1-tap clipboard copy buttons, "Open M-Pesa App" deep-link (`mpesa://`), and "Dial *334# (M-Pesa USSD)" dialer action (`tel:*334#`).
+      - Pastoral receipt confirmation hotline button linking directly to WhatsApp `+254 112 656 123`.
+   3. QR Generators Harmonized:
+      - Updated `PaymentQrCode` (`src/components/giving/payment-qr-code.tsx`) to generate dynamic `${origin}/give/pay` URLs for Till, Paybill, Send Money, KCB Bank, and Sendwave.
+      - Updated `SendwaveQR` (`src/components/giving/sendwave-qr.tsx`) to point to the dedicated Sendwave mobile pass with pre-filled recipient information.
+   4. Verification: 0 TypeScript errors (`npx tsc --noEmit`), HTTP 200 OK on `/give/pay?channel=till` and all giving pages.
+
 ## 🚧 In Progress
 
 None.

@@ -43,17 +43,22 @@ export function PaymentQrCode({
     let active = true;
     setIsGenerating(true);
 
+    const origin =
+      typeof window !== "undefined" && window.location.origin
+        ? window.location.origin
+        : "https://suguttafellowshipchurch.org";
+
     let payload = "";
     if (type === "till") {
-      payload = tillNumber || "8146952";
+      payload = `${origin}/give/pay?channel=till&till=${encodeURIComponent(tillNumber || "8146952")}&name=${encodeURIComponent(tillName || "Suggutta Fellowship Church")}`;
     } else if (type === "paybill") {
-      payload = `KCB Paybill\nBusiness No: ${paybillNumber || "522533"}\nAccount: ${accountRef || "8146952"}`;
+      payload = `${origin}/give/pay?channel=paybill&paybill=${encodeURIComponent(paybillNumber || "522533")}&acc=${encodeURIComponent(accountRef || "8146952")}&name=${encodeURIComponent(accountName || "SUGGUTTA FELLOWSHIP CHURCH")}`;
     } else if (type === "send_money") {
-      payload = phone || "0112656123";
+      payload = `${origin}/give/pay?channel=send_money&phone=${encodeURIComponent(phone || "0112656123")}&name=${encodeURIComponent(recipientName || "Pastor Caesar O. Nyandwaro")}`;
     } else if (type === "kcb_bank") {
-      payload = `KCB Bank Deposit\nPaybill: ${paybillNumber}\nAccount: ${accountNumber}\nName: ${accountName}`;
+      payload = `${origin}/give/pay?channel=kcb_bank&paybill=${encodeURIComponent(paybillNumber || "522533")}&acc=${encodeURIComponent(accountNumber || "1356891853")}&name=${encodeURIComponent(accountName || "Sugutta Fellowship church")}`;
     } else if (type === "sendwave") {
-      payload = "https://www.sendwave.com";
+      payload = `${origin}/give/pay?channel=sendwave&phone=${encodeURIComponent(phone || "+254112656123")}&name=${encodeURIComponent(recipientName || "Pastor Caesar O. Nyandwaro")}`;
     }
 
     QRCode.toDataURL(payload, {

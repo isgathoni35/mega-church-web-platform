@@ -29,7 +29,13 @@ export function SendwaveQR({
 
   useEffect(() => {
     let active = true;
-    QRCode.toDataURL("https://www.sendwave.com", {
+    const origin =
+      typeof window !== "undefined" && window.location.origin
+        ? window.location.origin
+        : "https://suguttafellowshipchurch.org";
+    const payload = `${origin}/give/pay?channel=sendwave&phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(recipientName)}&acc=${encodeURIComponent(accountNumber)}`;
+
+    QRCode.toDataURL(payload, {
       errorCorrectionLevel: "H",
       margin: 2,
       width: 360,
