@@ -26,11 +26,9 @@ interface LibraryPreset {
 const CHURCH_LIBRARY_PRESETS: LibraryPreset[] = [
   { label: "Pastor Caesar (Pulpit Hero)", path: "/images/pastor-caesar-hero.jpg", category: "Leadership" },
   { label: "Pastor Caesar (Portrait)", path: "/images/pastor-caesar.jpg", category: "Leadership" },
-  { label: "Sanctuary Construction Site", path: "/images/church-construction.jpg", category: "Projects" },
   { label: "Community Outreach (Elders & Children)", path: "/images/community-outreach.jpg", category: "Community" },
   { label: "Children's Home Campus", path: "/images/orphanage-hero.png", category: "Compassion" },
-  { label: "Outdoor Crusade Worship", path: "/images/hero-worship.jpg", category: "Crusades" },
-  { label: "Deliverance & Healing Altar", path: "/images/ministry-healing.jpg", category: "Altar" },
+  { label: "Official Church Programme Flyer", path: "/images/church-programme-flyer.jpg", category: "Services" },
   { label: "Official Church Seal Emblem", path: "/images/sugutta-logo.png", category: "Identity" },
 ];
 

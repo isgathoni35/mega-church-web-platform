@@ -32,7 +32,28 @@ export const metadata: Metadata = {
     template: "%s | Suggutta Fellowship Church",
   },
   description:
-    "Official platform for Heavens Gates Suggutta Fellowship Church International. Growing Together in Christ (Matthew 18:20). Experience divine deliverance, live worship, apostolic teachings, and digital giving.",
+    "Official platform for Heavens Gates Suggutta Fellowship Church International in Suggutta, Kenya led by Pastor Caesar O. Nyandwaro. Experience divine deliverance, live worship, apostolic teachings, and community compassion.",
+  keywords: [
+    "Suggutta Fellowship Church",
+    "Suguta Fellowship Church",
+    "Heavens Gate Suggutta Fellowship Church International",
+    "Heavens Gates Suguta Fellowship Church",
+    "Pastor Caesar O. Nyandwaro",
+    "Pastor Caesar Nyandwaro",
+    "Church in Suggutta",
+    "Suguta church Kenya",
+    "Sugutta church Kisii",
+    "Nyatierio crusade",
+    "Suggutta Children's Home",
+    "Sugutta orphanage donation",
+    "Deliverance and healing church Kenya",
+    "Suggutta live sermon broadcast",
+    "Pastor Caesar Kenya",
+    "Apostolic ministry Kenya",
+  ],
+  alternates: {
+    canonical: "./",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico?v=2", sizes: "any" },
@@ -43,10 +64,39 @@ export const metadata: Metadata = {
     shortcut: "/favicon.ico?v=2",
   },
   openGraph: {
+    type: "website",
+    locale: "en_KE",
+    url: appUrl,
+    siteName: "Suggutta Fellowship Church",
     title: "Suggutta Fellowship Church — Growing Together in Christ",
     description:
-      "Official platform for Heavens Gates Suggutta Fellowship Church International. Growing Together in Christ (Matthew 18:20).",
-    images: [{ url: "/images/sugutta-logo.png" }],
+      "Official platform for Heavens Gates Suggutta Fellowship Church International in Suggutta, Kenya led by Pastor Caesar O. Nyandwaro.",
+    images: [
+      {
+        url: "/images/sugutta-logo.png",
+        width: 800,
+        height: 800,
+        alt: "Suggutta Fellowship Church Official Emblem",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Suggutta Fellowship Church — Growing Together in Christ",
+    description:
+      "Official platform for Heavens Gates Suggutta Fellowship Church International in Suggutta, Kenya led by Pastor Caesar O. Nyandwaro.",
+    images: ["/images/sugutta-logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -62,11 +112,87 @@ export default async function RootLayout({
 }>) {
   const settings = await getSiteSettingsAction();
 
+  const churchJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Church", "PlaceOfWorship", "Organization"],
+        "@id": `${appUrl}/#church`,
+        name: "Suggutta Fellowship Church",
+        alternateName: [
+          "Suguta Fellowship Church",
+          "Heavens Gate Suggutta Fellowship Church International",
+          "Heavens Gates Suguta Fellowship Church",
+          "Suggutta Fellowship",
+          "Suguta Church Kenya",
+        ],
+        url: appUrl,
+        logo: `${appUrl}/images/sugutta-logo.png`,
+        image: [
+          `${appUrl}/images/sugutta-logo.png`,
+          `${appUrl}/images/pastor-caesar-hero.jpg`,
+          `${appUrl}/images/community-outreach.jpg`,
+          `${appUrl}/images/orphanage-hero.png`,
+        ],
+        description:
+          "Official platform for Heavens Gates Suggutta Fellowship Church International in Suggutta, Kenya led by Pastor Caesar O. Nyandwaro. Divine deliverance, apostolic word, Sunday services, and compassion outreach.",
+        telephone: settings.mpesaPhone || "+254112656123",
+        email: settings.contactEmail || "sugutafellowshipchurch@gmail.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: settings.physicalLocation || "Suggutta Sanctuary",
+          addressLocality: "Suggutta",
+          addressRegion: "Kisii County",
+          postalCode: settings.postalAddress || "405-40211",
+          addressCountry: "KE",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: -0.803,
+          longitude: 34.805,
+        },
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Sunday"],
+            opens: "06:00",
+            closes: "13:00",
+            description: "5 Anointed Sunday Services (Dawn to Midday)",
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Wednesday"],
+            opens: "17:00",
+            closes: "19:30",
+            description: "Midweek Deliverance & Bible Exposition",
+          },
+        ],
+        founder: {
+          "@type": "Person",
+          name: settings.pastorName || "Pastor Caesar O. Nyandwaro",
+          jobTitle: settings.pastorTitle || "Resident Pastor & Visionary Leader",
+          image: `${appUrl}${settings.pastorImageUrl || "/images/pastor-caesar.jpg"}`,
+        },
+        sameAs: [
+          settings.youtubeChannelUrl || "https://www.youtube.com/@Brianmbera",
+          settings.facebookUrl || "https://facebook.com/SUGGUTTA-FELLOWSHIP-CHURCH",
+          settings.instagramUrl || "https://instagram.com/suggutta",
+        ].filter(Boolean),
+      },
+    ],
+  };
+
   return (
     <html
       lang="en"
       className={`${montserrat.variable} ${greatVibes.variable} h-full antialiased overflow-x-clip`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(churchJsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-accent selection:text-accent-foreground overflow-x-clip w-full max-w-full">
         <ScrollObserverInit />
         <SiteHeader settings={settings} />

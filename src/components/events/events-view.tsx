@@ -214,7 +214,14 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                     {/* Event Thumbnail & Media Overlays */}
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-900">
                       <Image
-                        src={event.imageUrl || "/images/hero-worship.jpg"}
+                        src={
+                          event.imageUrl &&
+                          !event.imageUrl.includes("hero-worship.jpg") &&
+                          !event.imageUrl.includes("ministry-healing.jpg") &&
+                          !event.imageUrl.includes("church-construction.jpg")
+                            ? event.imageUrl
+                            : "/images/church-programme-flyer.jpg"
+                        }
                         alt={event.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
@@ -577,7 +584,14 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
 
             <div className="relative aspect-video sm:aspect-16/10 w-full bg-black">
               <Image
-                src={zoomedFlyerEvent.imageUrl || "/images/hero-worship.jpg"}
+                src={
+                  zoomedFlyerEvent.imageUrl &&
+                  !zoomedFlyerEvent.imageUrl.includes("hero-worship.jpg") &&
+                  !zoomedFlyerEvent.imageUrl.includes("ministry-healing.jpg") &&
+                  !zoomedFlyerEvent.imageUrl.includes("church-construction.jpg")
+                    ? zoomedFlyerEvent.imageUrl
+                    : "/images/church-programme-flyer.jpg"
+                }
                 alt={zoomedFlyerEvent.title}
                 fill
                 className="object-contain"

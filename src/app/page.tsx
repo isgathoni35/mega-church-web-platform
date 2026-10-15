@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/home/hero-section";
 import { FounderSpotlight } from "@/components/home/founder-spotlight";
 import { MinistryPillars } from "@/components/home/ministry-pillars";
@@ -13,6 +14,30 @@ import { createClient } from "@/lib/supabase/server";
 import { Sermon } from "@/types/database.types";
 import { getSiteSettingsAction } from "@/actions/admin-settings";
 
+export const metadata: Metadata = {
+  title: "Suggutta Fellowship Church — Heavens Gate Church Kenya",
+  description:
+    "Welcome to Heavens Gate Suggutta Fellowship Church International in Suggutta, Kenya led by Pastor Caesar O. Nyandwaro. Sunday 5 services, apostolic deliverance, miracle crusades, and live sermon broadcasts.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Suggutta Fellowship Church — Heavens Gate Church Kenya",
+    description:
+      "Welcome to Heavens Gate Suggutta Fellowship Church International in Suggutta, Kenya led by Pastor Caesar O. Nyandwaro.",
+    url: "/",
+    siteName: "Suggutta Fellowship Church",
+    images: [
+      {
+        url: "/images/sugutta-logo.png",
+        width: 800,
+        height: 800,
+        alt: "Suggutta Fellowship Church",
+      },
+    ],
+  },
+};
+
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
@@ -25,7 +50,7 @@ export default async function Home() {
       .from("sermons")
       .select("*")
       .order("date_preached", { ascending: false })
-      .limit(3);
+      .limit(50);
 
     if (!error && data && data.length > 0) {
       sermons = data as Sermon[];

@@ -130,7 +130,7 @@ function ProjectCard({
               ? project.images
               : project.imageUrl
               ? [project.imageUrl]
-              : ["/images/church-construction.jpg"]
+              : []
           }
           videoUrl={project.videoUrl}
           title={project.title}

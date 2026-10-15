@@ -27,12 +27,11 @@ interface LibraryPreset {
 }
 
 const CHURCH_LIBRARY_PRESETS: LibraryPreset[] = [
-  { label: "Sanctuary Construction Site", path: "/images/church-construction.jpg", category: "Projects" },
   { label: "Children's Home Campus", path: "/images/orphanage-hero.png", category: "Compassion" },
   { label: "Community Outreach", path: "/images/community-outreach.jpg", category: "Community" },
-  { label: "Outdoor Crusade Worship", path: "/images/hero-worship.jpg", category: "Crusades" },
-  { label: "Deliverance & Healing Altar", path: "/images/ministry-healing.jpg", category: "Altar" },
   { label: "Pastor Caesar (Pulpit Hero)", path: "/images/pastor-caesar-hero.jpg", category: "Leadership" },
+  { label: "Pastor Caesar (Portrait)", path: "/images/pastor-caesar.jpg", category: "Leadership" },
+  { label: "Official Church Seal Emblem", path: "/images/sugutta-logo.png", category: "Identity" },
 ];
 
 interface ProjectMultiImageFieldProps {

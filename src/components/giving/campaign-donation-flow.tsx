@@ -79,7 +79,7 @@ export const GIVING_FUNDS: GivingFund[] = [
     description: "Sanctuary construction, permanent roofing, pillar casting, and community youth hall expansion.",
     scripture: "The God of heaven will make us prosper, and we his servants will arise and build.",
     scriptureRef: "Nehemiah 2:20",
-    image: "/images/church-construction.jpg",
+    image: "/images/sugutta-logo.png",
     impacts: [
       { amountUsd: 25, amountKes: 2500, text: "Provides 20 cured structural masonry blocks and mortar cement bags." },
       { amountUsd: 50, amountKes: 5000, text: "Sponsors heavy steel rebar columns for load-bearing pillar reinforcement." },
@@ -93,7 +93,7 @@ export const GIVING_FUNDS: GivingFund[] = [
     description: "10% covenant tithe of obedience, Sunday worship ministry, and weekly evangelism operations.",
     scripture: "Bring all the tithes into the storehouse, that there may be food in My house, and try Me now in this.",
     scriptureRef: "Malachi 3:10",
-    image: "/images/hero-worship.jpg",
+    image: "/images/sugutta-logo.png",
     impacts: [
       { amountUsd: 25, amountKes: 2500, text: "Supports weekly Sunday school curriculum and service supplies." },
       { amountUsd: 50, amountKes: 5000, text: "Funds community outreach logistics and pastoral visitation care." },
@@ -107,7 +107,7 @@ export const GIVING_FUNDS: GivingFund[] = [
     description: "Altars of breakthrough, deliverance prayers, healing intercession, and family covenant alignment.",
     scripture: "Honor the Lord with your wealth, with the firstfruits of all your crops; then your barns will be filled to overflowing.",
     scriptureRef: "Proverbs 3:9-10",
-    image: "/images/ministry-healing.jpg",
+    image: "/images/sugutta-logo.png",
     impacts: [
       { amountUsd: 25, amountKes: 2500, text: "Connects your prayer request to the 24/7 Mai Mahiu Prayer Mountain altar." },
       { amountUsd: 50, amountKes: 5000, text: "Consecrated sacrificial seed for business breakthroughs and family fruitfulness." },
@@ -121,7 +121,7 @@ export const GIVING_FUNDS: GivingFund[] = [
     description: "Support any designated ministry initiative, specific benevolence project, youth camp, choir, or special kingdom assignment.",
     scripture: "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.",
     scriptureRef: "2 Corinthians 9:7",
-    image: "/images/hero-worship.jpg",
+    image: "/images/sugutta-logo.png",
     impacts: [
       { amountUsd: 25, amountKes: 2500, text: "Directly funds your designated specific need or community ministry initiative." },
       { amountUsd: 50, amountKes: 5000, text: "Empowers targeted local kingdom mission work and benevolent support." },

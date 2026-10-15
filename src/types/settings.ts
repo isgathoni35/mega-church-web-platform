@@ -211,7 +211,7 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
     "Concrete foundation blocks, steel pillar reinforcement & roof trussing.",
   constructionNarrative:
     "With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.",
-  constructionImageUrl: "/images/church-construction.jpg",
+  constructionImageUrl: "",
   constructionBadge: "Sanctuary Construction",
 
   orphanageTitle: "Sheltering & Sponsoring 50+ Vulnerable Children",
@@ -234,19 +234,19 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
   pillar1Title: "Deliverance & Healing",
   pillar1Desc:
     "Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.",
-  pillar1Image: "/images/ministry-healing.jpg",
+  pillar1Image: "",
   pillar1Video: "",
 
   pillar2Title: "Global Crusades",
   pillar2Desc:
     "Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.",
-  pillar2Image: "/images/hero-worship.jpg",
+  pillar2Image: "",
   pillar2Video: "",
 
   pillar3Title: "Prophetic Word & Truth",
   pillar3Desc:
     "Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.",
-  pillar3Image: "/images/ministry-healing.jpg",
+  pillar3Image: "",
   pillar3Video: "",
 
   pillar4Title: "Compassion & Outreach",
@@ -276,7 +276,6 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       images: [
         "/images/orphanage-hero.png",
         "/images/community-outreach.jpg",
-        "/images/hero-worship.jpg",
       ],
       videoUrl: "",
       donateLink: "/orphanage/donate",
@@ -292,9 +291,8 @@ export const DEFAULT_SETTINGS: SiteSettingsData = {
       subtitle: "Concrete foundation blocks, steel pillar reinforcement & roof trussing.",
       narrative:
         "With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.",
-      imageUrl: "/images/church-construction.jpg",
+      imageUrl: "",
       images: [
-        "/images/church-construction.jpg",
         "/images/community-outreach.jpg",
       ],
       videoUrl: "",

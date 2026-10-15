@@ -871,6 +871,34 @@
       - Automated end-to-end integration test against live Supabase database succeeded with HTTP 200 and instant schema persistence.
       - Verified HTTP 200 on port 3002 across `/admin/settings`.
 
+- [x] `feature-specs/61-homepage-media-stream-and-dummy-image-removal.md`: Continuous Right-to-Left Fading Media Stream & Complete Removal of Hardcoded Dummy Images:
+   1. Dynamic Continuous Right-to-Left Fading Media Stream ([src/components/home/recent-sermons.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/recent-sermons.tsx) & [src/app/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/page.tsx)):
+      - Removed strict `.limit(3)` query in `page.tsx` and `.slice(0, 3)` in `recent-sermons.tsx`, retrieving all active uploaded video messages from Supabase.
+      - Built a 60fps continuous right-to-left gliding carousel with seamless infinite loop duplication.
+      - Styled dual-layer edge fading (CSS gradient mask + responsive gradient backdrop overlays) so video cards emerge gently on the right and fade out gracefully on the left.
+      - Added pause-on-hover / pause-on-touch, previous `<` and next `>` manual arrow step controls, and an accessible Play/Pause toggle button.
+      - Responsive card widths across all screen sizes (mobile `285px`, tablet `335px-365px`, desktop `385px`) with instant modal video playback.
+   2. Clean Removal of Hardcoded Dummy Images (Without Regressions):
+      - `church-construction.jpg`: Removed from [categorized-activities.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/categorized-activities.tsx), [project-image-carousel.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/project-image-carousel.tsx), [campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx), [settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx), and presets.
+      - `hero-worship.jpg` (Auditorium with raised hands): Removed from [ministry-pillars.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/ministry-pillars.tsx), [events-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/events/events-view.tsx), and presets.
+      - `ministry-healing.jpg` (Hands laid on head in prayer): Removed from [ministry-pillars.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/home/ministry-pillars.tsx) and presets.
+      - Zero Breaking Changes: In `MinistryPillars`, added a sleek branded emblem and pillar icon plate (`Flame`, `Globe`, `BookOpen`) when no custom photo is uploaded, preserving video play overlays. In `EventsView`, fell back to the authentic church flyer (`church-programme-flyer.jpg`). In `ProjectImageCarousel`, styled fallback to the church seal emblem (`sugutta-logo.png`).
+      - Preserved all other authentic church media (`pastor-caesar.jpg`, `orphanage-hero.png`, `community-outreach.jpg`, etc.).
+   3. Live Database Synchronization:
+      - Patched Supabase `site_settings` table via REST API to clear `pillar_1_image: ''`, `pillar_2_image: ''`, `pillar_3_image: ''`, and `construction_image_url: ''`.
+   4. Verification:
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+      - Verified HTTP 200 on port 3002.
 
-
-
+- [x] `feature-specs/62-google-seo-and-schema-optimization.md`: Google SEO Optimization, Dynamic Dynamic Sitemap, and Schema.org JSON-LD Structured Data:
+   1. Schema.org JSON-LD Church Structured Data ([src/app/layout.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/layout.tsx)):
+      - Injected rich machine-readable `@type: ["Church", "PlaceOfWorship", "Organization"]` JSON-LD schema into document `<head>`.
+      - Mapped official organization name, alternate spellings (`Suguta Fellowship Church`, `Heavens Gate Suggutta Fellowship Church International`, `Suguta Church Kenya`), verified pastor credentials (Pastor Caesar O. Nyandwaro), church emblem and photography assets, address coordinates in Sugutta/Kisii, contact phone and email, Sunday service times (6:00 AM – 1:00 PM), and verified social links.
+   2. Comprehensive Keyword & Canonical Optimization ([src/app/layout.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/layout.tsx) & [src/app/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/page.tsx)):
+      - Injected targeted Kenyan search synonyms covering both spelling variations ("Suggutta" and "Suguta"), pastoral leadership ("Pastor Caesar Nyandwaro"), location keywords ("Church in Suggutta", "Sugutta church Kisii", "Nyatierio crusade"), and compassion missions.
+      - Added canonical URLs (`alternates: { canonical: "./" }`), OpenGraph tags, and Twitter summary_large_image cards.
+   3. Dynamic Server-Side Sitemap ([src/app/sitemap.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/sitemap.ts)):
+      - Upgraded static sitemap to asynchronously query the `sermons` table from Supabase, dynamically exposing all sermon slugs and media broadcasts to Googlebot with prioritized change frequency and lastModified dates.
+   4. Verification:
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+      - Verified live endpoints on port 3002: `/sitemap.xml` returns valid dynamic XML listing all sermons and pages; `/robots.txt` points to `sitemap.xml`; and `/` renders valid `application/ld+json`.

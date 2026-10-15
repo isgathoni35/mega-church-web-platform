@@ -191,7 +191,7 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS vision_statement TEXT 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_title TEXT NOT NULL DEFAULT 'Building a Permanent House of Prayer in Suggutta';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_subtitle TEXT NOT NULL DEFAULT 'Concrete foundation blocks, steel pillar reinforcement & roof trussing.';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_narrative TEXT NOT NULL DEFAULT 'With five vibrant Sunday services and midweek teachings overflowing our temporary hall, our congregation is constructing a permanent sanctuary to shelter worshippers from the rains and house youth discipleship.';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_image_url TEXT NOT NULL DEFAULT '/images/church-construction.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_image_url TEXT NOT NULL DEFAULT '';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS construction_badge TEXT NOT NULL DEFAULT 'Sanctuary Construction';
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS orphanage_title TEXT NOT NULL DEFAULT 'Sheltering & Sponsoring 60+ Vulnerable Children';
@@ -210,17 +210,17 @@ ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS community_image_url TE
 -- 9. 4 Ministry Pillars & Impact Counters
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_title TEXT NOT NULL DEFAULT 'Deliverance & Healing';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_desc TEXT NOT NULL DEFAULT 'Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_image TEXT NOT NULL DEFAULT '/images/ministry-healing.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_image TEXT NOT NULL DEFAULT '';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_1_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_title TEXT NOT NULL DEFAULT 'Global Crusades';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_desc TEXT NOT NULL DEFAULT 'Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_image TEXT NOT NULL DEFAULT '/images/hero-worship.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_image TEXT NOT NULL DEFAULT '';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_2_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_title TEXT NOT NULL DEFAULT 'Prophetic Word & Truth';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_desc TEXT NOT NULL DEFAULT 'Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.';
-ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_image TEXT NOT NULL DEFAULT '/images/ministry-healing.jpg';
+ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_image TEXT NOT NULL DEFAULT '';
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_3_video TEXT;
 
 ALTER TABLE public.site_settings ADD COLUMN IF NOT EXISTS pillar_4_title TEXT NOT NULL DEFAULT 'Compassion & Outreach';
@@ -349,8 +349,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       subtitle: "Project objective or current focus",
       narrative:
         "Detailed explanation of the project, impact, and how people can support.",
-      imageUrl: "/images/church-construction.jpg",
-      images: ["/images/church-construction.jpg"],
+      imageUrl: "",
+      images: [],
       videoUrl: "",
       donateLink: "/give",
       donateLabel: "Support this Project",
@@ -481,7 +481,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       dates: "Upcoming 2026",
       format: "In-Person & Live Broadcast",
       description: "Anointed gathering for deliverance, salvation, and kingdom fellowship.",
-      imageUrl: "/images/hero-worship.jpg",
+      imageUrl: "",
       whatsappMessage: `Hello ${settings.pastorName}, I would like to inquire about the upcoming church mission.`,
       videoUrl: "",
       videoSourceType: "upload",

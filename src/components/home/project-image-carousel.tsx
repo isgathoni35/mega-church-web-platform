@@ -40,39 +40,45 @@ export function ProjectImageCarousel({
   const slides = React.useMemo<MediaSlide[]>(() => {
     const list: MediaSlide[] = [];
 
-    // Filter valid image URLs
-    const safeImages = Array.isArray(images)
-      ? images.filter(Boolean)
-      : [];
+    // Filter valid image URLs and exclude retired dummy assets
+    const safeImages = (Array.isArray(images) ? images : [])
+      .filter((img): img is string => Boolean(
+        img &&
+        typeof img === "string" &&
+        !img.includes("church-construction.jpg") &&
+        !img.includes("hero-worship.jpg") &&
+        !img.includes("ministry-healing.jpg")
+      ));
 
-    if (safeImages.length === 0) {
+    safeImages.slice(0, 5).forEach((src, idx) => {
       list.push({
-        id: "default-img",
+        id: `img-${idx}`,
         type: "image",
-        url: "/images/church-construction.jpg",
+        url: src,
       });
-    } else {
-      safeImages.slice(0, 5).forEach((src, idx) => {
-        list.push({
-          id: `img-${idx}`,
-          type: "image",
-          url: src,
-        });
-      });
-    }
+    });
 
     // Append video slide if videoUrl is present
     if (videoUrl && videoUrl.trim()) {
       const cleanVideo = videoUrl.trim();
       const ytId = getYouTubeId(cleanVideo);
       const ytThumb = ytId ? getYouTubeThumbnail(ytId) : "";
-      const fallbackThumb = safeImages[0] || "/images/church-construction.jpg";
+      const fallbackThumb = safeImages[0] || "/images/sugutta-logo.png";
 
       list.push({
         id: "project-video",
         type: "video",
         url: cleanVideo,
         thumbnailUrl: ytThumb || fallbackThumb,
+      });
+    }
+
+    // If both safeImages and videoUrl are absent, provide clean branded emblem slide
+    if (list.length === 0) {
+      list.push({
+        id: "default-logo-img",
+        type: "image",
+        url: "/images/sugutta-logo.png",
       });
     }
 
@@ -187,7 +193,11 @@ export function ProjectImageCarousel({
                 src={displayImage}
                 alt={`${title} - ${slide.type === "video" ? "Video Walkthrough" : `Photo ${idx + 1}`}`}
                 fill
-                className="object-cover group-hover/carousel:scale-105 transition-transform duration-700"
+                className={
+                  displayImage.includes("sugutta-logo.png")
+                    ? "object-contain p-8 sm:p-12 bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/40"
+                    : "object-cover group-hover/carousel:scale-105 transition-transform duration-700"
+                }
                 unoptimized
                 priority={idx === 0}
               />

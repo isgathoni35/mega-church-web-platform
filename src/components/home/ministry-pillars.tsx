@@ -14,6 +14,19 @@ export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps
   const settings = propSettings || DEFAULT_SETTINGS;
   const [activeVideo, setActiveVideo] = React.useState<{ url: string; title: string } | null>(null);
 
+  const sanitizeImage = (src?: string) => {
+    if (!src) return "";
+    const clean = src.trim();
+    if (
+      clean.includes("hero-worship.jpg") ||
+      clean.includes("ministry-healing.jpg") ||
+      clean.includes("church-construction.jpg")
+    ) {
+      return "";
+    }
+    return clean;
+  };
+
   const pillars = [
     {
       title: settings.pillar1Title || "Deliverance & Healing",
@@ -21,8 +34,8 @@ export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps
       description:
         settings.pillar1Desc ||
         "Treading upon the works of darkness, breaking generational curses, casting out demonic afflictions, and witnessing total physical restoration through the authority of Jesus Christ.",
-      imageSrc: settings.pillar1Image || "/images/ministry-healing.jpg",
-      imageAlt: "Hands laid in prayer for healing inside a warm church setting",
+      imageSrc: sanitizeImage(settings.pillar1Image),
+      imageAlt: "Deliverance and healing ministry at Suggutta",
       videoUrl: settings.pillar1Video ? settings.pillar1Video.trim() : "",
       icon: Flame,
     },
@@ -32,8 +45,8 @@ export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps
       description:
         settings.pillar2Desc ||
         "Conducting massive outdoor evangelistic campaigns, stadium crusades, and open-air meetings that gather hundreds of thousands to repent and accept the saving power of the Cross.",
-      imageSrc: settings.pillar2Image || "/images/hero-worship.jpg",
-      imageAlt: "Large outdoor African gospel crusade at sunset with thousands gathered in worship",
+      imageSrc: sanitizeImage(settings.pillar2Image),
+      imageAlt: "Global crusades ministry at Suggutta",
       videoUrl: settings.pillar2Video ? settings.pillar2Video.trim() : "",
       icon: Globe,
     },
@@ -43,8 +56,8 @@ export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps
       description:
         settings.pillar3Desc ||
         "Expositional teaching of the Holy Scriptures to equip the saints, ground believers in apostolic doctrine, and build resilient Christian families anchored in holiness.",
-      imageSrc: settings.pillar3Image || "/images/ministry-healing.jpg",
-      imageAlt: "Small group Bible study session with open Bibles in warm church interior",
+      imageSrc: sanitizeImage(settings.pillar3Image),
+      imageAlt: "Prophetic word and biblical truth at Suggutta",
       videoUrl: settings.pillar3Video ? settings.pillar3Video.trim() : "",
       icon: BookOpen,
     },
@@ -54,7 +67,7 @@ export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps
       description:
         settings.pillar4Desc ||
         "Feeding the hungry, sheltering orphans, providing medical support, and clothing widows across underserved communities as an active demonstration of Christ's compassion.",
-      imageSrc: settings.pillar4Image || "/images/community-outreach.jpg",
+      imageSrc: sanitizeImage(settings.pillar4Image) || "/images/community-outreach.jpg",
       imageAlt: "Grassroots village community fellowship, elders, mothers, and children outreach gathering with church leaders",
       videoUrl: settings.pillar4Video ? settings.pillar4Video.trim() : "",
       icon: HeartHandshake,
@@ -107,16 +120,30 @@ export function MinistryPillars({ settings: propSettings }: MinistryPillarsProps
                   </p>
                 </div>
 
-                <div className="relative aspect-[16/9] w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-inner mt-2 group/media">
-                  <Image
-                    src={pillar.imageSrc}
-                    alt={pillar.imageAlt}
-                    fill
-                    className="object-cover group-hover/media:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent" />
+                <div className="relative aspect-[16/9] w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-inner mt-2 group/media bg-slate-900 border border-slate-800">
+                  {pillar.imageSrc ? (
+                    <Image
+                      src={pillar.imageSrc}
+                      alt={pillar.imageAlt}
+                      fill
+                      className="object-cover group-hover/media:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      unoptimized
+                    />
+                  ) : (
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-amber-950/40 flex flex-col items-center justify-center p-6 text-center">
+                      <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-[#ff6b35] mb-2 shadow-sm">
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <p className="text-xs sm:text-sm font-bold text-slate-200">
+                        {pillar.title}
+                      </p>
+                      <span className="text-[10px] text-amber-400 font-mono uppercase tracking-wider mt-1">
+                        Suggutta Fellowship Church
+                      </span>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent pointer-events-none" />
 
                   {/* Video Play Overlay */}
                   {pillar.videoUrl && (
