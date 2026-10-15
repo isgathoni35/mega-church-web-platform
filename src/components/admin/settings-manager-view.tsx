@@ -39,6 +39,8 @@ import {
   Layers,
   Pencil,
   X,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import {
   SiteSettingsData,
@@ -51,6 +53,7 @@ import {
 import {
   saveSiteSettingsAction,
   saveProjectsAction,
+  saveEventsAction,
   getOrphanageVideoSignedUploadUrlAction,
   uploadChurchMediaAction,
   addOrphanagePhotoAction,
@@ -381,7 +384,43 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     });
   };
 
-  // Event Helpers
+  // Event Helpers & Mobile Accordion State
+  const [expandedEvents, setExpandedEvents] = useState<Record<number, boolean>>({ 0: true });
+  const [allEventsExpanded, setAllEventsExpanded] = useState(false);
+
+  const toggleEventExpanded = (idx: number) => {
+    setExpandedEvents((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  const toggleAllEvents = () => {
+    const nextState = !allEventsExpanded;
+    setAllEventsExpanded(nextState);
+    const updated: Record<number, boolean> = {};
+    settings.eventsJson.forEach((_, i) => {
+      updated[i] = nextState;
+    });
+    setExpandedEvents(updated);
+  };
+
+  const handleSaveEventsOnly = (e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    startTransition(async () => {
+      const res = await saveEventsAction(settings.eventsJson);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Events & crusades published successfully without any errors!",
+        });
+        router.refresh();
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to save events.",
+        });
+      }
+    });
+  };
+
   const handleAddEvent = () => {
     const newEvent: MinistryEventItem = {
       id: `event-${Date.now()}`,
@@ -402,6 +441,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       ...settings,
       eventsJson: [newEvent, ...settings.eventsJson],
     });
+    setExpandedEvents((prev) => ({ ...prev, 0: true }));
   };
 
   const handleUpdateEvent = (
@@ -988,11 +1028,11 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       )}
 
       {/* Visual Navigation Tabs */}
-      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 overflow-x-auto scrollbar-none w-full max-w-full">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 overflow-x-auto scrollbar-none w-full max-w-full touch-pan-x scroll-smooth snap-x snap-mandatory py-2 px-2">
         <button
           type="button"
           onClick={() => setActiveTab("hero")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "hero"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -1005,7 +1045,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("projects")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "projects"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -1018,7 +1058,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("orphanage")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "orphanage"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -1031,7 +1071,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("pillars")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "pillars"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -1044,7 +1084,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("about")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "about"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -1057,7 +1097,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("events")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "events"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -1070,7 +1110,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         <button
           type="button"
           onClick={() => setActiveTab("bank")}
-          className={`shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+          className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "bank"
               ? "bg-white text-[#ff6b35] shadow-sm"
               : "text-slate-600 hover:text-slate-900"
@@ -2576,8 +2616,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
 
         {/* ================= TAB 5: EVENTS & CRUSADES ================= */}
         {activeTab === "events" && (
-          <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="bg-white p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35]">
                   Mission Calendar
@@ -2585,194 +2625,357 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 <h2 className="text-lg sm:text-xl font-bold text-slate-900">
                   Upcoming Crusades, Keshas &amp; Retreats (/events)
                 </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Manage live mission cards with photos, recap testimonies, and YouTube broadcasts.
+                </p>
               </div>
 
-              <Button
-                type="button"
-                onClick={handleAddEvent}
-                className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add New Event</span>
-              </Button>
+              <div className="flex flex-wrap items-center gap-2">
+                <Button
+                  type="button"
+                  onClick={toggleAllEvents}
+                  variant="outline"
+                  className="text-xs font-bold rounded-xl h-9 px-3 text-slate-700"
+                >
+                  {allEventsExpanded ? (
+                    <>
+                      <ChevronUp className="w-3.5 h-3.5 mr-1 text-slate-500" />
+                      <span>Collapse All</span>
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3.5 h-3.5 mr-1 text-slate-500" />
+                      <span>Expand All</span>
+                    </>
+                  )}
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleAddEvent}
+                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl h-9 px-3 flex items-center gap-1.5"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Event</span>
+                </Button>
+
+                <Button
+                  type="button"
+                  onClick={handleSaveEventsOnly}
+                  disabled={isPending}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl h-9 px-4 flex items-center gap-1.5 shadow-sm"
+                >
+                  {isPending ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Saving...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-3.5 h-3.5" />
+                      <span>Save Events</span>
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
             {settings.eventsJson.length === 0 ? (
               <div className="p-8 text-center text-slate-400 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
                 <Calendar className="w-8 h-8 mx-auto mb-2 text-slate-400" />
                 <p className="text-sm font-bold">No upcoming events created.</p>
-                <p className="text-xs mt-1">Click &quot;Add New Event&quot; above to create one.</p>
+                <p className="text-xs mt-1">Click &quot;Add Event&quot; above to create one.</p>
               </div>
             ) : (
-              <div className="space-y-6">
-                {settings.eventsJson.map((event, idx) => (
-                  <div
-                    key={event.id || idx}
-                    className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-4"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-black text-slate-700 uppercase">
-                          Event #{idx + 1}
-                        </span>
-                        <span
-                          className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                            event.status === "past"
-                              ? "bg-slate-200 text-slate-800"
-                              : "bg-emerald-100 text-emerald-800"
-                          }`}
-                        >
-                          {event.status === "past" ? "Past Crusade Archive" : "Upcoming Event"}
-                        </span>
-                      </div>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteEvent(idx)}
-                        className="text-rose-600 hover:bg-rose-50 hover:text-rose-700 h-8 px-2 text-xs font-bold"
+              <div className="space-y-4">
+                {settings.eventsJson.map((event, idx) => {
+                  const isExpanded = !!expandedEvents[idx];
+
+                  return (
+                    <div
+                      key={event.id || idx}
+                      className="rounded-2xl bg-slate-50 border border-slate-200/90 overflow-hidden transition-all shadow-sm"
+                    >
+                      {/* Compact Collapsible Header */}
+                      <div
+                        onClick={() => toggleEventExpanded(idx)}
+                        className="p-3.5 sm:p-4 bg-white hover:bg-slate-50/80 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/60 transition-colors select-none"
                       >
-                        <Trash2 className="w-4 h-4 mr-1" />
-                        <span>Delete Event</span>
-                      </Button>
-                    </div>
+                        <div className="flex items-center gap-3 min-w-0">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleEventExpanded(idx);
+                            }}
+                            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 shrink-0"
+                            aria-label={isExpanded ? "Collapse event card" : "Expand event card"}
+                          >
+                            {isExpanded ? (
+                              <ChevronUp className="w-5 h-5 text-slate-600" />
+                            ) : (
+                              <ChevronDown className="w-5 h-5 text-slate-600" />
+                            )}
+                          </button>
 
-                    {/* Event Status Toggle */}
-                    <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
-                      <label className="text-[11px] font-bold text-slate-700 block">
-                        Event Status / Category
-                      </label>
-                      <div className="flex flex-wrap gap-2">
-                        <button
-                          type="button"
-                          onClick={() => handleUpdateEvent(idx, { status: "upcoming" })}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                            event.status !== "past"
-                              ? "bg-emerald-600 text-white shadow-sm"
-                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                          }`}
-                        >
-                          <span className="inline-block w-2 h-2 rounded-full bg-emerald-300 mr-1.5" />
-                          Upcoming Event / Mission
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleUpdateEvent(idx, { status: "past" })}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                            event.status === "past"
-                              ? "bg-[#0f172a] text-white shadow-sm"
-                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                          }`}
-                        >
-                          <Building2 className="w-3.5 h-3.5 text-amber-400" />
-                          <span>Past Crusade / Media Archive</span>
-                        </button>
+                          <div className="min-w-0 space-y-0.5">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-[11px] font-black text-slate-700 uppercase">
+                                Event #{idx + 1}
+                              </span>
+                              <span
+                                className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                                  event.status === "past"
+                                    ? "bg-slate-200 text-slate-800"
+                                    : "bg-emerald-100 text-emerald-800"
+                                }`}
+                              >
+                                {event.status === "past" ? "Past Archive" : "Upcoming"}
+                              </span>
+                              {event.badge && (
+                                <span className="text-[10px] font-extrabold text-[#ff6b35] bg-orange-50 px-2 py-0.5 rounded-full border border-orange-200/60 truncate max-w-[150px]">
+                                  {event.badge}
+                                </span>
+                              )}
+                            </div>
+                            <h4 className="font-bold text-xs sm:text-sm text-slate-900 truncate">
+                              {event.title || "Untitled Mission Event"}
+                            </h4>
+                            <p className="text-[11px] text-slate-500 truncate">
+                              {event.dates || "Dates TBD"} &bull; {event.location || "Location TBD"}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleEventExpanded(idx);
+                            }}
+                            className="text-xs font-bold text-slate-600 hover:bg-slate-100 h-8 px-2.5"
+                          >
+                            {isExpanded ? "Collapse" : "Edit Details"}
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteEvent(idx);
+                            }}
+                            className="text-rose-600 hover:bg-rose-50 hover:text-rose-700 h-8 px-2 text-xs font-bold"
+                          >
+                            <Trash2 className="w-4 h-4 mr-1" />
+                            <span className="hidden sm:inline">Delete</span>
+                          </Button>
+                        </div>
                       </div>
-                      <p className="text-[10px] text-slate-400">
-                        {event.status === "past"
-                          ? "This event will be listed in the Past Crusades & Media Archive tab on the website with its video recap and photos."
-                          : "This event will be featured under Upcoming Missions for registration."}
-                      </p>
+
+                      {/* Expandable Body */}
+                      {isExpanded && (
+                        <div className="p-4 sm:p-6 space-y-4 bg-slate-50/70 border-t border-slate-100 animate-in fade-in duration-150">
+                          {/* Event Status Toggle */}
+                          <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1.5">
+                            <label className="text-[11px] font-bold text-slate-700 block">
+                              Event Status / Category
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateEvent(idx, { status: "upcoming" })}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                  event.status !== "past"
+                                    ? "bg-emerald-600 text-white shadow-sm"
+                                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                }`}
+                              >
+                                <span className="inline-block w-2 h-2 rounded-full bg-emerald-300 mr-1.5" />
+                                Upcoming Event / Mission
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleUpdateEvent(idx, { status: "past" })}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                                  event.status === "past"
+                                    ? "bg-[#0f172a] text-white shadow-sm"
+                                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                }`}
+                              >
+                                <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                                <span>Past Crusade / Media Archive</span>
+                              </button>
+                            </div>
+                            <p className="text-[10px] text-slate-400">
+                              {event.status === "past"
+                                ? "This event will be listed in the Past Crusades & Media Archive tab on the website with its video recap and photos."
+                                : "This event will be featured under Upcoming Missions for registration."}
+                            </p>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-slate-700">Event Title</label>
+                              <Input
+                                value={event.title}
+                                onChange={(e) => handleUpdateEvent(idx, "title", e.target.value)}
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-slate-700">
+                                Category Badge (e.g. MISSION 2026 / KISII CRUSADE)
+                              </label>
+                              <Input
+                                value={event.badge}
+                                onChange={(e) => handleUpdateEvent(idx, "badge", e.target.value)}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-slate-700">Dates</label>
+                              <Input
+                                value={event.dates}
+                                onChange={(e) => handleUpdateEvent(idx, "dates", e.target.value)}
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-slate-700">Venue / Location</label>
+                              <Input
+                                value={event.location}
+                                onChange={(e) => handleUpdateEvent(idx, "location", e.target.value)}
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-slate-700">Format</label>
+                              <Input
+                                value={event.format}
+                                onChange={(e) => handleUpdateEvent(idx, "format", e.target.value)}
+                              />
+                            </div>
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-bold text-slate-700">Event Description</label>
+                            <Textarea
+                              rows={2}
+                              value={event.description}
+                              onChange={(e) => handleUpdateEvent(idx, "description", e.target.value)}
+                            />
+                          </div>
+
+                          {event.status === "past" && (
+                            <div className="space-y-1">
+                              <label className="text-[11px] font-bold text-slate-700">
+                                Crusade Recap / Testimony Notes (Optional)
+                              </label>
+                              <Textarea
+                                rows={2}
+                                placeholder="e.g. Over 5,000 believers gathered with powerful deliverance testimonies, miracles, and souls won to Christ."
+                                value={event.recapNotes || ""}
+                                onChange={(e) => handleUpdateEvent(idx, "recapNotes", e.target.value)}
+                              />
+                            </div>
+                          )}
+
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <ImageUploadField
+                              label="Event Flyer / Poster Image"
+                              description="Displayed as the primary visual on event cards."
+                              value={event.imageUrl}
+                              onChange={(url) => handleUpdateEvent(idx, "imageUrl", url)}
+                              aspectRatio="video"
+                            />
+
+                            <EventVideoUploadField
+                              videoUrl={event.videoUrl}
+                              videoSourceType={event.videoSourceType}
+                              onChange={(url, type) =>
+                                handleUpdateEvent(idx, { videoUrl: url, videoSourceType: type })
+                              }
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-bold text-slate-700">
+                              WhatsApp Registration / Inquiries Preset Message
+                            </label>
+                            <Input
+                              value={event.whatsappMessage || ""}
+                              placeholder="e.g. Hello Pastor Caesar, I would like to attend..."
+                              onChange={(e) => handleUpdateEvent(idx, "whatsappMessage", e.target.value)}
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-between pt-3 border-t border-slate-200">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => toggleEventExpanded(idx)}
+                              className="text-xs font-bold rounded-xl"
+                            >
+                              <ChevronUp className="w-3.5 h-3.5 mr-1" />
+                              <span>Collapse Event Card</span>
+                            </Button>
+
+                            <Button
+                              type="button"
+                              size="sm"
+                              onClick={handleSaveEventsOnly}
+                              disabled={isPending}
+                              className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center gap-1.5"
+                            >
+                              <Save className="w-3.5 h-3.5" />
+                              <span>Save Events</span>
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                     </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">Event Title</label>
-                        <Input
-                          value={event.title}
-                          onChange={(e) => handleUpdateEvent(idx, "title", e.target.value)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">Category Badge (e.g. MISSION 2026 / KISII CRUSADE)</label>
-                        <Input
-                          value={event.badge}
-                          onChange={(e) => handleUpdateEvent(idx, "badge", e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">Dates</label>
-                        <Input
-                          value={event.dates}
-                          onChange={(e) => handleUpdateEvent(idx, "dates", e.target.value)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">Venue / Location</label>
-                        <Input
-                          value={event.location}
-                          onChange={(e) => handleUpdateEvent(idx, "location", e.target.value)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">Format</label>
-                        <Input
-                          value={event.format}
-                          onChange={(e) => handleUpdateEvent(idx, "format", e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-700">Event Description</label>
-                      <Textarea
-                        rows={2}
-                        value={event.description}
-                        onChange={(e) => handleUpdateEvent(idx, "description", e.target.value)}
-                      />
-                    </div>
-
-                    {event.status === "past" && (
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">
-                          Crusade Recap / Testimony Notes (Optional)
-                        </label>
-                        <Textarea
-                          rows={2}
-                          placeholder="e.g. Over 5,000 believers gathered with powerful deliverance testimonies, miracles, and souls won to Christ."
-                          value={event.recapNotes || ""}
-                          onChange={(e) => handleUpdateEvent(idx, "recapNotes", e.target.value)}
-                        />
-                      </div>
-                    )}
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      <ImageUploadField
-                        label="Event Flyer / Poster Image"
-                        description="Displayed as the primary visual on event cards."
-                        value={event.imageUrl}
-                        onChange={(url) => handleUpdateEvent(idx, "imageUrl", url)}
-                        aspectRatio="video"
-                      />
-
-                      <EventVideoUploadField
-                        videoUrl={event.videoUrl}
-                        videoSourceType={event.videoSourceType}
-                        onChange={(url, type) =>
-                          handleUpdateEvent(idx, { videoUrl: url, videoSourceType: type })
-                        }
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <label className="text-[11px] font-bold text-slate-700">
-                        WhatsApp Registration / Inquiries Preset Message
-                      </label>
-                      <Input
-                        value={event.whatsappMessage || ""}
-                        placeholder="e.g. Hello Pastor Caesar, I would like to attend..."
-                        onChange={(e) => handleUpdateEvent(idx, "whatsappMessage", e.target.value)}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
-            {renderSaveSectionBar("Ready to update Upcoming Mission Events?")}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 sm:p-5 bg-emerald-50/80 rounded-2xl border border-emerald-200/80 mt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                  <Calendar className="w-4 h-4" />
+                </div>
+                <div>
+                  <p className="font-extrabold text-slate-900 text-xs sm:text-sm">
+                    Ready to publish upcoming events &amp; crusades?
+                  </p>
+                  <p className="text-[11px] text-slate-500">
+                    Saves strictly the mission schedule and revalidates /events and the homepage instantly.
+                  </p>
+                </div>
+              </div>
+              <Button
+                type="button"
+                onClick={handleSaveEventsOnly}
+                disabled={isPending}
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-black px-6 py-2.5 rounded-full text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Saving Events...</span>
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-3.5 h-3.5" />
+                    <span>Save &amp; Publish Events</span>
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         )}
 
@@ -3128,32 +3331,32 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       </div>
 
       {/* Persistent Floating Bottom Save Bar (Always Visible On-Screen) */}
-      <div className="fixed bottom-0 left-0 md:left-64 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-4 sm:px-8 py-3.5 shadow-[0_-8px_25px_rgba(0,0,0,0.09)] flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2.5 sm:gap-3">
+      <div className="fixed bottom-0 left-0 md:left-64 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-4 sm:px-8 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] shadow-[0_-8px_25px_rgba(0,0,0,0.09)] flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
           <div className="hidden sm:block">
             <span className="text-xs font-bold text-slate-900 block">CMS Live Publishing Hub</span>
-            <span className="text-[11px] text-slate-500 block">All modifications immediately update the live public website</span>
+            <span className="text-[11px] text-slate-500 block truncate">All modifications immediately update the live public website</span>
           </div>
-          <span className="text-xs font-bold text-slate-800 sm:hidden">Ready to publish</span>
+          <span className="text-xs font-bold text-slate-800 sm:hidden truncate">CMS Ready</span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 shrink-0">
           <Button
             type="button"
             onClick={(e) => handleSave(e)}
             disabled={isPending}
-            className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-black px-6 sm:px-8 py-3 rounded-full shadow-lg shadow-orange-500/25 text-xs sm:text-sm h-auto flex items-center gap-2 border-0"
+            className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-black px-5 sm:px-8 py-2.5 sm:py-3 rounded-full shadow-lg shadow-orange-500/25 text-xs sm:text-sm h-auto flex items-center gap-2 border-0"
           >
             {isPending ? (
               <>
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Saving Changes...</span>
+                <span>Saving...</span>
               </>
             ) : (
               <>
                 <Save className="w-4 h-4" />
-                <span>Save &amp; Publish All Changes</span>
+                <span>Save All Changes</span>
               </>
             )}
           </Button>
@@ -3162,9 +3365,9 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
 
       {/* ================= EDIT ORPHANAGE PHOTO MODAL ================= */}
       {editingPhoto && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 relative">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full max-h-[90dvh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden relative">
+            <div className="flex items-center justify-between border-b border-slate-100 p-4 sm:p-6 shrink-0">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-rose-600">
                   Children&apos;s Home CMS
@@ -3182,54 +3385,56 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </button>
             </div>
 
-            <form onSubmit={handleSaveEditPhoto} className="space-y-4">
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700">Photo Title *</label>
-                <Input
-                  required
-                  value={editPhotoTitle}
-                  onChange={(e) => setEditPhotoTitle(e.target.value)}
-                  placeholder="e.g. Joyful Morning Devotion & Smiles"
-                />
+            <form onSubmit={handleSaveEditPhoto} className="flex flex-col flex-1 min-h-0">
+              <div className="overflow-y-auto p-4 sm:p-6 space-y-4 flex-1">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Photo Title *</label>
+                  <Input
+                    required
+                    value={editPhotoTitle}
+                    onChange={(e) => setEditPhotoTitle(e.target.value)}
+                    placeholder="e.g. Joyful Morning Devotion & Smiles"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Category Tag</label>
+                  <select
+                    value={editPhotoCategory}
+                    onChange={(e) => setEditPhotoCategory(e.target.value)}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs bg-white focus:ring-2 focus:ring-rose-500 focus:outline-none"
+                  >
+                    <option value="Daily Life">Daily Life</option>
+                    <option value="Education">Education & Schooling</option>
+                    <option value="Worship">Worship & Prayer</option>
+                    <option value="Meals & Nutrition">Meals & Nutrition</option>
+                    <option value="Healthcare">Healthcare & Well-being</option>
+                    <option value="Playtime">Playtime & Sports</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Caption / Narrative (Optional)</label>
+                  <Textarea
+                    rows={2}
+                    value={editPhotoCaption}
+                    onChange={(e) => setEditPhotoCaption(e.target.value)}
+                    placeholder="Brief story or message explaining this photo..."
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <ImageUploadField
+                    label="Photo Image Plate"
+                    description="Keep the current image or upload a replacement."
+                    value={editPhotoImageUrl}
+                    onChange={(url) => setEditPhotoImageUrl(url)}
+                    aspectRatio="video"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700">Category Tag</label>
-                <select
-                  value={editPhotoCategory}
-                  onChange={(e) => setEditPhotoCategory(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs bg-white focus:ring-2 focus:ring-rose-500 focus:outline-none"
-                >
-                  <option value="Daily Life">Daily Life</option>
-                  <option value="Education">Education & Schooling</option>
-                  <option value="Worship">Worship & Prayer</option>
-                  <option value="Meals & Nutrition">Meals & Nutrition</option>
-                  <option value="Healthcare">Healthcare & Well-being</option>
-                  <option value="Playtime">Playtime & Sports</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700">Caption / Narrative (Optional)</label>
-                <Textarea
-                  rows={2}
-                  value={editPhotoCaption}
-                  onChange={(e) => setEditPhotoCaption(e.target.value)}
-                  placeholder="Brief story or message explaining this photo..."
-                />
-              </div>
-
-              <div className="space-y-1">
-                <ImageUploadField
-                  label="Photo Image Plate"
-                  description="Keep the current image or upload a replacement."
-                  value={editPhotoImageUrl}
-                  onChange={(url) => setEditPhotoImageUrl(url)}
-                  aspectRatio="video"
-                />
-              </div>
-
-              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-end gap-2.5 p-4 sm:p-6 border-t border-slate-100 bg-slate-50/80 shrink-0">
                 <Button
                   type="button"
                   variant="outline"
@@ -3253,9 +3458,9 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
 
       {/* ================= EDIT ORPHANAGE VIDEO MODAL ================= */}
       {editingVideo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 relative">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full max-h-[90dvh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden relative">
+            <div className="flex items-center justify-between border-b border-slate-100 p-4 sm:p-6 shrink-0">
               <div>
                 <span className="text-[10px] font-black uppercase tracking-wider text-rose-600">
                   Children&apos;s Home CMS
@@ -3276,142 +3481,144 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </button>
             </div>
 
-            <form onSubmit={handleSaveEditVideo} className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Video Title *</label>
-                  <Input
-                    required
-                    value={editVideoTitle}
-                    onChange={(e) => setEditVideoTitle(e.target.value)}
-                    placeholder="e.g. Children Smiling & Morning Worship"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Badge / Tag</label>
-                  <Input
-                    value={editVideoBadge}
-                    onChange={(e) => setEditVideoBadge(e.target.value)}
-                    placeholder="e.g. Daily Life Story"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-700">Description (Optional)</label>
-                <Textarea
-                  rows={2}
-                  value={editVideoDescription}
-                  onChange={(e) => setEditVideoDescription(e.target.value)}
-                  placeholder="Brief description for donors and sponsors..."
-                />
-              </div>
-
-              {/* Video Source Control */}
-              <div className="space-y-2 pt-2 border-t border-slate-100">
-                <label className="text-xs font-bold text-slate-700 block">Video Source</label>
-                <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
-                  <button
-                    type="button"
-                    onClick={() => setEditVideoSourceMode("keep")}
-                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
-                      editVideoSourceMode === "keep"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    Keep Current
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditVideoSourceMode("youtube")}
-                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
-                      editVideoSourceMode === "youtube"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    YouTube Link
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditVideoSourceMode("upload")}
-                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
-                      editVideoSourceMode === "upload"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-600 hover:text-slate-900"
-                    }`}
-                  >
-                    Upload New File
-                  </button>
-                </div>
-
-                {editVideoSourceMode === "keep" && (
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
-                    <p className="font-bold text-slate-700">Current Video Attached:</p>
-                    <p className="font-mono text-slate-500 truncate text-[11px]">{editingVideo.videoUrl}</p>
-                    <p className="text-[10px] text-slate-400">
-                      You can edit title, description, or badge without re-uploading the video file.
-                    </p>
-                  </div>
-                )}
-
-                {editVideoSourceMode === "youtube" && (
+            <form onSubmit={handleSaveEditVideo} className="flex flex-col flex-1 min-h-0">
+              <div className="overflow-y-auto p-4 sm:p-6 space-y-4 flex-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">Video Title *</label>
                     <Input
-                      placeholder="https://www.youtube.com/watch?v=..."
-                      value={editVideoUrlInput}
-                      onChange={(e) => setEditVideoUrlInput(e.target.value)}
+                      required
+                      value={editVideoTitle}
+                      onChange={(e) => setEditVideoTitle(e.target.value)}
+                      placeholder="e.g. Children Smiling & Morning Worship"
                     />
                   </div>
-                )}
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-700">Badge / Tag</label>
+                    <Input
+                      value={editVideoBadge}
+                      onChange={(e) => setEditVideoBadge(e.target.value)}
+                      placeholder="e.g. Daily Life Story"
+                    />
+                  </div>
+                </div>
 
-                {editVideoSourceMode === "upload" && (
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Description (Optional)</label>
+                  <Textarea
+                    rows={2}
+                    value={editVideoDescription}
+                    onChange={(e) => setEditVideoDescription(e.target.value)}
+                    placeholder="Brief description for donors and sponsors..."
+                  />
+                </div>
+
+                {/* Video Source Control */}
+                <div className="space-y-2 pt-2 border-t border-slate-100">
+                  <label className="text-xs font-bold text-slate-700 block">Video Source</label>
+                  <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
+                    <button
+                      type="button"
+                      onClick={() => setEditVideoSourceMode("keep")}
+                      className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                        editVideoSourceMode === "keep"
+                          ? "bg-white text-slate-900 shadow-sm"
+                          : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      Keep Current
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditVideoSourceMode("youtube")}
+                      className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                        editVideoSourceMode === "youtube"
+                          ? "bg-white text-slate-900 shadow-sm"
+                          : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      YouTube Link
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditVideoSourceMode("upload")}
+                      className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                        editVideoSourceMode === "upload"
+                          ? "bg-white text-slate-900 shadow-sm"
+                          : "text-slate-600 hover:text-slate-900"
+                      }`}
+                    >
+                      Upload New File
+                    </button>
+                  </div>
+
+                  {editVideoSourceMode === "keep" && (
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+                      <p className="font-bold text-slate-700">Current Video Attached:</p>
+                      <p className="font-mono text-slate-500 truncate text-[11px]">{editingVideo.videoUrl}</p>
+                      <p className="text-[10px] text-slate-400">
+                        You can edit title, description, or badge without re-uploading the video file.
+                      </p>
+                    </div>
+                  )}
+
+                  {editVideoSourceMode === "youtube" && (
+                    <div className="space-y-1">
+                      <Input
+                        placeholder="https://www.youtube.com/watch?v=..."
+                        value={editVideoUrlInput}
+                        onChange={(e) => setEditVideoUrlInput(e.target.value)}
+                      />
+                    </div>
+                  )}
+
+                  {editVideoSourceMode === "upload" && (
+                    <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                      <input
+                        type="file"
+                        ref={editVideoFileInputRef}
+                        accept="video/*"
+                        onChange={handleEditVideoFileChange}
+                        className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer"
+                      />
+                      {editVideoIsUploading && (
+                        <p className="text-xs text-rose-600 font-bold flex items-center gap-1.5">
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading video file...
+                        </p>
+                      )}
+                      {editVideoUploadedUrl && !editVideoIsUploading && (
+                        <p className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                          <Check className="w-3.5 h-3.5" /> Replacement video attached
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {/* Custom Thumbnail */}
+                <div className="space-y-1 pt-2 border-t border-slate-100">
+                  <label className="text-xs font-bold text-slate-700 block">Custom Poster Thumbnail (Optional)</label>
+                  <div className="flex items-center gap-3">
                     <input
                       type="file"
-                      ref={editVideoFileInputRef}
-                      accept="video/*"
-                      onChange={handleEditVideoFileChange}
+                      ref={editThumbFileInputRef}
+                      accept="image/*"
+                      onChange={handleEditVideoThumbChange}
                       className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer"
                     />
-                    {editVideoIsUploading && (
-                      <p className="text-xs text-rose-600 font-bold flex items-center gap-1.5">
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading video file...
-                      </p>
+                    {editVideoIsUploadingThumb && (
+                      <Loader2 className="w-4 h-4 text-rose-600 animate-spin" />
                     )}
-                    {editVideoUploadedUrl && !editVideoIsUploading && (
-                      <p className="text-xs text-emerald-600 font-bold flex items-center gap-1">
-                        <Check className="w-3.5 h-3.5" /> Replacement video attached
-                      </p>
+                    {editVideoThumbUrl && !editVideoIsUploadingThumb && (
+                      <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
+                        <Check className="w-3 h-3" /> Poster Ready
+                      </span>
                     )}
                   </div>
-                )}
-              </div>
-
-              {/* Custom Thumbnail */}
-              <div className="space-y-1 pt-2 border-t border-slate-100">
-                <label className="text-xs font-bold text-slate-700 block">Custom Poster Thumbnail (Optional)</label>
-                <div className="flex items-center gap-3">
-                  <input
-                    type="file"
-                    ref={editThumbFileInputRef}
-                    accept="image/*"
-                    onChange={handleEditVideoThumbChange}
-                    className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer"
-                  />
-                  {editVideoIsUploadingThumb && (
-                    <Loader2 className="w-4 h-4 text-rose-600 animate-spin" />
-                  )}
-                  {editVideoThumbUrl && !editVideoIsUploadingThumb && (
-                    <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
-                      <Check className="w-3 h-3" /> Poster Ready
-                    </span>
-                  )}
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+              <div className="flex items-center justify-end gap-2.5 p-4 sm:p-6 border-t border-slate-100 bg-slate-50/80 shrink-0">
                 <Button
                   type="button"
                   variant="outline"

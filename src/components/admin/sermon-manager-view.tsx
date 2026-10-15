@@ -63,6 +63,7 @@ export function SermonManagerView({
 }: SermonManagerViewProps) {
   const [sermons, setSermons] = useState<Sermon[]>(initialSermons);
   const [isPending, startTransition] = useTransition();
+  const [showAddFormMobile, setShowAddFormMobile] = useState(false);
 
   // Mode: "upload" (direct video file) vs "youtube" (YouTube or external URL)
   const [mediaSource, setMediaSource] = useState<"upload" | "youtube">("upload");
@@ -551,15 +552,46 @@ export function SermonManagerView({
         </div>
       )}
 
+      {/* Mobile Quick Action Toggle for Add Video Form */}
+      <div className="lg:hidden">
+        <button
+          type="button"
+          onClick={() => setShowAddFormMobile((prev) => !prev)}
+          className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-orange-500 to-[#ff6b35] text-white font-bold text-xs flex items-center justify-between shadow-md shadow-orange-500/20 active:scale-[0.99] transition-all"
+        >
+          <span className="flex items-center gap-2">
+            <PlusCircle className="w-4 h-4" />
+            <span>{showAddFormMobile ? "Hide New Video Form" : "Upload / Add New Video to Library"}</span>
+          </span>
+          <span className="text-[11px] bg-white/25 px-2.5 py-0.5 rounded-full font-semibold">
+            {showAddFormMobile ? "Close Form" : "+ Add Video"}
+          </span>
+        </button>
+      </div>
+
       {/* Grid: Left = Add Form, Right = Library Table */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* ================= 1. ADD SERMON FORM (5 cols) ================= */}
-        <div className="lg:col-span-5 bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-5">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-100">
-            <PlusCircle className="w-5 h-5 text-[#ff6b35]" />
-            <h3 className="font-extrabold text-base text-slate-900">
-              Add New Video to Library
-            </h3>
+        <div
+          className={`lg:col-span-5 bg-white p-5 sm:p-7 rounded-3xl border border-slate-200/80 shadow-sm space-y-5 ${
+            showAddFormMobile ? "block" : "hidden lg:block"
+          }`}
+        >
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <PlusCircle className="w-5 h-5 text-[#ff6b35]" />
+              <h3 className="font-extrabold text-base text-slate-900">
+                Add New Video to Library
+              </h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAddFormMobile(false)}
+              className="lg:hidden p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              title="Close form"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Media Mode Selector */}
@@ -905,7 +937,7 @@ export function SermonManagerView({
                     </div>
 
                     {/* Actions: Pin Toggle, Live Toggle & Delete */}
-                    <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 w-full sm:w-auto pt-2.5 sm:pt-0 border-t border-slate-100 sm:border-0 justify-between sm:justify-end shrink-0">
                       {/* Explicit Hero Pin Button */}
                       <button
                         type="button"
@@ -981,15 +1013,15 @@ export function SermonManagerView({
 
       {/* ================= EDIT SERMON MODAL ================= */}
       {editingSermon && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-2xl w-full max-h-[90dvh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden relative">
             {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div className="flex items-center justify-between border-b border-slate-100 p-4 sm:p-6 shrink-0">
               <div>
                 <span className="text-[11px] font-black uppercase tracking-wider text-[#ff6b35]">
                   Live Altar CMS
                 </span>
-                <h3 className="text-lg sm:text-xl font-black text-slate-900">
+                <h3 className="text-base sm:text-xl font-black text-slate-900">
                   Edit Sermon &amp; Media Details
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -999,13 +1031,14 @@ export function SermonManagerView({
               <button
                 type="button"
                 onClick={() => setEditingSermon(null)}
-                className="p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleSaveEdit} className="space-y-4">
+            <form onSubmit={handleSaveEdit} className="flex flex-col flex-1 min-h-0">
+              <div className="overflow-y-auto p-4 sm:p-6 space-y-4 flex-1">
               {/* Sermon Title */}
               <div className="space-y-1">
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
@@ -1207,19 +1240,21 @@ export function SermonManagerView({
                 </label>
               </div>
 
+              </div>
+
               {/* Modal Actions */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-end gap-3 p-4 sm:p-6 border-t border-slate-100 bg-slate-50/80 shrink-0">
                 <button
                   type="button"
                   onClick={() => setEditingSermon(null)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 text-xs font-bold hover:bg-white transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isPending || editIsUploadingVideo || editIsUploadingThumb}
-                  className="px-6 py-2.5 rounded-xl bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 disabled:opacity-50 flex items-center gap-2 transition-all"
+                  className="px-6 py-2 rounded-xl bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 disabled:opacity-50 flex items-center gap-2 transition-all"
                 >
                   {isPending ? (
                     <>

@@ -21,33 +21,34 @@ export function AdminHeader({
     <>
       <header className="sticky top-0 z-30 h-16 bg-white border-b border-slate-200/80 px-4 sm:px-8 flex items-center justify-between shadow-sm">
         {/* Left Side: Mobile Hamburger & Current Title */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
-            className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
+            className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors shrink-0"
             aria-label="Open navigation sidebar"
           >
             <Menu className="w-5 h-5" />
           </button>
 
-          <div>
-            <h1 className="font-extrabold text-base sm:text-lg text-[#0A2240] tracking-tight">
+          <div className="min-w-0">
+            <h1 className="font-extrabold text-sm sm:text-lg text-[#0A2240] tracking-tight truncate">
               {title}
             </h1>
-            <span className="text-[10px] text-slate-500 hidden sm:inline">
+            <span className="text-[10px] text-slate-500 hidden sm:inline truncate">
               Heavens Gates Suggutta Fellowship Church International
             </span>
           </div>
         </div>
 
         {/* Right Side: Status Badge & Quick Shortcuts */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Sunday Live Badge */}
           {isServiceLive ? (
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 font-extrabold text-[11px] animate-pulse">
-              <span className="w-2 h-2 rounded-full bg-red-600" />
-              <span>BROADCASTING LIVE</span>
+            <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 font-extrabold text-[10px] sm:text-[11px] animate-pulse">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-red-600" />
+              <span className="sm:hidden">LIVE</span>
+              <span className="hidden sm:inline">BROADCASTING LIVE</span>
             </div>
           ) : (
             <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-600 text-[10px] font-semibold">
@@ -59,9 +60,10 @@ export function AdminHeader({
           <Link
             href="/"
             target="_blank"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0A2240] text-xs font-bold transition-colors"
+            className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-[#0A2240] text-xs font-bold transition-colors"
+            title="Open Public Site"
           >
-            <span>Public Site</span>
+            <span className="hidden sm:inline">Public Site</span>
             <ExternalLink className="w-3 h-3 text-[#ff6b35]" />
           </Link>
 
@@ -86,19 +88,19 @@ export function AdminHeader({
         >
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
 
           {/* Drawer Panel */}
-          <div className="relative w-72 max-w-[85vw] h-full z-10 animate-in slide-in-from-left duration-300">
+          <div className="relative w-72 max-w-[85vw] h-full z-10 animate-in slide-in-from-left duration-300 shadow-2xl bg-slate-900 flex flex-col">
             <button
               type="button"
               onClick={() => setMobileOpen(false)}
-              className="absolute top-4 right-[-44px] p-2 rounded-full bg-black/60 text-white"
+              className="absolute top-3.5 right-3.5 z-20 p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
               aria-label="Close sidebar"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
             <AdminSidebar onCloseMobile={() => setMobileOpen(false)} />
           </div>

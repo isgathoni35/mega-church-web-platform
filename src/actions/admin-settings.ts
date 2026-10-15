@@ -624,6 +624,81 @@ export async function saveProjectsAction(
   }
 }
 
+/**
+ * Dedicated isolated save action for upcoming mission events and past crusade archives.
+ * Persists strictly to site_settings.events_json and revalidates /events and /
+ * without dependency on or collision with unrelated banking/media columns.
+ */
+export async function saveEventsAction(
+  events: MinistryEventItem[]
+): Promise<ActionResponse<MinistryEventItem[]>> {
+  try {
+    const supabase = createAdminClient();
+
+    const cleanEvents: MinistryEventItem[] = (events || []).map((ev) => ({
+      id: ev.id || `event-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      badge: (ev.badge || "MISSION 2026").trim(),
+      title: (ev.title || "").trim(),
+      location: (ev.location || "").trim(),
+      dates: (ev.dates || "").trim(),
+      format: (ev.format || "In-Person & Live Broadcast").trim(),
+      description: (ev.description || "").trim(),
+      imageUrl: extractCleanImageUrl(ev.imageUrl),
+      whatsappMessage: (ev.whatsappMessage || "").trim(),
+      videoUrl: ev.videoUrl ? ev.videoUrl.trim() : undefined,
+      videoSourceType: ev.videoSourceType || undefined,
+      status: ev.status === "past" ? "past" : "upcoming",
+      recapNotes: ev.recapNotes ? ev.recapNotes.trim() : undefined,
+    }));
+
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id")
+      .limit(1);
+
+    if (fetchErr) {
+      return { success: false, error: `Database error: ${fetchErr.message}` };
+    }
+
+    if (existing && existing.length > 0) {
+      const { error: updateErr } = await supabase
+        .from("site_settings")
+        .update({
+          events_json: cleanEvents as unknown as Json,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", existing[0].id);
+
+      if (updateErr) {
+        return { success: false, error: `Failed to update events: ${updateErr.message}` };
+      }
+    } else {
+      const { error: insertErr } = await supabase.from("site_settings").insert({
+        events_json: cleanEvents as unknown as Json,
+        updated_at: new Date().toISOString(),
+      });
+
+      if (insertErr) {
+        return { success: false, error: `Failed to save events: ${insertErr.message}` };
+      }
+    }
+
+    revalidatePath("/", "layout");
+    revalidatePath("/");
+    revalidatePath("/events");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Mission events and crusade schedules updated successfully!",
+      data: cleanEvents,
+    };
+  } catch (err: unknown) {
+    console.error("[Save Events Exception]:", err);
+    return { success: false, error: "Unexpected error saving mission events." };
+  }
+}
+
 export async function getSiteSettingsAction(): Promise<SiteSettingsData> {
   try {
     const supabase = createAdminClient();
@@ -968,25 +1043,78 @@ export async function saveSiteSettingsAction(
       .select("id")
       .limit(1);
 
-    if (existing && existing.length > 0) {
-      const { error } = await supabase
-        .from("site_settings")
-        .update(payload)
-        .eq("id", existing[0].id);
+    // Resilient update with schema auto-recovery:
+    // If Supabase reports a missing column, strip the unmigrated column from payload and retry.
+    let updateSuccess = false;
+    let lastError: { message: string } | null = null;
+    const currentPayload: Record<string, unknown> = { ...payload };
 
-      if (error) {
+    if (existing && existing.length > 0) {
+      for (let attempt = 0; attempt < 6; attempt++) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error } = await (supabase.from("site_settings") as any)
+          .update(currentPayload)
+          .eq("id", existing[0].id);
+
+        if (!error) {
+          updateSuccess = true;
+          break;
+        }
+
+        lastError = error;
+        // Parse missing column name from PostgREST / Postgres error message
+        const missingColMatch =
+          error.message.match(/column ["']?([a-zA-Z0-9_]+)["']?.*does not exist/i) ||
+          error.message.match(/Could not find the ['"]?([a-zA-Z0-9_]+)['"]? column/i);
+
+        if (missingColMatch && missingColMatch[1]) {
+          const missingCol = missingColMatch[1];
+          console.warn(
+            `[Self-Healing CMS]: Column "${missingCol}" does not exist in live Supabase schema. Removing from payload and retrying...`
+          );
+          delete currentPayload[missingCol];
+        } else {
+          // Unrecognized error, break retry loop
+          break;
+        }
+      }
+
+      if (!updateSuccess && lastError) {
         return {
           success: false,
-          error: `Supabase update error: ${error.message}. Please run the comprehensive CMS SQL migration in Supabase SQL Editor.`,
+          error: `Supabase update error: ${lastError.message}. Please run the comprehensive CMS SQL migration in Supabase SQL Editor.`,
         };
       }
     } else {
-      const { error } = await supabase.from("site_settings").insert(payload);
+      for (let attempt = 0; attempt < 6; attempt++) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error } = await (supabase.from("site_settings") as any).insert(currentPayload);
 
-      if (error) {
+        if (!error) {
+          updateSuccess = true;
+          break;
+        }
+
+        lastError = error;
+        const missingColMatch =
+          error.message.match(/column ["']?([a-zA-Z0-9_]+)["']?.*does not exist/i) ||
+          error.message.match(/Could not find the ['"]?([a-zA-Z0-9_]+)['"]? column/i);
+
+        if (missingColMatch && missingColMatch[1]) {
+          const missingCol = missingColMatch[1];
+          console.warn(
+            `[Self-Healing CMS]: Column "${missingCol}" does not exist in live Supabase schema. Removing from payload and retrying...`
+          );
+          delete currentPayload[missingCol];
+        } else {
+          break;
+        }
+      }
+
+      if (!updateSuccess && lastError) {
         return {
           success: false,
-          error: `Supabase insert error: ${error.message}. Please run the comprehensive CMS SQL migration in Supabase SQL Editor.`,
+          error: `Supabase insert error: ${lastError.message}. Please run the comprehensive CMS SQL migration in Supabase SQL Editor.`,
         };
       }
     }

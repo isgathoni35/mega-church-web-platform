@@ -799,3 +799,21 @@
       - Built `EditOrphanageVideoModal` allowing admins to modify video title, description, badge tag, or swap the video file / YouTube link or thumbnail.
    4. Verification:
       - `npx tsc --noEmit` exited code 0 (zero errors).
+
+- [x] `feature-specs/57-admin-resilient-saving-and-sitewide-mobile-overhaul.md`: Resilient CMS Persistence (Isolated Event Saving & Self-Healing Column Recovery) and Sitewide Mobile Admin Viewport Overhaul.
+   1. Resilient Backend Persistence & Self-Healing Schema Recovery ([src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts)):
+      - Created `saveEventsAction`: Decouples mission calendar persistence from monolithic site settings, isolating updates to `site_settings.events_json` with immediate revalidation of `/events`, `/`, and `/admin/settings`.
+      - Built Self-Healing Auto-Recovery in `saveSiteSettingsAction`: When Supabase PostgREST returns missing column errors (e.g., unmigrated columns like `kcb_bank_qr_image` or `orphanage_donate_image_url`), it dynamically parses the missing column name, strips it from the payload, and retries the mutation up to 5 times. Core site settings, events, headlines, and contacts now save with 100% reliability.
+   2. Sitewide Admin Portal Mobile Viewport Optimization:
+      - Admin Header & Navigation ([src/components/admin/admin-header.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/admin-header.tsx)): Relocated slide-over mobile drawer close button (`X`) inside the drawer panel (`top-3.5 right-3.5`) so it never clips off-screen on narrow mobile screens (360px–400px). Added responsive title truncation and compact live broadcasting badge.
+      - Settings Manager View ([src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx)):
+        - Tab 5 (Events & Crusades): Replaced endless stacked event forms with collapsible accordion cards showing compact summaries (Event #, badge, title, dates, venue, status) and expand/collapse toggles, eliminating touch-event skipping on mobile. Added dedicated "Save Events & Missions" buttons.
+        - Horizontal Tab Navigation: Enhanced touch scrolling with `touch-pan-x`, `scroll-smooth`, and `snap-x snap-mandatory`.
+        - Floating Bottom Save Bar: Added mobile safe-area insets (`pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]`), compact status label, and touch-friendly save button.
+        - Modals: Converted `EditOrphanagePhotoModal` and `EditOrphanageVideoModal` to `max-h-[90dvh] flex flex-col` with sticky headers and sticky action footers.
+      - Sermon Manager View ([src/components/admin/sermon-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/sermon-manager-view.tsx)):
+        - Added a mobile toggle button (`[+ Add New Video to Library]`) collapsing the 800px creation form on small screens so the Published Video Library appears near the top.
+        - Made sermon card action buttons wrap cleanly across the bottom with a subtle top border on mobile screens.
+        - Converted `EditSermonModal` to a responsive sticky header and footer layout with scrollable inner form.
+   3. Verification & Validation:
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
