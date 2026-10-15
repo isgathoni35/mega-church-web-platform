@@ -41,6 +41,13 @@ import {
   X,
   ChevronDown,
   ChevronUp,
+  Landmark,
+  ShieldCheck,
+  ChevronRight,
+  Sliders,
+  HeartHandshake,
+  Maximize2,
+  Globe,
 } from "lucide-react";
 import {
   SiteSettingsData,
@@ -383,6 +390,33 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       return { ...prev, projectsJson: updated };
     });
   };
+
+  // Project Accordion State & Helpers
+  const [expandedProjects, setExpandedProjects] = useState<Record<number, boolean>>({ 0: true });
+  const [allProjectsExpanded, setAllProjectsExpanded] = useState(false);
+
+  const toggleProjectExpanded = (idx: number) => {
+    setExpandedProjects((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
+
+  const toggleAllProjects = () => {
+    const nextState = !allProjectsExpanded;
+    setAllProjectsExpanded(nextState);
+    const updated: Record<number, boolean> = {};
+    const currentList = settings.projectsJson?.length
+      ? settings.projectsJson
+      : DEFAULT_SETTINGS.projectsJson;
+    currentList.forEach((_, i) => {
+      updated[i] = nextState;
+    });
+    setExpandedProjects(updated);
+  };
+
+  // Ministry Pillars quick tab switcher
+  const [selectedPillarTab, setSelectedPillarTab] = useState<1 | 2 | 3 | 4>(1);
+
+  // Children's Home media sub-tab switcher
+  const [orphanageSubTab, setOrphanageSubTab] = useState<"banners" | "photos" | "videos">("banners");
 
   // Event Helpers & Mobile Accordion State
   const [expandedEvents, setExpandedEvents] = useState<Record<number, boolean>>({ 0: true });
@@ -1028,14 +1062,14 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       )}
 
       {/* Visual Navigation Tabs */}
-      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 overflow-x-auto scrollbar-none w-full max-w-full touch-pan-x scroll-smooth snap-x snap-mandatory py-2 px-2">
+      <div className="flex items-center gap-1.5 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200/80 overflow-x-auto scrollbar-none w-full max-w-full touch-pan-x scroll-smooth snap-x snap-mandatory py-2 px-2 backdrop-blur-sm">
         <button
           type="button"
           onClick={() => setActiveTab("hero")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "hero"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <Home className="w-4 h-4" />
@@ -1047,12 +1081,21 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           onClick={() => setActiveTab("projects")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "projects"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <Hammer className="w-4 h-4" />
           <span>Church Projects</span>
+          <span
+            className={`text-[10px] px-1.5 py-0.5 rounded-full font-black ${
+              activeTab === "projects"
+                ? "bg-white/20 text-white"
+                : "bg-slate-200 text-slate-700"
+            }`}
+          >
+            {settings.projectsJson?.length || 0}
+          </span>
         </button>
 
         <button
@@ -1060,12 +1103,21 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           onClick={() => setActiveTab("orphanage")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "orphanage"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <Baby className="w-4 h-4" />
           <span>Children&apos;s Home Media</span>
+          <span
+            className={`text-[10px] px-1.5 py-0.5 rounded-full font-black ${
+              activeTab === "orphanage"
+                ? "bg-white/20 text-white"
+                : "bg-slate-200 text-slate-700"
+            }`}
+          >
+            {(settings.orphanagePhotos?.length || 0) + (settings.orphanageVideos?.length || 0)}
+          </span>
         </button>
 
         <button
@@ -1073,12 +1125,21 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           onClick={() => setActiveTab("pillars")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "pillars"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <Columns className="w-4 h-4" />
           <span>Ministry Pillars</span>
+          <span
+            className={`text-[10px] px-1.5 py-0.5 rounded-full font-black ${
+              activeTab === "pillars"
+                ? "bg-white/20 text-white"
+                : "bg-slate-200 text-slate-700"
+            }`}
+          >
+            4
+          </span>
         </button>
 
         <button
@@ -1086,8 +1147,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           onClick={() => setActiveTab("about")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "about"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <BookOpen className="w-4 h-4" />
@@ -1099,12 +1160,21 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           onClick={() => setActiveTab("events")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "events"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <Calendar className="w-4 h-4" />
           <span>Events &amp; Crusades</span>
+          <span
+            className={`text-[10px] px-1.5 py-0.5 rounded-full font-black ${
+              activeTab === "events"
+                ? "bg-white/20 text-white"
+                : "bg-slate-200 text-slate-700"
+            }`}
+          >
+            {settings.eventsJson?.length || 0}
+          </span>
         </button>
 
         <button
@@ -1112,8 +1182,8 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           onClick={() => setActiveTab("bank")}
           className={`shrink-0 whitespace-nowrap snap-start flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
             activeTab === "bank"
-              ? "bg-white text-[#ff6b35] shadow-sm"
-              : "text-slate-600 hover:text-slate-900"
+              ? "bg-[#ff6b35] text-white shadow-md shadow-orange-500/20"
+              : "text-slate-600 hover:text-slate-900 hover:bg-white/70"
           }`}
         >
           <CreditCard className="w-4 h-4" />
@@ -1124,310 +1194,250 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       <form onSubmit={handleSave} className="space-y-6">
         {/* ================= TAB 1: HERO & HOMEPAGE ================= */}
         {activeTab === "hero" && (
-          <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35]">
-                Section 1 &bull; Landing View
-              </span>
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                Homepage Hero Headline, Photos &amp; Stats
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Headline Line 1</label>
-                <Input
-                  value={settings.heroHeadline1}
-                  onChange={(e) => setSettings({ ...settings, heroHeadline1: e.target.value })}
-                  placeholder="Suggutta"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Headline Line 2 (Highlighted)</label>
-                <Input
-                  value={settings.heroHeadline2}
-                  onChange={(e) => setSettings({ ...settings, heroHeadline2: e.target.value })}
-                  placeholder="Fellowship"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Headline Line 3</label>
-                <Input
-                  value={settings.heroHeadline3}
-                  onChange={(e) => setSettings({ ...settings, heroHeadline3: e.target.value })}
-                  placeholder="Church"
-                />
+          <div className="space-y-6">
+            {/* Header Title Card */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50 via-white to-amber-50 rounded-2xl sm:rounded-3xl border border-orange-200/80 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff6b35] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <Home className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35] block">
+                    Section 1 &bull; Landing View &amp; Identity
+                  </span>
+                  <h2 className="text-base sm:text-lg font-black text-slate-900">
+                    Homepage Hero Headline, Visual Stage &amp; Metrics
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Live interactive preview, headline copy, background hero photograph, and ministry milestone stats.
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Hero Subtitle / Statement</label>
-              <Textarea
-                rows={2}
-                value={settings.heroSubtitle}
-                onChange={(e) => setSettings({ ...settings, heroSubtitle: e.target.value })}
-                placeholder="We are a Christ-centered, Spirit-filled family..."
-              />
+            {/* Live Interactive Hero Preview Plate */}
+            <div className="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 p-6 sm:p-8 text-white shadow-2xl">
+              {/* Background Backdrop Image with Overlay */}
+              {settings.heroImageUrl && (
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src={settings.heroImageUrl}
+                    alt="Hero Preview Background"
+                    fill
+                    className="object-cover object-top opacity-25 filter blur-[1px]"
+                    unoptimized
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/85 to-transparent" />
+                </div>
+              )}
+
+              <div className="relative z-10 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-[11px] font-bold text-orange-300 border border-white/10">
+                    <Sparkles className="w-3.5 h-3.5 text-[#ff6b35]" />
+                    <span>Real-Time Public Hero Preview</span>
+                  </div>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    Live Simulator &bull; Updates as you type
+                  </span>
+                </div>
+
+                <div className="max-w-2xl space-y-2">
+                  <span className="inline-block text-[11px] font-black tracking-widest text-[#ff6b35] uppercase">
+                    Welcome to Suggutta Fellowship Church
+                  </span>
+                  <h1 className="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
+                    {settings.heroHeadline1 || "Suggutta"}{" "}
+                    <span className="text-[#ff6b35]">{settings.heroHeadline2 || "Fellowship"}</span>{" "}
+                    {settings.heroHeadline3 || "Church"}
+                  </h1>
+                  <p className="text-xs sm:text-sm text-slate-300 line-clamp-2 leading-relaxed">
+                    {settings.heroSubtitle ||
+                      "We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully..."}
+                  </p>
+                  {settings.heroPromise && (
+                    <p className="text-xs text-amber-300/90 italic font-medium flex items-center gap-1.5">
+                      <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
+                      &quot;{settings.heroPromise}&quot;
+                    </p>
+                  )}
+                </div>
+
+                {/* Simulated Public Action Buttons */}
+                <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                  <div className="px-4 py-2 rounded-xl bg-[#ff6b35] text-white text-xs font-black shadow-lg shadow-orange-500/30 flex items-center gap-1.5 cursor-default">
+                    <span>Plan Your Visit</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="px-4 py-2 rounded-xl bg-white/10 text-white text-xs font-bold border border-white/15 flex items-center gap-1.5 cursor-default">
+                    <Radio className="w-3.5 h-3.5 text-rose-400" />
+                    <span>Watch Live Service</span>
+                  </div>
+                </div>
+
+                {/* Bottom Impact Chips Preview */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-3 border-t border-white/10">
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center">
+                    <p className="text-base sm:text-lg font-black text-[#ff6b35]">
+                      {settings.heroStatLives || "1M+"}
+                    </p>
+                    <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">
+                      Lives Touched
+                    </p>
+                  </div>
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center">
+                    <p className="text-base sm:text-lg font-black text-amber-400">
+                      {settings.heroStatYears || "25+"}
+                    </p>
+                    <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">
+                      Years Ministry
+                    </p>
+                  </div>
+                  {settings.heroStatBranches && (
+                    <div className="bg-white/5 border border-white/10 rounded-xl p-2.5 text-center col-span-2 sm:col-span-1">
+                      <p className="text-base sm:text-lg font-black text-emerald-400">
+                        {settings.heroStatBranches}
+                      </p>
+                      <p className="text-[10px] text-slate-400 uppercase tracking-wider font-bold">
+                        Church Branches
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Pastoral Promise (Italic Subtext)</label>
-              <Input
-                value={settings.heroPromise}
-                onChange={(e) => setSettings({ ...settings, heroPromise: e.target.value })}
-                placeholder="Experience God's power through deliverance and spiritual transformation."
-              />
-            </div>
-
-            {/* Hero Photo with Image Upload Field */}
-            <ImageUploadField
-              label="Hero Portrait Photo (Right Column)"
-              description="Displays prominently on the right side of the homepage hero with curved corners and the floating nameplate card."
-              value={settings.heroImageUrl}
-              onChange={(url) => setSettings({ ...settings, heroImageUrl: url })}
-              aspectRatio="portrait"
-            />
-
-            {/* Hero Counter Strip (Synchronized across Homepage & About Page) */}
-            <div className="space-y-2 pt-2 border-t border-slate-100">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-700">
-                  Hero Stat Counters (Shared Across Homepage &amp; About Page)
+            {/* Core Hero Headlines Editor */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+              <div className="border-b border-slate-100 pb-3">
+                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                  Hero Headline Copy &amp; Divine Calling
                 </h3>
-                <span className="text-[10px] text-slate-500 font-medium">
-                  Synchronizes instantly on Homepage &amp; About
+                <p className="text-xs text-slate-500">
+                  Configure the primary 3-tier headline that greets visitors entering the sanctuary website.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Headline Line 1</label>
+                  <Input
+                    value={settings.heroHeadline1}
+                    onChange={(e) => setSettings({ ...settings, heroHeadline1: e.target.value })}
+                    placeholder="Suggutta"
+                  />
+                  <span className="text-[10px] text-slate-400 block">Default: Suggutta</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Headline Line 2 (Highlighted Orange)</label>
+                  <Input
+                    value={settings.heroHeadline2}
+                    onChange={(e) => setSettings({ ...settings, heroHeadline2: e.target.value })}
+                    placeholder="Fellowship"
+                  />
+                  <span className="text-[10px] text-[#ff6b35] block font-medium">Highlighted in theme flame orange</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Headline Line 3</label>
+                  <Input
+                    value={settings.heroHeadline3}
+                    onChange={(e) => setSettings({ ...settings, heroHeadline3: e.target.value })}
+                    placeholder="Church"
+                  />
+                  <span className="text-[10px] text-slate-400 block">Default: Church</span>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">Hero Subtitle / Apostolic Statement</label>
+                <Textarea
+                  rows={2}
+                  value={settings.heroSubtitle}
+                  onChange={(e) => setSettings({ ...settings, heroSubtitle: e.target.value })}
+                  placeholder="We are a Christ-centered, Spirit-filled family learning to follow Jesus faithfully..."
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">Pastoral Promise (Italic Subtext)</label>
+                <Input
+                  value={settings.heroPromise}
+                  onChange={(e) => setSettings({ ...settings, heroPromise: e.target.value })}
+                  placeholder="Experience God's power through deliverance and spiritual transformation."
+                />
+              </div>
+            </div>
+
+            {/* Hero Visual Photographic Plate */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+              <div className="border-b border-slate-100 pb-3">
+                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                  Hero Visual Photographic Plate
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Featured photo displayed on the homepage hero alongside the floating altar nameplate.
+                </p>
+              </div>
+
+              <ImageUploadField
+                label="Hero Portrait Photo (Right Column Stage)"
+                description="Displays prominently on the right side of the homepage hero with curved corners and the floating nameplate card."
+                value={settings.heroImageUrl}
+                onChange={(url) => setSettings({ ...settings, heroImageUrl: url })}
+                aspectRatio="portrait"
+              />
+            </div>
+
+            {/* Hero Key Impact Milestones */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+              <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Hero Stat Counters (Shared Across Homepage &amp; About Page)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    These counters appear in the hero card and synchronize automatically with the About page.
+                  </p>
+                </div>
+                <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-bold border border-emerald-200 self-start sm:self-auto">
+                  Live Global Metrics
                 </span>
               </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Stat 1: Lives Touched (e.g. 1M+)</label>
+                <div className="space-y-1 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700">Stat 1: Lives Touched</label>
                   <Input
                     value={settings.heroStatLives}
                     onChange={(e) => setSettings({ ...settings, heroStatLives: e.target.value })}
                     placeholder="1M+"
                   />
-                  <span className="text-[10px] text-slate-400 block">Displays as &quot;LIVES TOUCHED&quot;</span>
+                  <span className="text-[10px] text-slate-400 block font-medium">Displays as &quot;LIVES TOUCHED&quot;</span>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Stat 2: Years Ministry (e.g. 25+)</label>
+                <div className="space-y-1 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700">Stat 2: Years of Ministry</label>
                   <Input
                     value={settings.heroStatYears}
                     onChange={(e) => setSettings({ ...settings, heroStatYears: e.target.value })}
                     placeholder="25+"
                   />
-                  <span className="text-[10px] text-slate-400 block">Displays as &quot;YEARS MINISTRY&quot;</span>
+                  <span className="text-[10px] text-slate-400 block font-medium">Displays as &quot;YEARS MINISTRY&quot;</span>
                 </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Stat 3: Extra Stat (Optional)</label>
+                <div className="space-y-1 p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <label className="text-[11px] font-bold text-slate-700">Stat 3: Church Branches (Optional)</label>
                   <Input
                     value={settings.heroStatBranches}
                     onChange={(e) => setSettings({ ...settings, heroStatBranches: e.target.value })}
                     placeholder="Leave blank to hide"
                   />
-                  <span className="text-[10px] text-slate-400 block">Leave blank for a clean 2-stat layout</span>
+                  <span className="text-[10px] text-slate-400 block font-medium">Leave blank for a clean 2-stat layout</span>
                 </div>
               </div>
             </div>
 
-            {/* Header Top Bar & Broadcast Controls */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/40 border border-orange-100 space-y-4 pt-3">
-              <div className="flex items-center gap-2 border-b border-orange-200/60 pb-2.5">
-                <Radio className="w-4 h-4 text-rose-600" />
-                <h3 className="text-xs sm:text-sm font-extrabold text-slate-900">
-                  Header Top Bar &amp; Live Broadcast Alert
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Church Phone Number</label>
-                  <Input
-                    value={settings.mpesaPhone}
-                    onChange={(e) => setSettings({ ...settings, mpesaPhone: e.target.value })}
-                    placeholder="+254112656123"
-                  />
-                  <span className="text-[10px] text-slate-500 block">Displayed at the top left of every page.</span>
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Official Church Email</label>
-                  <Input
-                    value={settings.contactEmail}
-                    onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                    placeholder="sugutafellowshipchurch@gmail.com"
-                  />
-                  <span className="text-[10px] text-slate-500 block">Displayed next to phone in the top bar.</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Top Bar Announcement / Service Schedule</label>
-                  <Input
-                    value={settings.topbarAnnouncement}
-                    onChange={(e) => setSettings({ ...settings, topbarAnnouncement: e.target.value })}
-                    placeholder="Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Live Broadcast Label</label>
-                  <Input
-                    value={settings.topbarLiveLabel}
-                    onChange={(e) => setSettings({ ...settings, topbarLiveLabel: e.target.value })}
-                    placeholder="Watch Live Broadcast"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-bold text-slate-700">Live Broadcast Destination URL</label>
-                  <Input
-                    value={settings.topbarLiveUrl}
-                    onChange={(e) => setSettings({ ...settings, topbarLiveUrl: e.target.value })}
-                    placeholder="https://www.youtube.com/@Brianmbera"
-                  />
-                </div>
-
-                <div className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200">
-                  <div>
-                    <label className="text-xs font-bold text-slate-900 block">Live Broadcast Alert Active</label>
-                    <span className="text-[10px] text-slate-500">Pulsing red live badge on top bar</span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setSettings({ ...settings, topbarLiveActive: !settings.topbarLiveActive })}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      settings.topbarLiveActive ? "bg-rose-600" : "bg-slate-300"
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        settings.topbarLiveActive ? "translate-x-6" : "translate-x-1"
-                      }`}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Homepage Section 3: Impact Counters (Below Ministry Pillars) */}
-            <div className="p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-slate-50 border border-slate-200/90 space-y-4">
-              <div className="border-b border-slate-200 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                <div>
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35] block">
-                    Homepage Section 3 &bull; Ministry Pillars
-                  </span>
-                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
-                    3 Impact Statistics (Strip Below Pillars)
-                  </h3>
-                </div>
-                <span className="text-[10px] text-slate-500 font-medium">
-                  Editable here and under Ministry Pillars tab
-                </span>
-              </div>
-
-              <p className="text-xs text-slate-600">
-                These 3 large impact cards are displayed prominently on the homepage right below the 4 Ministry Pillars.
-              </p>
-
-              {/* Live Preview Strip */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3.5 rounded-2xl bg-white border border-slate-200 shadow-inner">
-                <div className="bg-[#fbf8f3] p-3 rounded-xl border border-slate-200 text-center">
-                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
-                    {settings.impactStat1Val || "1,200+"}
-                  </span>
-                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
-                    {settings.impactStat1Lbl || "Deliverance Sessions"}
-                  </span>
-                </div>
-                <div className="bg-[#fbf8f3] p-3 rounded-xl border border-slate-200 text-center">
-                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
-                    {settings.impactStat2Val || "50+"}
-                  </span>
-                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
-                    {settings.impactStat2Lbl || "Miracle Crusades"}
-                  </span>
-                </div>
-                <div className="bg-[#fbf8f3] p-3 rounded-xl border border-slate-200 text-center">
-                  <span className="text-xl sm:text-2xl font-black text-[#ff6b35] block">
-                    {settings.impactStat3Val || "1,000,000+"}
-                  </span>
-                  <span className="text-[10px] sm:text-xs font-bold text-slate-700 uppercase tracking-wider block mt-0.5">
-                    {settings.impactStat3Lbl || "Believers Impacted"}
-                  </span>
-                </div>
-              </div>
-
-              {/* Inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
-                <div className="space-y-1.5 p-3 rounded-xl bg-white border border-slate-200">
-                  <label className="text-[11px] font-bold text-slate-700 block">Stat 1</label>
-                  <div className="space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
-                    <Input
-                      value={settings.impactStat1Val}
-                      onChange={(e) => setSettings({ ...settings, impactStat1Val: e.target.value })}
-                      placeholder="1,200+"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
-                    <Input
-                      value={settings.impactStat1Lbl}
-                      onChange={(e) => setSettings({ ...settings, impactStat1Lbl: e.target.value })}
-                      placeholder="Deliverance Sessions"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5 p-3 rounded-xl bg-white border border-slate-200">
-                  <label className="text-[11px] font-bold text-slate-700 block">Stat 2</label>
-                  <div className="space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
-                    <Input
-                      value={settings.impactStat2Val}
-                      onChange={(e) => setSettings({ ...settings, impactStat2Val: e.target.value })}
-                      placeholder="50+"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
-                    <Input
-                      value={settings.impactStat2Lbl}
-                      onChange={(e) => setSettings({ ...settings, impactStat2Lbl: e.target.value })}
-                      placeholder="Miracle Crusades"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-1.5 p-3 rounded-xl bg-white border border-slate-200">
-                  <label className="text-[11px] font-bold text-slate-700 block">Stat 3</label>
-                  <div className="space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Number / Value</span>
-                    <Input
-                      value={settings.impactStat3Val}
-                      onChange={(e) => setSettings({ ...settings, impactStat3Val: e.target.value })}
-                      placeholder="1,000,000+"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <span className="text-[10px] text-slate-400 block">Label / Description</span>
-                    <Input
-                      value={settings.impactStat3Lbl}
-                      onChange={(e) => setSettings({ ...settings, impactStat3Lbl: e.target.value })}
-                      placeholder="Believers Impacted"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {renderSaveSectionBar("Ready to update Homepage & Header?")}
+            {renderSaveSectionBar("Ready to update Homepage Hero & Identity?")}
           </div>
         )}
 
@@ -1445,11 +1455,29 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     Active Projects &amp; Capital Campaigns
                   </h2>
                   <p className="text-xs text-slate-500">
-                    Add, edit, upload photos (up to 5), video walkthroughs, and publish instantly to homepage Section 6.
+                    Manage project narratives, photo galleries (up to 5), video walkthroughs, and direct M-Pesa giving.
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2.5 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Button
+                  type="button"
+                  onClick={toggleAllProjects}
+                  variant="outline"
+                  className="bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs rounded-full px-3.5 py-2.5 h-auto flex items-center gap-1.5 border-slate-300 shrink-0"
+                >
+                  {allProjectsExpanded ? (
+                    <>
+                      <ChevronUp className="w-3.5 h-3.5 text-slate-500" />
+                      <span>Collapse All</span>
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                      <span>Expand All</span>
+                    </>
+                  )}
+                </Button>
                 <Button
                   type="button"
                   onClick={handleAddProject}
@@ -1497,11 +1525,13 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </div>
             )}
 
-            {/* List of Dynamic Projects */}
+            {/* List of Dynamic Projects with Accordion Pattern */}
             {((settings.projectsJson && settings.projectsJson.length > 0)
               ? settings.projectsJson
               : DEFAULT_SETTINGS.projectsJson
             ).map((project, idx) => {
+              const isExpanded = !!expandedProjects[idx];
+              const photoCount = project.images?.length || (project.imageUrl ? 1 : 0);
               const colorOptions = [
                 { id: "orange", label: "Orange / Flame", bg: "bg-orange-50 border-orange-300 text-[#c2410c]" },
                 { id: "rose", label: "Rose / Children", bg: "bg-rose-50 border-rose-300 text-rose-700" },
@@ -1512,32 +1542,67 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               return (
                 <div
                   key={project.id || idx}
-                  className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6 relative overflow-hidden"
+                  className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden transition-all duration-200"
                 >
-                  {/* Top Bar for Project Card */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
-                    <div className="flex items-center gap-3">
+                  {/* Collapsible Header Bar */}
+                  <div
+                    onClick={() => toggleProjectExpanded(idx)}
+                    className="p-4 sm:p-5 bg-white hover:bg-slate-50/80 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 transition-colors select-none"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleProjectExpanded(idx);
+                        }}
+                        className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 shrink-0"
+                        aria-label={isExpanded ? "Collapse project" : "Expand project"}
+                      >
+                        {isExpanded ? (
+                          <ChevronUp className="w-5 h-5 text-slate-600" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-slate-600" />
+                        )}
+                      </button>
+
                       <span className="w-7 h-7 rounded-xl bg-slate-900 text-white font-black text-xs flex items-center justify-center shrink-0">
                         #{idx + 1}
                       </span>
-                      <div>
-                        <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
-                          {project.title || `Project #${idx + 1}`}
-                        </h3>
-                        <p className="text-[11px] text-slate-500">
-                          ID: <code className="font-mono text-slate-700">{project.id}</code>
+
+                      <div className="min-w-0 space-y-0.5">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-sm sm:text-base font-extrabold text-slate-900 truncate">
+                            {project.title || `Project #${idx + 1}`}
+                          </h3>
+                          {project.badge && (
+                            <span className="text-[10px] font-extrabold text-[#ff6b35] bg-orange-50 px-2 py-0.5 rounded-full border border-orange-200/60 truncate max-w-[160px]">
+                              {project.badge}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-slate-500 truncate">
+                          {project.subtitle || "No subtitle configured"} &bull;{" "}
+                          <span className="font-mono text-slate-400">ID: {project.id}</span>
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 self-end sm:self-auto">
-                      {/* Active Toggle */}
+                    <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                      {/* Photo indicator badge */}
+                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
+                        <Camera className="w-3 h-3 text-slate-500" />
+                        <span>{photoCount} {photoCount === 1 ? "Photo" : "Photos"}</span>
+                      </span>
+
+                      {/* Active / Hidden Toggle */}
                       <button
                         type="button"
-                        onClick={() =>
-                          handleUpdateProject(idx, "active", project.active === false ? true : false)
-                        }
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold border transition-all ${
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleUpdateProject(idx, "active", project.active === false ? true : false);
+                        }}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-all ${
                           project.active !== false
                             ? "bg-emerald-50 border-emerald-300 text-emerald-800"
                             : "bg-slate-100 border-slate-300 text-slate-500"
@@ -1546,7 +1611,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                         {project.active !== false ? (
                           <>
                             <Eye className="w-3.5 h-3.5 text-emerald-600" />
-                            <span>Active / Visible</span>
+                            <span>Active</span>
                           </>
                         ) : (
                           <>
@@ -1559,7 +1624,10 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                       {/* Delete Button */}
                       <button
                         type="button"
-                        onClick={() => handleDeleteProject(idx)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteProject(idx);
+                        }}
                         className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
                         title="Delete this project"
                       >
@@ -1568,140 +1636,145 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     </div>
                   </div>
 
-                  {/* Core Information */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-700">Project Badge Label</label>
-                      <Input
-                        value={project.badge}
-                        onChange={(e) => handleUpdateProject(idx, "badge", e.target.value)}
-                        placeholder="e.g. Children's Home Mission"
-                      />
-                    </div>
-                    <div className="sm:col-span-2 space-y-1.5">
-                      <label className="text-xs font-bold text-slate-700">Project Title</label>
-                      <Input
-                        value={project.title}
-                        onChange={(e) => handleUpdateProject(idx, "title", e.target.value)}
-                        placeholder="e.g. Building a Permanent House of Prayer in Suggutta"
-                      />
-                    </div>
-                  </div>
+                  {/* Collapsible Body */}
+                  {isExpanded && (
+                    <div className="p-5 sm:p-8 space-y-6 bg-slate-50/40">
+                      {/* Core Information */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div className="space-y-1.5">
+                          <label className="text-xs font-bold text-slate-700">Project Badge Label</label>
+                          <Input
+                            value={project.badge}
+                            onChange={(e) => handleUpdateProject(idx, "badge", e.target.value)}
+                            placeholder="e.g. Children's Home Mission"
+                          />
+                        </div>
+                        <div className="sm:col-span-2 space-y-1.5">
+                          <label className="text-xs font-bold text-slate-700">Project Title</label>
+                          <Input
+                            value={project.title}
+                            onChange={(e) => handleUpdateProject(idx, "title", e.target.value)}
+                            placeholder="e.g. Building a Permanent House of Prayer in Suggutta"
+                          />
+                        </div>
+                      </div>
 
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Progress Highlights / Subtitle</label>
-                    <Input
-                      value={project.subtitle}
-                      onChange={(e) => handleUpdateProject(idx, "subtitle", e.target.value)}
-                      placeholder="e.g. Concrete foundation blocks, steel pillar reinforcement & roof trussing."
-                    />
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Project Narrative &amp; Mission Impact</label>
-                    <Textarea
-                      rows={3}
-                      value={project.narrative}
-                      onChange={(e) => handleUpdateProject(idx, "narrative", e.target.value)}
-                      placeholder="Describe the objective, biblical foundation, urgent needs, and impact..."
-                    />
-                  </div>
-
-                  {/* Theme Color Picker */}
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">Card Color Accent</label>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {colorOptions.map((opt) => (
-                        <button
-                          key={opt.id}
-                          type="button"
-                          onClick={() => handleUpdateProject(idx, "color", opt.id)}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${opt.bg} ${
-                            (project.color || "orange") === opt.id
-                              ? "ring-2 ring-offset-1 ring-slate-900 shadow-sm"
-                              : "opacity-70 hover:opacity-100"
-                          }`}
-                        >
-                          {opt.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Media: Multi-Photo Gallery (Up to 5) & Optional Video */}
-                  <div className="space-y-4 pt-2">
-                    <ProjectMultiImageField
-                      label="Project Photo Gallery (Up to 5 Photos)"
-                      description="Upload up to 5 photos. These will smoothly transition on the homepage card and visitors can swipe through them."
-                      images={
-                        project.images && project.images.length > 0
-                          ? project.images
-                          : project.imageUrl
-                          ? [project.imageUrl]
-                          : []
-                      }
-                      onChange={(newImages) => {
-                        handleUpdateProject(
-                          idx,
-                          {
-                            images: newImages,
-                            imageUrl: newImages[0] || "",
-                          },
-                          undefined,
-                          true
-                        );
-                      }}
-                      maxImages={5}
-                    />
-
-                    <div className="max-w-xl">
-                      <EventVideoUploadField
-                        label="Project Video / Walkthrough (Optional)"
-                        description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to showcase project progress."
-                        videoUrl={project.videoUrl || ""}
-                        onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl, true)}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Giving Controls */}
-                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 text-[#ff6b35]" />
-                      <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-                        Giving &amp; Donation Call to Action
-                      </h4>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">CTA Button Destination Link</label>
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-700">Progress Highlights / Subtitle</label>
                         <Input
-                          value={project.donateLink}
-                          onChange={(e) => handleUpdateProject(idx, "donateLink", e.target.value)}
-                          placeholder="/give or /orphanage/donate"
+                          value={project.subtitle}
+                          onChange={(e) => handleUpdateProject(idx, "subtitle", e.target.value)}
+                          placeholder="e.g. Concrete foundation blocks, steel pillar reinforcement & roof trussing."
                         />
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">CTA Button Text</label>
-                        <Input
-                          value={project.donateLabel}
-                          onChange={(e) => handleUpdateProject(idx, "donateLabel", e.target.value)}
-                          placeholder="Give to the Building Fund"
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-700">Project Narrative &amp; Mission Impact</label>
+                        <Textarea
+                          rows={3}
+                          value={project.narrative}
+                          onChange={(e) => handleUpdateProject(idx, "narrative", e.target.value)}
+                          placeholder="Describe the objective, biblical foundation, urgent needs, and impact..."
                         />
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[11px] font-bold text-slate-700">M-Pesa Account Reference</label>
-                        <Input
-                          value={project.mpesaRef}
-                          onChange={(e) => handleUpdateProject(idx, "mpesaRef", e.target.value)}
-                          placeholder="e.g. BUILDING, ORPHANAGE"
+                      {/* Theme Color Picker */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-slate-700">Card Color Accent</label>
+                        <div className="flex flex-wrap items-center gap-2">
+                          {colorOptions.map((opt) => (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              onClick={() => handleUpdateProject(idx, "color", opt.id)}
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all ${opt.bg} ${
+                                (project.color || "orange") === opt.id
+                                  ? "ring-2 ring-offset-1 ring-slate-900 shadow-sm"
+                                  : "opacity-70 hover:opacity-100"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Media: Multi-Photo Gallery (Up to 5) & Optional Video */}
+                      <div className="space-y-4 pt-2">
+                        <ProjectMultiImageField
+                          label="Project Photo Gallery (Up to 5 Photos)"
+                          description="Upload up to 5 photos. These will smoothly transition on the homepage card and visitors can swipe through them."
+                          images={
+                            project.images && project.images.length > 0
+                              ? project.images
+                              : project.imageUrl
+                              ? [project.imageUrl]
+                              : []
+                          }
+                          onChange={(newImages) => {
+                            handleUpdateProject(
+                              idx,
+                              {
+                                images: newImages,
+                                imageUrl: newImages[0] || "",
+                              },
+                              undefined,
+                              true
+                            );
+                          }}
+                          maxImages={5}
                         />
+
+                        <div className="max-w-xl">
+                          <EventVideoUploadField
+                            label="Project Video / Walkthrough (Optional)"
+                            description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to showcase project progress."
+                            videoUrl={project.videoUrl || ""}
+                            onChange={(videoUrl) => handleUpdateProject(idx, "videoUrl", videoUrl, true)}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Giving Controls */}
+                      <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-4">
+                        <div className="flex items-center gap-2 border-b border-slate-100 pb-2.5">
+                          <CreditCard className="w-4 h-4 text-[#ff6b35]" />
+                          <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                            Giving &amp; Donation Call to Action
+                          </h4>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-bold text-slate-700">CTA Button Destination Link</label>
+                            <Input
+                              value={project.donateLink}
+                              onChange={(e) => handleUpdateProject(idx, "donateLink", e.target.value)}
+                              placeholder="/give or /orphanage/donate"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-bold text-slate-700">CTA Button Text</label>
+                            <Input
+                              value={project.donateLabel}
+                              onChange={(e) => handleUpdateProject(idx, "donateLabel", e.target.value)}
+                              placeholder="Give to the Building Fund"
+                            />
+                          </div>
+
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-bold text-slate-700">M-Pesa Account Reference</label>
+                            <Input
+                              value={project.mpesaRef}
+                              onChange={(e) => handleUpdateProject(idx, "mpesaRef", e.target.value)}
+                              placeholder="e.g. BUILDING, ORPHANAGE"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               );
             })}
@@ -1777,8 +1850,58 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </div>
             </div>
 
+            {/* Sub-Navigation for Orphanage Media */}
+            <div className="flex items-center gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200 overflow-x-auto scrollbar-none snap-x">
+              <button
+                type="button"
+                onClick={() => setOrphanageSubTab("banners")}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
+                  orphanageSubTab === "banners"
+                    ? "bg-rose-600 text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Page Banners &amp; Highlights</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/20 font-black">3</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setOrphanageSubTab("photos")}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
+                  orphanageSubTab === "photos"
+                    ? "bg-rose-600 text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <Camera className="w-3.5 h-3.5" />
+                <span>Photo Moments Gallery</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/20 font-black">
+                  {settings.orphanagePhotos.length}
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setOrphanageSubTab("videos")}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shrink-0 ${
+                  orphanageSubTab === "videos"
+                    ? "bg-rose-600 text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <Video className="w-3.5 h-3.5" />
+                <span>Video Stories &amp; Testimonies</span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-white/20 font-black">
+                  {settings.orphanageVideos.length}
+                </span>
+              </button>
+            </div>
+
             {/* Primary Children's Home Page Photos */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+            {orphanageSubTab === "banners" && (
+              <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
               <div className="border-b border-slate-100 pb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-600">
                   Page Banners &amp; Highlights
@@ -1817,9 +1940,11 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 />
               </div>
             </div>
+            )}
 
             {/* Photos Manager */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+            {orphanageSubTab === "photos" && (
+              <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div className="flex items-center gap-2.5">
                   <Camera className="w-5 h-5 text-rose-600" />
@@ -1954,9 +2079,11 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 </div>
               )}
             </div>
+            )}
 
             {/* Videos Manager */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+            {orphanageSubTab === "videos" && (
+              <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
               <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div className="flex items-center gap-2.5">
                   <Video className="w-5 h-5 text-rose-600" />
@@ -2224,189 +2351,295 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 </div>
               )}
             </div>
+            )}
 
             {renderSaveSectionBar("Ready to publish Children's Home Photos & Videos?")}
           </div>
         )}
 
 
-        {/* ================= TAB 3: MINISTRY PILLARS ================= */}
+        {/* ================= TAB 4: MINISTRY PILLARS ================= */}
         {activeTab === "pillars" && (
-          <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35]">
-                Section 3 &bull; Divine Mandate
-              </span>
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                Our 4 Ministry Pillars &amp; Impact Counters
-              </h2>
-            </div>
-
-            <div className="space-y-6">
-              {/* Pillar 1 */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                    Pillar 1: Deliverance &amp; Healing
-                  </h3>
-                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
-                    Homepage Pillar
-                  </span>
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50 via-white to-amber-50 rounded-2xl sm:rounded-3xl border border-orange-200/80 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff6b35] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <Columns className="w-5 h-5" />
                 </div>
-                <Input
-                  value={settings.pillar1Title}
-                  onChange={(e) => setSettings({ ...settings, pillar1Title: e.target.value })}
-                  placeholder="Pillar Title (e.g. Deliverance & Healing)"
-                />
-                <Textarea
-                  rows={2}
-                  value={settings.pillar1Desc}
-                  onChange={(e) => setSettings({ ...settings, pillar1Desc: e.target.value })}
-                  placeholder="Pillar Description"
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                  <ImageUploadField
-                    label="Pillar 1 Featured Image"
-                    description="Featured photo plate (landscape 16:9 recommended)"
-                    value={settings.pillar1Image}
-                    onChange={(url) => setSettings({ ...settings, pillar1Image: url })}
-                    aspectRatio="video"
-                  />
-                  <EventVideoUploadField
-                    label="Pillar 1 Video (Optional)"
-                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
-                    videoUrl={settings.pillar1Video || ""}
-                    onChange={(videoUrl) => setSettings({ ...settings, pillar1Video: videoUrl })}
-                  />
-                </div>
-              </div>
-
-              {/* Pillar 2 */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                    Pillar 2: Global Crusades
-                  </h3>
-                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
-                    Homepage Pillar
-                  </span>
-                </div>
-                <Input
-                  value={settings.pillar2Title}
-                  onChange={(e) => setSettings({ ...settings, pillar2Title: e.target.value })}
-                  placeholder="Pillar Title (e.g. Global Crusades)"
-                />
-                <Textarea
-                  rows={2}
-                  value={settings.pillar2Desc}
-                  onChange={(e) => setSettings({ ...settings, pillar2Desc: e.target.value })}
-                  placeholder="Pillar Description"
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                  <ImageUploadField
-                    label="Pillar 2 Featured Image"
-                    description="Featured photo plate (landscape 16:9 recommended)"
-                    value={settings.pillar2Image}
-                    onChange={(url) => setSettings({ ...settings, pillar2Image: url })}
-                    aspectRatio="video"
-                  />
-                  <EventVideoUploadField
-                    label="Pillar 2 Video (Optional)"
-                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
-                    videoUrl={settings.pillar2Video || ""}
-                    onChange={(videoUrl) => setSettings({ ...settings, pillar2Video: videoUrl })}
-                  />
-                </div>
-              </div>
-
-              {/* Pillar 3 */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                    Pillar 3: Prophetic Word &amp; Truth
-                  </h3>
-                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
-                    Homepage Pillar
-                  </span>
-                </div>
-                <Input
-                  value={settings.pillar3Title}
-                  onChange={(e) => setSettings({ ...settings, pillar3Title: e.target.value })}
-                  placeholder="Pillar Title (e.g. Prophetic Word & Truth)"
-                />
-                <Textarea
-                  rows={2}
-                  value={settings.pillar3Desc}
-                  onChange={(e) => setSettings({ ...settings, pillar3Desc: e.target.value })}
-                  placeholder="Pillar Description"
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                  <ImageUploadField
-                    label="Pillar 3 Featured Image"
-                    description="Featured photo plate (landscape 16:9 recommended)"
-                    value={settings.pillar3Image}
-                    onChange={(url) => setSettings({ ...settings, pillar3Image: url })}
-                    aspectRatio="video"
-                  />
-                  <EventVideoUploadField
-                    label="Pillar 3 Video (Optional)"
-                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
-                    videoUrl={settings.pillar3Video || ""}
-                    onChange={(videoUrl) => setSettings({ ...settings, pillar3Video: videoUrl })}
-                  />
-                </div>
-              </div>
-
-              {/* Pillar 4 */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-extrabold text-slate-800 uppercase tracking-wider">
-                    Pillar 4: Compassion &amp; Outreach
-                  </h3>
-                  <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
-                    Homepage Pillar
-                  </span>
-                </div>
-                <Input
-                  value={settings.pillar4Title}
-                  onChange={(e) => setSettings({ ...settings, pillar4Title: e.target.value })}
-                  placeholder="Pillar Title (e.g. Compassion & Outreach)"
-                />
-                <Textarea
-                  rows={2}
-                  value={settings.pillar4Desc}
-                  onChange={(e) => setSettings({ ...settings, pillar4Desc: e.target.value })}
-                  placeholder="Pillar Description"
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-                  <ImageUploadField
-                    label="Pillar 4 Featured Image"
-                    description="Featured photo plate (landscape 16:9 recommended)"
-                    value={settings.pillar4Image}
-                    onChange={(url) => setSettings({ ...settings, pillar4Image: url })}
-                    aspectRatio="video"
-                  />
-                  <EventVideoUploadField
-                    label="Pillar 4 Video (Optional)"
-                    description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
-                    videoUrl={settings.pillar4Video || ""}
-                    onChange={(videoUrl) => setSettings({ ...settings, pillar4Video: videoUrl })}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 3 Pillar Impact Counters */}
-            <div className="pt-4 border-t border-slate-100 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <div>
-                  <h3 className="text-xs sm:text-sm font-extrabold text-slate-800 uppercase tracking-wider">
-                    Impact Counters (Below Pillars)
-                  </h3>
-                  <p className="text-[11px] text-slate-500">
-                    Displayed directly beneath the 4 ministry pillars on the homepage.
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35] block">
+                    Section 3 &bull; Divine Mandate
+                  </span>
+                  <h2 className="text-base sm:text-lg font-black text-slate-900">
+                    Our 4 Ministry Pillars &amp; Impact Counters
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Select any of the 4 ministry pillars to edit its title, narrative, photo plate, and video.
                   </p>
                 </div>
+              </div>
+            </div>
+
+            {/* Segmented 4-Pillar Quick Switcher Bar */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
+              <button
+                type="button"
+                onClick={() => setSelectedPillarTab(1)}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex flex-col items-start gap-0.5 text-left ${
+                  selectedPillarTab === 1
+                    ? "bg-[#ff6b35] text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <span className={`text-[10px] font-black uppercase tracking-wider ${selectedPillarTab === 1 ? "text-orange-100" : "text-slate-400"}`}>
+                  Pillar 1
+                </span>
+                <span className="truncate w-full font-extrabold">Deliverance &amp; Healing</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedPillarTab(2)}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex flex-col items-start gap-0.5 text-left ${
+                  selectedPillarTab === 2
+                    ? "bg-[#ff6b35] text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <span className={`text-[10px] font-black uppercase tracking-wider ${selectedPillarTab === 2 ? "text-orange-100" : "text-slate-400"}`}>
+                  Pillar 2
+                </span>
+                <span className="truncate w-full font-extrabold">Global Crusades</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedPillarTab(3)}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex flex-col items-start gap-0.5 text-left ${
+                  selectedPillarTab === 3
+                    ? "bg-[#ff6b35] text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <span className={`text-[10px] font-black uppercase tracking-wider ${selectedPillarTab === 3 ? "text-orange-100" : "text-slate-400"}`}>
+                  Pillar 3
+                </span>
+                <span className="truncate w-full font-extrabold">Prophetic Word &amp; Truth</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedPillarTab(4)}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all flex flex-col items-start gap-0.5 text-left ${
+                  selectedPillarTab === 4
+                    ? "bg-[#ff6b35] text-white shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white"
+                }`}
+              >
+                <span className={`text-[10px] font-black uppercase tracking-wider ${selectedPillarTab === 4 ? "text-orange-100" : "text-slate-400"}`}>
+                  Pillar 4
+                </span>
+                <span className="truncate w-full font-extrabold">Compassion &amp; Outreach</span>
+              </button>
+            </div>
+
+            {/* Active Pillar Card */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              {selectedPillarTab === 1 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                      Pillar 1: Deliverance &amp; Healing
+                    </h3>
+                    <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                      Homepage Pillar 1
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Title</label>
+                    <Input
+                      value={settings.pillar1Title}
+                      onChange={(e) => setSettings({ ...settings, pillar1Title: e.target.value })}
+                      placeholder="Pillar Title (e.g. Deliverance & Healing)"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Description &amp; Biblical Mandate</label>
+                    <Textarea
+                      rows={3}
+                      value={settings.pillar1Desc}
+                      onChange={(e) => setSettings({ ...settings, pillar1Desc: e.target.value })}
+                      placeholder="Pillar Description"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <ImageUploadField
+                      label="Pillar 1 Featured Image"
+                      description="Featured photo plate (landscape 16:9 recommended)"
+                      value={settings.pillar1Image}
+                      onChange={(url) => setSettings({ ...settings, pillar1Image: url })}
+                      aspectRatio="video"
+                    />
+                    <EventVideoUploadField
+                      label="Pillar 1 Video (Optional)"
+                      description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                      videoUrl={settings.pillar1Video || ""}
+                      onChange={(videoUrl) => setSettings({ ...settings, pillar1Video: videoUrl })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {selectedPillarTab === 2 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                      Pillar 2: Global Crusades
+                    </h3>
+                    <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                      Homepage Pillar 2
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Title</label>
+                    <Input
+                      value={settings.pillar2Title}
+                      onChange={(e) => setSettings({ ...settings, pillar2Title: e.target.value })}
+                      placeholder="Pillar Title (e.g. Global Crusades)"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Description &amp; Biblical Mandate</label>
+                    <Textarea
+                      rows={3}
+                      value={settings.pillar2Desc}
+                      onChange={(e) => setSettings({ ...settings, pillar2Desc: e.target.value })}
+                      placeholder="Pillar Description"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <ImageUploadField
+                      label="Pillar 2 Featured Image"
+                      description="Featured photo plate (landscape 16:9 recommended)"
+                      value={settings.pillar2Image}
+                      onChange={(url) => setSettings({ ...settings, pillar2Image: url })}
+                      aspectRatio="video"
+                    />
+                    <EventVideoUploadField
+                      label="Pillar 2 Video (Optional)"
+                      description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                      videoUrl={settings.pillar2Video || ""}
+                      onChange={(videoUrl) => setSettings({ ...settings, pillar2Video: videoUrl })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {selectedPillarTab === 3 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                      Pillar 3: Prophetic Word &amp; Truth
+                    </h3>
+                    <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                      Homepage Pillar 3
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Title</label>
+                    <Input
+                      value={settings.pillar3Title}
+                      onChange={(e) => setSettings({ ...settings, pillar3Title: e.target.value })}
+                      placeholder="Pillar Title (e.g. Prophetic Word & Truth)"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Description &amp; Biblical Mandate</label>
+                    <Textarea
+                      rows={3}
+                      value={settings.pillar3Desc}
+                      onChange={(e) => setSettings({ ...settings, pillar3Desc: e.target.value })}
+                      placeholder="Pillar Description"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <ImageUploadField
+                      label="Pillar 3 Featured Image"
+                      description="Featured photo plate (landscape 16:9 recommended)"
+                      value={settings.pillar3Image}
+                      onChange={(url) => setSettings({ ...settings, pillar3Image: url })}
+                      aspectRatio="video"
+                    />
+                    <EventVideoUploadField
+                      label="Pillar 3 Video (Optional)"
+                      description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                      videoUrl={settings.pillar3Video || ""}
+                      onChange={(videoUrl) => setSettings({ ...settings, pillar3Video: videoUrl })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {selectedPillarTab === 4 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                    <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                      Pillar 4: Compassion &amp; Outreach
+                    </h3>
+                    <span className="text-[10px] text-orange-600 bg-orange-100/60 font-bold px-2 py-0.5 rounded-full">
+                      Homepage Pillar 4
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Title</label>
+                    <Input
+                      value={settings.pillar4Title}
+                      onChange={(e) => setSettings({ ...settings, pillar4Title: e.target.value })}
+                      placeholder="Pillar Title (e.g. Compassion & Outreach)"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Pillar Description &amp; Biblical Mandate</label>
+                    <Textarea
+                      rows={3}
+                      value={settings.pillar4Desc}
+                      onChange={(e) => setSettings({ ...settings, pillar4Desc: e.target.value })}
+                      placeholder="Pillar Description"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <ImageUploadField
+                      label="Pillar 4 Featured Image"
+                      description="Featured photo plate (landscape 16:9 recommended)"
+                      value={settings.pillar4Image}
+                      onChange={(url) => setSettings({ ...settings, pillar4Image: url })}
+                      aspectRatio="video"
+                    />
+                    <EventVideoUploadField
+                      label="Pillar 4 Video (Optional)"
+                      description="Upload a clip (MP4 up to 50MB) or paste a YouTube URL to let visitors watch this pillar in action."
+                      videoUrl={settings.pillar4Video || ""}
+                      onChange={(videoUrl) => setSettings({ ...settings, pillar4Video: videoUrl })}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Master 3 Pillar Impact Counters */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+              <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Master Impact Counters (Below Ministry Pillars)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Displayed directly beneath the 4 ministry pillars on the public homepage.
+                  </p>
+                </div>
+                <span className="text-[10px] text-[#ff6b35] bg-orange-50 px-2 py-0.5 rounded-full font-bold border border-orange-200 self-start sm:self-auto">
+                  Homepage Section 3
+                </span>
               </div>
 
               {/* Live Preview Strip */}
@@ -2437,7 +2670,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-1">
                 <div className="space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200">
                   <label className="text-[11px] font-bold text-slate-700 block">Stat 1</label>
                   <div className="space-y-1">
@@ -2505,82 +2738,119 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         )}
 
 
-        {/* ================= TAB 4: ABOUT & COMMUNITY OUTREACH ================= */}
+        {/* ================= TAB 5: ABOUT & COMMUNITY OUTREACH ================= */}
         {activeTab === "about" && (
-          <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
-            <div className="border-b border-slate-100 pb-4">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35]">
-                About Page &amp; Pastoral Calling
-              </span>
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900">
-                Founder Story, Mission, Vision &amp; Grassroots Community
-              </h2>
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50 via-white to-amber-50 rounded-2xl sm:rounded-3xl border border-orange-200/80 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff6b35] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35] block">
+                    Section 4 &bull; Heritage &amp; Commission
+                  </span>
+                  <h2 className="text-base sm:text-lg font-black text-slate-900">
+                    Founder Calling, Apostolic Statements &amp; Community
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Configure the Senior Pastor profile, mission and vision statements, and grassroots outreach narrative.
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Pastor Profile Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Pastor Full Name</label>
-                <Input
-                  value={settings.pastorName}
-                  onChange={(e) => setSettings({ ...settings, pastorName: e.target.value })}
-                />
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              <div className="border-b border-slate-100 pb-3">
+                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                  Senior Pastor Profile &amp; Apostolic Commission
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Featured in the Founder Spotlight on the homepage and throughout the About page.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Pastor Full Name</label>
+                  <Input
+                    value={settings.pastorName}
+                    onChange={(e) => setSettings({ ...settings, pastorName: e.target.value })}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Pastor Official Title</label>
+                  <Input
+                    value={settings.pastorTitle}
+                    onChange={(e) => setSettings({ ...settings, pastorTitle: e.target.value })}
+                  />
+                </div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Pastor Official Title</label>
-                <Input
-                  value={settings.pastorTitle}
-                  onChange={(e) => setSettings({ ...settings, pastorTitle: e.target.value })}
+                <label className="text-xs font-bold text-slate-700">Pastoral Bio &amp; Commission</label>
+                <Textarea
+                  rows={3}
+                  value={settings.pastorBio}
+                  onChange={(e) => setSettings({ ...settings, pastorBio: e.target.value })}
                 />
               </div>
-            </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-700">Pastoral Bio &amp; Commission</label>
-              <Textarea
-                rows={3}
-                value={settings.pastorBio}
-                onChange={(e) => setSettings({ ...settings, pastorBio: e.target.value })}
+              <ImageUploadField
+                label="Pastor Caesar Portrait Photograph"
+                description="Used in Founder Spotlight and on the About Page."
+                value={settings.pastorImageUrl}
+                onChange={(url) => setSettings({ ...settings, pastorImageUrl: url })}
+                aspectRatio="portrait"
               />
             </div>
 
-            <ImageUploadField
-              label="Pastor Caesar Portrait Photograph"
-              description="Used in Founder Spotlight and on the About Page."
-              value={settings.pastorImageUrl}
-              onChange={(url) => setSettings({ ...settings, pastorImageUrl: url })}
-              aspectRatio="portrait"
-            />
-
             {/* Mission & Vision */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Church Mission Statement</label>
-                <Textarea
-                  rows={4}
-                  value={settings.missionStatement}
-                  onChange={(e) => setSettings({ ...settings, missionStatement: e.target.value })}
-                />
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              <div className="border-b border-slate-100 pb-3">
+                <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                  Apostolic Statements of Faith
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Displayed on the About page to articulate the church&apos;s divine mandate.
+                </p>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-700">Church Vision Statement</label>
-                <Textarea
-                  rows={4}
-                  value={settings.visionStatement}
-                  onChange={(e) => setSettings({ ...settings, visionStatement: e.target.value })}
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Church Mission Statement</label>
+                  <Textarea
+                    rows={4}
+                    value={settings.missionStatement}
+                    onChange={(e) => setSettings({ ...settings, missionStatement: e.target.value })}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Church Vision Statement</label>
+                  <Textarea
+                    rows={4}
+                    value={settings.visionStatement}
+                    onChange={(e) => setSettings({ ...settings, visionStatement: e.target.value })}
+                  />
+                </div>
               </div>
             </div>
 
             {/* Grassroots Community & Elder Care */}
-            <div className="pt-4 border-t border-slate-100 space-y-4">
-              <div className="flex items-center gap-2">
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
                 <Users className="w-5 h-5 text-[#ff6b35]" />
-                <h3 className="text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-                  Grassroots Community &amp; Elder Fellowship
-                </h3>
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Grassroots Community &amp; Elder Fellowship
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Highlights the outdoor gatherings with elders, mothers, and children in Suggutta.
+                  </p>
+                </div>
               </div>
 
               <div className="space-y-1.5">
@@ -2980,14 +3250,43 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         )}
 
 
-        {/* ================= TAB 6: BANKING & CONTACTS ================= */}
+        {/* ================= TAB 7: BANKING & CONTACTS ================= */}
         {activeTab === "bank" && (
           <div className="space-y-6">
-            {/* Identity & Location */}
+            {/* Header Card */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 bg-gradient-to-r from-orange-50 via-white to-amber-50 rounded-2xl sm:rounded-3xl border border-orange-200/80 shadow-sm">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff6b35] text-white flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+                  <CreditCard className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#ff6b35] block">
+                    Financial Transparency &amp; Reach
+                  </span>
+                  <h2 className="text-base sm:text-lg font-black text-slate-900">
+                    Giving Channels, Diaspora Remittances &amp; Official Coordinates
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Configure official M-Pesa till/paybill, KCB wire details, QR posters, and header broadcast alert.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 1: Sanctuary Identity & Physical Coordinates */}
             <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
-              <h2 className="text-base sm:text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
-                Church Identity &amp; Physical Coordinates
-              </h2>
+              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+                <Building2 className="w-5 h-5 text-[#ff6b35]" />
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Church Identity &amp; Physical Sanctuary Location
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Displayed on footers, official correspondence, and the Contact page.
+                  </p>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">Church Motto</label>
@@ -3020,55 +3319,116 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
               </div>
             </div>
 
-            {/* Kenya Banking & Remittance */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
-              <h2 className="text-base sm:text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
-                Giving Channels &amp; Remittance Details
-              </h2>
+            {/* Card 2: Local Kenya Giving Channels (M-Pesa Buy Goods & Paybill) */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+                <Phone className="w-5 h-5 text-emerald-600" />
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Local Kenyan Mobile Giving (M-Pesa Buy Goods &amp; Paybill)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Standard domestic mobile money payment channels for tithes, offerings, and building pledges.
+                  </p>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">M-Pesa Buy Goods Till Number</label>
+                <div className="space-y-1.5 p-4 rounded-2xl bg-emerald-50/50 border border-emerald-100">
+                  <label className="text-xs font-bold text-slate-800 flex items-center justify-between">
+                    <span>M-Pesa Buy Goods Till Number</span>
+                    <span className="text-[10px] text-emerald-700 font-extrabold uppercase bg-emerald-100 px-2 py-0.5 rounded-full">
+                      Zero Client Fee
+                    </span>
+                  </label>
                   <Input
                     value={settings.mpesaTillNumber}
                     onChange={(e) => setSettings({ ...settings, mpesaTillNumber: e.target.value })}
                     placeholder="8146952"
+                    className="font-mono font-bold text-sm"
                   />
-                  <span className="text-[10px] text-slate-500 block">
-                    Zero customer transaction fee Safaricom Till number.
-                  </span>
+                  <div className="space-y-1 pt-2">
+                    <span className="text-[11px] font-bold text-slate-600">Registered Till Name</span>
+                    <Input
+                      value={settings.mpesaTillName}
+                      onChange={(e) => setSettings({ ...settings, mpesaTillName: e.target.value })}
+                      placeholder="Suggutta Fellowship Church"
+                    />
+                  </div>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">M-Pesa Registered Till Name</label>
+
+                <div className="space-y-1.5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                  <label className="text-xs font-bold text-slate-800 flex items-center justify-between">
+                    <span>Universal Paybill Number</span>
+                    <span className="text-[10px] text-slate-600 font-bold bg-white px-2 py-0.5 rounded-full border border-slate-200">
+                      Cross-Network
+                    </span>
+                  </label>
                   <Input
-                    value={settings.mpesaTillName}
-                    onChange={(e) => setSettings({ ...settings, mpesaTillName: e.target.value })}
-                    placeholder="Suggutta Fellowship Church"
+                    value={settings.mpesaPaybill || ""}
+                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
+                    placeholder="522533"
+                    className="font-mono font-bold text-sm"
                   />
-                  <span className="text-[10px] text-slate-500 block">
-                    Official business name displayed upon PIN confirmation.
-                  </span>
+                  <div className="grid grid-cols-2 gap-2 pt-2">
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-bold text-slate-600">Paybill Account</span>
+                      <Input
+                        value={settings.mpesaPaybillAccount || ""}
+                        onChange={(e) => setSettings({ ...settings, mpesaPaybillAccount: e.target.value })}
+                        placeholder="8146952"
+                        className="font-mono text-xs"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-bold text-slate-600">Business Name</span>
+                      <Input
+                        value={settings.mpesaPaybillName || ""}
+                        onChange={(e) => setSettings({ ...settings, mpesaPaybillName: e.target.value })}
+                        placeholder="SUGGUTTA FELLOWSHIP"
+                        className="text-xs"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Pastor Send Money Phone Line</label>
+
+                <div className="col-span-1 md:col-span-2 space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Pastor Direct Send Money Phone Line</label>
                   <Input
                     value={settings.mpesaPhone}
                     onChange={(e) => setSettings({ ...settings, mpesaPhone: e.target.value })}
                     placeholder="+254112656123"
                   />
                   <span className="text-[10px] text-slate-500 block">
-                    Direct altar pastoral line used for Send Money &amp; Sendwave.
+                    Direct altar pastoral line used for M-Pesa Send Money, Sendwave, and Remitly direct-to-mobile.
                   </span>
                 </div>
+              </div>
+            </div>
+
+            {/* Card 3: International Diaspora Remittances & Wire */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+                <Landmark className="w-5 h-5 text-blue-600" />
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    International Diaspora Remittances &amp; Bank Wire
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Used by partners in the USA, UK, Europe, Australia, and worldwide for direct transfers.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">KCB Bank Account Number</label>
                   <Input
                     value={settings.kcbAccountNumber}
                     onChange={(e) => setSettings({ ...settings, kcbAccountNumber: e.target.value })}
                     placeholder="1356891853"
+                    className="font-mono font-bold"
                   />
-                  <span className="text-[10px] text-slate-500 block">
-                    Kenya Commercial Bank deposit and international wire account.
-                  </span>
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">KCB Account Name</label>
@@ -3087,92 +3447,85 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">KCB SWIFT Code</label>
+                  <label className="text-xs font-bold text-slate-700">KCB SWIFT / BIC Code</label>
                   <Input
                     value={settings.kcbSwift}
                     onChange={(e) => setSettings({ ...settings, kcbSwift: e.target.value })}
                     placeholder="KCBLKENX"
+                    className="font-mono font-bold"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">M-Pesa &amp; KCB Bank Paybill Number</label>
+                <div className="col-span-1 md:col-span-2 space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Western Union / Sendwave Recipient Name</label>
                   <Input
-                    value={settings.mpesaPaybill || ""}
-                    onChange={(e) => setSettings({ ...settings, mpesaPaybill: e.target.value })}
-                    placeholder="522533"
+                    value={settings.westernUnionRecipient}
+                    onChange={(e) => setSettings({ ...settings, westernUnionRecipient: e.target.value })}
+                    placeholder="Caesar O. Nyandwaro"
                   />
                   <span className="text-[10px] text-slate-500 block">
-                    Universal Paybill / Business number (e.g. 522533) accepted across M-Pesa, Vooma, Airtel Money, and T-kash.
+                    Legal name displayed to diaspora donors sending via Western Union, MoneyGram, or Sendwave.
                   </span>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Paybill Account Number</label>
-                  <Input
-                    value={settings.mpesaPaybillAccount || ""}
-                    onChange={(e) => setSettings({ ...settings, mpesaPaybillAccount: e.target.value })}
-                    placeholder="8146952"
-                  />
-                  <span className="text-[10px] text-slate-500 block">
-                    Account number donors enter when paying via Paybill (e.g. 8146952).
-                  </span>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Paybill Registered Business Name</label>
-                  <Input
-                    value={settings.mpesaPaybillName || ""}
-                    onChange={(e) => setSettings({ ...settings, mpesaPaybillName: e.target.value })}
-                    placeholder="SUGGUTTA FELLOWSHIP CHURCH"
-                  />
-                  <span className="text-[10px] text-slate-500 block">
-                    Official business name displayed on client phone upon Paybill confirmation.
-                  </span>
-                </div>
-
-                {/* Official QR Codes / Posters Upload Fields */}
-                <div className="col-span-1 md:col-span-2 pt-4 border-t border-slate-100 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
-                    <h3 className="text-xs sm:text-sm font-extrabold text-slate-900 uppercase tracking-wider">
-                      Official Payment Channel QR Code Posters (Optional)
-                    </h3>
-                    <span className="text-[10px] text-slate-500 font-medium">
-                      If left blank, clean auto-generated QR codes are displayed automatically
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <ImageUploadField
-                      label="M-Pesa Buy Goods Till Poster"
-                      description="Upload official Safaricom green till poster or QR image for Till 8146952."
-                      value={settings.mpesaTillQrImage || ""}
-                      onChange={(url) => setSettings({ ...settings, mpesaTillQrImage: url })}
-                      aspectRatio="square"
-                    />
-
-                    <ImageUploadField
-                      label="M-Pesa Paybill QR Poster"
-                      description="Upload official Paybill poster image for Business No. 522533."
-                      value={settings.mpesaPaybillQrImage || ""}
-                      onChange={(url) => setSettings({ ...settings, mpesaPaybillQrImage: url })}
-                      aspectRatio="square"
-                    />
-
-                    <ImageUploadField
-                      label="KCB Bank Account Poster"
-                      description="Upload official KCB deposit slip or scannable poster for Acc 1356891853."
-                      value={settings.kcbBankQrImage || ""}
-                      onChange={(url) => setSettings({ ...settings, kcbBankQrImage: url })}
-                      aspectRatio="square"
-                    />
-                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Socials and Contacts */}
+            {/* Card 4: Official Scannable QR Posters */}
             <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
-              <h2 className="text-base sm:text-lg font-bold text-slate-900 border-b border-slate-100 pb-3">
-                Communications &amp; Social Links
-              </h2>
+              <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Official Payment Channel QR Code Posters (Optional)
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Upload official posters or leave blank for clean automatic QR code rendering.
+                  </p>
+                </div>
+                <span className="text-[10px] text-slate-500 font-medium bg-slate-100 px-2.5 py-1 rounded-full self-start sm:self-auto">
+                  Auto-Fallback Active
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <ImageUploadField
+                  label="M-Pesa Till Poster"
+                  description="Upload official Safaricom green till poster or QR image for Till 8146952."
+                  value={settings.mpesaTillQrImage || ""}
+                  onChange={(url) => setSettings({ ...settings, mpesaTillQrImage: url })}
+                  aspectRatio="square"
+                />
+
+                <ImageUploadField
+                  label="M-Pesa Paybill Poster"
+                  description="Upload official Paybill poster image for Business No. 522533."
+                  value={settings.mpesaPaybillQrImage || ""}
+                  onChange={(url) => setSettings({ ...settings, mpesaPaybillQrImage: url })}
+                  aspectRatio="square"
+                />
+
+                <ImageUploadField
+                  label="KCB Bank Deposit Poster"
+                  description="Upload official KCB deposit slip or scannable poster for Acc 1356891853."
+                  value={settings.kcbBankQrImage || ""}
+                  onChange={(url) => setSettings({ ...settings, kcbBankQrImage: url })}
+                  aspectRatio="square"
+                />
+              </div>
+            </div>
+
+            {/* Card 5: Communications, Social Handles & Live TopBar Banner */}
+            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
+              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+                <Globe className="w-5 h-5 text-[#ff6b35]" />
+                <div>
+                  <h3 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    Communications, Social Links &amp; Header TopBar
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Public communication channels, YouTube live destination, and top announcement banner.
+                  </p>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700">Official General Church Email</label>
@@ -3183,6 +3536,17 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                   />
                   <span className="text-[10px] text-slate-500 block">
                     Universal church contact email displayed in top bar, website footer, and contact/giving forms.
+                  </span>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-slate-700">Official YouTube Channel URL</label>
+                  <Input
+                    value={settings.youtubeChannelUrl}
+                    onChange={(e) => setSettings({ ...settings, youtubeChannelUrl: e.target.value })}
+                    placeholder="https://www.youtube.com/@Brianmbera"
+                  />
+                  <span className="text-[10px] text-slate-500 block">
+                    Your official church YouTube channel for live streaming, recordings, and subscriber growth.
                   </span>
                 </div>
                 <div className="space-y-1.5">
@@ -3199,88 +3563,66 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                     onChange={(e) => setSettings({ ...settings, instagramUrl: e.target.value })}
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Official YouTube Channel URL</label>
-                  <Input
-                    value={settings.youtubeChannelUrl}
-                    onChange={(e) => setSettings({ ...settings, youtubeChannelUrl: e.target.value })}
-                    placeholder="https://www.youtube.com/@Brianmbera"
-                  />
-                  <span className="text-[10px] text-slate-500 block">
-                    Your official church YouTube channel for live streaming, recordings, and subscriber growth.
-                  </span>
-                </div>
               </div>
-            </div>
 
-            {/* Top Bar, Live Broadcast & Announcements */}
-            <div className="bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm space-y-5">
-              <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-                <Radio className="w-5 h-5 text-rose-600" />
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900">
+              {/* Header Top Bar Alert */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/50 border border-orange-200/80 space-y-4 pt-4 mt-2">
+                <div className="flex items-center gap-2 border-b border-orange-200/60 pb-2.5">
+                  <Radio className="w-4 h-4 text-rose-600" />
+                  <h4 className="text-xs sm:text-sm font-extrabold text-slate-900">
                     Header Top Bar &amp; Live Broadcast Alert
-                  </h3>
-                  <p className="text-xs text-slate-500">
-                    Controls the very top thin banner showing live broadcast status, pastoral phone, email, and schedule.
-                  </p>
+                  </h4>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold text-slate-900">Live Broadcast Alert Active</label>
-                    <button
-                      type="button"
-                      onClick={() => setSettings({ ...settings, topbarLiveActive: !settings.topbarLiveActive })}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                        settings.topbarLiveActive ? "bg-rose-600" : "bg-slate-300"
-                      }`}
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                          settings.topbarLiveActive ? "translate-x-6" : "translate-x-1"
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl bg-white border border-slate-200 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-bold text-slate-900">Live Broadcast Alert Active</label>
+                      <button
+                        type="button"
+                        onClick={() => setSettings({ ...settings, topbarLiveActive: !settings.topbarLiveActive })}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                          settings.topbarLiveActive ? "bg-rose-600" : "bg-slate-300"
                         }`}
-                      />
-                    </button>
+                      >
+                        <span
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                            settings.topbarLiveActive ? "translate-x-6" : "translate-x-1"
+                          }`}
+                        />
+                      </button>
+                    </div>
+                    <p className="text-[11px] text-slate-500">
+                      When active, a pulsing red live indicator and clickable broadcast badge appear in the top bar.
+                    </p>
                   </div>
-                  <p className="text-[11px] text-slate-500">
-                    When active, a pulsing red indicator and clickable broadcast badge appear in the top bar.
-                  </p>
-                </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Live Broadcast Label</label>
-                  <Input
-                    value={settings.topbarLiveLabel}
-                    onChange={(e) => setSettings({ ...settings, topbarLiveLabel: e.target.value })}
-                    placeholder="Watch Live Broadcast"
-                  />
-                </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Live Broadcast Label</label>
+                    <Input
+                      value={settings.topbarLiveLabel}
+                      onChange={(e) => setSettings({ ...settings, topbarLiveLabel: e.target.value })}
+                      placeholder="Watch Live Broadcast"
+                    />
+                  </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Live Broadcast URL</label>
-                  <Input
-                    value={settings.topbarLiveUrl}
-                    onChange={(e) => setSettings({ ...settings, topbarLiveUrl: e.target.value })}
-                    placeholder="https://www.youtube.com/@Brianmbera"
-                  />
-                  <span className="text-[10px] text-slate-500 block">
-                    Direct live stream URL or official YouTube channel URL.
-                  </span>
-                </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Live Broadcast Destination URL</label>
+                    <Input
+                      value={settings.topbarLiveUrl}
+                      onChange={(e) => setSettings({ ...settings, topbarLiveUrl: e.target.value })}
+                      placeholder="https://www.youtube.com/@Brianmbera"
+                    />
+                  </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-700">Top Bar Announcement / Service Schedule</label>
-                  <Input
-                    value={settings.topbarAnnouncement}
-                    onChange={(e) => setSettings({ ...settings, topbarAnnouncement: e.target.value })}
-                    placeholder="Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online"
-                  />
-                  <span className="text-[10px] text-slate-500 block">
-                    Displays in the center of the top bar on desktop and tablets.
-                  </span>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Top Bar Announcement / Service Schedule</label>
+                    <Input
+                      value={settings.topbarAnnouncement}
+                      onChange={(e) => setSettings({ ...settings, topbarAnnouncement: e.target.value })}
+                      placeholder="Sunday Service: 8:00 AM – 11:45 AM | Sanctuary & Online"
+                    />
+                  </div>
                 </div>
               </div>
             </div>

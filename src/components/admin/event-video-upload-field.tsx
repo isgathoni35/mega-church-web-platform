@@ -134,7 +134,7 @@ export function EventVideoUploadField({
   };
 
   return (
-    <div className="space-y-3 p-4 bg-slate-50/70 border border-slate-200 rounded-2xl">
+    <div className="space-y-3.5 p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-white to-slate-50/80 border border-slate-200/90 shadow-2xs">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">

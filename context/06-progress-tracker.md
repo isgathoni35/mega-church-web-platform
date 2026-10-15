@@ -837,3 +837,23 @@
    5. Verification:
       - `npx tsc --noEmit` exited code 0 (zero compiler errors).
 
+- [x] `feature-specs/59-admin-cms-and-settings-elevation.md`: Executive-Tier Modernization & Beautification of Admin CMS, Settings, Media Uploaders, and Portal Views.
+   1. Shared Media Uploader Elevation:
+      - `ImageUploadField` ([src/components/admin/image-upload-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/image-upload-field.tsx)): Upgraded to a modern container (`bg-gradient-to-b from-white to-slate-50/80 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm`), aspect ratio preview framing, active badge, file drop target, and redesigned Church Library Presets drawer.
+      - `ProjectMultiImageField` ([src/components/admin/project-multi-image-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-field.tsx)): Upgraded container styling matching `ImageUploadField`, multi-image grid with cover badge, delete button, reorder capability, and library selector.
+      - `EventVideoUploadField` ([src/components/admin/event-video-upload-field.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/event-video-upload-field.tsx)): Upgraded container styling matching `ImageUploadField`, video preview player with live badge, direct storage upload with progress, and URL fallback.
+   2. Settings Manager View Architectural Overhaul ([src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx)):
+      - Navigation Tabs: Upgraded to frosted-glass tab bar with active orange glow and real-time count badges (`projects`, `orphanage`, `events`, `pillars`).
+      - Tab 1: Home & Hero (`hero`): Injected a Real-Time Live Hero Mockup Preview simulating the public hero look (backdrop image, badges, headlines, CTA buttons, milestone chips); clean cards for Headlines, Background Image, and Milestone Counters. De-duplicated redundant TopBar and Impact Stats fields.
+      - Tab 2: Church Projects (`projects`): Transformed 2,500px uncollapsed forms into Collapsible Accordion Project Cards with photo count indicators, active/hidden toggles, color accent badges, and Expand/Collapse All controls.
+      - Tab 3: Children's Home Media (`orphanage`): Segmented into 3 focused sub-tabs (`banners`, `photos`, `videos`) using `orphanageSubTab` state, eliminating vertical scrolling fatigue.
+      - Tab 4: Ministry Pillars (`pillars`): Converted into a Segmented 4-Pillar quick switcher (`selectedPillarTab`: 1 to 4) plus master Impact Counters editor with live preview cards.
+      - Tab 5: About & Community (`about`): Reorganized into clean 3-card structure (Senior Pastor Profile & Calling, Apostolic Statements of Faith, Grassroots Community & Elder Care).
+      - Tab 6: Events & Crusades (`events`): Preserved and verified the collapsible mission accordion structure with dedicated quick-save event action.
+      - Tab 7: Banking & Contacts (`bank`): Reorganized into 5 clear cards (Sanctuary Identity, Kenyan Mobile M-Pesa Till & Paybill, International Diaspora Wire & Sendwave, QR Posters, Communications/TopBar Alert).
+      - Floating Bottom Action Bar: Sleek floating save bar with changes indicator, save button with loader, and mobile safe-area insets.
+   3. Verification:
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+      - Verified Supabase data persistence contracts and schemas are 100% preserved.
+
+

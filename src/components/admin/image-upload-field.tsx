@@ -115,24 +115,25 @@ export function ImageUploadField({
   };
 
   return (
-    <div className="space-y-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
-      <div className="flex items-center justify-between">
-        <div>
-          <label className="text-xs sm:text-sm font-bold text-slate-900 block">
+    <div className="space-y-3.5 p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-white to-slate-50/80 border border-slate-200/90 shadow-2xs hover:border-orange-200 transition-all">
+      {/* Header with Title, Description, and Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="min-w-0">
+          <label className="text-xs sm:text-sm font-extrabold text-slate-900 block tracking-tight">
             {label}
           </label>
           {description && (
-            <p className="text-[11px] text-slate-500 mt-0.5">{description}</p>
+            <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">{description}</p>
           )}
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2 shrink-0">
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={() => setShowPresets(!showPresets)}
-            className="text-[11px] h-7 px-2.5 rounded-lg border-slate-200 bg-white hover:bg-slate-100 text-slate-700 flex items-center gap-1"
+            className="text-xs h-8 px-3 rounded-xl border-slate-200 bg-white hover:bg-orange-50 hover:text-[#ff6b35] text-slate-700 flex items-center gap-1.5 shadow-2xs transition-all"
           >
             <FolderOpen className="w-3.5 h-3.5 text-[#ff6b35]" />
             <span>Library Presets</span>
@@ -143,7 +144,7 @@ export function ImageUploadField({
             size="sm"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading}
-            className="text-[11px] h-7 px-2.5 rounded-lg bg-[#ff6b35] hover:bg-[#ea580c] text-white flex items-center gap-1 border-0 shadow-sm"
+            className="text-xs h-8 px-3.5 rounded-xl bg-[#ff6b35] hover:bg-[#ea580c] text-white flex items-center gap-1.5 border-0 shadow-sm shadow-orange-500/20 font-bold transition-all"
           >
             {isUploading ? (
               <>
@@ -169,49 +170,52 @@ export function ImageUploadField({
 
       {/* Preset Picker Dropdown Drawer */}
       {showPresets && (
-        <div className="p-3 bg-white rounded-xl border border-orange-200 shadow-lg space-y-2 animate-in fade-in-50 duration-200">
+        <div className="p-3.5 bg-white rounded-2xl border border-orange-200/90 shadow-xl space-y-2.5 animate-in fade-in-50 duration-200">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <span className="text-[11px] font-extrabold text-slate-800 uppercase tracking-wider">
-              Select an Authentic Church Asset
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#ff6b35]" />
+              <span className="text-[11px] font-black text-slate-800 uppercase tracking-wider">
+                Select an Authentic Church Media Asset
+              </span>
+            </div>
             <button
               type="button"
               onClick={() => setShowPresets(false)}
-              className="text-slate-400 hover:text-slate-600"
+              className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
             {CHURCH_LIBRARY_PRESETS.map((preset) => (
               <button
                 key={preset.path}
                 type="button"
                 onClick={() => handlePresetSelect(preset.path)}
-                className={`flex flex-col text-left p-1.5 rounded-lg border transition-all ${
+                className={`flex flex-col text-left p-1.5 rounded-xl border transition-all ${
                   value === preset.path
-                    ? "border-[#ff6b35] bg-orange-50/50 shadow-sm ring-1 ring-[#ff6b35]"
+                    ? "border-[#ff6b35] bg-orange-50/60 shadow-xs ring-2 ring-[#ff6b35]/20"
                     : "border-slate-200 hover:border-slate-300 bg-white"
                 }`}
               >
-                <div className="relative aspect-video w-full rounded overflow-hidden bg-slate-900 mb-1">
+                <div className="relative aspect-video w-full rounded-lg overflow-hidden bg-slate-900 mb-1.5">
                   <Image
                     src={preset.path}
                     alt={preset.label}
                     fill
                     className="object-cover"
-                    sizes="120px"
+                    sizes="140px"
                   />
                   {value === preset.path && (
-                    <div className="absolute inset-0 bg-[#ff6b35]/40 flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white drop-shadow" />
+                    <div className="absolute inset-0 bg-[#ff6b35]/40 backdrop-blur-[1px] flex items-center justify-center">
+                      <Check className="w-5 h-5 text-white drop-shadow" />
                     </div>
                   )}
                 </div>
-                <span className="text-[10px] font-bold text-slate-800 truncate block">
+                <span className="text-[10px] font-extrabold text-slate-800 truncate block">
                   {preset.label}
                 </span>
-                <span className="text-[9px] text-slate-400 font-medium">
+                <span className="text-[9px] text-[#ff6b35] font-bold">
                   {preset.category}
                 </span>
               </button>
@@ -221,34 +225,34 @@ export function ImageUploadField({
       )}
 
       {/* Main Preview and URL Row */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-1">
         {/* Thumbnail Preview Container */}
         <div
-          className={`relative rounded-xl overflow-hidden border-2 border-slate-200 shadow-sm bg-slate-900 shrink-0 w-full ${aspectClass}`}
+          className={`relative rounded-2xl overflow-hidden border-2 border-slate-200/90 shadow-xs bg-slate-950 shrink-0 w-full sm:w-auto ${aspectClass}`}
         >
           {value && !imageError ? (
             <Image
               src={value}
               alt={label}
               fill
-              className="object-cover hover:scale-105 transition-transform duration-300"
+              className="object-cover hover:scale-105 transition-transform duration-500"
               sizes="200px"
               unoptimized
               onError={() => setImageError(true)}
             />
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-2 text-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 p-3 text-center bg-slate-900">
               <ImageIcon className="w-6 h-6 mb-1 text-slate-500" />
-              <span className="text-[10px]">
-                {imageError ? "Image preview unavailable (Check URL)" : "No image set"}
+              <span className="text-[10px] font-medium">
+                {imageError ? "Preview unavailable (Check URL)" : "No image selected"}
               </span>
             </div>
           )}
 
           {isUploading && (
-            <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm flex flex-col items-center justify-center text-white p-2">
+            <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center text-white p-2">
               <Loader2 className="w-6 h-6 animate-spin text-[#ff6b35] mb-1" />
-              <span className="text-[10px] font-bold">Uploading...</span>
+              <span className="text-[10px] font-bold">Uploading to CDN...</span>
             </div>
           )}
         </div>
@@ -256,9 +260,17 @@ export function ImageUploadField({
         {/* URL Input & Direct Actions */}
         <div className="flex-1 w-full space-y-2">
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-slate-500 flex items-center gap-1">
-              <LinkIcon className="w-3 h-3 text-slate-400" />
-              <span>Image Path / Public URL:</span>
+            <label className="text-[11px] font-bold text-slate-600 flex items-center justify-between">
+              <span className="flex items-center gap-1">
+                <LinkIcon className="w-3 h-3 text-[#ff6b35]" />
+                <span>Image Path / Public URL:</span>
+              </span>
+              {value && (
+                <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+                  <Check className="w-3 h-3" />
+                  Active Asset
+                </span>
+              )}
             </label>
             <Input
               type="text"
@@ -266,16 +278,16 @@ export function ImageUploadField({
               onChange={(e) => handleManualChange(e.target.value)}
               onBlur={handleManualBlur}
               placeholder="/images/example.jpg or https://..."
-              className="h-8 text-xs font-mono bg-white border-slate-200"
+              className="h-9 text-xs font-mono bg-white border-slate-200 text-slate-900 focus:border-[#ff6b35] focus:ring-[#ff6b35]"
             />
           </div>
 
-          <p className="text-[10px] text-slate-400">
-            Tip: You can click <strong>Upload Photo</strong> to upload directly from your device, or paste any external image / Google link above.
+          <p className="text-[10px] text-slate-400 leading-normal">
+            Upload from your device, choose from Church Presets, or paste any direct CDN URL.
           </p>
 
           {uploadError && (
-            <p className="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg p-2 flex items-center gap-1.5">
+            <p className="text-[11px] font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-xl p-2.5 flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />
               <span>{uploadError}</span>
             </p>

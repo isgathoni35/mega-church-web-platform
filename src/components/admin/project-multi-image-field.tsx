@@ -149,7 +149,7 @@ export function ProjectMultiImageField({
   };
 
   return (
-    <div className="space-y-3 p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200">
+    <div className="space-y-3.5 p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-white to-slate-50/80 border border-slate-200/90 shadow-2xs">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <div className="flex items-center gap-2">
