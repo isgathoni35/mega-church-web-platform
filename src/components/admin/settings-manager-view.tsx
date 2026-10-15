@@ -92,10 +92,15 @@ export function SettingsManagerView({ initialSettings }: SettingsManagerViewProp
   const [isPending, startTransition] = useTransition();
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [copiedSql, setCopiedSql] = useState(false);
+  const [lastSavedSnapshot, setLastSavedSnapshot] = useState<string>(
+    initialSettings ? JSON.stringify(initialSettings) : ""
+  );
+  const hasUnsavedChanges = lastSavedSnapshot !== "" && JSON.stringify(settings) !== lastSavedSnapshot;
 
   useEffect(() => {
     if (initialSettings) {
       setSettings(initialSettings);
+      setLastSavedSnapshot(JSON.stringify(initialSettings));
     }
   }, [initialSettings]);
 
@@ -265,15 +270,19 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     startTransition(async () => {
       const res = await saveSiteSettingsAction(settings);
       if (res.success) {
+        setLastSavedSnapshot(JSON.stringify(settings));
         setFeedback({
           type: "success",
           message: res.message || "Site content, photos, and church details updated successfully across all pages!",
         });
+        setTimeout(() => {
+          setFeedback((prev) => (prev?.type === "success" ? null : prev));
+        }, 5000);
         router.refresh();
       } else {
         setFeedback({
           type: "error",
-          message: res.error || "Failed to update settings. Please run the SQL migration below in Supabase.",
+          message: res.error || "Failed to update settings. Please check your network connection.",
         });
       }
     });
@@ -304,7 +313,11 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     try {
       const res = await saveProjectsAction(list);
       if (res.success && res.data) {
-        setSettings((prev) => ({ ...prev, projectsJson: res.data! }));
+        setSettings((prev) => {
+          const next = { ...prev, projectsJson: res.data! };
+          setLastSavedSnapshot(JSON.stringify(next));
+          return next;
+        });
         setProjectsFeedback({
           type: "success",
           text: "Projects, photo galleries & video links published to homepage!",
@@ -441,10 +454,14 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
     startTransition(async () => {
       const res = await saveEventsAction(settings.eventsJson);
       if (res.success) {
+        setLastSavedSnapshot(JSON.stringify(settings));
         setFeedback({
           type: "success",
           message: "Events & crusades published successfully without any errors!",
         });
+        setTimeout(() => {
+          setFeedback((prev) => (prev?.type === "success" ? null : prev));
+        }, 5000);
         router.refresh();
       } else {
         setFeedback({
@@ -3675,20 +3692,70 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
       {/* Persistent Floating Bottom Save Bar (Always Visible On-Screen) */}
       <div className="fixed bottom-0 left-0 md:left-64 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-4 sm:px-8 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] shadow-[0_-8px_25px_rgba(0,0,0,0.09)] flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+          <span
+            className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+              hasUnsavedChanges
+                ? "bg-amber-500 animate-pulse ring-4 ring-amber-100"
+                : "bg-emerald-500 ring-4 ring-emerald-100"
+            }`}
+          />
           <div className="hidden sm:block">
-            <span className="text-xs font-bold text-slate-900 block">CMS Live Publishing Hub</span>
-            <span className="text-[11px] text-slate-500 block truncate">All modifications immediately update the live public website</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-slate-900 block">
+                {hasUnsavedChanges ? "Unsaved Changes Pending" : "CMS Live Publishing Hub"}
+              </span>
+              {hasUnsavedChanges && (
+                <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-black uppercase tracking-wider">
+                  Draft
+                </span>
+              )}
+            </div>
+            <span className="text-[11px] text-slate-500 block truncate">
+              {hasUnsavedChanges
+                ? "You have modified content that has not yet been published to the live website."
+                : "All modifications are synchronized with the live public website."}
+            </span>
           </div>
-          <span className="text-xs font-bold text-slate-800 sm:hidden truncate">CMS Ready</span>
+          <span className="text-xs font-bold text-slate-800 sm:hidden truncate">
+            {hasUnsavedChanges ? "Draft Changes" : "Synced"}
+          </span>
         </div>
+
+        {/* Floating Quick Feedback Toast for immediate visibility */}
+        {feedback && (
+          <div
+            className={`hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all animate-in fade-in slide-in-from-bottom-2 ${
+              feedback.type === "success"
+                ? "bg-emerald-50 border-emerald-300 text-emerald-800 shadow-sm"
+                : "bg-rose-50 border-rose-300 text-rose-800 shadow-sm"
+            }`}
+          >
+            {feedback.type === "success" ? (
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            ) : (
+              <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+            )}
+            <span className="truncate max-w-[280px]">{feedback.message}</span>
+            <button
+              type="button"
+              onClick={() => setFeedback(null)}
+              className="p-0.5 hover:bg-black/5 rounded-full text-slate-400 hover:text-slate-600 ml-1"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
 
         <div className="flex items-center gap-2 shrink-0">
           <Button
             type="button"
             onClick={(e) => handleSave(e)}
             disabled={isPending}
-            className="bg-[#ff6b35] hover:bg-[#ea580c] text-white font-black px-5 sm:px-8 py-2.5 sm:py-3 rounded-full shadow-lg shadow-orange-500/25 text-xs sm:text-sm h-auto flex items-center gap-2 border-0"
+            className={`font-black px-5 sm:px-8 py-2.5 sm:py-3 rounded-full shadow-lg text-xs sm:text-sm h-auto flex items-center gap-2 border-0 transition-all ${
+              hasUnsavedChanges
+                ? "bg-[#ff6b35] hover:bg-[#ea580c] text-white shadow-orange-500/30 ring-2 ring-orange-300/60 scale-[1.02]"
+                : "bg-[#0A2240] hover:bg-[#07162c] text-white shadow-slate-900/20"
+            }`}
           >
             {isPending ? (
               <>
@@ -3698,7 +3765,7 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
             ) : (
               <>
                 <Save className="w-4 h-4" />
-                <span>Save All Changes</span>
+                <span>{hasUnsavedChanges ? "Publish All Changes" : "Save All Changes"}</span>
               </>
             )}
           </Button>

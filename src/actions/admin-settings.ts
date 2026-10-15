@@ -897,81 +897,81 @@ export async function saveSiteSettingsAction(
 
     const payload = {
       // Pastoral Profile
-      pastor_name: settings.pastorName.trim(),
-      pastor_title: settings.pastorTitle.trim(),
-      pastor_image_url: extractCleanImageUrl(settings.pastorImageUrl),
-      pastor_bio: settings.pastorBio.trim(),
-      pastor_national_id: settings.pastorNationalId.trim(),
+      pastor_name: (settings.pastorName ?? DEFAULT_SETTINGS.pastorName).trim(),
+      pastor_title: (settings.pastorTitle ?? DEFAULT_SETTINGS.pastorTitle).trim(),
+      pastor_image_url: extractCleanImageUrl(settings.pastorImageUrl) || DEFAULT_SETTINGS.pastorImageUrl,
+      pastor_bio: (settings.pastorBio ?? DEFAULT_SETTINGS.pastorBio).trim(),
+      pastor_national_id: (settings.pastorNationalId ?? DEFAULT_SETTINGS.pastorNationalId).trim(),
 
       // Church Identity & Location
-      church_motto: settings.churchMotto.trim(),
-      church_slogan: settings.churchSlogan.trim(),
-      postal_address: settings.postalAddress.trim(),
-      physical_location: settings.physicalLocation.trim(),
+      church_motto: (settings.churchMotto ?? DEFAULT_SETTINGS.churchMotto).trim(),
+      church_slogan: (settings.churchSlogan ?? DEFAULT_SETTINGS.churchSlogan).trim(),
+      postal_address: (settings.postalAddress ?? DEFAULT_SETTINGS.postalAddress).trim(),
+      physical_location: (settings.physicalLocation ?? DEFAULT_SETTINGS.physicalLocation).trim(),
 
       // Hero Section
-      hero_headline_1: settings.heroHeadline1.trim(),
-      hero_headline_2: settings.heroHeadline2.trim(),
-      hero_headline_3: settings.heroHeadline3.trim(),
-      hero_subtitle: settings.heroSubtitle.trim(),
-      hero_promise: settings.heroPromise.trim(),
-      hero_image_url: extractCleanImageUrl(settings.heroImageUrl),
-      hero_stat_branches: settings.heroStatBranches.trim(),
-      hero_stat_lives: settings.heroStatLives.trim(),
-      hero_stat_years: settings.heroStatYears.trim(),
+      hero_headline_1: (settings.heroHeadline1 ?? DEFAULT_SETTINGS.heroHeadline1).trim(),
+      hero_headline_2: (settings.heroHeadline2 ?? DEFAULT_SETTINGS.heroHeadline2).trim(),
+      hero_headline_3: (settings.heroHeadline3 ?? DEFAULT_SETTINGS.heroHeadline3).trim(),
+      hero_subtitle: (settings.heroSubtitle ?? DEFAULT_SETTINGS.heroSubtitle).trim(),
+      hero_promise: (settings.heroPromise ?? DEFAULT_SETTINGS.heroPromise).trim(),
+      hero_image_url: extractCleanImageUrl(settings.heroImageUrl) || DEFAULT_SETTINGS.heroImageUrl,
+      hero_stat_branches: (settings.heroStatBranches ?? DEFAULT_SETTINGS.heroStatBranches).trim(),
+      hero_stat_lives: (settings.heroStatLives ?? DEFAULT_SETTINGS.heroStatLives).trim(),
+      hero_stat_years: (settings.heroStatYears ?? DEFAULT_SETTINGS.heroStatYears).trim(),
 
       // Mission & Vision Statements
-      mission_statement: settings.missionStatement.trim(),
-      vision_statement: settings.visionStatement.trim(),
+      mission_statement: (settings.missionStatement ?? DEFAULT_SETTINGS.missionStatement).trim(),
+      vision_statement: (settings.visionStatement ?? DEFAULT_SETTINGS.visionStatement).trim(),
 
       // Twin Ongoing Projects
-      construction_title: settings.constructionTitle.trim(),
-      construction_subtitle: settings.constructionSubtitle.trim(),
-      construction_narrative: settings.constructionNarrative.trim(),
-      construction_image_url: extractCleanImageUrl(settings.constructionImageUrl),
-      construction_badge: settings.constructionBadge.trim(),
+      construction_title: (settings.constructionTitle ?? DEFAULT_SETTINGS.constructionTitle).trim(),
+      construction_subtitle: (settings.constructionSubtitle ?? DEFAULT_SETTINGS.constructionSubtitle).trim(),
+      construction_narrative: (settings.constructionNarrative ?? DEFAULT_SETTINGS.constructionNarrative).trim(),
+      construction_image_url: extractCleanImageUrl(settings.constructionImageUrl) || DEFAULT_SETTINGS.constructionImageUrl,
+      construction_badge: (settings.constructionBadge ?? DEFAULT_SETTINGS.constructionBadge).trim(),
 
-      orphanage_title: settings.orphanageTitle.trim(),
-      orphanage_subtitle: settings.orphanageSubtitle.trim(),
-      orphanage_narrative: settings.orphanageNarrative.trim(),
-      orphanage_image_url: extractCleanImageUrl(settings.orphanageImageUrl),
-      orphanage_donate_image_url: extractCleanImageUrl(settings.orphanageDonateImageUrl || settings.orphanageImageUrl),
-      orphanage_story_image: extractCleanImageUrl(settings.orphanageStoryImage),
-      orphanage_badge: settings.orphanageBadge.trim(),
+      orphanage_title: (settings.orphanageTitle ?? DEFAULT_SETTINGS.orphanageTitle).trim(),
+      orphanage_subtitle: (settings.orphanageSubtitle ?? DEFAULT_SETTINGS.orphanageSubtitle).trim(),
+      orphanage_narrative: (settings.orphanageNarrative ?? DEFAULT_SETTINGS.orphanageNarrative).trim(),
+      orphanage_image_url: extractCleanImageUrl(settings.orphanageImageUrl) || DEFAULT_SETTINGS.orphanageImageUrl,
+      orphanage_donate_image_url: extractCleanImageUrl(settings.orphanageDonateImageUrl || settings.orphanageImageUrl) || DEFAULT_SETTINGS.orphanageDonateImageUrl,
+      orphanage_story_image: extractCleanImageUrl(settings.orphanageStoryImage) || DEFAULT_SETTINGS.orphanageStoryImage,
+      orphanage_badge: (settings.orphanageBadge ?? DEFAULT_SETTINGS.orphanageBadge).trim(),
 
       // Grassroots Community Outreach
-      community_title: settings.communityTitle.trim(),
-      community_narrative: settings.communityNarrative.trim(),
-      community_image_url: extractCleanImageUrl(settings.communityImageUrl),
+      community_title: (settings.communityTitle ?? DEFAULT_SETTINGS.communityTitle).trim(),
+      community_narrative: (settings.communityNarrative ?? DEFAULT_SETTINGS.communityNarrative).trim(),
+      community_image_url: extractCleanImageUrl(settings.communityImageUrl) || DEFAULT_SETTINGS.communityImageUrl,
 
       // 4 Ministry Pillars
-      pillar_1_title: settings.pillar1Title.trim(),
-      pillar_1_desc: settings.pillar1Desc.trim(),
-      pillar_1_image: extractCleanImageUrl(settings.pillar1Image),
-      pillar_1_video: (settings.pillar1Video || "").trim(),
+      pillar_1_title: (settings.pillar1Title ?? DEFAULT_SETTINGS.pillar1Title).trim(),
+      pillar_1_desc: (settings.pillar1Desc ?? DEFAULT_SETTINGS.pillar1Desc).trim(),
+      pillar_1_image: extractCleanImageUrl(settings.pillar1Image) || DEFAULT_SETTINGS.pillar1Image,
+      pillar_1_video: (settings.pillar1Video ?? "").trim(),
 
-      pillar_2_title: settings.pillar2Title.trim(),
-      pillar_2_desc: settings.pillar2Desc.trim(),
-      pillar_2_image: extractCleanImageUrl(settings.pillar2Image),
-      pillar_2_video: (settings.pillar2Video || "").trim(),
+      pillar_2_title: (settings.pillar2Title ?? DEFAULT_SETTINGS.pillar2Title).trim(),
+      pillar_2_desc: (settings.pillar2Desc ?? DEFAULT_SETTINGS.pillar2Desc).trim(),
+      pillar_2_image: extractCleanImageUrl(settings.pillar2Image) || DEFAULT_SETTINGS.pillar2Image,
+      pillar_2_video: (settings.pillar2Video ?? "").trim(),
 
-      pillar_3_title: settings.pillar3Title.trim(),
-      pillar_3_desc: settings.pillar3Desc.trim(),
-      pillar_3_image: extractCleanImageUrl(settings.pillar3Image),
-      pillar_3_video: (settings.pillar3Video || "").trim(),
+      pillar_3_title: (settings.pillar3Title ?? DEFAULT_SETTINGS.pillar3Title).trim(),
+      pillar_3_desc: (settings.pillar3Desc ?? DEFAULT_SETTINGS.pillar3Desc).trim(),
+      pillar_3_image: extractCleanImageUrl(settings.pillar3Image) || DEFAULT_SETTINGS.pillar3Image,
+      pillar_3_video: (settings.pillar3Video ?? "").trim(),
 
-      pillar_4_title: settings.pillar4Title.trim(),
-      pillar_4_desc: settings.pillar4Desc.trim(),
-      pillar_4_image: extractCleanImageUrl(settings.pillar4Image),
-      pillar_4_video: (settings.pillar4Video || "").trim(),
+      pillar_4_title: (settings.pillar4Title ?? DEFAULT_SETTINGS.pillar4Title).trim(),
+      pillar_4_desc: (settings.pillar4Desc ?? DEFAULT_SETTINGS.pillar4Desc).trim(),
+      pillar_4_image: extractCleanImageUrl(settings.pillar4Image) || DEFAULT_SETTINGS.pillar4Image,
+      pillar_4_video: (settings.pillar4Video ?? "").trim(),
 
       // 3 Pillar Impact Counters
-      impact_stat_1_val: settings.impactStat1Val.trim(),
-      impact_stat_1_lbl: settings.impactStat1Lbl.trim(),
-      impact_stat_2_val: settings.impactStat2Val.trim(),
-      impact_stat_2_lbl: settings.impactStat2Lbl.trim(),
-      impact_stat_3_val: settings.impactStat3Val.trim(),
-      impact_stat_3_lbl: settings.impactStat3Lbl.trim(),
+      impact_stat_1_val: (settings.impactStat1Val ?? DEFAULT_SETTINGS.impactStat1Val).trim(),
+      impact_stat_1_lbl: (settings.impactStat1Lbl ?? DEFAULT_SETTINGS.impactStat1Lbl).trim(),
+      impact_stat_2_val: (settings.impactStat2Val ?? DEFAULT_SETTINGS.impactStat2Val).trim(),
+      impact_stat_2_lbl: (settings.impactStat2Lbl ?? DEFAULT_SETTINGS.impactStat2Lbl).trim(),
+      impact_stat_3_val: (settings.impactStat3Val ?? DEFAULT_SETTINGS.impactStat3Val).trim(),
+      impact_stat_3_lbl: (settings.impactStat3Lbl ?? DEFAULT_SETTINGS.impactStat3Lbl).trim(),
 
       // Dynamic Projects
       projects_json: (settings.projectsJson || DEFAULT_SETTINGS.projectsJson).map((p) => {
@@ -1005,56 +1005,74 @@ export async function saveSiteSettingsAction(
       })) as unknown as Json,
       orphanage_videos_json: (settings.orphanageVideos || []) as unknown as Json,
 
-
       // Top Bar & Live Broadcast Banner
       topbar_live_active: Boolean(settings.topbarLiveActive),
-      topbar_live_label: (settings.topbarLiveLabel || "").trim(),
-      topbar_live_url: (settings.topbarLiveUrl || "").trim(),
-      topbar_announcement: (settings.topbarAnnouncement || "").trim(),
+      topbar_live_label: (settings.topbarLiveLabel ?? "").trim(),
+      topbar_live_url: (settings.topbarLiveUrl ?? "").trim(),
+      topbar_announcement: (settings.topbarAnnouncement ?? "").trim(),
 
       // Communication & Social Channels
-      mpesa_phone: settings.mpesaPhone.trim(),
-      contact_email: settings.contactEmail.trim(),
-      facebook_url: settings.facebookUrl.trim(),
-      instagram_url: settings.instagramUrl.trim(),
-      youtube_channel_url: settings.youtubeChannelUrl.trim(),
-
+      mpesa_phone: (settings.mpesaPhone ?? DEFAULT_SETTINGS.mpesaPhone).trim(),
+      contact_email: (settings.contactEmail ?? DEFAULT_SETTINGS.contactEmail).trim(),
+      facebook_url: (settings.facebookUrl ?? DEFAULT_SETTINGS.facebookUrl).trim(),
+      instagram_url: (settings.instagramUrl ?? DEFAULT_SETTINGS.instagramUrl).trim(),
+      youtube_channel_url: (settings.youtubeChannelUrl ?? DEFAULT_SETTINGS.youtubeChannelUrl).trim(),
 
       // Remittance & Banking
-      kcb_account_number: settings.kcbAccountNumber.trim(),
-      kcb_account_name: settings.kcbAccountName.trim(),
-      kcb_branch: settings.kcbBranch.trim(),
-      kcb_swift: settings.kcbSwift.trim(),
-      mpesa_paybill: settings.mpesaPaybill.trim(),
+      kcb_account_number: (settings.kcbAccountNumber ?? DEFAULT_SETTINGS.kcbAccountNumber).trim(),
+      kcb_account_name: (settings.kcbAccountName ?? DEFAULT_SETTINGS.kcbAccountName).trim(),
+      kcb_branch: (settings.kcbBranch ?? DEFAULT_SETTINGS.kcbBranch).trim(),
+      kcb_swift: (settings.kcbSwift ?? DEFAULT_SETTINGS.kcbSwift).trim(),
+      mpesa_paybill: (settings.mpesaPaybill ?? DEFAULT_SETTINGS.mpesaPaybill).trim(),
       mpesa_paybill_account: (settings.mpesaPaybillAccount || DEFAULT_SETTINGS.mpesaPaybillAccount || "8146952").trim(),
       mpesa_paybill_name: (settings.mpesaPaybillName || DEFAULT_SETTINGS.mpesaPaybillName || "SUGGUTTA FELLOWSHIP CHURCH").trim(),
-      mpesa_till_number: settings.mpesaTillNumber.trim(),
-      mpesa_till_name: settings.mpesaTillName.trim(),
+      mpesa_till_number: (settings.mpesaTillNumber ?? DEFAULT_SETTINGS.mpesaTillNumber).trim(),
+      mpesa_till_name: (settings.mpesaTillName ?? DEFAULT_SETTINGS.mpesaTillName).trim(),
       mpesa_till_qr_image: extractCleanImageUrl(settings.mpesaTillQrImage || ""),
       mpesa_paybill_qr_image: extractCleanImageUrl(settings.mpesaPaybillQrImage || ""),
       kcb_bank_qr_image: extractCleanImageUrl(settings.kcbBankQrImage || ""),
-      western_union_recipient: settings.westernUnionRecipient.trim(),
+      western_union_recipient: (settings.westernUnionRecipient ?? DEFAULT_SETTINGS.westernUnionRecipient).trim(),
       updated_at: new Date().toISOString(),
     };
 
-    // Check if table exists and update/insert
-    const { data: existing } = await supabase
+    // 1. Fetch existing row and introspect valid columns to eliminate any PGRST204 mismatch
+    const { data: existingRows, error: fetchErr } = await supabase
       .from("site_settings")
-      .select("id")
+      .select("*")
       .limit(1);
 
-    // Resilient update with schema auto-recovery:
-    // If Supabase reports a missing column, strip the unmigrated column from payload and retry.
-    let updateSuccess = false;
-    let lastError: { message: string } | null = null;
+    if (fetchErr) {
+      console.error("[Save Site Settings Fetch Error]:", fetchErr);
+      return {
+        success: false,
+        error: `Database connection error: ${fetchErr.message}`,
+      };
+    }
+
     const currentPayload: Record<string, unknown> = { ...payload };
 
-    if (existing && existing.length > 0) {
-      for (let attempt = 0; attempt < 6; attempt++) {
+    if (existingRows && existingRows.length > 0) {
+      const existingRow = existingRows[0];
+      const existingColumns = new Set(Object.keys(existingRow));
+
+      // Introspective Filtering: Only include columns that actually exist in the table schema
+      const sanitizedPayload: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(currentPayload)) {
+        if (existingColumns.has(key)) {
+          sanitizedPayload[key] = value;
+        }
+      }
+
+      // Safe update with secondary self-healing retry guard
+      let updateSuccess = false;
+      let lastError: { message: string } | null = null;
+      const retryPayload: Record<string, unknown> = { ...sanitizedPayload };
+
+      for (let attempt = 0; attempt < 25; attempt++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error } = await (supabase.from("site_settings") as any)
-          .update(currentPayload)
-          .eq("id", existing[0].id);
+          .update(retryPayload)
+          .eq("id", existingRow.id);
 
         if (!error) {
           updateSuccess = true;
@@ -1062,19 +1080,15 @@ export async function saveSiteSettingsAction(
         }
 
         lastError = error;
-        // Parse missing column name from PostgREST / Postgres error message
         const missingColMatch =
           error.message.match(/column ["']?([a-zA-Z0-9_]+)["']?.*does not exist/i) ||
           error.message.match(/Could not find the ['"]?([a-zA-Z0-9_]+)['"]? column/i);
 
         if (missingColMatch && missingColMatch[1]) {
           const missingCol = missingColMatch[1];
-          console.warn(
-            `[Self-Healing CMS]: Column "${missingCol}" does not exist in live Supabase schema. Removing from payload and retrying...`
-          );
-          delete currentPayload[missingCol];
+          console.warn(`[Self-Healing CMS]: Stripping column "${missingCol}" and retrying...`);
+          delete retryPayload[missingCol];
         } else {
-          // Unrecognized error, break retry loop
           break;
         }
       }
@@ -1082,16 +1096,21 @@ export async function saveSiteSettingsAction(
       if (!updateSuccess && lastError) {
         return {
           success: false,
-          error: `Supabase update error: ${lastError.message}. Please run the comprehensive CMS SQL migration in Supabase SQL Editor.`,
+          error: `Supabase update error: ${lastError.message}. Please run the SQL migration in Supabase SQL Editor.`,
         };
       }
     } else {
-      for (let attempt = 0; attempt < 6; attempt++) {
+      // Table is empty, insert initial configuration
+      let insertSuccess = false;
+      let lastError: { message: string } | null = null;
+      const insertPayload: Record<string, unknown> = { ...currentPayload };
+
+      for (let attempt = 0; attempt < 25; attempt++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const { error } = await (supabase.from("site_settings") as any).insert(currentPayload);
+        const { error } = await (supabase.from("site_settings") as any).insert(insertPayload);
 
         if (!error) {
-          updateSuccess = true;
+          insertSuccess = true;
           break;
         }
 
@@ -1102,19 +1121,17 @@ export async function saveSiteSettingsAction(
 
         if (missingColMatch && missingColMatch[1]) {
           const missingCol = missingColMatch[1];
-          console.warn(
-            `[Self-Healing CMS]: Column "${missingCol}" does not exist in live Supabase schema. Removing from payload and retrying...`
-          );
-          delete currentPayload[missingCol];
+          console.warn(`[Self-Healing CMS]: Stripping column "${missingCol}" and retrying insert...`);
+          delete insertPayload[missingCol];
         } else {
           break;
         }
       }
 
-      if (!updateSuccess && lastError) {
+      if (!insertSuccess && lastError) {
         return {
           success: false,
-          error: `Supabase insert error: ${lastError.message}. Please run the comprehensive CMS SQL migration in Supabase SQL Editor.`,
+          error: `Supabase insert error: ${lastError.message}. Please run the SQL migration in Supabase SQL Editor.`,
         };
       }
     }
@@ -1140,7 +1157,7 @@ export async function saveSiteSettingsAction(
     console.error("[Save Site Settings Error]:", err);
     return {
       success: false,
-      error: "Failed to save settings. Please ensure the latest SQL migration has been run in Supabase.",
+      error: `Failed to save settings: ${err instanceof Error ? err.message : "Unknown error"}.`,
     };
   }
 }
