@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition, useEffect } from "react";
+import React, { useState, useTransition, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
@@ -37,6 +37,8 @@ import {
   Eye,
   EyeOff,
   Layers,
+  Pencil,
+  X,
 } from "lucide-react";
 import {
   SiteSettingsData,
@@ -53,8 +55,10 @@ import {
   uploadChurchMediaAction,
   addOrphanagePhotoAction,
   deleteOrphanagePhotoAction,
+  updateOrphanagePhotoAction,
   addOrphanageVideoAction,
   deleteOrphanageVideoAction,
+  updateOrphanageVideoAction,
 } from "@/actions/admin-settings";
 import { createClient } from "@/lib/supabase/client";
 import { ImageUploadField } from "@/components/admin/image-upload-field";
@@ -660,6 +664,232 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
         setFeedback({
           type: "error",
           message: res.error || "Failed to delete video from database.",
+        });
+      }
+    });
+  };
+
+  // ================= EDIT ORPHANAGE PHOTO STATE & HANDLERS =================
+  const [editingPhoto, setEditingPhoto] = useState<OrphanagePhotoItem | null>(null);
+  const [editPhotoTitle, setEditPhotoTitle] = useState("");
+  const [editPhotoCaption, setEditPhotoCaption] = useState("");
+  const [editPhotoCategory, setEditPhotoCategory] = useState("Daily Life");
+  const [editPhotoImageUrl, setEditPhotoImageUrl] = useState("");
+
+  const openEditPhotoModal = (photo: OrphanagePhotoItem) => {
+    setEditingPhoto(photo);
+    setEditPhotoTitle(photo.title);
+    setEditPhotoCaption(photo.caption || "");
+    setEditPhotoCategory(photo.category || "Daily Life");
+    setEditPhotoImageUrl(photo.imageUrl);
+  };
+
+  const handleSaveEditPhoto = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingPhoto) return;
+    if (!editPhotoTitle.trim()) {
+      alert("Please provide a photo title.");
+      return;
+    }
+    if (!editPhotoImageUrl.trim()) {
+      alert("Please provide an image URL for this photo.");
+      return;
+    }
+
+    const updatedData: Partial<OrphanagePhotoItem> = {
+      title: editPhotoTitle.trim(),
+      caption: editPhotoCaption.trim() || undefined,
+      category: editPhotoCategory.trim() || "Daily Life",
+      imageUrl: editPhotoImageUrl.trim(),
+    };
+
+    // Optimistically update local UI
+    setSettings((prev) => ({
+      ...prev,
+      orphanagePhotos: prev.orphanagePhotos.map((p) =>
+        p.id === editingPhoto.id ? { ...p, ...updatedData } : p
+      ),
+    }));
+
+    startTransition(async () => {
+      const res = await updateOrphanagePhotoAction(editingPhoto.id, updatedData);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Photo moment updated successfully!",
+        });
+        if (res.data) {
+          setSettings((prev) => ({ ...prev, orphanagePhotos: res.data! }));
+        }
+        setEditingPhoto(null);
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to update photo moment.",
+        });
+      }
+    });
+  };
+
+  // ================= EDIT ORPHANAGE VIDEO STATE & HANDLERS =================
+  const [editingVideo, setEditingVideo] = useState<OrphanageVideoItem | null>(null);
+  const [editVideoTitle, setEditVideoTitle] = useState("");
+  const [editVideoDescription, setEditVideoDescription] = useState("");
+  const [editVideoBadge, setEditVideoBadge] = useState("Daily Life Story");
+  const [editVideoSourceMode, setEditVideoSourceMode] = useState<"keep" | "youtube" | "upload">("keep");
+  const [editVideoUrlInput, setEditVideoUrlInput] = useState("");
+  const [editVideoUploadedUrl, setEditVideoUploadedUrl] = useState("");
+  const [editVideoThumbUrl, setEditVideoThumbUrl] = useState("");
+  const [editVideoIsUploading, setEditVideoIsUploading] = useState(false);
+  const [editVideoIsUploadingThumb, setEditVideoIsUploadingThumb] = useState(false);
+
+  const editVideoFileInputRef = useRef<HTMLInputElement>(null);
+  const editThumbFileInputRef = useRef<HTMLInputElement>(null);
+
+  const openEditVideoModal = (video: OrphanageVideoItem) => {
+    setEditingVideo(video);
+    setEditVideoTitle(video.title);
+    setEditVideoDescription(video.description || "");
+    setEditVideoBadge(video.badge || "Daily Life Story");
+    setEditVideoSourceMode("keep");
+    const isYt =
+      video.sourceType === "youtube" ||
+      (video.videoUrl &&
+        (video.videoUrl.includes("youtube") || video.videoUrl.includes("youtu.be")));
+    setEditVideoUrlInput(isYt ? video.youtubeUrl || video.videoUrl : "");
+    setEditVideoUploadedUrl(!isYt ? video.videoUrl : "");
+    setEditVideoThumbUrl(video.thumbnailUrl || "");
+  };
+
+  const handleEditVideoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 50 * 1024 * 1024) {
+      alert(`File "${file.name}" is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Max limit is 50MB. For larger videos, please use the YouTube URL option.`);
+      return;
+    }
+
+    setEditVideoIsUploading(true);
+    try {
+      const authRes = await getOrphanageVideoSignedUploadUrlAction(file.name, file.type, file.size);
+      if (authRes.success && authRes.data) {
+        const { token, path, publicUrl } = authRes.data;
+        const supabase = createClient();
+        const { error: uploadError } = await supabase.storage
+          .from("church-media")
+          .uploadToSignedUrl(path, token, file);
+
+        if (!uploadError) {
+          setEditVideoUploadedUrl(publicUrl);
+          setEditVideoIsUploading(false);
+          return;
+        }
+      }
+
+      // Fallback
+      const formData = new FormData();
+      formData.append("file", file);
+      const apiRes = await fetch("/api/admin/sermons/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const apiData = await apiRes.json();
+      if (apiRes.ok && apiData.success && apiData.data?.url) {
+        setEditVideoUploadedUrl(apiData.data.url);
+      } else {
+        alert(apiData?.error || "Failed to upload video file.");
+      }
+    } catch (err) {
+      console.error("[Edit Orphanage Video Upload Error]:", err);
+      alert("Network error during video upload.");
+    } finally {
+      setEditVideoIsUploading(false);
+    }
+  };
+
+  const handleEditVideoThumbChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setEditVideoIsUploadingThumb(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await uploadChurchMediaAction(formData);
+      if (res.success && res.data?.url) {
+        setEditVideoThumbUrl(res.data.url);
+      } else {
+        alert(res.error || "Failed to upload thumbnail.");
+      }
+    } catch (err) {
+      console.error("[Edit Orphanage Thumb Error]:", err);
+      alert("Error uploading thumbnail.");
+    } finally {
+      setEditVideoIsUploadingThumb(false);
+    }
+  };
+
+  const handleSaveEditVideo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingVideo) return;
+    if (!editVideoTitle.trim()) {
+      alert("Please provide a title for this video story.");
+      return;
+    }
+
+    let effectiveUrl = editingVideo.videoUrl;
+    let effectiveSource: "upload" | "youtube" = editingVideo.sourceType || "upload";
+
+    if (editVideoSourceMode === "youtube") {
+      if (!editVideoUrlInput.trim()) {
+        alert("Please enter a valid YouTube URL.");
+        return;
+      }
+      effectiveUrl = editVideoUrlInput.trim();
+      effectiveSource = "youtube";
+    } else if (editVideoSourceMode === "upload") {
+      if (!editVideoUploadedUrl.trim()) {
+        alert("Please select and upload a video file first.");
+        return;
+      }
+      effectiveUrl = editVideoUploadedUrl.trim();
+      effectiveSource = "upload";
+    }
+
+    const updatedData: Partial<OrphanageVideoItem> = {
+      title: editVideoTitle.trim(),
+      description: editVideoDescription.trim() || undefined,
+      badge: editVideoBadge.trim() || "Daily Life Story",
+      videoUrl: effectiveUrl,
+      youtubeUrl: effectiveSource === "youtube" ? effectiveUrl : undefined,
+      sourceType: effectiveSource,
+      thumbnailUrl: editVideoThumbUrl.trim() || undefined,
+    };
+
+    // Optimistically update local UI
+    setSettings((prev) => ({
+      ...prev,
+      orphanageVideos: prev.orphanageVideos.map((v) =>
+        v.id === editingVideo.id ? { ...v, ...updatedData } : v
+      ),
+    }));
+
+    startTransition(async () => {
+      const res = await updateOrphanageVideoAction(editingVideo.id, updatedData);
+      if (res.success) {
+        setFeedback({
+          type: "success",
+          message: "Video story updated successfully!",
+        });
+        if (res.data) {
+          setSettings((prev) => ({ ...prev, orphanageVideos: res.data! }));
+        }
+        setEditingVideo(null);
+      } else {
+        setFeedback({
+          type: "error",
+          message: res.error || "Failed to update video story.",
         });
       }
     });
@@ -1655,16 +1885,28 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                           <span className="text-[10px] text-slate-400 font-mono">
                             {photo.uploadedAt || "Active"}
                           </span>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handleDeletePhoto(photo.id)}
-                            className="text-rose-600 hover:bg-rose-50 h-7 px-2 text-xs font-bold"
-                          >
-                            <Trash2 className="w-3.5 h-3.5 mr-1" />
-                            <span>Remove</span>
-                          </Button>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => openEditPhotoModal(photo)}
+                              className="text-amber-600 hover:bg-amber-50 h-7 px-2 text-xs font-bold"
+                            >
+                              <Pencil className="w-3.5 h-3.5 mr-1" />
+                              <span>Edit</span>
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleDeletePhoto(photo.id)}
+                              className="text-rose-600 hover:bg-rose-50 h-7 px-2 text-xs font-bold"
+                            >
+                              <Trash2 className="w-3.5 h-3.5 mr-1" />
+                              <span>Remove</span>
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1912,16 +2154,28 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
                             <span className="text-[10px] text-slate-400 font-mono">
                               {video.publishedDate || "Ready"}
                             </span>
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDeleteVideo(video.id)}
-                              className="text-rose-600 hover:bg-rose-50 h-7 px-2 text-xs font-bold"
-                            >
-                              <Trash2 className="w-3.5 h-3.5 mr-1" />
-                              <span>Remove</span>
-                            </Button>
+                            <div className="flex items-center gap-1">
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => openEditVideoModal(video)}
+                                className="text-amber-600 hover:bg-amber-50 h-7 px-2 text-xs font-bold"
+                              >
+                                <Pencil className="w-3.5 h-3.5 mr-1" />
+                                <span>Edit</span>
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteVideo(video.id)}
+                                className="text-rose-600 hover:bg-rose-50 h-7 px-2 text-xs font-bold"
+                              >
+                                <Trash2 className="w-3.5 h-3.5 mr-1" />
+                                <span>Remove</span>
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -2905,6 +3159,279 @@ SET youtube_channel_url = 'https://www.youtube.com/@Brianmbera',
           </Button>
         </div>
       </div>
+
+      {/* ================= EDIT ORPHANAGE PHOTO MODAL ================= */}
+      {editingPhoto && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 relative">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600">
+                  Children&apos;s Home CMS
+                </span>
+                <h3 className="text-base sm:text-lg font-black text-slate-900">
+                  Edit Photo Moment Details
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingPhoto(null)}
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditPhoto} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700">Photo Title *</label>
+                <Input
+                  required
+                  value={editPhotoTitle}
+                  onChange={(e) => setEditPhotoTitle(e.target.value)}
+                  placeholder="e.g. Joyful Morning Devotion & Smiles"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700">Category Tag</label>
+                <select
+                  value={editPhotoCategory}
+                  onChange={(e) => setEditPhotoCategory(e.target.value)}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs bg-white focus:ring-2 focus:ring-rose-500 focus:outline-none"
+                >
+                  <option value="Daily Life">Daily Life</option>
+                  <option value="Education">Education & Schooling</option>
+                  <option value="Worship">Worship & Prayer</option>
+                  <option value="Meals & Nutrition">Meals & Nutrition</option>
+                  <option value="Healthcare">Healthcare & Well-being</option>
+                  <option value="Playtime">Playtime & Sports</option>
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700">Caption / Narrative (Optional)</label>
+                <Textarea
+                  rows={2}
+                  value={editPhotoCaption}
+                  onChange={(e) => setEditPhotoCaption(e.target.value)}
+                  placeholder="Brief story or message explaining this photo..."
+                />
+              </div>
+
+              <div className="space-y-1">
+                <ImageUploadField
+                  label="Photo Image Plate"
+                  description="Keep the current image or upload a replacement."
+                  value={editPhotoImageUrl}
+                  onChange={(url) => setEditPhotoImageUrl(url)}
+                  aspectRatio="video"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setEditingPhoto(null)}
+                  className="rounded-xl text-xs font-bold"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold"
+                >
+                  {isPending ? "Saving..." : "Save Photo Changes"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= EDIT ORPHANAGE VIDEO MODAL ================= */}
+      {editingVideo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-5 relative">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <span className="text-[10px] font-black uppercase tracking-wider text-rose-600">
+                  Children&apos;s Home CMS
+                </span>
+                <h3 className="text-base sm:text-lg font-black text-slate-900">
+                  Edit Video Story Details
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Update title, description, badge, or replace media without deleting.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingVideo(null)}
+                className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEditVideo} className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Video Title *</label>
+                  <Input
+                    required
+                    value={editVideoTitle}
+                    onChange={(e) => setEditVideoTitle(e.target.value)}
+                    placeholder="e.g. Children Smiling & Morning Worship"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Badge / Tag</label>
+                  <Input
+                    value={editVideoBadge}
+                    onChange={(e) => setEditVideoBadge(e.target.value)}
+                    placeholder="e.g. Daily Life Story"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700">Description (Optional)</label>
+                <Textarea
+                  rows={2}
+                  value={editVideoDescription}
+                  onChange={(e) => setEditVideoDescription(e.target.value)}
+                  placeholder="Brief description for donors and sponsors..."
+                />
+              </div>
+
+              {/* Video Source Control */}
+              <div className="space-y-2 pt-2 border-t border-slate-100">
+                <label className="text-xs font-bold text-slate-700 block">Video Source</label>
+                <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
+                  <button
+                    type="button"
+                    onClick={() => setEditVideoSourceMode("keep")}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                      editVideoSourceMode === "keep"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    Keep Current
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditVideoSourceMode("youtube")}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                      editVideoSourceMode === "youtube"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    YouTube Link
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditVideoSourceMode("upload")}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                      editVideoSourceMode === "upload"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    Upload New File
+                  </button>
+                </div>
+
+                {editVideoSourceMode === "keep" && (
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+                    <p className="font-bold text-slate-700">Current Video Attached:</p>
+                    <p className="font-mono text-slate-500 truncate text-[11px]">{editingVideo.videoUrl}</p>
+                    <p className="text-[10px] text-slate-400">
+                      You can edit title, description, or badge without re-uploading the video file.
+                    </p>
+                  </div>
+                )}
+
+                {editVideoSourceMode === "youtube" && (
+                  <div className="space-y-1">
+                    <Input
+                      placeholder="https://www.youtube.com/watch?v=..."
+                      value={editVideoUrlInput}
+                      onChange={(e) => setEditVideoUrlInput(e.target.value)}
+                    />
+                  </div>
+                )}
+
+                {editVideoSourceMode === "upload" && (
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                    <input
+                      type="file"
+                      ref={editVideoFileInputRef}
+                      accept="video/*"
+                      onChange={handleEditVideoFileChange}
+                      className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer"
+                    />
+                    {editVideoIsUploading && (
+                      <p className="text-xs text-rose-600 font-bold flex items-center gap-1.5">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading video file...
+                      </p>
+                    )}
+                    {editVideoUploadedUrl && !editVideoIsUploading && (
+                      <p className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                        <Check className="w-3.5 h-3.5" /> Replacement video attached
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Custom Thumbnail */}
+              <div className="space-y-1 pt-2 border-t border-slate-100">
+                <label className="text-xs font-bold text-slate-700 block">Custom Poster Thumbnail (Optional)</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="file"
+                    ref={editThumbFileInputRef}
+                    accept="image/*"
+                    onChange={handleEditVideoThumbChange}
+                    className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer"
+                  />
+                  {editVideoIsUploadingThumb && (
+                    <Loader2 className="w-4 h-4 text-rose-600 animate-spin" />
+                  )}
+                  {editVideoThumbUrl && !editVideoIsUploadingThumb && (
+                    <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
+                      <Check className="w-3 h-3" /> Poster Ready
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-slate-100">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setEditingVideo(null)}
+                  className="rounded-xl text-xs font-bold"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  disabled={isPending || editVideoIsUploading || editVideoIsUploadingThumb}
+                  className="bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold"
+                >
+                  {isPending ? "Saving..." : "Save Video Changes"}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

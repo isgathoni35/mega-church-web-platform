@@ -784,3 +784,18 @@
    6. Verification:
       - `npx tsc --noEmit` passed with 0 compiler errors.
       - Preserved email handle and static assets without broken links.
+
+- [x] `feature-specs/56-admin-inline-editing-across-all-uploads.md`: Universal In-Place Admin Metadata & Media Editing (Sermons, Children's Home Videos & Photos, and Events).
+   1. Backend Server Actions for In-Place Updates:
+      - Added `updateSermonAction(sermonId, payload)` in [src/actions/admin-sermons.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-sermons.ts): updates sermon title, speaker, date preached, category, video source/URL (YouTube or uploaded file), poster thumbnail, and featured/live broadcast statuses without deleting the record. Revalidates `/` and `/sermons`.
+      - Added `updateOrphanageVideoAction(videoId, updatedData)` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts): enables editing title, description, badge tag, video source/link, and custom thumbnail for Children's Home video stories without re-uploading or deleting. Revalidates `/orphanage` and `/admin/settings`.
+      - Added `updateOrphanagePhotoAction(photoId, updatedData)` in [src/actions/admin-settings.ts](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/actions/admin-settings.ts): enables updating photo titles, captions, category tags, or replacing the photo image without deleting the entry.
+   2. Sermons & Livestreams Admin UI Upgrades ([src/components/admin/sermon-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/sermon-manager-view.tsx)):
+      - Added dedicated "Edit Sermon Details" (Pencil) action button on every video card in the Published Video Library.
+      - Built a responsive modal dialog (`EditSermonModal`) with pre-populated fields, a 3-way video source controller ("Keep Current Video", "YouTube Link", "Upload New File"), custom poster thumbnail uploader, hero/live toggles, and instant optimistic state updates.
+   3. Children's Home Videos & Photos Admin UI Upgrades ([src/components/admin/settings-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/settings-manager-view.tsx)):
+      - Added "Edit" (Pencil) buttons next to "Remove" on every photo card in the Photo Moments gallery and every video card in the Video Stories gallery.
+      - Built `EditOrphanagePhotoModal` allowing admins to modify title, caption, category tag, or replace the photo image plate.
+      - Built `EditOrphanageVideoModal` allowing admins to modify video title, description, badge tag, or swap the video file / YouTube link or thumbnail.
+   4. Verification:
+      - `npx tsc --noEmit` exited code 0 (zero errors).

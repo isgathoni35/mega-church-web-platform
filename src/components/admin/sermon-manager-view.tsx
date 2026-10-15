@@ -22,11 +22,14 @@ import {
   CheckCircle2,
   Loader2,
   Image as ImageIcon,
+  Pencil,
+  X,
 } from "lucide-react";
 import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
 import { createClient } from "@/lib/supabase/client";
 import {
   addSermonAction,
+  updateSermonAction,
   toggleLiveSermonAction,
   toggleFeaturedSermonAction,
   deleteSermonAction,
@@ -307,6 +310,184 @@ export function SermonManagerView({
       const res = await deleteSermonAction(sermonId);
       if (res.success) {
         setSermons((prev) => prev.filter((s) => s.id !== sermonId));
+      }
+    });
+  };
+
+  // ================= EDIT SERMON MODAL STATE & HANDLERS =================
+  const [editingSermon, setEditingSermon] = useState<Sermon | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editSpeaker, setEditSpeaker] = useState("");
+  const [editCategory, setEditCategory] = useState<SermonCategory>(CATEGORIES[0]);
+  const [editDatePreached, setEditDatePreached] = useState("");
+  const [editMediaMode, setEditMediaMode] = useState<"keep" | "youtube" | "upload">("keep");
+  const [editYoutubeUrl, setEditYoutubeUrl] = useState("");
+  const [editUploadedVideoUrl, setEditUploadedVideoUrl] = useState("");
+  const [editThumbnailUrl, setEditThumbnailUrl] = useState("");
+  const [editIsFeatured, setEditIsFeatured] = useState(false);
+  const [editIsLive, setEditIsLive] = useState(false);
+  const [editVideoFile, setEditVideoFile] = useState<File | null>(null);
+  const [editIsUploadingVideo, setEditIsUploadingVideo] = useState(false);
+  const [editIsUploadingThumb, setEditIsUploadingThumb] = useState(false);
+
+  const editVideoFileInputRef = useRef<HTMLInputElement>(null);
+  const editThumbFileInputRef = useRef<HTMLInputElement>(null);
+
+  const openEditModal = (sermon: Sermon) => {
+    setEditingSermon(sermon);
+    setEditTitle(sermon.title);
+    setEditSpeaker(sermon.speaker || "Pastor Caesar O. Nyandwaro");
+    setEditCategory(sermon.category || CATEGORIES[0]);
+    setEditDatePreached(sermon.date_preached || new Date().toISOString().split("T")[0]);
+    setEditMediaMode("keep");
+
+    const isYt =
+      sermon.youtube_url &&
+      (sermon.youtube_url.includes("youtube.com") || sermon.youtube_url.includes("youtu.be"));
+    setEditYoutubeUrl(isYt ? sermon.youtube_url : "");
+    setEditUploadedVideoUrl(!isYt ? sermon.youtube_url : "");
+    setEditThumbnailUrl(sermon.thumbnail_url || "");
+    setEditIsFeatured(sermon.is_featured || false);
+    setEditIsLive(sermon.is_live || false);
+    setEditVideoFile(null);
+  };
+
+  const handleEditVideoFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const MAX_SIZE = 50 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      alert(`File "${file.name}" is ${(file.size / (1024 * 1024)).toFixed(1)}MB. Max limit is 50MB. For larger videos, please use the YouTube option.`);
+      if (editVideoFileInputRef.current) editVideoFileInputRef.current.value = "";
+      return;
+    }
+
+    setEditVideoFile(file);
+    setEditIsUploadingVideo(true);
+
+    try {
+      const authRes = await getSermonVideoSignedUploadUrlAction(file.name, file.type, file.size);
+      if (authRes.success && authRes.data) {
+        const { token, path, publicUrl } = authRes.data;
+        const supabase = createClient();
+        const { error: uploadErr } = await supabase.storage
+          .from("church-media")
+          .uploadToSignedUrl(path, token, file);
+
+        if (!uploadErr) {
+          setEditUploadedVideoUrl(publicUrl);
+          setEditIsUploadingVideo(false);
+          return;
+        }
+      }
+
+      // Fallback to route handler
+      const formData = new FormData();
+      formData.append("file", file);
+      const apiRes = await fetch("/api/admin/sermons/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const apiData = await apiRes.json();
+      if (apiRes.ok && apiData.success && apiData.data?.url) {
+        setEditUploadedVideoUrl(apiData.data.url);
+      } else {
+        alert(apiData?.error || "Failed to upload video file.");
+      }
+    } catch (err) {
+      console.error("[Edit Sermon Video Upload Error]:", err);
+      alert("Network error during video upload.");
+    } finally {
+      setEditIsUploadingVideo(false);
+    }
+  };
+
+  const handleEditThumbFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setEditIsUploadingThumb(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await uploadSermonThumbnailAction(formData);
+      if (res.success && res.data?.url) {
+        setEditThumbnailUrl(res.data.url);
+      } else {
+        alert(res.error || "Failed to upload thumbnail.");
+      }
+    } catch (err) {
+      console.error("[Edit Thumbnail Upload Error]:", err);
+      alert("Network error uploading thumbnail.");
+    } finally {
+      setEditIsUploadingThumb(false);
+    }
+  };
+
+  const handleSaveEdit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingSermon) return;
+    if (!editTitle.trim()) {
+      alert("Please enter a sermon title.");
+      return;
+    }
+
+    let finalVideoUrl = editingSermon.youtube_url;
+    if (editMediaMode === "youtube") {
+      if (!editYoutubeUrl.trim()) {
+        alert("Please enter a valid YouTube URL.");
+        return;
+      }
+      finalVideoUrl = editYoutubeUrl.trim();
+    } else if (editMediaMode === "upload") {
+      if (!editUploadedVideoUrl.trim()) {
+        alert("Please select and upload a video file first.");
+        return;
+      }
+      finalVideoUrl = editUploadedVideoUrl.trim();
+    }
+
+    startTransition(async () => {
+      const res = await updateSermonAction(editingSermon.id, {
+        title: editTitle,
+        speaker: editSpeaker,
+        category: editCategory,
+        datePreached: editDatePreached,
+        videoUrl: finalVideoUrl,
+        thumbnailUrl: editThumbnailUrl || undefined,
+        isFeatured: editIsFeatured,
+        isLive: editIsLive,
+      });
+
+      if (res.success && res.data) {
+        const updated = res.data;
+        setSermons((prev) =>
+          prev.map((s) => {
+            if (s.id === editingSermon.id) {
+              return {
+                ...s,
+                title: updated.title,
+                category: updated.category,
+                speaker: updated.speaker,
+                youtube_url: updated.youtube_url,
+                thumbnail_url: updated.thumbnail_url,
+                date_preached: updated.date_preached,
+                is_featured: updated.is_featured,
+                is_live: updated.is_live,
+              };
+            }
+            return {
+              ...s,
+              is_featured: updated.is_featured ? false : s.is_featured,
+              is_live: updated.is_live ? false : s.is_live,
+            };
+          })
+        );
+        setMessage({ text: "Sermon updated successfully!", type: "success" });
+        setEditingSermon(null);
+      } else {
+        setMessage({ text: res.error || "Failed to update sermon.", type: "error" });
       }
     });
   };
@@ -768,6 +949,17 @@ export function SermonManagerView({
                         <ExternalLink className="w-4 h-4" />
                       </a>
 
+                      {/* Edit Sermon */}
+                      <button
+                        type="button"
+                        onClick={() => openEditModal(sermon)}
+                        disabled={isPending}
+                        className="p-2 rounded-xl text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
+                        title="Edit Sermon Details"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+
                       {/* Delete */}
                       <button
                         type="button"
@@ -786,6 +978,263 @@ export function SermonManagerView({
           </div>
         </div>
       </div>
+
+      {/* ================= EDIT SERMON MODAL ================= */}
+      {editingSermon && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6 relative">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div>
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#ff6b35]">
+                  Live Altar CMS
+                </span>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900">
+                  Edit Sermon &amp; Media Details
+                </h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Update title, preacher, date, category, video source, or poster without deleting.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingSermon(null)}
+                className="p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveEdit} className="space-y-4">
+              {/* Sermon Title */}
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Sermon Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  placeholder="e.g. Breaking Generational Barriers & Walking in Supernatural Favor"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-xs sm:text-sm focus:ring-2 focus:ring-[#ff6b35] focus:outline-none"
+                />
+              </div>
+
+              {/* Speaker & Date Row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Speaker / Preacher
+                  </label>
+                  <input
+                    type="text"
+                    value={editSpeaker}
+                    onChange={(e) => setEditSpeaker(e.target.value)}
+                    placeholder="Pastor Caesar O. Nyandwaro"
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs focus:ring-2 focus:ring-[#ff6b35] focus:outline-none"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Date Preached
+                  </label>
+                  <input
+                    type="date"
+                    value={editDatePreached}
+                    onChange={(e) => setEditDatePreached(e.target.value)}
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-slate-900 text-xs focus:ring-2 focus:ring-[#ff6b35] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Category Dropdown */}
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Category
+                </label>
+                <select
+                  value={editCategory}
+                  onChange={(e) => setEditCategory(e.target.value as SermonCategory)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-xs sm:text-sm bg-white focus:ring-2 focus:ring-[#ff6b35] focus:outline-none"
+                >
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Video Source Control */}
+              <div className="space-y-2 pt-2 border-t border-slate-100">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Video Source
+                </label>
+
+                <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl">
+                  <button
+                    type="button"
+                    onClick={() => setEditMediaMode("keep")}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                      editMediaMode === "keep"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    Keep Current Video
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditMediaMode("youtube")}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                      editMediaMode === "youtube"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    YouTube Link
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditMediaMode("upload")}
+                    className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all ${
+                      editMediaMode === "upload"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    Upload New File
+                  </button>
+                </div>
+
+                {editMediaMode === "keep" && (
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+                    <p className="font-bold text-slate-700">Currently Attached Video:</p>
+                    <p className="font-mono text-slate-500 truncate text-[11px]">{editingSermon.youtube_url}</p>
+                    <p className="text-[10px] text-slate-400">
+                      You can edit title, speaker, date, or poster freely without re-uploading the video file.
+                    </p>
+                  </div>
+                )}
+
+                {editMediaMode === "youtube" && (
+                  <div className="space-y-1">
+                    <input
+                      type="url"
+                      value={editYoutubeUrl}
+                      onChange={(e) => setEditYoutubeUrl(e.target.value)}
+                      placeholder="https://www.youtube.com/watch?v=..."
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-900 text-xs sm:text-sm font-mono focus:ring-2 focus:ring-[#ff6b35] focus:outline-none"
+                    />
+                  </div>
+                )}
+
+                {editMediaMode === "upload" && (
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                    <input
+                      type="file"
+                      ref={editVideoFileInputRef}
+                      accept="video/*"
+                      onChange={handleEditVideoFileChange}
+                      className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-orange-50 file:text-[#ff6b35] hover:file:bg-orange-100 cursor-pointer"
+                    />
+                    {editIsUploadingVideo && (
+                      <p className="text-xs text-orange-600 font-bold flex items-center gap-1.5">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" /> Uploading new video file...
+                      </p>
+                    )}
+                    {editUploadedVideoUrl && !editIsUploadingVideo && (
+                      <p className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                        <Check className="w-3.5 h-3.5" /> Replacement video attached
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Custom Poster / Thumbnail */}
+              <div className="space-y-2 pt-2 border-t border-slate-100">
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  Poster Thumbnail
+                </label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="file"
+                    ref={editThumbFileInputRef}
+                    accept="image/*"
+                    onChange={handleEditThumbFileChange}
+                    className="text-xs text-slate-600 file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-orange-50 file:text-[#ff6b35] hover:file:bg-orange-100 cursor-pointer"
+                  />
+                  {editIsUploadingThumb && (
+                    <Loader2 className="w-4 h-4 text-orange-600 animate-spin" />
+                  )}
+                  {editThumbnailUrl && !editIsUploadingThumb && (
+                    <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
+                      <Check className="w-3 h-3" /> Poster Ready
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Checkboxes for Featured & Live */}
+              <div className="pt-2 space-y-2 border-t border-slate-100">
+                <label className="flex items-center gap-2 cursor-pointer text-xs text-slate-700 select-none">
+                  <input
+                    type="checkbox"
+                    checked={editIsFeatured}
+                    onChange={(e) => setEditIsFeatured(e.target.checked)}
+                    className="w-4 h-4 rounded text-[#ff6b35] focus:ring-[#ff6b35]"
+                  />
+                  <span className="font-bold flex items-center gap-1.5">
+                    <Pin className="w-3.5 h-3.5 text-[#ff6b35]" />
+                    <span>Pin as Featured Hero Video on /sermons page</span>
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-2 cursor-pointer text-xs text-red-700 select-none">
+                  <input
+                    type="checkbox"
+                    checked={editIsLive}
+                    onChange={(e) => setEditIsLive(e.target.checked)}
+                    className="w-4 h-4 rounded text-red-600 focus:ring-red-600"
+                  />
+                  <span className="font-bold flex items-center gap-1.5">
+                    <Radio className="w-3.5 h-3.5" />
+                    <span>Set as Active LIVE Sunday Broadcast Now</span>
+                  </span>
+                </label>
+              </div>
+
+              {/* Modal Actions */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setEditingSermon(null)}
+                  className="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-xs font-bold hover:bg-slate-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isPending || editIsUploadingVideo || editIsUploadingThumb}
+                  className="px-6 py-2.5 rounded-xl bg-[#ff6b35] hover:bg-[#e05626] text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 disabled:opacity-50 flex items-center gap-2 transition-all"
+                >
+                  {isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Saving Changes...</span>
+                    </>
+                  ) : (
+                    <span>Save Changes</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

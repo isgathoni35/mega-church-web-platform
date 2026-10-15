@@ -305,6 +305,68 @@ export async function deleteOrphanagePhotoAction(
 }
 
 /**
+ * Immediately update an existing Children's Home Photo Moment in Supabase site_settings and revalidate /orphanage
+ */
+export async function updateOrphanagePhotoAction(
+  photoId: string,
+  updatedData: Partial<OrphanagePhotoItem>
+): Promise<ActionResponse<OrphanagePhotoItem[]>> {
+  try {
+    const supabase = createAdminClient();
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id, orphanage_photos_json")
+      .limit(1);
+
+    if (fetchErr || !existing || existing.length === 0) {
+      return { success: false, error: "Database error fetching gallery settings." };
+    }
+
+    const currentPhotos: OrphanagePhotoItem[] = Array.isArray(existing[0].orphanage_photos_json)
+      ? (existing[0].orphanage_photos_json as unknown as OrphanagePhotoItem[])
+      : [];
+
+    const updatedPhotos = currentPhotos.map((p) => {
+      if (p.id === photoId) {
+        return {
+          ...p,
+          ...updatedData,
+          title: updatedData.title !== undefined ? updatedData.title.trim() : p.title,
+          category: updatedData.category !== undefined ? updatedData.category.trim() : p.category,
+          caption: updatedData.caption !== undefined ? updatedData.caption.trim() : p.caption,
+          imageUrl: updatedData.imageUrl !== undefined ? updatedData.imageUrl.trim() : p.imageUrl,
+        };
+      }
+      return p;
+    });
+
+    const { error: updateErr } = await supabase
+      .from("site_settings")
+      .update({
+        orphanage_photos_json: updatedPhotos as unknown as Json,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", existing[0].id);
+
+    if (updateErr) {
+      return { success: false, error: `Failed to update photo: ${updateErr.message}` };
+    }
+
+    revalidatePath("/orphanage");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Photo moment updated successfully!",
+      data: updatedPhotos,
+    };
+  } catch (err: unknown) {
+    console.error("[Update Orphanage Photo Exception]:", err);
+    return { success: false, error: "Unexpected error updating photo moment." };
+  }
+}
+
+/**
  * Immediately persist a new Children's Home Video Story to Supabase site_settings and revalidate /orphanage
  */
 export async function addOrphanageVideoAction(
@@ -410,6 +472,72 @@ export async function deleteOrphanageVideoAction(
   } catch (err: unknown) {
     console.error("[Delete Orphanage Video Exception]:", err);
     return { success: false, error: "Unexpected error deleting video story." };
+  }
+}
+
+/**
+ * Immediately update an existing Children's Home Video Story in Supabase site_settings and revalidate /orphanage
+ */
+export async function updateOrphanageVideoAction(
+  videoId: string,
+  updatedData: Partial<OrphanageVideoItem>
+): Promise<ActionResponse<OrphanageVideoItem[]>> {
+  try {
+    const supabase = createAdminClient();
+    const { data: existing, error: fetchErr } = await supabase
+      .from("site_settings")
+      .select("id, orphanage_videos_json")
+      .limit(1);
+
+    if (fetchErr || !existing || existing.length === 0) {
+      return { success: false, error: "Database error fetching video settings." };
+    }
+
+    const currentVideos: OrphanageVideoItem[] = Array.isArray(existing[0].orphanage_videos_json)
+      ? (existing[0].orphanage_videos_json as unknown as OrphanageVideoItem[])
+      : [];
+
+    const updatedVideos = currentVideos.map((v) => {
+      if (v.id === videoId) {
+        return {
+          ...v,
+          ...updatedData,
+          title: updatedData.title !== undefined ? updatedData.title.trim() : v.title,
+          description: updatedData.description !== undefined ? updatedData.description.trim() : v.description,
+          badge: updatedData.badge !== undefined ? updatedData.badge.trim() : v.badge,
+          videoUrl: updatedData.videoUrl !== undefined ? updatedData.videoUrl.trim() : v.videoUrl,
+          youtubeUrl: updatedData.youtubeUrl !== undefined ? updatedData.youtubeUrl.trim() : v.youtubeUrl,
+          thumbnailUrl: updatedData.thumbnailUrl !== undefined ? updatedData.thumbnailUrl.trim() : v.thumbnailUrl,
+          sourceType: updatedData.sourceType !== undefined ? updatedData.sourceType : v.sourceType,
+          publishedDate: updatedData.publishedDate !== undefined ? updatedData.publishedDate : v.publishedDate,
+        };
+      }
+      return v;
+    });
+
+    const { error: updateErr } = await supabase
+      .from("site_settings")
+      .update({
+        orphanage_videos_json: updatedVideos as unknown as Json,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", existing[0].id);
+
+    if (updateErr) {
+      return { success: false, error: `Failed to update video story: ${updateErr.message}` };
+    }
+
+    revalidatePath("/orphanage");
+    revalidatePath("/admin/settings");
+
+    return {
+      success: true,
+      message: "Video story updated successfully!",
+      data: updatedVideos,
+    };
+  } catch (err: unknown) {
+    console.error("[Update Orphanage Video Exception]:", err);
+    return { success: false, error: "Unexpected error updating video story." };
   }
 }
 

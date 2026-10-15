@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getYouTubeId, getYouTubeThumbnail } from "@/lib/utils/youtube";
 import { ActionResponse } from "@/types/actions";
-import { SermonCategory } from "@/types/database.types";
+import { SermonCategory, Database } from "@/types/database.types";
 
 interface AddSermonPayload {
   title: string;
@@ -360,5 +360,133 @@ export async function deleteSermonAction(sermonId: string): Promise<ActionRespon
   } catch (err: unknown) {
     console.error("[Delete Sermon Error]:", err);
     return { success: false, error: "Failed to delete sermon." };
+  }
+}
+
+export interface UpdateSermonPayload {
+  title: string;
+  videoUrl?: string;
+  thumbnailUrl?: string;
+  category: SermonCategory;
+  speaker?: string;
+  datePreached?: string;
+  isFeatured?: boolean;
+  isLive?: boolean;
+}
+
+/**
+ * Update an existing sermon in the database without re-uploading
+ */
+export async function updateSermonAction(
+  sermonId: string,
+  payload: UpdateSermonPayload
+): Promise<ActionResponse<{ id: string; title: string; category: SermonCategory; speaker: string; youtube_url: string; thumbnail_url: string | null; date_preached: string; is_featured: boolean; is_live: boolean }>> {
+  try {
+    if (!sermonId) {
+      return { success: false, error: "Sermon ID is required." };
+    }
+
+    const {
+      title,
+      videoUrl,
+      thumbnailUrl,
+      category,
+      speaker,
+      datePreached,
+      isFeatured,
+      isLive,
+    } = payload;
+
+    if (!title || title.trim().length === 0) {
+      return { success: false, error: "Please enter a sermon or video title." };
+    }
+
+    const supabase = createAdminClient();
+
+    // If marked as live, deactivate any other active live broadcast
+    if (isLive) {
+      await supabase
+        .from("sermons")
+        .update({ is_live: false })
+        .neq("id", sermonId);
+    }
+
+    // If marked as featured, deactivate any other featured sermon so only 1 is hero
+    if (isFeatured) {
+      await supabase
+        .from("sermons")
+        .update({ is_featured: false })
+        .neq("id", sermonId);
+    }
+
+    const updatePayload: Database["public"]["Tables"]["sermons"]["Update"] = {
+      title: title.trim(),
+      category,
+    };
+
+    if (speaker !== undefined) {
+      updatePayload.speaker = speaker.trim();
+    }
+
+    if (datePreached !== undefined) {
+      updatePayload.date_preached = datePreached;
+    }
+
+    if (videoUrl !== undefined && videoUrl.trim()) {
+      const cleanVideoUrl = videoUrl.trim();
+      updatePayload.youtube_url = cleanVideoUrl;
+
+      // If YouTube URL changed and thumbnail wasn't explicitly set, auto-generate thumbnail
+      const videoId = getYouTubeId(cleanVideoUrl);
+      if (videoId && (!thumbnailUrl || !thumbnailUrl.trim())) {
+        updatePayload.thumbnail_url = getYouTubeThumbnail(videoId);
+      }
+    }
+
+    if (thumbnailUrl !== undefined) {
+      updatePayload.thumbnail_url = thumbnailUrl.trim() || null;
+    }
+
+    if (isFeatured !== undefined) {
+      updatePayload.is_featured = isFeatured;
+    }
+
+    if (isLive !== undefined) {
+      updatePayload.is_live = isLive;
+    }
+
+    const { data, error } = await supabase
+      .from("sermons")
+      .update(updatePayload)
+      .eq("id", sermonId)
+      .select("id, title, category, speaker, youtube_url, thumbnail_url, date_preached, is_featured, is_live")
+      .single();
+
+    if (error || !data) {
+      console.error("[Update Sermon DB Error]:", error);
+      return { success: false, error: `Database error: ${error?.message || "Failed to update"}` };
+    }
+
+    revalidatePath("/");
+    revalidatePath("/sermons");
+
+    return {
+      success: true,
+      message: "Sermon details updated successfully!",
+      data: data as {
+        id: string;
+        title: string;
+        category: SermonCategory;
+        speaker: string;
+        youtube_url: string;
+        thumbnail_url: string | null;
+        date_preached: string;
+        is_featured: boolean;
+        is_live: boolean;
+      },
+    };
+  } catch (err: unknown) {
+    console.error("[Update Sermon Action Error]:", err);
+    return { success: false, error: "Unexpected error updating sermon." };
   }
 }
