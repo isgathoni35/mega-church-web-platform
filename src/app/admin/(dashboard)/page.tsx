@@ -115,7 +115,7 @@ export default async function AdminOverviewPage() {
       </div>
 
       {/* ================= 4 METRICS CARDS ================= */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
         {/* Card 1: Broadcast / Live Status */}
         <div className="p-5 sm:p-6 rounded-2xl bg-white border border-slate-200/80 shadow-sm flex flex-col justify-between space-y-3">
           <div className="flex items-center justify-between">

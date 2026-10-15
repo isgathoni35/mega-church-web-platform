@@ -149,7 +149,7 @@ export function VisitorsManagerView({ initialSubmissions }: VisitorsManagerViewP
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by visitor name or contact..."
-            className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#C59B27]"
+            className="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-300 text-base sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#C59B27]"
           />
         </div>
       </div>
@@ -231,7 +231,7 @@ export function VisitorsManagerView({ initialSubmissions }: VisitorsManagerViewP
                     )}
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto shrink-0">
+                  <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 shrink-0">
                     {waLink && (
                       <a
                         href={waLink}

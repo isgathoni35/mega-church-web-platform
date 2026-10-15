@@ -63,7 +63,7 @@ function AdminLoginForm() {
             placeholder="Enter church admin passcode"
             disabled={isPending}
             required
-            className="w-full pl-10 pr-12 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#C59B27] focus:bg-white transition-all font-mono"
+            className="w-full pl-10 pr-12 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 placeholder:text-slate-400 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#C59B27] focus:bg-white transition-all font-mono"
           />
 
           <button
@@ -122,7 +122,7 @@ function LoginFormFallback() {
 
 export default function AdminLoginPage() {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#0A2240] via-[#07162c] to-[#040d1a] flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+    <div className="min-h-[100dvh] w-full bg-gradient-to-br from-[#0A2240] via-[#07162c] to-[#040d1a] flex items-center justify-center p-3 sm:p-6 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C59B27]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />

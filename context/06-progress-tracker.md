@@ -817,3 +817,23 @@
         - Converted `EditSermonModal` to a responsive sticky header and footer layout with scrollable inner form.
    3. Verification & Validation:
       - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+
+- [x] `feature-specs/58-universal-mobile-and-cross-device-responsiveness-mastery.md`: Comprehensive Sitewide Mobile & Cross-Device Responsiveness Mastery across all Public Pages and Admin Portal.
+   1. Global Chrome & Navigation Shell:
+      - TopBar ([src/components/layout/top-bar.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/top-bar.tsx)): Upgraded mobile row to responsive layout with `min-w-0`, phone truncation, and adaptive WhatsApp pill (`WA` on `< 360px`, full label on `xs+`), preventing badge wrapping or header clipping.
+      - Mobile Nav Drawer ([src/components/layout/mobile-nav.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/layout/mobile-nav.tsx)): Added iOS safe-area bottom clearance (`pb-[max(1rem,env(safe-area-inset-bottom,0px))]`) and touch-manipulation styling to the Donate Now action footer.
+      - Adaptive Video Modal ([src/components/sermons/video-modal.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/sermons/video-modal.tsx)): Adopted dynamic viewport height (`max-h-[94dvh]`), compact padding on mobile phones (`p-2.5 sm:p-6`), and 2-column mobile grid action buttons.
+   2. Giving & Media Pages:
+      - Campaign Donation Flow ([src/components/giving/campaign-donation-flow.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/giving/campaign-donation-flow.tsx)): Responsive payment switcher tabs ("M-Pesa" vs "M-Pesa (Kenya)", "International" vs "International (Sendwave / Bank)") eliminating multiline button deformation.
+      - Children's Home Donation View ([src/components/orphanage/orphanage-donate-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/orphanage/orphanage-donate-view.tsx)): Responsive tab pill buttons preventing button squeezing.
+      - Events & Crusades ([src/components/events/events-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/events/events-view.tsx)): Converted filter tabs to a 3-column responsive grid on mobile with concise labels (`Upcoming`, `Past Crusades`, `All`), and reorganized event card media badges into a unified non-colliding header strip.
+      - Media Archive ([src/components/sermons/sermon-archive.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/sermons/sermon-archive.tsx)): Added touch-pan gestures (`touch-pan-x`, `overscroll-x-contain`) with mobile gutter compensation.
+   3. Sitewide Form Elements & iOS Zoom Prevention:
+      - Inputs & Textareas ([src/components/ui/input.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/ui/input.tsx), [src/components/ui/textarea.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/ui/textarea.tsx)): Standardized base mobile font size to `text-base sm:text-sm` (16px), permanently fixing iOS Safari automatic viewport zooming across Connect Hub, Prayer Requests, Admin CMS, and Admin Login.
+   4. Admin Portal Responsiveness:
+      - Admin Login ([src/app/admin/login/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/admin/login/page.tsx)): Updated container to `min-h-[100dvh]` and passcode input to `text-base sm:text-sm`.
+      - Admin Executive Dashboard ([src/app/admin/(dashboard)/page.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/admin/(dashboard)/page.tsx)): Converted 4 metrics cards into a clean 2-column mobile grid (`grid-cols-2 lg:grid-cols-4`).
+      - Admin Prayers & Visitors ([src/components/admin/prayer-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/prayer-manager-view.tsx), [src/components/admin/visitors-manager-view.tsx](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/components/admin/visitors-manager-view.tsx)): Upgraded search inputs and touch-friendly mobile action button strips with full-width wrapping.
+   5. Verification:
+      - `npx tsc --noEmit` exited code 0 (zero compiler errors).
+

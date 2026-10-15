@@ -74,7 +74,7 @@ export function SermonArchive({ initialSermons }: SermonArchiveProps) {
         </div>
 
         {/* Category Filter Pills */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 scrollbar-none touch-pan-x overscroll-x-contain -mx-4 px-4 sm:mx-0 sm:px-0">
           {categories.map((cat) => {
             const isActive = selectedCategory === cat;
             return (

@@ -221,8 +221,9 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                     : "text-slate-700 hover:text-slate-900"
                 }`}
               >
-                <Smartphone className="w-4 h-4" />
-                <span>M-Pesa (Kenya)</span>
+                <Smartphone className="w-4 h-4 shrink-0" />
+                <span className="hidden xs:inline">M-Pesa (Kenya)</span>
+                <span className="xs:hidden">M-Pesa</span>
               </button>
 
               <button
@@ -234,8 +235,9 @@ export function OrphanageDonateView({ settings: propSettings }: OrphanageDonateV
                     : "text-slate-700 hover:text-slate-900"
                 }`}
               >
-                <Globe2 className="w-4 h-4" />
-                <span>Diaspora (Sendwave)</span>
+                <Globe2 className="w-4 h-4 shrink-0" />
+                <span className="hidden xs:inline">Diaspora (Sendwave)</span>
+                <span className="xs:hidden">Diaspora</span>
               </button>
             </div>
           </div>

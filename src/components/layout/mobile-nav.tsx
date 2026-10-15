@@ -194,10 +194,10 @@ export function MobileNav() {
               </nav>
 
               {/* Bottom CTA Action Button */}
-              <div className="p-4 sm:p-5 border-t border-slate-200 bg-slate-50 shrink-0">
+              <div className="p-4 sm:p-5 pb-[max(1rem,env(safe-area-inset-bottom,0px))] border-t border-slate-200 bg-slate-50 shrink-0">
                 <Button
                   size="lg"
-                  className="w-full text-base font-extrabold shadow-md bg-[#ff6b35] hover:bg-[#ea580c] text-white border-0 hover:brightness-110 transition-all rounded-md"
+                  className="w-full text-base font-extrabold shadow-md bg-[#ff6b35] hover:bg-[#ea580c] text-white border-0 hover:brightness-110 transition-all rounded-md touch-manipulation"
                   asChild
                 >
                   <Link href="/give" onClick={() => setIsOpen(false)}>

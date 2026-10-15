@@ -122,19 +122,20 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
       <section className="py-4 sm:py-8 px-4 sm:px-8 scroll-reveal">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Filter Tab Bar */}
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1.5 bg-slate-200/70 backdrop-blur-md rounded-2xl max-w-xl mx-auto border border-slate-300/60 shadow-inner">
+          <div className="grid grid-cols-3 sm:flex sm:flex-wrap items-center justify-center gap-1.5 sm:gap-2 p-1 sm:p-1.5 bg-slate-200/70 backdrop-blur-md rounded-2xl max-w-xl mx-auto border border-slate-300/60 shadow-inner">
             <button
               type="button"
               onClick={() => setActiveTab("upcoming")}
-              className={`flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+              className={`py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer text-center ${
                 activeTab === "upcoming"
                   ? "bg-white text-[#0f172a] shadow-md scale-[1.02]"
                   : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
               }`}
             >
-              <span>Upcoming Missions</span>
+              <span className="hidden sm:inline">Upcoming Missions</span>
+              <span className="sm:hidden">Upcoming</span>
               <span
-                className={`text-[11px] px-2 py-0.5 rounded-full font-extrabold ${
+                className={`text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded-full font-extrabold ${
                   activeTab === "upcoming"
                     ? "bg-orange-100 text-[#ff6b35]"
                     : "bg-slate-300/80 text-slate-700"
@@ -147,15 +148,16 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
             <button
               type="button"
               onClick={() => setActiveTab("past")}
-              className={`flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer ${
+              className={`py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer text-center ${
                 activeTab === "past"
                   ? "bg-[#0f172a] text-white shadow-md scale-[1.02]"
                   : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
               }`}
             >
-              <span>Past Crusades &amp; Media</span>
+              <span className="hidden sm:inline">Past Crusades &amp; Media</span>
+              <span className="sm:hidden">Past Crusades</span>
               <span
-                className={`text-[11px] px-2 py-0.5 rounded-full font-extrabold ${
+                className={`text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded-full font-extrabold ${
                   activeTab === "past"
                     ? "bg-[#ff6b35] text-white"
                     : "bg-slate-300/80 text-slate-700"
@@ -168,7 +170,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
             <button
               type="button"
               onClick={() => setActiveTab("all")}
-              className={`py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
+              className={`py-2 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer text-center ${
                 activeTab === "all"
                   ? "bg-white text-[#0f172a] shadow-md scale-[1.02]"
                   : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
@@ -176,7 +178,7 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
             >
               <span>All</span>
               <span
-                className={`text-[11px] px-2 py-0.5 rounded-full font-extrabold ${
+                className={`text-[10px] sm:text-[11px] px-1.5 sm:px-2 py-0.5 rounded-full font-extrabold ${
                   activeTab === "all"
                     ? "bg-orange-100 text-[#ff6b35]"
                     : "bg-slate-300/80 text-slate-700"
@@ -222,10 +224,10 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-slate-950/20 to-transparent pointer-events-none" />
 
-                      {/* Status / Category Badge */}
-                      <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-1.5">
+                      {/* Responsive Badges Header Strip */}
+                      <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between gap-1.5 flex-wrap">
                         <span
-                          className={`inline-block px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase shadow-md ${
+                          className={`inline-block px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-black tracking-wider uppercase shadow-md truncate max-w-[170px] sm:max-w-none ${
                             isPast
                               ? "bg-slate-900 text-amber-300 border border-amber-400/40"
                               : "bg-[#ff6b35] text-white"
@@ -233,24 +235,22 @@ export function EventsView({ settings: propSettings }: EventsViewProps = {}) {
                         >
                           {isPast ? "Past Crusade & Media" : event.badge || "Upcoming Mission"}
                         </span>
-                      </div>
 
-                      {/* Video Clip Play Badge */}
-                      {hasVideo && (
-                        <div className="absolute top-4 right-4 z-10">
+                        {hasVideo && (
                           <button
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveVideoEvent(event);
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600/95 hover:bg-red-500 text-white text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-md shadow-lg transition-all cursor-pointer group/vid animate-pulse hover:animate-none"
+                            className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-red-600/95 hover:bg-red-500 text-white text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider backdrop-blur-md shadow-lg transition-all cursor-pointer group/vid animate-pulse hover:animate-none shrink-0 ml-auto"
                           >
-                            <Play className="w-3.5 h-3.5 fill-white text-white group-hover/vid:scale-110 transition-transform" />
-                            <span>Watch Video Recap</span>
+                            <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white text-white group-hover/vid:scale-110 transition-transform" />
+                            <span className="hidden xs:inline">Watch Video Recap</span>
+                            <span className="xs:hidden">Video Recap</span>
                           </button>
-                        </div>
-                      )}
+                        )}
+                      </div>
 
                       {/* Center Play Button on hover / if video attached */}
                       {hasVideo && (

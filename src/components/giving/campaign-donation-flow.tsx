@@ -662,28 +662,30 @@ export function CampaignDonationFlow({
                   type="button"
                   onClick={() => setPaymentTab("kenya")}
                   className={cn(
-                    "flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5",
+                    "flex-1 py-2 px-1 sm:px-3 rounded-lg transition-all flex items-center justify-center gap-1.5",
                     paymentTab === "kenya"
                       ? "bg-white text-slate-900 shadow-sm"
                       : "text-slate-600 hover:text-slate-900"
                   )}
                 >
-                  <Smartphone className="w-3.5 h-3.5 text-[#c59b27]" />
-                  <span>M-Pesa (Kenya)</span>
+                  <Smartphone className="w-3.5 h-3.5 text-[#c59b27] shrink-0" />
+                  <span className="hidden xs:inline">M-Pesa (Kenya)</span>
+                  <span className="xs:hidden">M-Pesa</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPaymentTab("international")}
                   className={cn(
-                    "flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5",
+                    "flex-1 py-2 px-1 sm:px-3 rounded-lg transition-all flex items-center justify-center gap-1.5",
                     paymentTab === "international"
                       ? "bg-white text-slate-900 shadow-sm"
                       : "text-slate-600 hover:text-slate-900"
                   )}
                 >
-                  <Globe2 className="w-3.5 h-3.5 text-[#c59b27]" />
-                  <span>International (Sendwave / Bank)</span>
+                  <Globe2 className="w-3.5 h-3.5 text-[#c59b27] shrink-0" />
+                  <span className="hidden sm:inline">International (Sendwave / Bank)</span>
+                  <span className="sm:hidden">International</span>
                 </button>
               </div>
 

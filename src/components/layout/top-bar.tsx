@@ -24,26 +24,27 @@ export function TopBar({ settings: propSettings }: TopBarProps = {}) {
   return (
     <div className="w-full bg-white text-slate-600 border-b border-slate-200/90 text-xs py-1.5 sm:py-2 px-3 sm:px-6 lg:px-8 transition-colors select-none">
       {/* ================= MOBILE VIEW (sm:hidden) ================= */}
-      <div className="flex sm:hidden items-center justify-between gap-2 max-w-7xl mx-auto w-full">
+      <div className="flex sm:hidden items-center justify-between gap-1.5 xs:gap-2 max-w-7xl mx-auto w-full min-w-0">
         {/* Left: Phone Direct Call Button & WhatsApp */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-1 xs:gap-1.5 shrink min-w-0 overflow-hidden">
           <a
             href={`tel:${cleanPhone}`}
-            className="flex items-center gap-1 text-slate-800 font-extrabold text-[11px] hover:text-[#ff6b35] transition-colors"
+            className="flex items-center gap-1 text-slate-800 font-extrabold text-[11px] hover:text-[#ff6b35] transition-colors shrink-0"
             title={`Call Church Line: ${rawPhone}`}
           >
             <Phone className="h-3 w-3 text-[#ff6b35] shrink-0" />
-            <span>{rawPhone}</span>
+            <span className="truncate max-w-[90px] xs:max-w-none">{rawPhone}</span>
           </a>
           <a
             href="https://wa.me/254112656123"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold hover:bg-emerald-200 transition-colors"
+            className="inline-flex items-center gap-1 text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-full font-bold hover:bg-emerald-200 transition-colors shrink-0"
             title="WhatsApp: +254 112 656 123"
           >
-            <MessageCircle className="w-2.5 h-2.5 text-[#25D366]" />
-            <span>WA: 0112 656 123</span>
+            <MessageCircle className="w-2.5 h-2.5 text-[#25D366] shrink-0" />
+            <span className="hidden xs:inline">WA: 0112 656 123</span>
+            <span className="xs:hidden">WA</span>
           </a>
         </div>
 
