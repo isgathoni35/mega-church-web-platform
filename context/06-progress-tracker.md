@@ -902,3 +902,7 @@
    4. Verification:
       - `npx tsc --noEmit` exited code 0 (zero compiler errors).
       - Verified live endpoints on port 3002: `/sitemap.xml` returns valid dynamic XML listing all sermons and pages; `/robots.txt` points to `sitemap.xml`; and `/` renders valid `application/ld+json`.
+   5. Google Search Console Verification:
+      - Created [`public/google588d0492ff614569.html`](file:///c:/Users/isgat/Projects/megachurch-web-platform/public/google588d0492ff614569.html).
+      - Added verification token `google588d0492ff614569` to [`src/app/layout.tsx`](file:///c:/Users/isgat/Projects/megachurch-web-platform/src/app/layout.tsx).
+      - Verified HTTP 200 and exact content match on `http://localhost:3002/google588d0492ff614569.html`.

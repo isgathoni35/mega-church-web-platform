@@ -98,6 +98,9 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "google588d0492ff614569",
+  },
 };
 
 export const dynamic = "force-dynamic";
